@@ -1,6 +1,6 @@
 <template>
-  <div class="hello">
-    <h3>这是系统外部</h3>
+  <div class="outter">
+    <p>这是系统外部</p>
     <ohead></ohead>
     <router-view/>
   </div>
@@ -20,8 +20,11 @@ export default {
 </script>
 
 <style scoped lang="less">
-h3{
+*{margin: 0;padding: 0;border: 0;}
+.outter{
   color:red;
+  width: 100%;
+  background: #3d5;
   font-family: '宋体';
 }
 </style>
