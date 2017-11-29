@@ -6,6 +6,7 @@ import outter from '@/components/outter'
 import inner from '@/components/inner'
 import login from '@/views/login'
 import register from '@/views/register'
+import homepage from '@/homepage/homepage'
 
 Vue.use(Router)
 
@@ -16,10 +17,18 @@ export default new Router({
       name: 'HelloWorld',
       component: HelloWorld
     },
+    
     {
       path: '/inner',
       name: 'inner',
-      component: inner
+      component: inner,
+      children:[
+        {
+          path: 'homepage',
+          name: 'homepage',
+          component: homepage
+        },
+      ]
     },
     {
       path:'/outter',

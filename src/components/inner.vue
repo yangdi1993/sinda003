@@ -1,6 +1,5 @@
 <template>
   <div class="inner">
-    <p>这是系统内部</p>
     <ihead></ihead>
     <router-view/>
   </div>
