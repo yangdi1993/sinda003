@@ -1,13 +1,13 @@
 <template>
-  <div class="outter">
-    <p>这是系统外部</p>
-    <ohead></ohead>
+  <div class="inner">
+    <p>这是系统内部</p>
+    <ihead></ihead>
     <router-view/>
   </div>
 </template>
 
 <script>
-import ohead from './ohead'
+import ihead from './ihead'
 export default {
   name: 'HelloWorld',
   data () {
@@ -15,17 +15,18 @@ export default {
       msg: 'Welcome to Your Vue.js App'
     }
   },
-  components:{ohead}
+  components:{ihead}
 }
 </script>
 
 <style scoped lang="less">
 *{margin: 0;padding: 0;border: 0;}
-.outter{
+.inner{
   color:red;
   width: 100%;
-  background: #3d5;
+  background: #1da;
   font-family: '宋体';
+  padding-bottom: 50px;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

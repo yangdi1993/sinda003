@@ -5,11 +5,15 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 
+<<<<<<< HEAD
 Vue.prototype.ajax = axios;
+=======
+Vue.prototype.ajax=axios
+>>>>>>> 1826065df51019a2dcf5480c50231fb9f3a8fe5d
 Vue.config.productionTip = false
 Vue.config.dectools=false
 /* eslint-disable no-new */
-new Vue({ 
+new Vue({
   el: '#app',
   router,
   template: '<App/>',

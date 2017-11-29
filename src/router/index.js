@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import server from '@/components/server'
 import outter from '@/components/outter'
+import inner from '@/components/inner'
 import login from '@/views/login'
 import register from '@/views/register'
 
@@ -14,6 +15,11 @@ export default new Router({
       path: '/',
       name: 'HelloWorld',
       component: HelloWorld
+    },
+    {
+      path: '/inner',
+      name: 'inner',
+      component: inner
     },
     {
       path:'/outter',

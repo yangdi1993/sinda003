@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h3>这是顶部</h3> 
+    <div>这是顶部</div>
   </div>
 </template>
 
@@ -16,8 +16,10 @@ export default {
 </script>
 
 <style scoped lang="less">
-h3{
-  color:red;
+div{
+  background:red;
+  width: 100%;
+  height: 30px;
   font-family: '宋体';
 }
 </style>
