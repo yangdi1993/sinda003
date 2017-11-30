@@ -7,6 +7,7 @@ import inner from '@/components/inner'
 import login from '@/views/login'
 import register from '@/views/register'
 import homepage from '@/homepage/homepage'
+import shop from '@/shop/shop'
 
 Vue.use(Router)
 
@@ -27,6 +28,11 @@ export default new Router({
           path: 'homepage',
           name: 'homepage',
           component: homepage
+        },
+        {
+          path: 'shop',
+          name: 'shop',
+          component: shop
         },
       ]
     },
