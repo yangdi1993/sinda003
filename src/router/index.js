@@ -8,6 +8,7 @@ import login from '@/views/login'
 import register from '@/views/register'
 import homepage from '@/homepage/homepage'
 import shop from '@/shop/shop'
+import join from '@/shop/join'
 
 Vue.use(Router)
 
@@ -33,6 +34,11 @@ export default new Router({
           path: 'shop',
           name: 'shop',
           component: shop
+        },
+        {
+          path: 'join',
+          name: 'join',
+          component: join
         },
       ]
     },
