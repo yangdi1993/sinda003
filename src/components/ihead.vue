@@ -1,6 +1,8 @@
 <template>
-  <div class="hello">
-    <h3>这是系统内部头部</h3>
+  <div class="ihead">
+    <div class="ihead-in">
+
+    </div>
   </div>
 </template>
 
@@ -16,8 +18,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-h3{
-  color:red;
+.ihead{
   font-family: '宋体';
   width: 100%;
   height: 150px;

@@ -2,11 +2,13 @@
   <div class="inner">
     <ihead></ihead>
     <router-view/>
+    <ifoot></ifoot>
   </div>
 </template>
 
 <script>
 import ihead from './ihead'
+import ifoot from './ifoot'
 export default {
   name: 'HelloWorld',
   data () {
@@ -14,7 +16,7 @@ export default {
       msg: 'Welcome to Your Vue.js App'
     }
   },
-  components:{ihead}
+  components:{ihead,ifoot}
 }
 </script>
 
@@ -25,7 +27,7 @@ export default {
   width: 100%;
   background: #1da;
   font-family: '宋体';
-  padding-bottom: 50px;
+  // padding-bottom: 50px;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
