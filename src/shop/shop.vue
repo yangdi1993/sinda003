@@ -1,8 +1,10 @@
 <template>
-  <div class="ihead">
-    <div class="ihead-in">
-
+  <div class="shop">
+    <div class="shop-shop">
+        <p>jufang999999</p>
+        <div></div>
     </div>
+    <router-view/> 
   </div>
 </template>
 
@@ -13,16 +15,19 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
-  }
+  },
 }
 </script>
 
 <style scoped lang="less">
-.ihead{
+.shop-shop{
+  color:yellow;
   font-family: '宋体';
-  width: 100%;
-  height: 150px;
-  background: pink;
+  div{
+      width: 100px;
+      height: 100px;
+      background: #345;
+  }
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

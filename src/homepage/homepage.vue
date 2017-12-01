@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <div class="homepage-banner">banner</div>
+    <div class="homepage-banner">homepage</div>
     <router-view/> 
   </div>
 </template>
@@ -14,6 +14,7 @@ export default {
     }
   },
 }
+
 </script>
 
 <style scoped lang="less">
