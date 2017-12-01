@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
-    <div class="homepage-banner">homepage</div>
+    <div class="homepage-banner">
+      12314
+    </div>
     <router-view/> 
   </div>
 </template>

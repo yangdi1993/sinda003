@@ -115,7 +115,7 @@ export default {
         width:82px;
         height: 82px;
         display: block;
-        background: url(../images/shop/Sprites.png) 100% no-repeat;
+        // background: url(../images/shop/Sprites.png) 100% no-repeat;
         background-position: -167px -468px;
     }
 }
