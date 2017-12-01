@@ -168,14 +168,14 @@ export default {
    height: 30px;
    margin-top: 60px;
    margin-left: 0;
-   border-bottom: 2px solid #e9e9e9;
+   border-bottom: 1px solid #e9e9e9;
    p{
      width: 80px;
      font-size: 14px;
      font-weight: bold;
      color: #3e9bd6;
      margin-left: 10px;
-     padding: 6px 27px;
+     padding: 5px 27px;
      border-bottom: 2px solid #3e9bd6;
    }
  }
