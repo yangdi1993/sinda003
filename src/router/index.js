@@ -15,6 +15,8 @@ import userUnEvalu from '@/memberCenter/userUnEvalu'
 import userHavaEvalu from '@/memberCenter/userHavaEvalu'
 import shop from '@/shop/shop'
 import join from '@/shop/join'
+// 会员中心-用户评价-去评价
+import goEvalu from '@/memberCenter/goEvalu'
 
 Vue.use(Router)
 
@@ -59,10 +61,11 @@ export default new Router({
           name: 'shop',
           component: shop
         },
+        // 会员中心-用户评价-去评价
         {
-          path: 'join',
-          name: 'join',
-          component: join
+          path:'/goEvalu',
+          name:'goEvalu',
+          component:goEvalu,
         },
       ]
     },
