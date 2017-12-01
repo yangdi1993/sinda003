@@ -29,30 +29,15 @@
         <!-- 右侧边栏 -->
         <div class="memCenRi">
           <div class="myOrderHead">
-            <p>我的订单</p>
+            <p>我的评价</p>
           </div>
-          <!-- 搜索行 -->
-          <div class="orderSearch">
-            <p>订单号：</p>
-            <input type="text" class="orSerIn" placeholder="请输入订单号搜索">
-            <input type="button" class="orSerBut" value="搜索">
+          <!-- 评价表头 -->
+          <div class="evaluHead">
+              <div class="unvalued">未评价</div>
+              <div class="haveEvalu">已评价</div>
+              <span></span>
           </div>
-          <!-- 时间行 -->
-          <div class="timeSet">
-            <p>创建时间：</p>
-            <input class="timeStart" type="date"> 至 
-            <input class="timeEnd" type="date">
-          </div>
-          <!-- 订单表头 -->
-          <ul class="orderHead">
-            <li class="comName">商品名称</li>
-            <li>单价</li>
-            <li>数量</li>
-            <li>总金额</li>
-            <li>订单状态</li>
-            <li>订单操作</li>
-          </ul>
-          <!-- 订单插入 -->
+          <!-- 评价插入-已评价 -->
           <div class="orderInsert">
 
           </div>
@@ -150,7 +135,7 @@ export default {
     float: left;
     line-height: 50px;
  }
- .perBusO{
+ .perBusTw{
    background-color: #e9e9e9;
  }
 //  左边栏小背景
@@ -179,98 +164,7 @@ export default {
      border-bottom: 2px solid #3e9bd6;
    }
  }
-//  订单搜索
-  .orderSearch{
-    width: 934px;
-    height: 25px;
-    margin-top: 23px;
-    p{
-      width: 80px;
-      font-size: 14px;
-      color: #242424;
-      margin-left: 0;
-      line-height: 25px;
-      float: left;
-    }
-    // 搜索框
-    .orSerIn{
-      width: 265px;
-      height: 25px;
-      margin-left: 15px;
-      outline: 0;
-      float: left;
-      border: 1px solid #b0b0b0;
-    }
-    // 搜索按钮
-    .orSerBut{
-      width: 70px;
-      height: 25px;
-      margin-left: -480px;
-      border-radius: 3px;
-      background-color: #fff;
-      border: 1px solid #2494d3;
-      font-size: 14px;
-      color: #3d9bd8;
-      outline: 0;
-    }
-  }
-  // 时间框
- .timeSet{
-    width: 934px;
-    height: 25px;
-    margin-top: 20px;
-    font-size: 14px;
-    color: #242424;
-    p{
-      width: 80px;
-      font-size: 14px;
-      color: #242424;
-      margin-left: 7px;
-      line-height: 25px;
-      float: left;
-    }
-    .timeStart{
-      width: 120px;
-      height: 25px;
-      outline: 0;
-      margin-left: -565px;
-      border: 1px solid #b0b0b0;
-    }
-    .timeEnd{
-      width: 120px;
-      height: 25px;
-      outline: 0;
-      border: 1px solid #b0b0b0;
-      // margin-left: -10px;
-    }
- }
-//  订单表头
- .orderHead{
-   width: 934px;
-   height: 34px;
-   margin-top: 20px;
-   margin-left: 0;
-   border-top: 1px solid #b0b0b0;
-   background-color: #f7f7f7;
-   display: flex;
-   list-style: none;
-   line-height: 34px;
-   font-size: 12px;
-   color: #3f3f3f;
-   font-weight: bold;
-   li{
-     margin-left: 90px;
-   }
-   .comName{
-     margin-left: 38px;
-     margin-right: 185px;
-   }
- }
- .orderInsert{
-   width: 934px;
-   height: 356px;
-   background-color: yellow;
- }
+
  .pageTurn{
   //  width: 300px;
    height: 36px;
@@ -299,6 +193,39 @@ export default {
      margin-right: 6px;
      outline: 0;
    }
+ }
+ .evaluHead{
+     width: 934px;
+     height: 43px;
+     background-color: #f7f7f7;
+     margin-top: 24px;
+     border: 1px solid #cccccc;
+     font-size: 14px;
+     line-height: 43px;
+     position: relative;
+     div{
+         width: 107px;
+         height: 43px;
+         border: 1px solid #cccccc;
+     }
+     .unvalued{
+         float: left;
+         color: #3c3c3c;
+     }
+     .haveEvalu{
+         background-color: #2693d4;
+         float: left;
+         color: #fff;
+     }
+     span{
+       width: 15px;
+       height: 15px;
+       background-color: #2693d4;
+       position: absolute;
+       top: 35px;
+       left: 156px;
+       transform: rotate(45deg);
+     }
  }
 }
 </style>
