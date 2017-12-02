@@ -3,12 +3,13 @@
     <div class="homepage-banner">
       12314
     </div>
+    <div></div>
     <router-view/> 
   </div>
 </template>
 
 <script>
-export default {
+export default { 
   name: 'HelloWorld',
   data () {
     return {
