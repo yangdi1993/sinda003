@@ -3,8 +3,8 @@
     <div class="ihead-in">
       <div class="ihead-top">
         <div class="iheadleft">
-          <span class="ihead-logo"></span>
-          <span class="ihead-sinda">信达</span>
+          <a href="#/inner/homepage" class="ihead-logo"></a>  <!-- logo -->
+          <a href="#/inner/homepage" class="ihead-sinda">信达</a>
           <div>
             <p class="iheadcity">北京市</p>
             <a href="javascript:void(0)" class="iheadchange">[切换城市]</a>
@@ -17,7 +17,7 @@
           </div>
           <form action="">
             <input type="text" class="ihead-search" placeholder="搜索您需要的服务或服务商">
-            <button class="iheadbtn"><span></span></button>
+            <button class="iheadbtn" v-on:click="btn"><span></span></button>
           </form>
           <div>
             <p class="ihead-hotsvc">热门服务：<a href="javascript:void(0)">社保开户</a>&nbsp;<a href="javascript:void(0)">公司注册</a></p>
@@ -28,19 +28,50 @@
           <p>010-83421842</p>
         </div>
       </div>
-      <div class="ihead-bottom">
-
+      <div class="ihead-bottom" v-on:click="iheadBottom">
+        <a href="javascript:void(0)">全部产品</a>
+        <a href="javascript:void(0)">财税服务</a>
+        <a href="javascript:void(0)">公司工商</a>
+        <a href="javascript:void(0)">加盟我们</a>
+        <a href="javascript:void(0)">店铺</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+var btn=document.querySelector('.iheadbtn')
+// btn.onenter=function(){
+  console.log(123)
+// }
 export default {
+  //  mounted(){
+  //   var btn=document.querySelector('.iheadbtn')
+  //   btn.onenter=function(){
+  //     console.log(123)
+  //   }
+  // },
   name: 'HelloWorld',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
+    }
+  },
+  methods:{
+    btn:function(){
+      console.log(456)
+    },
+    iheadBottom:function(e){  //给点击的选项添加样式
+      
+      var e=e||window.e;
+      var target=e.target;
+      if(target.tagName=='A'){
+        var btm=document.querySelector('.ihead-bottom')   //每次点击都会给导航栏初始化样式,必需在内部
+        for(var i=0;i<btm.children.length;i++){
+          btm.children[i].style="color: #000;border-bottom: none"
+        };
+        target.style="color: #2693d4;border-bottom: 2px solid #2693d4";
+      }
     }
   }
 }
@@ -51,7 +82,7 @@ export default {
 .ihead{
   width: 100%;
   height: 150px;
-  background: pink;
+  // background: pink;
   border-bottom: 1px solid #2693d4; 
   .ihead-in{
     width: 1200px;
@@ -82,9 +113,13 @@ export default {
         font-size: 30px;
         font-weight: 700;
         font-family: '黑体';
+        text-decoration: none;
         color: #373737;
         letter-spacing: 3px;
         padding: 12px;
+      }
+      .ihead-sinda:hover{
+        text-decoration: none;
       }
       div{
         margin-left: 12px;
@@ -177,6 +212,24 @@ export default {
   .ihead-bottom{
     width: 100%;
     height: 38px;
+    text-align: left;
+    a{
+      font-size: 18px;
+      color: #000;
+      padding: 9px 0;
+      font-family: '黑体';
+      margin: 0 62px;
+      text-decoration: none;
+      line-height: 38px;
+    }
+    a:nth-child(1){
+      color: #2693d4;
+      border-bottom: 2px solid #2693d4;
+    }
+    a:hover{
+      color: #2693d4;
+      border-bottom: 2px solid #2693d4;
+    }
   }
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div class="inner">
     <ihead></ihead>
+    
     <router-view/>
     <ifoot></ifoot>
   </div>
@@ -13,7 +14,8 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      parentMessage:'来自父级组件'
     }
   },
   components:{ihead,ifoot}
@@ -25,7 +27,7 @@ export default {
 .inner{
   color:red;
   width: 100%;
-  background: #1da;
+  // background: #1da;
   font-family: '宋体';
   // padding-bottom: 50px;
 }
