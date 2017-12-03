@@ -13,7 +13,9 @@ import myOrder from '@/memberCenter/myOrder'
 import userUnEvalu from '@/memberCenter/userUnEvalu'
 // 会员中心-用户评价-已评价
 import userHavaEvalu from '@/memberCenter/userHavaEvalu'
-import shop from '@/shop/shop'
+//店铺列表
+import shoplist from '@/shop/shoplist'
+//加盟我们
 import join from '@/shop/join'
 // 会员中心-用户评价-去评价
 import goEvalu from '@/memberCenter/goEvalu'
@@ -56,10 +58,17 @@ export default new Router({
           name:'userHavaEvalu',
           component:userHavaEvalu,
         },
+        //店铺列表
         {
-          path: 'shop',
-          name: 'shop',
-          component: shop
+          path: 'shoplist',
+          name: 'shoplist',
+          component: shoplist
+        },
+        //加盟我们
+        {
+          path: 'join',
+          name: 'join',
+          component: join
         },
         // 会员中心-用户评价-去评价
         {
