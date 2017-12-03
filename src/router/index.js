@@ -8,7 +8,11 @@ import login from '@/views/login'
 import register from '@/views/register'
 import homepage from '@/homepage/homepage'
 import shop from '@/shop/shop'
-
+import paypage from '@/paypage/paypage'
+import payFalse from '@/paypage/payFalse'
+import payTrue from '@/paypage/payTrue'
+import Alipay from '@/paypage/Alipay'
+import cart from '@/paypage/cart'
 Vue.use(Router)
 
 export default new Router({
@@ -33,6 +37,31 @@ export default new Router({
           path: 'shop',
           name: 'shop',
           component: shop
+        },
+        {
+          path:'paypage',
+          name:'paypage',
+          component:paypage
+        },
+        {
+          path:'payFalse',
+          name:'payFalse',
+          component:payFalse
+        },
+        {
+          path:'payTrue',
+          name:'payTrue',
+          component:payTrue
+        },
+        {
+          path:'Alipay',
+          name:'Alipay',
+          component:Alipay
+        },
+        {
+          path:'cart',
+          name:'cart',
+          component:cart
         },
       ]
     },
