@@ -12,18 +12,24 @@
           </li>
           <!-- 业务 -->
           <li class="perBus">
-            <div class="perBusO">
-              <div class="perBusOB"></div>
-              <p>我的订单</p>
-            </div>
-            <div class="perBusTw">
-              <div class="perBusTwB"></div>
-              <p>用户评价</p>
-            </div>
-            <div class="perBusTh">
-              <div class="perBusThB"></div>
-              <p>账户设置</p>
-            </div>
+            <a href="#/myOrder">
+              <div class="perBusO">
+                <div class="perBusOB"></div>
+                <p>我的订单</p>
+              </div>
+            </a> 
+            <a href="#/userUnEvalu">
+              <div class="perBusTw">
+                <div class="perBusTwB"></div>
+                <p>用户评价</p>
+              </div>
+            </a> 
+            <a href="">
+              <div class="perBusTh">
+                <div class="perBusThB"></div>
+                <p>账户设置</p>
+              </div>
+            </a>
           </li>
         </ul>
         <!-- 右侧边栏 -->
@@ -54,16 +60,17 @@
                 <input type="radio" name="gra">
                 <a href="javascript:void(0)">差评</a>
             </li>
-            <li class="fiveStar">
+            <!-- 五角星 -->
+            <li id="rank" class="pingfen">
                 评分：
-                <ul>
-                    <li class="light"><a href="javascript:void(0)">1</a></li>
-                    <li><a href="javascript:void(0)">2</a></li>
-                    <li><a href="javascript:void(0)">3</a></li>
-                    <li><a href="javascript:void(0)">4</a></li>
-                    <li><a href="javascript:void(0)">5</a></li>
-                </ul>
-
+                <ul>  
+                    <li></li>  
+                    <li></li>  
+                    <li></li>  
+                    <li></li>  
+                    <li></li>  
+                </ul>  
+                <p class="starGra">加载中</p>  
             </li>
             <li>
                 <span class="feel">感受：</span> 
@@ -81,55 +88,73 @@
 <script>
 import ihead from '../components/ihead'
 export default {
-  data () {
+  // data () {
    
-  },
+  // },
 }
-// var num=finalnum = tempnum= 0;
-// var lis = document.getElementsByTagName("li");
-// //num:传入点亮星星的个数
-// //finalnum:最终点亮星星的个数
-// //tempnum:一个中间值
-// function fnShow(num) {
-//     finalnum= num || tempnum;//如果传入的num为0，则finalnum取tempnum的值
-//     for (var i = 0; i < lis.length; i++) {
-//     lis[i].className = i < finalnum? "light" : "";//点亮星星就是加class为light的样式
-//     }
-// }
-// for (var i = 1; i <= lis.length; i++) {
-//     lis[i - 1].index = i;
-//     lis[i - 1].onmouseover = function() { //鼠标经过点亮星星。
-//     fnShow(this.index);//传入的值为正，就是finalnum
-//     }
-//  lis[i - 1].onmouseout = function() { //鼠标离开时星星变暗
-//     fnShow(0);//传入值为0，finalnum为tempnum,初始为0
-//  }
-//  lis[i - 1].onclick = function() { //鼠标点击,同时会调用onmouseout,改变tempnum值点亮星星
-//     tempnum= this.index;
-//  }
-// }
+methods:{
+  
+  }
+  // 评分五角星
+var aData =["很差","较差","一般","推荐","力推"];  
+window.onload=function(){  
+    var oDiv = document.getElementById("rank");  
+    var aLi = document.querySelectorAll("#rank li");  
+    var oP = document.querySelector(".starGra");  
+    var i =0;  
+    for(i=0;i<aLi.length;i++){  
+        aLi[i].index = i;  
+        // 鼠标进入
+        aLi[i].onmouseover = function(){  
+            oP.style.display = "block";  
+            oP.innerHTML=aData[this.index];  
+            for(i=0; i<=this.index;i++){  
+                aLi[i].className="active";  
+            }  
+        };
+          // 鼠标离开
+        aLi[i].onmouseout = function(){  
+            oP.style.display = "";  
+            for(i=0; i<aLi.length; i++){  
+                aLi[i].className="";  
+            }  
+        }; 
+        //  点击
+        aLi[i].onclick=function(){  
+            // alert(this.index +1);
+            for(i=0;i<this.index;i++){
+                aLi[i].className="active";
+            }
+        };  
+    }  
+};
+// 点击跳转页面
+var perBusTw = document.querySelector('.perBusTw');
+console.log(perBusTw);
 
 </script>
 
+
+
 <style scoped lang="less">
 // 固定最小宽度
-@media all and (min-width:1200px){
+// @media all and (min-width:1200px){
  .memCenBg{
     width: 100%;
-    height: 786px;
+    height: 705px;
     .memCenDiv{
       width: 1200px;
-      height: 786px;
+      height: 705px;
       margin: 0 auto;
       .memCenLe{
         width: 240px;
-        height: 886px;
+        height: 705px;
         float: left;
         list-style: none;
       }
       .memCenRi{
         width: 934px;
-        height: 886px;
+        height: 705px;
         float: left;
         margin-left: 26px;
       }
@@ -166,17 +191,21 @@ export default {
     background-color: #f7f7f7;
     margin-top: 9px;
   }
-  .perBus>div{
+  .perBus>a>div{
     overflow: hidden;
+    cursor: pointer;
   }
- .perBus>div>div{
+  .perBus>a>div:hover{
+    background-color: #e9e9e9;
+  }
+ .perBus>a>div>div{
     width: 27px;
     height: 25px;
     margin-left: 56px;
     margin-top: 14px;
     float: left;
  }
- .perBus>div>p{
+ .perBus>a>div>p{
     font-size: 16px;
     color: #000000;
     margin-left: 13px;
@@ -237,7 +266,8 @@ export default {
             height: 150px;
             margin-left: 75px;
             outline: 0;
-            margin-top: -40px;
+            margin-top: 5px;
+            border: 1px solid 
         }
         input{
             outline: 0;
@@ -252,7 +282,7 @@ export default {
 }
 .feel{
     position: absolute;
-    margin-top: -45px;
+    margin-top: 0px;
 }
 .orderSub{
     width: 100px;
@@ -261,35 +291,46 @@ export default {
     background-color: #2693d4;
     font-size: 14px;
     color: #fff;
-    // position: absolute;
     outline: 0;
     margin-left: 220px;
     margin-top: 30px;
 }
-.fiveStar{
-    ul {
-        padding-left: 0;
-        overflow: hidden;
-    }
-    ul li {
-        float: left;
-        list-style: none;
-        width: 27px;
-        height: 27px;
-        background: url(../images/memCen.png) -190px -70px no-repeat;
-    }
-    ul li a {
-        display: block;
-        width: 100%;
-        padding-top: 27px;
-        overflow: hidden;
-    }
-    ul li.light {
-        background-position: -220px -70px;
-    }
-
-}
-}
+.pingfen{ 
+    width: 135px; 
+    margin-left: 0px;
+    margin-top: 0px;
+    height:20px; 
+    position: relative;
+  }     
+ .pingfen ul{
+    height:20px; 
+    margin-top: -50px;
+    margin-left: 70px;
+   }     
+ .pingfen li{ 
+    width: 44px; 
+    float: left; 
+    height: 33px; 
+    cursor: pointer; 
+    background: url(../images/memCen.png) no-repeat -67px -189px; 
+    list-style: none;
+   }    
+  .pingfen .active{
+    background: url(../images/memCen.png) no-repeat -67px -152px;
+  }   
+   .pingfen p{ 
+      position: absolute; 
+      top:-6px; 
+      left: 300px; 
+      width: 134px; 
+      height: 28px;                  
+      background: #fff; 
+      line-height: 28px; 
+      text-align: center; 
+      border:1px solid #333;           
+      display:none;
+    }  
+// }
 </style>
 
 
