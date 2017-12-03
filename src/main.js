@@ -16,7 +16,7 @@ new Vue({
   components: { App }
 })
 
-// console.log('hello world')
+console.log('hello world')
 // var promise=new Promise(function(resolve,reject){
 //   console.log(1);
 //   resolve();
@@ -34,7 +34,7 @@ new Vue({
 
 
 
-import a,{b,c} from './mode.js'
-console.log(a,b,c)
-console.log(...([12,34,56],[123,234]))
+// import a,{b,c} from './mode.js'
+// console.log(a,b,c)
+// console.log(...([12,34,56],[123,234]))
 
