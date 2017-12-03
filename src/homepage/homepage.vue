@@ -1,19 +1,23 @@
 <template>
   <div class="hello">
-    <div class="homepage-banner">banner</div>
+    <div class="homepage-banner">
+      12314
+    </div>
+    <div></div>
     <router-view/> 
   </div>
 </template>
 
 <script>
-export default {
+export default { 
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
     }
   },
 }
+
 </script>
 
 <style scoped lang="less">

@@ -34,7 +34,7 @@ new Vue({
 
 
 
-import a,{b,c} from './mode.js'
-console.log(a,b,c)
-console.log(...([12,34,56],[123,234]))
+// import a,{b,c} from './mode.js'
+// console.log(a,b,c)
+// console.log(...([12,34,56],[123,234]))
 
