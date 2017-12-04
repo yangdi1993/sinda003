@@ -4,8 +4,10 @@ import HelloWorld from '@/components/HelloWorld'
 import server from '@/components/server'
 import outter from '@/components/outter'
 import inner from '@/components/inner'
+//views 登录、注册、修改密码
 import login from '@/views/login'
 import register from '@/views/register'
+import forget from '@/views/forget'
 import homepage from '@/homepage/homepage'
 // 会员中心-我的订单
 import myOrder from '@/memberCenter/myOrder'
@@ -69,7 +71,7 @@ export default new Router({
         },
       ]
     },
-    {
+    {//登录、注册、修改密码
       path:'/outter',
       name:'outter',
       component:outter,
@@ -83,6 +85,11 @@ export default new Router({
           path:'register',
           name:'register',
           component:register,
+        },
+        {
+          path:'forget',
+          name:'forget',
+          component:forget,
         }
       ]
     },

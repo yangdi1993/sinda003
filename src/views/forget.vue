@@ -3,29 +3,31 @@
     <!--小导航-->
     <div class="r-header">
       <div class="r-logo"></div>
-      <p>欢迎登陆</p>
+      <p>找回密码</p>
     </div>
     <!--内容-->
     <div class="r-content">
       <!--注册操作界面-->
       <ul class="r-operate">
         <li class="phone"><input type="text" placeholder="请输入手机号"><span>*</span></li>
-        <li class="pw"><input type="text" placeholder="请输入密码"><span>*</span></li>
         <li class="code-img"><input type="text" placeholder="请输入验证码">
           <img src="http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode" alt=""><span>*</span>
         </li>
-        <li class="forget">
-          <a href="">忘记密码</a>
+        <li class="code-phone"><input type="text" placeholder="请输入验证码">
+          <button>点击获取</button><span>*</span>
         </li>
-        <li class="loginBut">
-          <button>立即登录</button>
+        <li class="newPw"><input type="text" placeholder="请输入新密码"><span>*</span></li>
+        <li class="pw"><input type="text" placeholder="请再次输入密码"><span>*</span></li>
+        <li class="modify">
+          <button>确认修改</button>
         </li>
       </ul>
       <!--跳转登录界面-->
       <div class="r-goto">
-        <p>还没有账号?</p>
+        <p>想起密码来了?</p>
         <div>
-          <a href="">立即注册>></a>
+          <a href="">返回登录>></a>
+
         </div>
       </div>
     </div>
@@ -50,13 +52,12 @@ export default {
   padding: 0;
   border: 0;
 }
-
 li {
   list-style: none;
 }
 
 .r-outter {
-  margin: 0 auto; // background: #f5f5f5;
+  margin: 0 auto;
   width: 1200px;
   .r-header {
     // margin: 0 auto;
@@ -81,7 +82,7 @@ li {
     }
   }
   .r-content {
-    // margin-bottom: 100px;
+    // background: #88f;
     background: #fff;
     width: 1200px;
     height: 436px;
@@ -100,41 +101,52 @@ li {
         margin-bottom: 20px;
       }
       li input,
-      .loginBut button {
+      .modify button {
         padding-left: 26px;
-        width: 251px;
+        width: 255px;
         height: 36px;
         border-radius: 3px;
         border: 1px solid #cbcbcb;
         outline: 0;
       }
-      .code-img{
-        display: flex;
+      .modify button {
+        padding-left: 0px;
+        width: 281px;
+        background: #fff;
+        color: #2693d6;
+        border: 1px solid #2693d6;
       }
+      .code-phone input,
       .code-img input {
         width: 166px;
       }
-      .code-img img {
+      .code-phone button{
         margin-left: 4px;
         background: #fff;
         width: 80px;
         height: 36px;
         border-radius: 3px;
-      }
-      .forget a {
-        margin-right: 50px;
-        float: right;
-        font-size: 13px;
         color: #2693d6;
-        text-decoration: none;
-      }
-      .loginBut button{
-        margin-top: 20px;
-        padding-left: 0px;
-        width: 281px;
-        color: #2693d6;
-        background: #fff;
         border: 1px solid #2693d6;
+      }
+      .code-img{
+        display: flex;
+      }
+      .code-img img {
+        // float: right;
+        margin-left: 4px;
+        background: #fff;
+        width: 80px;
+        height: 34px;
+        border-radius: 3px;
+      }
+      p {
+        margin: -10px auto;
+        font-size: 13px;
+        text-align: center;
+        span {
+          color: #2693d6;
+        }
       }
     }
   }
@@ -142,7 +154,8 @@ li {
   .r-goto {
     margin: 53px 0 0 0;
     width: 602px;
-    height: 383px; // background: pink;
+    height: 383px;
+    // background: pink;
     p {
       font-size: 15px;
       text-align: center;
@@ -156,9 +169,9 @@ li {
     }
     div {
       width: 600px;
-      height: 261px;
+      height: 261px; 
       border-left: 1px solid #cbcbcb;
-      background: url(../images/login/login.png) no-repeat 240px 40px;
+      background: url(../images/login/register.png) no-repeat 240px 40px;
     }
   }
 }
