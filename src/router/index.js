@@ -15,6 +15,8 @@ import userUnEvalu from '@/memberCenter/userUnEvalu'
 import userHavaEvalu from '@/memberCenter/userHavaEvalu'
 //店铺列表
 import shoplist from '@/shop/shoplist'
+//店铺首页
+import shophome from '@/shop/shophome'
 //加盟我们
 import join from '@/shop/join'
 // 会员中心-用户评价-去评价
@@ -63,6 +65,12 @@ export default new Router({
           path: 'shoplist',
           name: 'shoplist',
           component: shoplist
+        },
+        //店铺列表
+        {
+          path: 'shophome',
+          name: 'shophome',
+          component: shophome
         },
         //加盟我们
         {
