@@ -7,6 +7,14 @@ import inner from '@/components/inner'
 import login from '@/views/login'
 import register from '@/views/register'
 import homepage from '@/homepage/homepage'
+<<<<<<< HEAD
+import shop from '@/shop/shop'
+import paypage from '@/paypage/paypage'
+import payFalse from '@/paypage/payFalse'
+import payTrue from '@/paypage/payTrue'
+import Alipay from '@/paypage/Alipay'
+import cart from '@/paypage/cart'
+=======
 // 会员中心-我的订单
 import myOrder from '@/memberCenter/myOrder'
 // 会员中心-用户评价-未评价
@@ -20,6 +28,7 @@ import join from '@/shop/join'
 // 会员中心-用户评价-去评价
 import goEvalu from '@/memberCenter/goEvalu'
 
+>>>>>>> 1c25a8c87826b54abfbbdc3741338030efe740e2
 Vue.use(Router)
 
 export default new Router({
@@ -75,6 +84,31 @@ export default new Router({
           path:'/goEvalu',
           name:'goEvalu',
           component:goEvalu,
+        },
+        {
+          path:'paypage',
+          name:'paypage',
+          component:paypage
+        },
+        {
+          path:'payFalse',
+          name:'payFalse',
+          component:payFalse
+        },
+        {
+          path:'payTrue',
+          name:'payTrue',
+          component:payTrue
+        },
+        {
+          path:'Alipay',
+          name:'Alipay',
+          component:Alipay
+        },
+        {
+          path:'cart',
+          name:'cart',
+          component:cart
         },
       ]
     },
