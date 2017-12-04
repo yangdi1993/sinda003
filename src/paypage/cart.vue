@@ -27,12 +27,12 @@
                 <tbody>
                     <p>店铺：<span>哈哈哈哈啊哈哈</span></p>
                     <tr>
-                        <td></td>
+                        <td><img src="" alt="">哈哈哈哈</td>
                         <td>代理记账</td>
                         <td>￥1200</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td><input></td>
+                        <td class="zjia">￥1200</td>
+                        <td class="dele"><div>删除</div></td>
                     </tr>
                 </tbody>
             </table>
@@ -94,5 +94,20 @@ thead{
         display: flex;
         justify-content: space-between;
     }
+}
+tbody{
+    width: 1200px;
+    background-color: #f7f7f7;
+     tr{
+        line-height: 55px;
+        width: 1100px;
+        margin-left: 50px;
+        color: #686868;
+        display: flex;
+        justify-content: space-between;
+    }
+}
+.zjia{
+    color: #71afdd;
 }
 </style>
