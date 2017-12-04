@@ -16,7 +16,7 @@ new Vue({
   components: { App }
 })
 
-console.log('hello world')
+// console.log('hello world')
 // var promise=new Promise(function(resolve,reject){
 //   console.log(1);
 //   resolve();
