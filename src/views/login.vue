@@ -13,9 +13,10 @@
         <li class="pw"><input type="text" placeholder="请输入密码"><span>*</span></li>
         <li class="code-img"><input type="text" placeholder="请输入验证码">
           <img src="http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode" alt=""><span>*</span>
+          <button v-on:click="buttonChange">看不清？换一张</button>
         </li>
         <li class="forget">
-          <a href="">忘记密码</a>
+          <a href="#/outter/forget">忘记密码</a>
         </li>
         <li class="loginBut">
           <button>立即登录</button>
@@ -25,7 +26,7 @@
       <div class="r-goto">
         <p>还没有账号?</p>
         <div>
-          <a href="">立即注册>></a>
+          <a href="#/outter/register">立即注册>></a>
         </div>
       </div>
     </div>
@@ -41,6 +42,13 @@ export default {
       msg: 'Welcome to Your Vue.js App'
     }
   },
+  methods:{
+    //点击更换图片验证码
+    buttonChange: function() {
+      var codeImage = document.querySelector('.code-img img');
+      codeImage.src = 'http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode';
+    },
+  }
 }
 </script>
 
@@ -57,12 +65,13 @@ li {
 
 .r-outter {
   margin: 0 auto; // background: #f5f5f5;
-  width: 1200px;
+  // width: 1200px;
   .r-header {
-    // margin: 0 auto;
-    // background: #fff;
+     margin-bottom: 52px;
+    background: #fff;
+    padding-left: 200px;
     display: flex;
-    width: 1200px;
+    // width: 1200px;
     height: 97px;
     overflow: hidden;
     .r-logo {
@@ -110,19 +119,27 @@ li {
       }
       .code-img{
         display: flex;
-      }
-      .code-img input {
-        width: 166px;
-      }
-      .code-img img {
-        margin-left: 4px;
-        background: #fff;
-        width: 80px;
-        height: 36px;
-        border-radius: 3px;
+        input {
+          width: 166px;
+        }
+        img {
+          margin-left: 4px;
+          background: #fff;
+          width: 80px;
+          height: 36px;
+          border-radius: 3px;
+        }
+        button {
+          position: absolute;
+          margin: 32px 0 0 198px;
+          color: #2693d6;
+          font-size: 11px;
+          background: #fff;
+          outline: 0;
+        }
       }
       .forget a {
-        margin-right: 50px;
+        margin-right: 150px;
         float: right;
         font-size: 13px;
         color: #2693d6;

@@ -12,6 +12,7 @@
         <li class="phone"><input type="text" placeholder="请输入手机号"><span>*</span></li>
         <li class="code-img"><input type="text" placeholder="请输入验证码">
           <img src="http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode" alt=""><span>*</span>
+          <button v-on:click="buttonChange">看不清？换一张</button>
         </li>
         <li class="code-phone"><input type="text" placeholder="请输入验证码">
           <button>点击获取</button><span>*</span>
@@ -26,7 +27,7 @@
       <div class="r-goto">
         <p>想起密码来了?</p>
         <div>
-          <a href="">返回登录>></a>
+          <a href="#/outter/login">返回登录>></a>
 
         </div>
       </div>
@@ -43,6 +44,13 @@ export default {
       msg: 'Welcome to Your Vue.js App'
     }
   },
+    methods:{
+    //点击更换图片验证码
+    buttonChange: function() {
+      var codeImage = document.querySelector('.code-img img');
+      codeImage.src = 'http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode';
+    },
+  }
 }
 </script>
 
@@ -58,12 +66,13 @@ li {
 
 .r-outter {
   margin: 0 auto;
-  width: 1200px;
+  // width: 1200px;
   .r-header {
-    // margin: 0 auto;
-    // background: #fff;
+     margin-bottom: 52px;
+    background: #fff;
+    padding-left: 200px;
     display: flex;
-    width: 1200px;
+    // width: 1200px;
     height: 97px;
     overflow: hidden;
     .r-logo {
@@ -131,14 +140,22 @@ li {
       }
       .code-img{
         display: flex;
-      }
-      .code-img img {
-        // float: right;
-        margin-left: 4px;
-        background: #fff;
-        width: 80px;
-        height: 34px;
-        border-radius: 3px;
+        img {
+          // float: right;
+          margin-left: 4px;
+          background: #fff;
+          width: 80px;
+          height: 34px;
+          border-radius: 3px;
+        }
+        button {
+          position: absolute;
+          margin: 32px 0 0 198px;
+          color: #2693d6;
+          font-size: 11px;
+          background: #fff;
+          outline: 0;
+        }
       }
       p {
         margin: -10px auto;

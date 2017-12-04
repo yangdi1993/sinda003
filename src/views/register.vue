@@ -1,40 +1,36 @@
 <template>
   <div class="r-outter">
     <!--小导航-->
-    <div class="r-header">
+    <div class="outBox">
+      <div class="r-header">
       <div class="r-logo"></div>
       <p>欢迎注册</p>
     </div>
+    </div>
+
+    
     <!--内容-->
     <div class="r-content">
       <!--注册操作界面-->
       <ul class="r-operate">
-        <li class="phone"><input type="text" placeholder="请输入手机号" v-on:blur="phoneBlur" v-on:focus="phoneFocus" v-on:keyup="phoneKeyup" ref="phoneVal">
+        <li class="phone"><input type="text" placeholder="请输入手机号" v-on:blur="phoneBlur" v-on:focus="phoneFocus" v-on:keyup="phoneKeyup" v-model="phoneVal">
           <span>*</span>
         </li>
-        <li class="code-img"><input type="text" placeholder="请输入验证码" v-on:blur="codeImgBlur" v-on:focus="codeImgFocus" ref="codeImgVal">
+        <li class="code-img"><input type="text" placeholder="请输入验证码" v-on:blur="codeImgBlur" v-on:focus="codeImgFocus" v-model="codeImgVal">
           <img src="http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode" alt="">
           <button v-on:click="buttonChange">看不清？换一张</button>
           <span>*</span>
         </li>
-        <li class="code-phone"><input type="text" placeholder="请输入验证码">
-          <p></p>
+        <li class="code-phone"><input type="text" placeholder="请输入验证码" v-model="codePhoneVal" v-on:blur="codePhoneBlur" v-on:focus="codePhoneFocus">
+          <!--<p></p>-->
           <button v-on:click="buttonGet">点击获取</button>
           <span>*</span>
         </li>
         <li class="android-wheel">
-          <select class="province">
-            <option value="">省</option>
-          </select>
-          <select class="city">
-            <option value="">市</option>
-          </select>
-          <select class="urban">
-            <option value="">区</option>
-          </select>
+          <v-distpicker class="select" v-on:change="selChange" province="省" city="市" area="区"></v-distpicker>
           <span>*</span>
         </li>
-        <li class="pw"><input type="password" placeholder="请设置密码">
+        <li class="pw"><input type="password" placeholder="请设置密码" v-model="pwVal" v-on:blur="codePwBlur" v-on:focus="codePwFocus">
           <span>*</span>
         </li>
         <li class="registerBut">
@@ -51,7 +47,7 @@
       <div class="r-goto">
         <p>已有账号?</p>
         <div>
-          <a href="">立即登录>></a>
+          <a href="#/outter/login">立即登录>></a>
 
         </div>
       </div>
@@ -70,32 +66,34 @@
 export default {
   name: 'HelloWorld',
   data() {
-
     return {
+      phoneVal: '',
+      codeImgVal: '',
+      codePhoneVal: '',
+      pwVal: '',
       msg: 'Welcome to Your Vue.js App',
-      // input1: ''
     }
   },
   methods: {
     //手机号只能输入数字
-    phoneKeyup:function(){
-      // var phone = document.querySelector('.phone input');
-      var phoneValue = this.$refs.phoneVal.value;
-      // phoneValue = phoneValue.replace(/\D/g,'');
-      console.log(phoneValue.replace(/\D/g,''))
+    phoneKeyup: function() {
+      this.phoneVal = this.phoneVal.replace(/\D/g, '');
+      console.log(this.phoneVal);
     },
+
     // 手机号验证失去焦点事件
     phoneBlur: function() {
-      // console.log(123);
-      var phone = document.querySelector('.phone input');
+      var phoneReg = /^1[3578]\d{9}$/;
+      // let result = phoneReg.test(this.phoneVal);
+      // console.log(this.phoneVal)
       var phoneSpan = document.querySelector('.phone span');
-      var phoneReg = /^1[3578]\d{9}/;
-      var phoneValue = this.$refs.phoneVal.value;
+      // var phoneReg = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
+      var phoneValue = this.phoneVal;
       if (phoneValue == '') {
         phoneSpan.innerHTML = '电话号码不能为空';
         phoneSpan.style.color = 'red';
       } else if (phoneReg.test(phoneValue)) {
-        console.log('ok');
+        phoneSpan.innerHTML = '*';
         phoneSpan.innerHTML = '✔';
         phoneSpan.style.color = 'green';
       } else {
@@ -109,17 +107,21 @@ export default {
       phoneSpan.innerHTML = '*';
       phoneSpan.style.color = 'red';
     },
+
+
     //图片验证码
     codeImgBlur: function() {
-      var codeImg = document.querySelector('.code-img input');
       var codeSpan = document.querySelector('.code-img span');
-      var codeImage = document.querySelector('.code-img img');
-      // console.log(codeImage)
-
+      var codeImgValue = this.codeImgVal;
+      if (codeImgValue == '') {
+        codeSpan.innerHTML = '验证码不能为空';
+        codeSpan.style.color = 'red';
+      }
     },
     codeImgFocus: function() {
-      var codeImg = document.querySelector('.code-img input');
-      // console.log(codeImg)
+      var codeSpan = document.querySelector('.code-img span');
+      codeSpan.innerHTML = '*';
+      codeSpan.style.color = 'red';
 
     },
     //点击更换图片验证码
@@ -128,8 +130,59 @@ export default {
       codeImage.src = 'http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode';
     },
 
+
+
+    //动态验证码
+    codePhoneBlur: function() {
+      var codePhoneSpan = document.querySelector('.code-phone span');
+      var codePhoneValue = this.codePhoneVal;
+      if (codePhoneValue == '') {
+        codePhoneSpan.innerHTML = '验证码不能为空';
+        codePhoneSpan.style.color = 'red';
+      }
+    },
+    codePhoneFocus: function() {
+      var codePhoneSpan = document.querySelector('.code-phone span');
+      codePhoneSpan.innerHTML = '*';
+      codePhoneSpan.style.color = 'red';
+    },
+
+
+
+    //动态验证码
+    codePwBlur: function() {
+      var pwValSpan = document.querySelector('.pw span');
+      var pwValue = this.pwVal;
+      if (pwValue == '') {
+        pwValSpan.innerHTML = '验证码不能为空';
+        pwValSpan.style.color = 'red';
+      }
+    },
+    codePwFocus: function() {
+      var pwValSpan = document.querySelector('.pw span');
+      pwValSpan.innerHTML = '*';
+      pwValSpan.style.color = 'red';
+
+    },
+
     // 点击获取验证码
     buttonGet: function() {
+      var count = 60;
+      var button = document.querySelector('.code-phone button');
+      button.disabled = true;
+      button.style.background = '#ddd';
+      button.innerHTML = '重新获取'+count;
+      var dic = setInterval(function(){
+        count--;
+        button.innerHTML = '重新获取'+count;
+        if(count==1){
+          clearInterval(dic);
+          button.style.background = '#fff';
+          button.innerHTML = '点击获取';
+          button.disabled = false;
+        }
+      },1000);
+
       // created(){
       //   var that = this;//then 的function的this不指向
       //   //then第一个函数成功回调函数
@@ -141,16 +194,17 @@ export default {
       // } 
 
     },
+    selChange:function(){
+      // console.log(province)
+    },
   }
 }
 </script>
 
 
 
-
-
-
-<style scoped lang="less">
+ 
+<style lang="less">
 * {
   margin: 0;
   padding: 0;
@@ -163,10 +217,16 @@ li {
 
 .r-outter {
   margin: 0 auto; // background: #f5f5f5;
-  width: 1200px; // 小导航
+  // width: 1200px; // 小导航
+  .outBox{
+    background: #fff;
+  }
   .r-header {
+    margin-bottom: 52px;
     // margin: 0 auto;
-    // background: #fff;
+    background: #fff;
+    // padding-left: 200px;
+    padding-left: 12.5%;
     display: flex;
     width: 1200px;
     height: 97px;
@@ -187,10 +247,12 @@ li {
     }
   }
   .r-content {
+    margin: 0 auto;
     background: #fff;
     width: 1200px;
     height: 436px;
-    display: flex; // 左侧操作
+    display: flex; 
+    // 左侧操作
     .r-operate {
       text-align: left;
       margin: 53px 19px 0 147px;
@@ -212,15 +274,22 @@ li {
         border-radius: 3px;
         border: 1px solid #cbcbcb;
         outline: 0;
-      }
-      li select {
-        margin-right: 20px;
-        padding-left: 12px;
-        width: 78px;
-        height: 36px;
-        border-radius: 3px;
-        border: 1px solid #cbcbcb;
-        outline: 0;
+      } 
+      .android-wheel{
+        display: flex;
+        select{
+          margin-right: 5px;
+          padding: 0 0 0 5px;
+          font-size: 12px;
+          width: 88px;
+          height: 36px;
+          border-radius: 3px;
+          border: 1px solid #cbcbcb;
+          outline: 0;
+        }
+        span{
+          margin: 10px 0 0 5px;
+        }
       }
       .urban {
         margin-right: 0;
@@ -249,7 +318,7 @@ li {
         position: relative;
       }
       .code-phone p {
-        display: none;
+        // display: none;
         margin: -52px 0 0 0px;
         position: absolute;
         background: #ddd;
@@ -262,7 +331,6 @@ li {
         position: relative;
         display: flex;
         img {
-          // float:right;
           margin-left: 4px;
           background: #fff;
           width: 85px;
