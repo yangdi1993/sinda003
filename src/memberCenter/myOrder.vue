@@ -61,14 +61,8 @@
           </ul>
           <!-- 订单插入 -->
           <div class="orderInsert">
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
-            <div>4</div>
-            <div>5</div>
-            <div>6</div>
-            <div>7</div>
-            <div>8</div>
+            <!-- <div>1</div> -->
+
           </div>
           <!-- 翻页 -->
   
@@ -83,7 +77,28 @@
 import ihead from '../components/ihead'
 // 翻页组件
 export default {
-
+  data(){
+    return{
+      // ordDeLoad:'',
+    }
+  },
+  created(){
+      var ordDetForm = document.createElement('div');
+      console.log(ordDetForm); 
+      var orderInsert = document.getElementsByClassName('orderInsert')[0];
+      console.log(orderInsert);
+      ordDetForm.style = {
+        border: '1px solid red',
+        width: '934px',
+        height: '80px',
+        marginTop: '12px'
+      };
+      orderInsert.appendChild(ordDetForm);
+      console.log(79);
+  },
+  methods:{
+    
+  }
 }
 </script>
 
@@ -285,12 +300,8 @@ export default {
  .orderInsert{
    width: 934px;
    height: 356px;
-   div{
-    width: 934px;
-    height: 80px;
-    background-color: yellow;
-    border: 1px solid red;
-   }
+   margin-top: 12px;
+   background-color: pink;
  }
  .pageTurn{
   //  width: 300px;

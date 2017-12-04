@@ -88,12 +88,12 @@
 <script>
 import ihead from '../components/ihead'
 export default {
-  // data () {
+  data () {
    
-  // },
+  },
 }
 methods:{
-  
+ 
   }
   // 评分五角星
 var aData =["很差","较差","一般","推荐","力推"];  
@@ -130,7 +130,7 @@ window.onload=function(){
 };
 // 点击跳转页面
 var perBusTw = document.querySelector('.perBusTw');
-console.log(perBusTw);
+// console.log(perBusTw);
 
 </script>
 
