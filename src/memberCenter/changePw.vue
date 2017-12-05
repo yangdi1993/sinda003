@@ -35,24 +35,24 @@
         <!-- 右侧边栏 -->
         <div class="memCenRi">
           <div class="myOrderHead">
-            <p>我的评价</p>
+            <a href="#/accountSetting"><p>账户设置</p></a>
+            <a href="#/changePw"><p>修改密码</p></a>
           </div>
-          <!-- 评价表头 -->
-          <div class="evaluHead">
-              <a href="#/userUnEvalu"><div class="unvalued">未评价</div></a>
-              <a href="#/userHavaEvalu"><div class="haveEvalu">已评价</div></a>
-              <span></span>
-          </div>
-          <!-- 评价插入-已评价 -->
-          <div class="orderInsert">
-
-          </div>
-          <!-- 翻页 -->
-          <div class="pageTurn">
-            <input type="button" class="prePage" value="上一页">
-            <div></div>
-            <input type="button" class="nextPage" value="下一页">
-          </div>
+          <ul class="changePassword">
+            <li class="password">
+              <p>旧密码：</p>
+              <input type="text">
+            </li>
+            <li class="newPw">
+              <p>新密码：</p>
+              <input type="text">
+            </li>
+            <li class="conPw">
+              <p>再次输入新密码：</p>
+              <input type="text">
+            </li>
+            <button class="savePw">保存</button>
+          </ul>
         </div>
       </div>
     </div>
@@ -145,7 +145,7 @@ export default {
     float: left;
     line-height: 50px;
  }
- .perBusTw{
+ .perBusTh{
    background-color: #e9e9e9;
  }
 //  左边栏小背景
@@ -159,20 +159,31 @@ export default {
    background: url(../images/memCen.png) -25px -190px no-repeat;
  }
  .myOrderHead{
+   display: flex;
    width: 934px;
    height: 30px;
    margin-top: 60px;
    margin-left: 0;
    border-bottom: 1px solid #e9e9e9;
-   p{
-     width: 80px;
-     font-size: 14px;
-     font-weight: bold;
-     color: #3e9bd6;
-     margin-left: 10px;
-     padding: 5px 27px;
-     border-bottom: 2px solid #3e9bd6;
-   }
+  p {
+    width: 80px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #262626;
+    margin-left: 10px;
+    padding: 5px 27px;
+  }
+  a{
+    text-decoration: none;
+  }
+  a:nth-child(1) p{
+    color: #262626;
+    border-bottom: none;
+  }
+  a:nth-child(2) p{
+    color: #3e9bd6;
+    border-bottom: 2px solid #3e9bd6;
+  }
  }
 
  .pageTurn{
@@ -204,38 +215,35 @@ export default {
      outline: 0;
    }
  }
- .evaluHead{
-     width: 934px;
-     height: 43px;
-     background-color: #f7f7f7;
-     margin-top: 24px;
-     border: 1px solid #cccccc;
-     font-size: 14px;
-     line-height: 43px;
-     position: relative;
-     div{
-         width: 107px;
-         height: 43px;
-         border-right: 1px solid #cccccc;
+ .changePassword{
+   li{
+     margin: 27px 0 0 30px;
+     list-style: none;
+     display: flex;
+     p{
+       width: 135px;
+       text-align: left;
      }
-     .unvalued{
-         background-color: #2693d4;
-         float: left;
-         color: #fff;
+     input{
+       border: 1px solid #b0b0b0;
+       width: 180px;
+       height: 24px;
      }
-     .haveEvalu{
-         float: left;
-         color: #3c3c3c;
-     }
-     span{
-       width: 15px;
-       height: 15px;
-       background-color: #2693d4;
-       position: absolute;
-       top: 35px;
-       left: 48px;
-       transform: rotate(45deg);
-     }
+   }
+   .password{
+     margin-top: 45px;
+   }
+   .savePw{
+     float: left;
+    margin: 45px 0 0 165px;
+    width: 68px;
+    height: 24px;
+    color: #2793d4;
+    font-weight: bold;
+    border: 1px solid #2793d4;
+    border-radius: 3px;
+    background: #fff;
+   }
  }
 // }
 </style>

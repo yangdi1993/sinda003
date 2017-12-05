@@ -12,18 +12,25 @@
           </li>
           <!-- 业务 -->
           <li class="perBus">
-            <div class="perBusO">
-              <div class="perBusOB"></div>
-              <p>我的订单</p>
-            </div>
-            <div class="perBusTw">
-              <div class="perBusTwB"></div>
-              <p>用户评价</p>
-            </div>
-            <div class="perBusTh">
-              <div class="perBusThB"></div>
-              <p>账户设置</p>
-            </div>
+            <a href="#/myOrder">
+              <div class="perBusO">
+                <div class="perBusOB"></div>
+                <p>我的订单</p>
+              </div>
+            </a> 
+            <a href="#/userUnEvalu">
+            <!-- <a v-bind:href="userUnEvalu"> -->
+              <div class="perBusTw">
+                <div class="perBusTwB"></div>
+                <p>用户评价</p>
+              </div>
+            </a> 
+            <a href="">
+              <div class="perBusTh">
+                <div class="perBusThB"></div>
+                <p>账户设置</p>
+              </div>
+            </a> 
           </li>
         </ul>
         <!-- 右侧边栏 -->
@@ -54,14 +61,11 @@
           </ul>
           <!-- 订单插入 -->
           <div class="orderInsert">
+            <!-- <div>1</div> -->
 
           </div>
           <!-- 翻页 -->
-          <div class="pageTurn">
-            <input type="button" class="prePage" value="上一页">
-            <div></div>
-            <input type="button" class="nextPage" value="下一页">
-          </div>
+  
         </div>
       </div>
     </div>
@@ -71,16 +75,36 @@
 
 <script>
 import ihead from '../components/ihead'
+// 翻页组件
 export default {
-  data () {
-   
+  data(){
+    return{
+      // ordDeLoad:'',
+    }
   },
+  created(){
+      var ordDetForm = document.createElement('div');
+      console.log(ordDetForm); 
+      var orderInsert = document.getElementsByClassName('orderInsert')[0];
+      console.log(orderInsert);
+      ordDetForm.style = {
+        border: '1px solid red',
+        width: '934px',
+        height: '80px',
+        marginTop: '12px'
+      };
+      orderInsert.appendChild(ordDetForm);
+      console.log(79);
+  },
+  methods:{
+    
+  }
 }
 </script>
 
 <style scoped lang="less">
 // 固定最小宽度
-@media all and (min-width:1200px){
+// @media all and (min-width:1200px){
  .memCenBg{
     width: 100%;
     height: 786px;
@@ -90,13 +114,13 @@ export default {
       margin: 0 auto;
       .memCenLe{
         width: 240px;
-        height: 886px;
+        height: 786px;
         float: left;
         list-style: none;
       }
       .memCenRi{
         width: 934px;
-        height: 886px;
+        height: 786px;
         float: left;
         margin-left: 26px;
       }
@@ -133,17 +157,21 @@ export default {
     background-color: #f7f7f7;
     margin-top: 9px;
   }
-  .perBus>div{
+  .perBus>a>div{
     overflow: hidden;
+    cursor: pointer;
   }
- .perBus>div>div{
+  .perBus>a>div:hover{
+    background-color: #e9e9e9;
+  }
+ .perBus>a>div>div{
     width: 27px;
     height: 25px;
     margin-left: 56px;
     margin-top: 14px;
     float: left;
  }
- .perBus>div>p{
+ .perBus>a>div>p{
     font-size: 16px;
     color: #000000;
     margin-left: 13px;
@@ -213,6 +241,9 @@ export default {
       color: #3d9bd8;
       outline: 0;
     }
+    .orSerBut:hover{
+      cursor: pointer;
+    }
   }
   // 时间框
  .timeSet{
@@ -269,7 +300,8 @@ export default {
  .orderInsert{
    width: 934px;
    height: 356px;
-   background-color: yellow;
+   margin-top: 12px;
+   background-color: pink;
  }
  .pageTurn{
   //  width: 300px;
@@ -300,7 +332,9 @@ export default {
      outline: 0;
    }
  }
-}
+// 翻页 
+
+// }
 </style>
 
 
