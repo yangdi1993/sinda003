@@ -30,7 +30,9 @@
           <v-distpicker class="select" v-on:change="selChange" province="省" city="市" area="区"></v-distpicker>
           <span>*</span>
         </li>
-        <li class="pw"><input type="password" placeholder="请设置密码" v-model="pwVal" v-on:blur="codePwBlur" v-on:focus="codePwFocus">
+        <li class="pw">
+          <input type="password" placeholder="请设置密码" v-model="pwVal" v-on:blur="codePwBlur" v-on:focus="codePwFocus">
+          <a href="javascript:void(0)">密码由6-16位数字和字母组成</a>
           <span>*</span>
         </li>
         <li class="registerBut">
@@ -93,7 +95,7 @@ export default {
         phoneSpan.innerHTML = '电话号码不能为空';
         phoneSpan.style.color = 'red';
       } else if (phoneReg.test(phoneValue)) {
-        phoneSpan.innerHTML = '*';
+        // phoneSpan.innerHTML = '*';
         phoneSpan.innerHTML = '✔';
         phoneSpan.style.color = 'green';
       } else {
@@ -153,9 +155,16 @@ export default {
     codePwBlur: function() {
       var pwValSpan = document.querySelector('.pw span');
       var pwValue = this.pwVal;
-      if (pwValue == '') {
-        pwValSpan.innerHTML = '验证码不能为空';
-        pwValSpan.style.color = 'red';
+      var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+      if(pwValue==''){
+        pwValSpan.innerHTML = "密码不能为空";
+        pwValSpan.style.color = "red";
+      }else if(newPwReg.test(pwValue)){
+        pwValSpan.innerHTML = "✔";
+        pwValSpan.style.color = "green";
+      }else{
+        pwValSpan.innerHTML = "密码格式错误";
+        pwValSpan.style.color = "red";
       }
     },
     codePwFocus: function() {
@@ -297,6 +306,16 @@ li {
       .phone input,
       .pw input {
         width: 255px;
+      }
+      .pw{
+        position: relative;
+        a{
+          position: absolute;
+          margin: 37px 0 0 -285px;
+          font-size: 11px;
+          text-decoration: none;
+          color: #aaa;
+        }
       }
       .registerBut button {
         width: 281px;

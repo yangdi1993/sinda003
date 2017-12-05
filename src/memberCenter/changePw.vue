@@ -41,15 +41,19 @@
           <ul class="changePassword">
             <li class="password">
               <p>旧密码：</p>
-              <input type="text">
+              <input type="password" v-model="password" v-on:blur="pwBlur" v-on:focus="pwFocus">
+              <span>*</span>
             </li>
             <li class="newPw">
               <p>新密码：</p>
-              <input type="text">
+              <input type="password" v-model="newPw" v-on:blur="newPwBlur" v-on:focus="newPwFocus">
+              <a href="#">密码由6-16位数字和字母组成</a>
+              <span>*</span>
             </li>
             <li class="conPw">
               <p>再次输入新密码：</p>
-              <input type="text">
+              <input type="password" v-model="conPw" v-on:blur="conPwBlur" v-on:focus="conPwFocus">
+              <span>*</span>
             </li>
             <button class="savePw">保存</button>
           </ul>
@@ -63,9 +67,77 @@
 <script>
 import ihead from '../components/ihead'
 export default {
-  // data () {
-   
-  // },
+  data () {
+   return{
+     password:'',
+     newPw:'',
+     conPw:'',
+   }
+  },
+  methods:{
+    // 旧密码焦点事件
+    pwBlur:function() {
+      var pwSpan = document.querySelector('.password span');
+      if(this.password==''){
+        pwSpan.innerHTML = "新密码不能为空";
+        pwSpan.style.color = "red";
+      }else if(''){//获取用户密码进行判断
+        pwSpan.innerHTML = "✔";
+        pwSpan.style.color = "green";
+      }else{
+        pwSpan.innerHTML = "密码错误";
+        pwSpan.style.color = "red";
+      }
+    },
+    pwFocus:function() {
+      var pwSpan = document.querySelector('.password span');
+      pwSpan.innerHTML = "*";
+      pwSpan.style.color = "red";
+    },
+
+
+    // 新密码焦点事件
+    newPwBlur:function() {
+      var newPwSpan = document.querySelector('.newPw span');
+      var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+      if(this.newPw==''){
+        newPwSpan.innerHTML = "新密码不能为空";
+        newPwSpan.style.color = "red";
+      }else if(newPwReg.test(this.newPw)){
+        newPwSpan.innerHTML = "✔";
+        newPwSpan.style.color = "green";
+      }else{
+        newPwSpan.innerHTML = "新密码格式错误";
+        newPwSpan.style.color = "red";
+      }
+    },
+    newPwFocus:function() {
+      var newPwSpan = document.querySelector('.newPw span');
+      newPwSpan.innerHTML = "*";
+      newPwSpan.style.color = "red";
+    },
+
+    // 确认密码焦点事件
+    conPwBlur:function() {
+      var conPwSpan = document.querySelector('.conPw span');
+      if(this.conPw==''){
+        conPwSpan.innerHTML = "确认密码不能为空";
+        conPwSpan.style.color = "red";
+      }else if(this.newPw==this.conPw){
+        // console.log('修改成功')
+        conPwSpan.innerHTML = "✔";
+        conPwSpan.style.color = "green";
+      }else{
+        conPwSpan.innerHTML = "两次输入密码不一致";
+        conPwSpan.style.color = "red";
+      }
+    },
+    conPwFocus:function() {
+      var conPwSpan = document.querySelector('.conPw span');
+      conPwSpan.innerHTML = "*";
+      conPwSpan.style.color = "red";
+    },
+  }
 }
 </script>
 
@@ -228,10 +300,26 @@ export default {
        border: 1px solid #b0b0b0;
        width: 180px;
        height: 24px;
+       outline: 0;
+     }
+     span{
+       font-size: 11px;
+       margin: 4px 7px;
+       color: red;
      }
    }
    .password{
      margin-top: 45px;
+   }
+   .newPw{
+    position: relative;
+    a{
+      position: absolute;
+      font-size: 11px;
+      text-decoration: none;
+      color: #aaa;
+      margin: 28px 0 0 135px;
+    }
    }
    .savePw{
      float: left;

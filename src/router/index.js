@@ -39,13 +39,9 @@ import join from '@/shop/join'
 import goEvalu from '@/memberCenter/goEvalu'
 
 // >>>>>>> 1c25a8c87826b54abfbbdc3741338030efe740e2
-<<<<<<< HEAD
-=======
 
 //省市区三级联动
 Vue.component('v-distpicker', Distpicker)
-
->>>>>>> 5d72007d1078c9242209ccd48514522cd35883be
 Vue.use(Router)
 
 export default new Router({
