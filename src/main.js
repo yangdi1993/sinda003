@@ -4,8 +4,13 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import qs from 'qs'
+//轮播部分插件引入
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+Vue.use(VueAwesomeSwiper)
 
 Vue.prototype.ajax=axios
+Vue.prototype.qs=qs
 Vue.config.productionTip = false
 Vue.config.dectools=false
 /* eslint-disable no-new */

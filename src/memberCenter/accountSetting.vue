@@ -37,6 +37,7 @@
           <div class="myOrderHead">
             <a href="#/accountSetting"><p >账户设置</p></a>
             <a href="#/changePw"><p>修改密码</p></a>
+            <!--<router-link to='changePw' replace>账户设置</router-link>-->
           </div>
           <ul class="settings">
             <li class="photo">

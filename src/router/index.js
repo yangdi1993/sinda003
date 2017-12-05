@@ -11,8 +11,7 @@ import login from '@/views/login'
 import register from '@/views/register'
 import forget from '@/views/forget'
 import homepage from '@/homepage/homepage'
-// <<<<<<< HEAD
-// import shop from '@/shop/shop'
+
 import paypage from '@/paypage/paypage'
 import payFalse from '@/paypage/payFalse'
 import payTrue from '@/paypage/payTrue'
@@ -38,7 +37,6 @@ import join from '@/shop/join'
 // 会员中心-用户评价-去评价
 import goEvalu from '@/memberCenter/goEvalu'
 
-// >>>>>>> 1c25a8c87826b54abfbbdc3741338030efe740e2
 
 //省市区三级联动
 Vue.component('v-distpicker', Distpicker)
