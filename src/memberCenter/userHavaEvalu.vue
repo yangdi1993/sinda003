@@ -12,18 +12,24 @@
           </li>
           <!-- 业务 -->
           <li class="perBus">
-            <div class="perBusO">
-              <div class="perBusOB"></div>
-              <p>我的订单</p>
-            </div>
-            <div class="perBusTw">
-              <div class="perBusTwB"></div>
-              <p>用户评价</p>
-            </div>
-            <div class="perBusTh">
-              <div class="perBusThB"></div>
-              <p>账户设置</p>
-            </div>
+            <a href="#/myOrder">
+              <div class="perBusO">
+                <div class="perBusOB"></div>
+                <p>我的订单</p>
+              </div>
+            </a> 
+            <a href="#/userUnEvalu">
+              <div class="perBusTw">
+                <div class="perBusTwB"></div>
+                <p>用户评价</p>
+              </div>
+            </a> 
+            <a href="">
+              <div class="perBusTh">
+                <div class="perBusThB"></div>
+                <p>账户设置</p>
+              </div>
+            </a>
           </li>
         </ul>
         <!-- 右侧边栏 -->
@@ -33,8 +39,8 @@
           </div>
           <!-- 评价表头 -->
           <div class="evaluHead">
-              <div class="unvalued">未评价</div>
-              <div class="haveEvalu">已评价</div>
+              <a href="#/userUnEvalu"><div class="unvalued">未评价</div></a>
+              <a href="#/userHavaEvalu"><div class="haveEvalu">已评价</div></a>
               <span></span>
           </div>
           <!-- 评价插入-已评价 -->
@@ -57,15 +63,15 @@
 <script>
 import ihead from '../components/ihead'
 export default {
-  data () {
+  // data () {
    
-  },
+  // },
 }
 </script>
 
 <style scoped lang="less">
 // 固定最小宽度
-@media all and (min-width:1200px){
+// @media all and (min-width:1200px){
  .memCenBg{
     width: 100%;
     height: 786px;
@@ -75,13 +81,13 @@ export default {
       margin: 0 auto;
       .memCenLe{
         width: 240px;
-        height: 886px;
+        height: 786px;
         float: left;
         list-style: none;
       }
       .memCenRi{
         width: 934px;
-        height: 886px;
+        height: 786px;
         float: left;
         margin-left: 26px;
       }
@@ -118,17 +124,21 @@ export default {
     background-color: #f7f7f7;
     margin-top: 9px;
   }
-  .perBus>div{
+  .perBus>a>div{
     overflow: hidden;
+    cursor: pointer;
   }
- .perBus>div>div{
+  .perBus>a>div:hover{
+    background-color: #e9e9e9;
+  }
+ .perBus>a>div>div{
     width: 27px;
     height: 25px;
     margin-left: 56px;
     margin-top: 14px;
     float: left;
  }
- .perBus>div>p{
+ .perBus>a>div>p{
     font-size: 16px;
     color: #000000;
     margin-left: 13px;
@@ -206,7 +216,7 @@ export default {
      div{
          width: 107px;
          height: 43px;
-         border: 1px solid #cccccc;
+         border-right: 1px solid #cccccc;
      }
      .unvalued{
          float: left;
@@ -227,7 +237,7 @@ export default {
        transform: rotate(45deg);
      }
  }
-}
+// }
 </style>
 
 

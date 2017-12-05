@@ -42,7 +42,7 @@
 <script>
 var btn=document.querySelector('.iheadbtn')
 // btn.onenter=function(){
-  console.log(123)
+  // console.log(123)
 // }
 export default {
   //  mounted(){

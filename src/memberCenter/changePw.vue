@@ -19,7 +19,6 @@
               </div>
             </a> 
             <a href="#/userUnEvalu">
-            <!-- <a v-bind:href="userUnEvalu"> -->
               <div class="perBusTw">
                 <div class="perBusTwB"></div>
                 <p>用户评价</p>
@@ -30,48 +29,30 @@
                 <div class="perBusThB"></div>
                 <p>账户设置</p>
               </div>
-            </a> 
+            </a>
           </li>
         </ul>
         <!-- 右侧边栏 -->
         <div class="memCenRi">
           <div class="myOrderHead">
-            <p>我的订单</p>
+            <a href="#/accountSetting"><p>账户设置</p></a>
+            <a href="#/changePw"><p>修改密码</p></a>
           </div>
-          <!-- 搜索行 -->
-          <div class="orderSearch">
-            <p>订单号：</p>
-            <input type="text" class="orSerIn" placeholder="请输入订单号搜索">
-            <input type="button" class="orSerBut" value="搜索">
-          </div>
-          <!-- 时间行 -->
-          <div class="timeSet">
-            <p>创建时间：</p>
-            <input class="timeStart" type="date"> 至 
-            <input class="timeEnd" type="date">
-          </div>
-          <!-- 订单表头 -->
-          <ul class="orderHead">
-            <li class="comName">商品名称</li>
-            <li>单价</li>
-            <li>数量</li>
-            <li>总金额</li>
-            <li>订单状态</li>
-            <li>订单操作</li>
+          <ul class="changePassword">
+            <li class="password">
+              <p>旧密码：</p>
+              <input type="text">
+            </li>
+            <li class="newPw">
+              <p>新密码：</p>
+              <input type="text">
+            </li>
+            <li class="conPw">
+              <p>再次输入新密码：</p>
+              <input type="text">
+            </li>
+            <button class="savePw">保存</button>
           </ul>
-          <!-- 订单插入 -->
-          <div class="orderInsert">
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
-            <div>4</div>
-            <div>5</div>
-            <div>6</div>
-            <div>7</div>
-            <div>8</div>
-          </div>
-          <!-- 翻页 -->
-  
         </div>
       </div>
     </div>
@@ -81,9 +62,10 @@
 
 <script>
 import ihead from '../components/ihead'
-// 翻页组件
 export default {
-
+  // data () {
+   
+  // },
 }
 </script>
 
@@ -163,7 +145,7 @@ export default {
     float: left;
     line-height: 50px;
  }
- .perBusO{
+ .perBusTh{
    background-color: #e9e9e9;
  }
 //  左边栏小背景
@@ -177,121 +159,33 @@ export default {
    background: url(../images/memCen.png) -25px -190px no-repeat;
  }
  .myOrderHead{
+   display: flex;
    width: 934px;
    height: 30px;
    margin-top: 60px;
    margin-left: 0;
    border-bottom: 1px solid #e9e9e9;
-   p{
-     width: 80px;
-     font-size: 14px;
-     font-weight: bold;
-     color: #3e9bd6;
-     margin-left: 10px;
-     padding: 5px 27px;
-     border-bottom: 2px solid #3e9bd6;
-   }
- }
-//  订单搜索
-  .orderSearch{
-    width: 934px;
-    height: 25px;
-    margin-top: 23px;
-    p{
-      width: 80px;
-      font-size: 14px;
-      color: #242424;
-      margin-left: 0;
-      line-height: 25px;
-      float: left;
-    }
-    // 搜索框
-    .orSerIn{
-      width: 265px;
-      height: 25px;
-      margin-left: 15px;
-      outline: 0;
-      float: left;
-      border: 1px solid #b0b0b0;
-    }
-    // 搜索按钮
-    .orSerBut{
-      width: 70px;
-      height: 25px;
-      margin-left: -480px;
-      border-radius: 3px;
-      background-color: #fff;
-      border: 1px solid #2494d3;
-      font-size: 14px;
-      color: #3d9bd8;
-      outline: 0;
-    }
-    .orSerBut:hover{
-      cursor: pointer;
-    }
-  }
-  // 时间框
- .timeSet{
-    width: 934px;
-    height: 25px;
-    margin-top: 20px;
+  p {
+    width: 80px;
     font-size: 14px;
-    color: #242424;
-    p{
-      width: 80px;
-      font-size: 14px;
-      color: #242424;
-      margin-left: 7px;
-      line-height: 25px;
-      float: left;
-    }
-    .timeStart{
-      width: 120px;
-      height: 25px;
-      outline: 0;
-      margin-left: -565px;
-      border: 1px solid #b0b0b0;
-    }
-    .timeEnd{
-      width: 120px;
-      height: 25px;
-      outline: 0;
-      border: 1px solid #b0b0b0;
-      // margin-left: -10px;
-    }
+    font-weight: bold;
+    color: #262626;
+    margin-left: 10px;
+    padding: 5px 27px;
+  }
+  a{
+    text-decoration: none;
+  }
+  a:nth-child(1) p{
+    color: #262626;
+    border-bottom: none;
+  }
+  a:nth-child(2) p{
+    color: #3e9bd6;
+    border-bottom: 2px solid #3e9bd6;
+  }
  }
-//  订单表头
- .orderHead{
-   width: 934px;
-   height: 34px;
-   margin-top: 20px;
-   margin-left: 0;
-   border-top: 1px solid #b0b0b0;
-   background-color: #f7f7f7;
-   display: flex;
-   list-style: none;
-   line-height: 34px;
-   font-size: 12px;
-   color: #3f3f3f;
-   font-weight: bold;
-   li{
-     margin-left: 90px;
-   }
-   .comName{
-     margin-left: 38px;
-     margin-right: 185px;
-   }
- }
- .orderInsert{
-   width: 934px;
-   height: 356px;
-   div{
-    width: 934px;
-    height: 80px;
-    background-color: yellow;
-    border: 1px solid red;
-   }
- }
+
  .pageTurn{
   //  width: 300px;
    height: 36px;
@@ -321,8 +215,36 @@ export default {
      outline: 0;
    }
  }
-// 翻页 
-
+ .changePassword{
+   li{
+     margin: 27px 0 0 30px;
+     list-style: none;
+     display: flex;
+     p{
+       width: 135px;
+       text-align: left;
+     }
+     input{
+       border: 1px solid #b0b0b0;
+       width: 180px;
+       height: 24px;
+     }
+   }
+   .password{
+     margin-top: 45px;
+   }
+   .savePw{
+     float: left;
+    margin: 45px 0 0 165px;
+    width: 68px;
+    height: 24px;
+    color: #2793d4;
+    font-weight: bold;
+    border: 1px solid #2793d4;
+    border-radius: 3px;
+    background: #fff;
+   }
+ }
 // }
 </style>
 

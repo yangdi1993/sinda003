@@ -3,20 +3,24 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import axios from 'axios'
+import qs from 'qs'
 
 Vue.prototype.ajax=axios
+Vue.prototype.qs=qs
 Vue.config.productionTip = false
 Vue.config.dectools=false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })
 
-console.log('hello world')
+// console.log('hello world')
 // var promise=new Promise(function(resolve,reject){
 //   console.log(1);
 //   resolve();
