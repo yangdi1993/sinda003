@@ -233,6 +233,7 @@ export default {
 .pay-way {
   width: 100%;
   border-bottom: 1px solid #bcbdbd;
+  margin-top: 25px;
   p {
     color: #74b2df;
     font-size: 16px;
