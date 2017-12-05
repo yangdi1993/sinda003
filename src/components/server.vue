@@ -14,9 +14,8 @@ export default {
     // console.log('created');
     var that=this
     this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/product/package/grid').then(function(data){
-
       var rData=data.data.data
-      console.log(rData);
+      console.log(123,rData);
       that.products=rData;
     })
   },

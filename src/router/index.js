@@ -7,6 +7,8 @@ import inner from '@/components/inner'
 import login from '@/views/login'
 import register from '@/views/register'
 import homepage from '@/homepage/homepage'
+
+// import server from '@/homepage/server'
 // 会员中心-我的订单
 import myOrder from '@/memberCenter/myOrder'
 // 会员中心-用户评价-未评价
@@ -17,6 +19,7 @@ import shop from '@/shop/shop'
 import join from '@/shop/join'
 // 会员中心-用户评价-去评价
 import goEvalu from '@/memberCenter/goEvalu'
+
 
 Vue.use(Router)
 

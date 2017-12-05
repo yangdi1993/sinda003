@@ -1,7 +1,6 @@
 <template>
   <div class="inner">
     <ihead></ihead>
-    
     <router-view/>
     <ifoot></ifoot>
   </div>

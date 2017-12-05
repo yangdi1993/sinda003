@@ -17,7 +17,7 @@
           </div>
           <form action="">
             <input type="text" class="ihead-search" placeholder="搜索您需要的服务或服务商">
-            <button class="iheadbtn" v-on:click="btn"><span></span></button>
+            <button class="iheadbtn"><span></span></button>
           </form>
           <div>
             <p class="ihead-hotsvc">热门服务：<a href="javascript:void(0)">社保开户</a>&nbsp;<a href="javascript:void(0)">公司注册</a></p>
@@ -28,50 +28,79 @@
           <p>010-83421842</p>
         </div>
       </div>
-      <div class="ihead-bottom" v-on:click="iheadBottom">
-        <a href="javascript:void(0)">全部产品</a>
-        <a href="javascript:void(0)">财税服务</a>
-        <a href="javascript:void(0)">公司工商</a>
-        <a href="javascript:void(0)">加盟我们</a>
-        <a href="javascript:void(0)">店铺</a>
+      <div class="ihead-bottom">
+        <router-link to="/inner/homepage" @mouseover.native="allProduce" @mouseout.native="produceOut" active-class="active">全部产品</router-link>
+        <router-link  to="/" active-class="active">财税服务</router-link>
+        <router-link to="/inner/homepage"  active-class="active">公司工商</router-link>
+        <router-link  to="/inner/join" active-class="active">加盟我们</router-link>
+        <router-link to="/inner/shop"  active-class="active">店铺</router-link>
+        <transition name="fold">
+          <div class="allProduce" v-show="produce" @mouseover="allProduce" @mouseout="produceOut">
+            <div class="ihead-finance">
+              <div class="iheadLogo">
+                <span class="produce-logo"></span>
+                <span class="company-logo"></span>
+                <span class="knows-logo"></span>
+                <span class="social-logo"></span>
+              </div>
+              <div class="row1" v-for="product in products" :key="product.id">
+                <div class="first">
+                  <p>{{product.name}}</p>
+                  <span class="row2" v-for="product in product.itemList" :key="product.id">
+                    <span>{{product.name}}</span>
+                  </span>
+                </div>
+                <div class="second">
+                  <div class="thrid" v-for="product in product.itemList" :key="product.id">
+                    <span class="secondtitle">{{product.name}} ﹥</span>
+                    <div class="third-sec">
+                      <span class="row3" v-for="product in product.itemList" :key="product.id">
+                        <a href="javascript:void(0)">{{product.name}}</a>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-var btn=document.querySelector('.iheadbtn')
-// btn.onenter=function(){
-  console.log(123)
 // }
 export default {
-  //  mounted(){
-  //   var btn=document.querySelector('.iheadbtn')
-  //   btn.onenter=function(){
-  //     console.log(123)
-  //   }
-  // },
   name: 'HelloWorld',
+  created(){
+    // console.log('created');
+    var that=this
+    this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/product/style/list').then(function(data){
+      var rData=data.data.data
+      // console.log(rData);
+      var obj = {}  //这里obj默认obj={1:{},2:{},3:{},4:{}}
+      for(var i in rData){  //进行排序
+        var n=rData[i].showOrder
+        obj[n]=rData[i]
+      }
+      that.products=obj;
+    })
+  },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      produce:false,
+      active:'active',
+      products:[]
     }
   },
   methods:{
-    btn:function(){
-      console.log(456)
+    allProduce:function(){
+      this.produce = true;
     },
-    iheadBottom:function(e){  //给点击的选项添加样式
-      
-      var e=e||window.e;
-      var target=e.target;
-      if(target.tagName=='A'){
-        var btm=document.querySelector('.ihead-bottom')   //每次点击都会给导航栏初始化样式,必需在内部
-        for(var i=0;i<btm.children.length;i++){
-          btm.children[i].style="color: #000;border-bottom: none"
-        };
-        target.style="color: #2693d4;border-bottom: 2px solid #2693d4";
-      }
+    produceOut:function(){
+      this.produce = false;
     }
   }
 }
@@ -79,6 +108,7 @@ export default {
 
 <style scoped lang="less">
 @url:url(../images/homepage/homepage.png) 100% 100% no-repeat;
+
 .ihead{
   width: 100%;
   height: 150px;
@@ -213,25 +243,160 @@ export default {
     width: 100%;
     height: 38px;
     text-align: left;
+    position: relative;
     a{
       font-size: 18px;
       color: #000;
-      padding: 9px 0;
+      padding: 8px 0;
       font-family: '黑体';
       margin: 0 62px;
       text-decoration: none;
       line-height: 38px;
-    }
-    a:nth-child(1){
-      color: #2693d4;
-      border-bottom: 2px solid #2693d4;
-    }
-    a:hover{
-      color: #2693d4;
-      border-bottom: 2px solid #2693d4;
+      &.active{
+        color: #2693d4;border-bottom: 4px solid #2693d4
+      }
     }
   }
 }
+.iheadLogo{
+  width: 30px;
+  height: 100%;
+}
+.allProduce{
+  width: 200px;
+  height: 400px;
+  background: #192b41;
+  position: absolute;
+  left: 0;
+  top: 40px;
+  display: flex;
+  z-index: 10;
+  >div{
+    // display: flex;
+    // width: 90%;
+    // padding: 14px 0 0 10%;
+    p{
+      color: #fff;
+      font-size: 16px;
+      padding: 4px 9px;
+      margin-bottom: 8px;
+    }
+    span{
+      color: #fff;
+      font-size: 14px;
+      padding: 4px 7px;
+      display: inline-block;
+    }
+  }
+  //以下表示每个小块的样式
+  .ihead-finance{
+    height: 0;
+  }
+  .row1{
+    width: 1200px;
+    display: flex;
+    .first{
+      width: 160px;
+      padding: 15px 0 15px 40px;
+    }
+
+    .row2{
+      padding: 0;
+    }
+    .secondtitle{
+      height: 24px;
+      line-height: 24px;
+    }
+    .third-sec{
+      max-width: 900px;
+    }
+    .second{
+      width: 1000px;
+      margin-left: 200px;
+      padding: 12px 0;
+      position: absolute;
+      background: rgba(0,0,255,.5);
+      display: none;
+    }
+    .thrid{
+      width: 1000px;
+      display: flex;
+      align-items: flex-start;
+      background: none;
+      // background: #f9f;
+      .row3{
+        height: 30px;
+        padding: 0;
+      }
+      a{
+        font-size: 13px;
+        color: #fff;
+        padding: 2px 10px;
+        border-left: 1px solid #fff;
+        line-height: 30px;
+        margin: 0;
+      }
+    }
+  }
+  .row1:hover .first{
+    background: #2693d4;
+  }
+  .row1:hover .second{
+    display: block;
+  }
+  .g{   //logo的公共样式
+    width: 30px;
+    height: 30px;
+    display: block;
+    padding: 0;
+    background: @url;
+  }
+  //每个小块的logo
+  .produce-logo{
+    .g;
+    position: absolute;
+    left: 14px;
+    top: 17px;
+    background-position: 0 -64px;
+  }
+  .company-logo{
+    .g;
+    position: absolute;
+    left: 14px;
+    top: 125px;
+    background-position: 0 -100px;
+  }
+  .knows-logo{
+    .g;
+    position: absolute;
+    left: 14px;
+    top: 217px;
+    background-position: 0 -136px;
+  }
+  .social-logo{
+    .g;
+    position: absolute;
+    left: 14px;
+    top: 330px;
+    background-position: 0 -172px;
+  }
+  >div:hover{
+    background: #2693d4;
+  }
+}
+.allProduce{
+  transition: opacity 1;
+}
+.fold-enter-active, .fold-leave-active {
+    transition: opacity .5s;
+}
+.fold-enter{
+  opacity: 0;
+}
+.fold-leave-to {
+   opacity: 0;
+}
+
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
