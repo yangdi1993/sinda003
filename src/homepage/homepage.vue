@@ -6,8 +6,6 @@
         <swiper-slide class="slide-1"><img src="../images/homepage/1.jpg" alt=""></swiper-slide>
         <swiper-slide class="slide-2"><img src="../images/homepage/2.jpg" alt=""></swiper-slide>
         <swiper-slide class="slide-3"><img src="../images/homepage/3.jpg" alt=""></swiper-slide>
-        <swiper-slide class="slide-4"><img src="../images/homepage/4.jpg" alt=""></swiper-slide>
-        <swiper-slide class="slide-5"><img src="../images/homepage/5.jpg" alt=""></swiper-slide>
         <div class="swiper-pagination swiper-pagination-white" slot="pagination"></div>
         <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
         <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
@@ -15,7 +13,6 @@
     </a>
     
   </div>
-  
 </template>
 
 <script>

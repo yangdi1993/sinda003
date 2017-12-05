@@ -70,12 +70,9 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-=======
 var btn=document.querySelector('.iheadbtn')
 // btn.onenter=function(){
   // console.log(123)
->>>>>>> 7c328c2adf07cffde92de6075f51dd67fa578865
 // }
 export default {
   name: 'HelloWorld',
