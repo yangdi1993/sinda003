@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="aaapp">
     <div class="memCenBg">
       <div class="memCenDiv">
         <!-- 左侧边栏 -->
@@ -60,9 +60,22 @@
             <li>订单操作</li>
           </ul>
           <!-- 订单插入 -->
-          <div class="orderInsert">
-            <!-- <div>1</div> -->
-
+          <div id='orderInsert' v-for="item in orderlist" :key="item.cardTypeName">
+              <table class="orderInTa">
+                <th class="orderInTh">
+                  <td class="orderInThTdO">{{item.name1}}</td>
+                  <td class="orderInThTdTw">{{item.name2}}</td>
+                </th>
+                <tr class="orderInTr">
+                  <td class="orderInTrTdO">{{item.name3}}</td>
+                  <td class="orderInTrTdTw">{{item.name4}}</td>
+                  <td class="orderInTrTdTh">{{item.name5}}</td>
+                  <td class="orderInTrTdFo">{{item.name6}}</td>
+                  <td class="orderInTrTdFi">{{item.name7}}</td>
+                  <td class="orderInTrTdSi">{{item.name8}}</td>
+                  <td class="orderInTrTdSe">{{item.name9}}</td>
+                </tr>
+              </table>  
           </div>
           <!-- 翻页 -->
   
@@ -80,21 +93,24 @@ export default {
   data(){
     return{
       // ordDeLoad:'',
+      orderlist:[{name:'first'},{name:'second'},{name:'third'}]
     }
   },
   created(){
-      var ordDetForm = document.createElement('div');
-      console.log(ordDetForm); 
-      var orderInsert = document.getElementsByClassName('orderInsert')[0];
-      console.log(orderInsert);
-      ordDetForm.style = {
-        border: '1px solid red',
-        width: '934px',
-        height: '80px',
-        marginTop: '12px'
-      };
-      orderInsert.appendChild(ordDetForm);
-      console.log(79);
+      // var ordDetForm = document.createElement('div');
+      // console.log(ordDetForm); 
+      var orderInsert = document.getElementById('orderInsert');
+      console.log('orderInsert==',orderInsert);
+      // var orderInsert = document.querySelector('div');
+      // console.log(orderInsert);
+      // ordDetForm.style = {
+      //   border: '1px solid red',
+      //   width: '934px',
+      //   height: '80px',
+      //   marginTop: '12px'
+      // };
+      // orderInsert.appendChild(ordDetForm);
+      // console.log(79);
   },
   methods:{
     
@@ -335,6 +351,74 @@ export default {
 // 翻页 
 
 // }
+// 订单插入
+.orderInTa{
+  width: 935px;
+  height: 108px;
+  // margin-left: 10px;
+  margin-top: 10px;
+  border: 1px solid #e8e8e8;
+  .orderInTh{
+    width: 935px;
+    height: 37px;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #e8e8e8;
+    // .orderInThTdO{
+    //   width: 193px;
+    //   height: 37px;
+    //   background-color: yellow;
+    // }
+    // .orderInThTdTw{
+    //   width: 222px;
+    //   height: 37px;
+    //   background-color: pink;
+    // }
+  }
+  .orderInTr{
+    width: 933px;
+    height: 68px;
+    background-color: greenyellow;
+    .orderInTrTdO{
+      width: 72px;
+      height: 68px;
+      background-color: red;
+    }
+    .orderInTrTdTw{
+      width: 122px;
+      height: 68px;
+      background-color: purple;
+    }
+    .orderInTrTdTh{
+      width: 222px;
+      height: 68px;
+      background-color: red;
+      border-right: 1px solid #e8e8e8; 
+    }
+    .orderInTrTdFo{
+      width: 118px;
+      height: 68px;
+      background-color: purple;
+      border-right: 1px solid #e8e8e8; 
+    }
+    .orderInTrTdFi{
+      width: 139px;
+      height: 68px;
+      background-color: red;
+      border-right: 1px solid #e8e8e8; 
+    }
+    .orderInTrTdSi{
+      width: 143px;
+      height: 68px;
+      background-color: purple;
+      border-right: 1px solid #e8e8e8; 
+    }
+    .orderInTrTdSe{
+      width: 119px;
+      height: 68px;
+      background-color: red;
+    }
+  }
+}
 </style>
 
 
