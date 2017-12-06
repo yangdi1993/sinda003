@@ -9,7 +9,7 @@
       <div class="top-right">
         <a href="javascript:void(0)" class="top-cart">
           <span class="logo-cart"></span>
-          <span>购物车<span class="number">0</span>件</span>
+          <span>购物车<span class="number">{{getNum}}</span>件</span>
         </a>
         <a href="#/outter/myOrder" class="top-order">
           <span class="logo-order"></span>
@@ -22,12 +22,16 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
   name: 'HelloWorld',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  computed:{
+    ...mapGetters(['getNum'])
   }
 }
 </script>

@@ -37,6 +37,7 @@
           <div class="myOrderHead">
             <a href="#/accountSetting"><p >账户设置</p></a>
             <a href="#/changePw"><p>修改密码</p></a>
+            <!--<router-link to='changePw' replace>账户设置</router-link>-->
           </div>
           <ul class="settings">
             <li class="photo">
@@ -54,7 +55,8 @@
             </li>
             <li class="email">
               <p>邮箱：</p>
-              <input type="text" placeholder="请输入邮箱">
+              <input type="text" placeholder="请输入邮箱" v-model="email" v-on:blur="emailBlur"v-on:focus="emailFocus">
+              <span>*</span>
             </li>
             <li  class="select">
               <p>所在地区：</p>
@@ -72,9 +74,36 @@
 <script>
 import ihead from '../components/ihead'
 export default {
-  // data () {
+  data () {
+    return{
+      email:'',
+    }
+  },
+  methods:{
+    emailBlur:function(){
+      var emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
+      var emailSpan = document.querySelector('.email span');
+      var emailValue = this.email;
+      if(emailValue==''){
+        emailSpan.innerHTML = "邮箱不能为空";
+        emailSpan.style.color = "red";
+      }else if(emailReg.test(emailValue)){
+        console.log(emailValue);
+        emailSpan.innerHTML = "✔";
+        emailSpan.style.color = "green";
+      }else{
+        emailSpan.innerHTML = "邮箱格式错误";
+        emailSpan.style.color = "red";
+      }
+    },
+    emailFocus:function(){
+      var emailSpan = document.querySelector('.email span');
+      emailSpan.innerHTML = "*";
+      emailSpan.style.color = "red";
+      
+    },
+  }
 
-  // },
 }
 </script>
 
@@ -272,6 +301,13 @@ li {
   .email input {
     width: 180px;
     height: 23px;
+  }
+  .email{
+    span{
+      font-size: 11px;
+      color:red;
+      margin: 5px;
+    }
   }
   .gender{
     span{
