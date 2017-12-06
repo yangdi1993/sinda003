@@ -3,12 +3,11 @@
     <!--小导航-->
     <div class="outBox">
       <div class="r-header">
-      <div class="r-logo"></div>
-      <p>欢迎注册</p>
-    </div>
+        <div class="r-logo"></div>
+        <p>欢迎注册</p>
+      </div>
     </div>
 
-    
     <!--内容-->
     <div class="r-content">
       <!--注册操作界面-->
@@ -17,7 +16,8 @@
           <span>*</span>
         </li>
         <li class="code-img"><input type="text" placeholder="请输入验证码" v-on:blur="codeImgBlur" v-on:focus="codeImgFocus" v-model="codeImgVal">
-          <img src="http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode" alt="">
+          <!--<img src="http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode" alt="">-->
+          <img :src="imgUrl" alt="">
           <button v-on:click="buttonChange">看不清？换一张</button>
           <span>*</span>
         </li>
@@ -30,7 +30,9 @@
           <v-distpicker class="select" v-on:change="selChange" province="省" city="市" area="区"></v-distpicker>
           <span>*</span>
         </li>
-        <li class="pw"><input type="password" placeholder="请设置密码" v-model="pwVal" v-on:blur="codePwBlur" v-on:focus="codePwFocus">
+        <li class="pw">
+          <input type="password" placeholder="请设置密码" v-model="pwVal" v-on:blur="codePwBlur" v-on:focus="codePwFocus">
+          <a href="javascript:void(0)">密码由6-16位数字和字母组成</a>
           <span>*</span>
         </li>
         <li class="registerBut">
@@ -63,6 +65,8 @@
 
 
 <script>
+import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'HelloWorld',
   data() {
@@ -71,6 +75,7 @@ export default {
       codeImgVal: '',
       codePhoneVal: '',
       pwVal: '',
+      imgUrl: '/xinda-api/ajaxAuthcode',
       msg: 'Welcome to Your Vue.js App',
     }
   },
@@ -78,22 +83,23 @@ export default {
     //手机号只能输入数字
     phoneKeyup: function() {
       this.phoneVal = this.phoneVal.replace(/\D/g, '');
-      console.log(this.phoneVal);
+      // console.log(this.phoneVal);
     },
+    // created(){
 
-    // 手机号验证失去焦点事件
+    // },
+    // 手机号焦点事件
     phoneBlur: function() {
+      // this.setNum(0);
       var phoneReg = /^1[3578]\d{9}$/;
-      // let result = phoneReg.test(this.phoneVal);
-      // console.log(this.phoneVal)
       var phoneSpan = document.querySelector('.phone span');
+      var buttonGet = document.querySelector('.code-phone button');
       // var phoneReg = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
       var phoneValue = this.phoneVal;
       if (phoneValue == '') {
         phoneSpan.innerHTML = '电话号码不能为空';
         phoneSpan.style.color = 'red';
       } else if (phoneReg.test(phoneValue)) {
-        phoneSpan.innerHTML = '*';
         phoneSpan.innerHTML = '✔';
         phoneSpan.style.color = 'green';
       } else {
@@ -101,12 +107,20 @@ export default {
         phoneSpan.style.color = 'red';
       }
     },
-    // 手机号验证获得焦点事件
     phoneFocus: function() {
       var phoneSpan = document.querySelector('.phone span');
+      var button = document.querySelector('.code-phone button');
       phoneSpan.innerHTML = '*';
       phoneSpan.style.color = 'red';
+      //已经开始倒计时则按钮不可用
+      if(button.innerHTML=='点击获取'){
+        button.disabled = false;
+        button.style.background = '#fff';
+        console.log('nonooo')
+      }
     },
+
+
 
 
     //图片验证码
@@ -116,18 +130,24 @@ export default {
       if (codeImgValue == '') {
         codeSpan.innerHTML = '验证码不能为空';
         codeSpan.style.color = 'red';
+      } else if (/^(\d|[a-z]){4}$/.test(codeImgValue)) {
+        codeSpan.innerHTML = '✔';
+        codeSpan.style.color = 'green';
+      } else {
+        codeSpan.innerHTML = '验证码格式错误';
+        codeSpan.style.color = 'red';
       }
     },
     codeImgFocus: function() {
       var codeSpan = document.querySelector('.code-img span');
       codeSpan.innerHTML = '*';
       codeSpan.style.color = 'red';
-
     },
     //点击更换图片验证码
     buttonChange: function() {
       var codeImage = document.querySelector('.code-img img');
-      codeImage.src = 'http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode';
+      // codeImage.src = 'http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode';
+      this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
     },
 
 
@@ -139,6 +159,12 @@ export default {
       if (codePhoneValue == '') {
         codePhoneSpan.innerHTML = '验证码不能为空';
         codePhoneSpan.style.color = 'red';
+      } else if (codePhoneValue == 111111) {
+        codePhoneSpan.innerHTML = '✔';
+        codePhoneSpan.style.color = 'green';
+      } else {
+        codePhoneSpan.innerHTML = '验证码不正确';
+        codePhoneSpan.style.color = 'red';
       }
     },
     codePhoneFocus: function() {
@@ -149,13 +175,20 @@ export default {
 
 
 
-    //动态验证码
+    //密码证码
     codePwBlur: function() {
       var pwValSpan = document.querySelector('.pw span');
       var pwValue = this.pwVal;
+      var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
       if (pwValue == '') {
-        pwValSpan.innerHTML = '验证码不能为空';
-        pwValSpan.style.color = 'red';
+        pwValSpan.innerHTML = "密码不能为空";
+        pwValSpan.style.color = "red";
+      } else if (newPwReg.test(pwValue)) {
+        pwValSpan.innerHTML = "✔";
+        pwValSpan.style.color = "green";
+      } else {
+        pwValSpan.innerHTML = "密码格式错误";
+        pwValSpan.style.color = "red";
       }
     },
     codePwFocus: function() {
@@ -169,32 +202,32 @@ export default {
     buttonGet: function() {
       var count = 60;
       var button = document.querySelector('.code-phone button');
-      button.disabled = true;
-      button.style.background = '#ddd';
-      button.innerHTML = '重新获取'+count;
-      var dic = setInterval(function(){
-        count--;
-        button.innerHTML = '重新获取'+count;
-        if(count==1){
-          clearInterval(dic);
-          button.style.background = '#fff';
-          button.innerHTML = '点击获取';
-          button.disabled = false;
-        }
-      },1000);
-
-      // created(){
-      //   var that = this;//then 的function的this不指向
-      //   //then第一个函数成功回调函数
-      //   this.ajax.post('http://blog.sina.com.cn/s/blog_95153c710102viow.html').then(function(data) {
-      //     // var rData = data.data.data;
-      //     console.log(data);
-      //     // that.products = rData;
-      //   })  
-      // } 
-
+      var phoneSpan = document.querySelector('.phone span');
+      if (/^1[3578]\d{9}$/.test(this.phoneVal)) {
+        button.disabled = true;
+        button.style.background = '#ddd';
+        button.innerHTML = '重新获取' + count;
+        var dic = setInterval(function() {
+          count--;
+          button.innerHTML = '重新获取' + count;
+          if (count == 1) {
+            clearInterval(dic);
+            button.style.background = '#fff';
+            button.innerHTML = '点击获取';
+            button.disabled = false;
+          }
+        }, 1000);
+        this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
+          console.log(data);
+        })
+      } else {
+        button.disabled = true;
+        button.style.background = '#ddd';
+        phoneSpan.innerHTML = '请输入正确的手机号';
+        phoneSpan.style.color = 'red';
+      }
     },
-    selChange:function(){
+    selChange: function() {
       // console.log(province)
     },
   }
@@ -218,14 +251,12 @@ li {
 .r-outter {
   margin: 0 auto; // background: #f5f5f5;
   // width: 1200px; // 小导航
-  .outBox{
+  .outBox {
     background: #fff;
   }
   .r-header {
-    margin-bottom: 52px;
-    // margin: 0 auto;
-    background: #fff;
-    // padding-left: 200px;
+    margin-bottom: 52px; // margin: 0 auto;
+    background: #fff; // padding-left: 200px;
     padding-left: 12.5%;
     display: flex;
     width: 1200px;
@@ -251,8 +282,7 @@ li {
     background: #fff;
     width: 1200px;
     height: 436px;
-    display: flex; 
-    // 左侧操作
+    display: flex; // 左侧操作
     .r-operate {
       text-align: left;
       margin: 53px 19px 0 147px;
@@ -274,10 +304,10 @@ li {
         border-radius: 3px;
         border: 1px solid #cbcbcb;
         outline: 0;
-      } 
-      .android-wheel{
+      }
+      .android-wheel {
         display: flex;
-        select{
+        select {
           margin-right: 5px;
           padding: 0 0 0 5px;
           font-size: 12px;
@@ -287,7 +317,7 @@ li {
           border: 1px solid #cbcbcb;
           outline: 0;
         }
-        span{
+        span {
           margin: 10px 0 0 5px;
         }
       }
@@ -297,6 +327,16 @@ li {
       .phone input,
       .pw input {
         width: 255px;
+      }
+      .pw {
+        position: relative;
+        a {
+          position: absolute;
+          margin: 37px 0 0 -285px;
+          font-size: 11px;
+          text-decoration: none;
+          color: #aaa;
+        }
       }
       .registerBut button {
         width: 281px;
