@@ -11,7 +11,7 @@ import login from '@/views/login'
 import register from '@/views/register'
 import forget from '@/views/forget'
 import homepage from '@/homepage/homepage'
-
+//支付页面
 import paypage from '@/paypage/paypage'
 //支付失败
 import payFalse from '@/paypage/payFalse'
@@ -23,7 +23,6 @@ import Alipay from '@/paypage/Alipay'
 import cart from '@/paypage/cart'
 //商品详情页面
 import Detail from '@/paypage/Detail'
-
 // 会员中心-我的订单
 import myOrder from '@/memberCenter/myOrder'
 // 会员中心-用户评价-未评价

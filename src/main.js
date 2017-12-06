@@ -3,8 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import store from './store'
 import axios from 'axios'
+import store from './store'
 import qs from 'qs'
 //轮播部分插件引入
 import VueAwesomeSwiper from 'vue-awesome-swiper'
