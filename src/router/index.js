@@ -21,7 +21,6 @@ import payTrue from '@/paypage/payTrue'
 import Alipay from '@/paypage/Alipay'
 //购物车页面
 import cart from '@/paypage/cart'
-//<<<<<<< HEAD
 //商品详情页面
 import Detail from '@/paypage/Detail'
 

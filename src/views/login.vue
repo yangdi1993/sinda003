@@ -1,9 +1,11 @@
 <template>
   <div class="r-outter">
     <!--小导航-->
-    <div class="r-header">
-      <div class="r-logo"></div>
-      <p>欢迎登陆</p>
+    <div class="outBox">
+      <div class="r-header">
+        <a href="/#/inner/homepage"><div class="r-logo"></div></a>
+        <p>欢迎登陆</p>
+      </div>
     </div>
     <!--内容-->
     <div class="r-content">
@@ -139,11 +141,13 @@ li {
 .r-outter {
   margin: 0 auto; // background: #f5f5f5;
   // width: 1200px;
-  .r-header {
-    margin-bottom: 52px;
+  .outBox{
     background: #fff;
-    padding-left: 200px;
-    display: flex; // width: 1200px;
+  }
+  .r-header {
+    margin: 0 auto 52px;
+    display: flex; 
+    width: 1200px;
     height: 97px;
     overflow: hidden;
     .r-logo {

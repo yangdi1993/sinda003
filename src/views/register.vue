@@ -3,7 +3,9 @@
     <!--小导航-->
     <div class="outBox">
       <div class="r-header">
-        <div class="r-logo"></div>
+        <a href="/#/inner/homepage">
+          <div class="r-logo"></div>
+        </a>
         <p>欢迎注册</p>
       </div>
     </div>
@@ -27,7 +29,7 @@
           <span>*</span>
         </li>
         <li class="android-wheel">
-          <v-distpicker class="select" v-on:change="selChange" province="省" city="市" area="区"></v-distpicker>
+          <v-distpicker class="select" province="省" city="市" area="区"></v-distpicker>
           <span>*</span>
         </li>
         <li class="pw">
@@ -36,21 +38,19 @@
           <span>*</span>
         </li>
         <li class="registerBut">
-          <button>立即注册</button>
+          <button @click="register">立即注册</button>
         </li>
         <li>
           <p>注册即同意遵守
-            <span>《服务协议》</span>
+            <a href="javascript:void(0)">《服务协议》</a>
           </p>
         </li>
-
       </ul>
       <!--跳转登录界面-->
       <div class="r-goto">
         <p>已有账号?</p>
         <div>
           <a href="#/outter/login">立即登录>></a>
-
         </div>
       </div>
     </div>
@@ -85,9 +85,6 @@ export default {
       this.phoneVal = this.phoneVal.replace(/\D/g, '');
       // console.log(this.phoneVal);
     },
-    // created(){
-
-    // },
     // 手机号焦点事件
     phoneBlur: function() {
       // this.setNum(0);
@@ -113,10 +110,9 @@ export default {
       phoneSpan.innerHTML = '*';
       phoneSpan.style.color = 'red';
       //已经开始倒计时则按钮不可用
-      if(button.innerHTML=='点击获取'){
+      if (button.innerHTML == '点击获取') {
         button.disabled = false;
         button.style.background = '#fff';
-        console.log('nonooo')
       }
     },
 
@@ -202,11 +198,16 @@ export default {
     buttonGet: function() {
       var count = 60;
       var button = document.querySelector('.code-phone button');
+      var codeSpan = document.querySelector('.code-img span');
       var phoneSpan = document.querySelector('.phone span');
-      if (/^1[3578]\d{9}$/.test(this.phoneVal)) {
-        button.disabled = true;
+      if (this.phoneVal == '') {
+        phoneSpan.innerHTML = '手机号不能为空';
+        phoneSpan.style.color = 'red';
+      }
+      if (/^1[3578]\d{9}$/.test(this.phoneVal) && this.codeImgVal != '') {
         button.style.background = '#ddd';
         button.innerHTML = '重新获取' + count;
+        button.disabled = true;
         var dic = setInterval(function() {
           count--;
           button.innerHTML = '重新获取' + count;
@@ -220,15 +221,34 @@ export default {
         this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
           console.log(data);
         })
+      } else if (this.codeImgVal == '') {
+        codeSpan.innerHTML = '验证码不能为空';
+        codeSpan.style.color = 'red';
+        button.disabled = true;
+        button.style.background = '#ddd';
       } else {
         button.disabled = true;
         button.style.background = '#ddd';
         phoneSpan.innerHTML = '请输入正确的手机号';
         phoneSpan.style.color = 'red';
       }
+
     },
-    selChange: function() {
-      // console.log(province)
+    // selChange: function() {
+    //   // console.log(province)
+    // },
+
+
+
+    //注册按钮
+    register: function() {
+      // phoneVal: '',
+      // codeImgVal: '',
+      // codePhoneVal: '',
+      // pwVal: '',
+      var md5 = require('md5');
+      console.log(md5(this.phoneVal))
+     var arr =  [];
     },
   }
 }
@@ -255,9 +275,8 @@ li {
     background: #fff;
   }
   .r-header {
-    margin-bottom: 52px; // margin: 0 auto;
-    background: #fff; // padding-left: 200px;
-    padding-left: 12.5%;
+    margin: 0 auto 52px;
+    background: #fff;
     display: flex;
     width: 1200px;
     height: 97px;
@@ -394,8 +413,9 @@ li {
         margin-left: -150px;
         font-size: 13px;
         text-align: center;
-        span {
+        a {
           color: #2693d6;
+          text-decoration: none;
         }
       }
     }
