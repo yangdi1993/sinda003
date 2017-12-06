@@ -6,11 +6,17 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 <<<<<<< HEAD
-import qs from 'qs'
+import store from './store'
 =======
 <<<<<<< HEAD
 import qs from 'qs'
 =======
+<<<<<<< HEAD
+<<<<<<< HEAD
+import qs from 'qs'
+=======
+=======
+>>>>>>> 6796734ae4cca147560e1962349778e3682963d7
 >>>>>>> eae1b3c9231c7d3f6cf88637cc53ef87ca6dd034
 //轮播部分插件引入
 import VueAwesomeSwiper from 'vue-awesome-swiper'
@@ -30,25 +36,5 @@ new Vue({
   components: { App }
 })
 
-// console.log('hello world')
-// var promise=new Promise(function(resolve,reject){
-//   console.log(1);
-//   resolve();
-//   console.log(2);
-// });
-// promise.then(function(){
-//   console.log(3);
-// });
-// console.log(4)
 
-// setTimeout(() => {
-//   console.log(11)
-// }, 100);
-// console.log(22)
-
-
-
-// import a,{b,c} from './mode.js'
-// console.log(a,b,c)
-// console.log(...([12,34,56],[123,234]))
 
