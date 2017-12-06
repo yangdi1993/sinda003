@@ -11,18 +11,7 @@ import login from '@/views/login'
 import register from '@/views/register'
 import forget from '@/views/forget'
 import homepage from '@/homepage/homepage'
-<<<<<<< HEAD
-//<<<<<<< HEAD
-//<<<<<<< HEAD
-//import shop from '@/shop/shop'
-//支付页面
-//=======
-// <<<<<<< HEAD
-// import shop from '@/shop/shop'
-//>>>>>>> 5d72007d1078c9242209ccd48514522cd35883be
-=======
 
->>>>>>> 806540f1c096256d20d5c0a8a16ca642c8a962be
 import paypage from '@/paypage/paypage'
 //支付失败
 import payFalse from '@/paypage/payFalse'
@@ -35,10 +24,7 @@ import cart from '@/paypage/cart'
 //<<<<<<< HEAD
 //商品详情页面
 import Detail from '@/paypage/Detail'
-//=======
-//=======
-// =======
-//>>>>>>> 5d72007d1078c9242209ccd48514522cd35883be
+
 // 会员中心-我的订单
 import myOrder from '@/memberCenter/myOrder'
 // 会员中心-用户评价-未评价
@@ -58,24 +44,12 @@ import join from '@/shop/join'
 // 会员中心-用户评价-去评价
 import goEvalu from '@/memberCenter/goEvalu'
 
-<<<<<<< HEAD
-//<<<<<<< HEAD
-//>>>>>>> 1c25a8c87826b54abfbbdc3741338030efe740e2
-//=======
-// >>>>>>> 1c25a8c87826b54abfbbdc3741338030efe740e2
-=======
-
-<<<<<<< HEAD
 //省市区三级联动
 Vue.component('v-distpicker', Distpicker)
-=======
->>>>>>> 806540f1c096256d20d5c0a8a16ca642c8a962be
 
 //省市区三级联动
 Vue.component('v-distpicker', Distpicker)
 
-//>>>>>>> 5d72007d1078c9242209ccd48514522cd35883be
->>>>>>> eae1b3c9231c7d3f6cf88637cc53ef87ca6dd034
 Vue.use(Router)
 
 export default new Router({

@@ -5,23 +5,10 @@ import App from './App'
 import router from './router'
 import store from './store'
 import axios from 'axios'
-<<<<<<< HEAD
-import store from './store'
-=======
-<<<<<<< HEAD
 import qs from 'qs'
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-import qs from 'qs'
-=======
-=======
->>>>>>> 6796734ae4cca147560e1962349778e3682963d7
->>>>>>> eae1b3c9231c7d3f6cf88637cc53ef87ca6dd034
 //轮播部分插件引入
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 Vue.use(VueAwesomeSwiper)
->>>>>>> 806540f1c096256d20d5c0a8a16ca642c8a962be
 
 Vue.prototype.ajax=axios
 Vue.prototype.qs=qs

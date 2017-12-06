@@ -11,19 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-<<<<<<< HEAD
       // 动态代理，配置后重启服务有效
       '/xinda-api/':{
           target:"http://115.182.107.203:8088/xinda",
           changeOrigin: true,
         }
-=======
-      '/xinda-api/': {
-        target: "http://115.182.107.203:8088/xinda",
-        changeOrigin: true,
-      }
-
->>>>>>> eae1b3c9231c7d3f6cf88637cc53ef87ca6dd034
     },
 
     // Various Dev Server settings
