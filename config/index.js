@@ -10,7 +10,13 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      // 动态代理，配置后重启服务有效
+      '/xinda-api/':{
+          target:"http://115.182.107.203:8088/xinda",
+          changeOrigin: true,
+        }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

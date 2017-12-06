@@ -3,15 +3,15 @@
     <div class="top-in">
       <div class="top-left">
         <span class="welcome">欢迎来到信达！</span>
-        <a href="javascript:void(0)" class="top-login">登录</a>
-        <a href="javascript:void(0)" class="top-register">快速注册</a>
+        <a href="#/outter/login" class="top-login">登录</a>
+        <a href="#/outter/register" class="top-register">快速注册</a>
       </div>
       <div class="top-right">
         <a href="javascript:void(0)" class="top-cart">
           <span class="logo-cart"></span>
-          <span>购物车<span class="number">0</span>件</span>
+          <span>购物车<span class="number">{{getNum}}</span>件</span>
         </a>
-        <a href="javascript:void(0)" class="top-order">
+        <a href="#/outter/myOrder" class="top-order">
           <span class="logo-order"></span>
           <span>我的订单</span>
         </a>
@@ -22,12 +22,16 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
   name: 'HelloWorld',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  computed:{
+    ...mapGetters(['getNum'])
   }
 }
 </script>
