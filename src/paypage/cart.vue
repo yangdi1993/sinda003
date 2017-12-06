@@ -25,17 +25,113 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <p>店铺：<span>哈哈哈哈啊哈哈</span></p>
+                    <p>店铺：
+                        <span>哈哈哈哈啊哈哈</span>
+                    </p>
                     <tr>
-                        <td></td>
+                        <td><img src="" alt="">哈哈哈哈</td>
                         <td>代理记账</td>
                         <td>￥1200</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <button>-</button><input type="text" value=1>
+                            <button>+</button>
+                        </td>
+                        <td class="zjia">￥1200</td>
+                        <td class="dele">
+                            <div>删除</div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
+            <div class="tomoney">
+                <div class="total">金额总计：
+                    <p class="">￥800.00</p>
+                </div>
+                <div class="continue">继续购物</div>
+                <div class="balance">去结算</div>
+            </div>
+            <div class="hotservice">
+                <div>
+                    <p>热门服务
+                    </p>
+                </div>
+                <div class="service">
+                    <div class="fir">
+                        <p>商品快速注册通道（5个小时快速注册）</p>
+                    </div>
+                    <div class="bg-img"></div>
+                    <div class="sec">
+                        <p>工作日内5个小时提交申报，次日拿到</p>
+                    </div>
+                    <div class="thd">
+                        <p>销量：</p>
+                    </div>
+                    <div class="four">
+                        <p>￥1200.00</p>
+                    </div>
+                    <div class="fifth">
+                        <p>原价：￥1400.00</p>
+                    </div>
+                    <div class="check">查看详情>>></div>
+                </div>
+                <div class="service">
+                    <div class="fir">
+                        <p>商品快速注册通道（5个小时快速注册）</p>
+                    </div>
+                    <div class="bg-img"></div>
+                    <div class="sec">
+                        <p>工作日内5个小时提交申报，次日拿到</p>
+                    </div>
+                    <div class="thd">
+                        <p>销量：</p>
+                    </div>
+                    <div class="four">
+                        <p>￥1200.00</p>
+                    </div>
+                    <div class="fifth">
+                        <p>原价：￥1400.00</p>
+                    </div>
+                    <div class="check">查看详情>>></div>
+                </div>
+                <div class="service">
+                    <div class="fir">
+                        <p>商品快速注册通道（5个小时快速注册）</p>
+                    </div>
+                    <div class="bg-img"></div>
+                    <div class="sec">
+                        <p>工作日内5个小时提交申报，次日拿到</p>
+                    </div>
+                    <div class="thd">
+                        <p>销量：</p>
+                    </div>
+                    <div class="four">
+                        <p>￥1200.00</p>
+                    </div>
+                    <div class="fifth">
+                        <p>原价：￥1400.00</p>
+                    </div>
+                    <div class="check">查看详情>>></div>
+                </div>
+                <div class="service">
+                    <div class="fir">
+                        <p>商品快速注册通道（5个小时快速注册）</p>
+                    </div>
+                    <div class="bg-img"></div>
+                    <div class="sec">
+                        <p>工作日内5个小时提交申报，次日拿到</p>
+                    </div>
+                    <div class="thd">
+                        <p>销量：</p>
+                    </div>
+                    <div class="four">
+                        <p>￥1200.00</p>
+                    </div>
+                    <div class="fifth">
+                        <p>原价：￥1400.00</p>
+                    </div>
+                    <div class="check">查看详情>>></div>
+                </div>
+            </div>
         </div>
         <router-view/>
     </div>
@@ -55,7 +151,7 @@ export default {
 <style scoped lang="less">
 .pay-content {
   width: 1200px;
-  height: 1155px;
+  height: 650px;
   background: white;
   margin: 0 auto;
   overflow: hidden;
@@ -81,18 +177,158 @@ export default {
     margin-bottom: 10px;
   }
 }
-table{
-   width: 1200px;
+table {
+  width: 1200px;
 }
-thead{
+thead {
+  width: 1200px;
+  tr {
+    line-height: 55px;
     width: 1200px;
-    tr{
-        line-height: 55px;
-        width: 1100px;
-        margin-left: 50px;
-        color: #686868;
-        display: flex;
-        justify-content: space-between;
+    //margin-left: 50px;
+    color: #686868;
+    display: flex;
+    justify-content: space-around;
+  }
+}
+tbody {
+  width: 1200px;
+  p {
+    color: #686868;
+    margin-right: 1000px;
+    line-height: 40px;
+  }
+  tr {
+    background-color: #f7f7f7;
+    line-height: 55px;
+    width: 1200px;
+    //margin-left: 50px;
+    color: #686868;
+    display: flex;
+    justify-content: space-around;
+    button {
+      width: 18px;
+      background-color: #bcbdbd;
     }
+    input {
+      width: 33px;
+      outline: none;
+    }
+    .dele {
+      cursor: pointer;
+    }
+  }
+}
+.zjia {
+  color: #71afdd;
+}
+.tomoney {
+  margin-top: 25px;
+}
+.total {
+  font-size: 13px;
+  color: #686868;
+  margin-left: 980px;
+  p {
+    color: #2693d4;
+    font-size: 20px;
+    font-weight: bold;
+    display: inline;
+  }
+}
+.continue {
+  width: 100px;
+  line-height: 26px;
+  border: 1px solid #2693d4;
+  color: #2693d4;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-left: 950px;
+}
+.balance {
+  width: 100px;
+  line-height: 26px;
+  border: 1px solid #2693d4;
+  color: #2693d4;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-left: 1070px;
+  margin-top: -28px;
+}
+.hotservice {
+  width: 100%;
+  border-bottom: 1px solid #bcbdbd;
+  margin-top: 25px;
+  p {
+    color: #74b2df;
+    width: 150px;
+    font-size: 16px;
+    margin-right: 1115px;
+    margin-bottom: 10px;
+  }
+}
+.service {
+  margin-top: 34px;
+  width: 265px;
+  height: 189px;
+  border: 1px solid #b6b6b6;
+  float: left;
+  margin-left: 25px;
+  text-align: left;
+  div {
+    margin-left: 10px;
+  }
+  .fir {
+    margin-top: 20px;
+    p {
+      font-size: 17px;
+      color: #676767;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 230px;
+    }
+  }
+  .sec {
+    p {
+      font-size: 14px;
+      color: #676767;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  .thd {
+      p{
+        color: #676767;
+      }
+  }
+  .four{
+      p{
+        color: #2693d4;
+        font-size: 30px;
+        font-weight: bold;
+      }
+  }
+  
+  .bg-img{
+      width: 200px;
+      height: 6px;
+      background: url(../images/paypage/Sprites.png) no-repeat;
+      background-position: -219px -488px;
+      margin-bottom: 10px;
+  }
+  .fifth{
+      p{
+          color: #676767;
+          
+      }
+  }
+  .check{
+      float: right;
+      cursor: pointer;
+      color: #2693d4;
+      margin-top: -28px;
+  }
 }
 </style>

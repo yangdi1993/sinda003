@@ -39,7 +39,7 @@ export default {
 <style scoped lang="less">
 .pay-content {
   width: 1200px;
-  height: 1155px;
+  height: 550px;
   background: white;
   margin: 0 auto;
   overflow: hidden;
