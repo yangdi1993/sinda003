@@ -1,64 +1,76 @@
 <template>
-    <div class="pay">
-        <div class="pay-content">
-            <div class="pay-top">
-                <p>首页/
-                    <span>购物车</span>
-                </p>
-            </div>
-            <div class="content">
-                <div class="g-img"><img src="../images/paypage/u1182.png" alt=""></div>
-                <div class="main">
-                    <div>
-                        <p class="name">代理记账（半年）</p>
-                    </div>
-                    <div>
-                        <p class="mingxi">6个月小规模企业代理记账业务</p>
-                    </div>
-                    <div class="rate">
-                        <p>市场价：
-                            <span class="line-through ">￥900</span>
-                        </p>
-                        <p>价格：
-                            <span class="price">￥800.00</span>元</p>
-                    </div>
-                    <div class="types">类型：
-                        <div class="type fir">代理记账（半年）</div>
-                        <div class="type sec">代理记账+取票+取银行回单（半年）</div>
-                        <div class="type thd">小规模记账（一年）</div>
-                    </div>
-                    <div class="area">
-                        <p>地区：
-                            <span class="place">北京-北京市-朝阳区</span>
-                        </p>
-                    </div>
-                    <div class="number">购买数量：
-                        <input type="text" v-model="quantity" v-on:blur="counts" >
-                    </div>
-                    <div class="buy">立即购买</div>
-                    <div class="add">加入购物车</div>
-                </div>
-                <div class="service">
-                    <p class="fir">顶级服务商</p>
-                    <p class="sec">北京信达服务中心</p>
-                    <div class="consult">马上咨询</div>
-                    <div class="search">
-                        <div>查看服务商</div>
-                    </div>
-                </div>
-                <div class="bg-img"><img src="../images/paypage/u1225.png" alt=""></div>
-                <div class="proservice">
-                    <div class="kuang">
-                        <div class="touch fir">服务内容</div>
-                        <div class="touch sec">商品评价</div>
-                        <div class="serviceCon"></div>
-                        <div class="userRating"></div>
-                    </div>
-                </div>
-            </div>
+  <div class="pay">
+    <div class="pay-content">
+      <div class="pay-top">
+        <p>首页/
+          <span>购物车</span>
+        </p>
+      </div>
+      <div class="content">
+        <div class="g-img"><img src="../images/paypage/u1182.png" alt=""></div>
+        <div class="main">
+          <div>
+            <p class="name">代理记账（半年）</p>
+          </div>
+          <div>
+            <p class="mingxi">6个月小规模企业代理记账业务</p>
+          </div>
+          <div class="rate">
+            <p>市场价：
+              <span class="line-through ">￥900</span>
+            </p>
+            <p>价格：
+              <span class="price">￥800.00</span>元</p>
+          </div>
+          <div class="types">类型：
+            <div class="type fir">代理记账（半年）</div>
+            <div class="type sec">代理记账+取票+取银行回单（半年）</div>
+            <div class="type thd">小规模记账（一年）</div>
+          </div>
+          <div class="area">
+            <p>地区：
+              <span class="place">北京-北京市-朝阳区</span>
+            </p>
+          </div>
+          <div class="number">购买数量：
+            <input type="text" v-model="quantity" v-on:blur="counts">
+          </div>
+          <div class="buy">立即购买</div>
+          <div class="add">加入购物车</div>
         </div>
-        <router-view/>
+        <div class="service">
+          <p class="fir">顶级服务商</p>
+          <p class="sec">北京信达服务中心</p>
+          <div class="consult">马上咨询</div>
+          <div class="search">
+            <div>查看服务商</div>
+          </div>
+        </div>
+        <div class="bg-img"><img src="../images/paypage/u1225.png" alt=""></div>
+        <div class="proservice">
+          <div class="kuang">
+            <div class="touch fir">服务内容</div>
+            <div class="touch sec">商品评价</div>
+            <div class="serviceCon" style="display:none">服务内容： <br>1.整理原始票据  <br>2.记账  <br>3.装订凭证  <br>4.出报表  <br>5.月报、季度企业所得税、年度汇算清缴 <br>6.打印总帐、明晰账本 </div>
+            <div class="userRating">
+              <div class="main">
+                <p><span>0%</span>好评</p>
+                <div>
+                  <p>好评 （0%）</p><div></div>
+                  <p>中评 （0%）</p><div></div>
+                  <p>差评 （0%）</p><div></div>
+                </div>
+                <p>客户印象暂无已添加的印象标签</p>
+              </div>
+              <div class="list"></div>
+              <div class="pingjia"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <router-view/>
+  </div>
 </template>
 
 <script>
@@ -74,8 +86,8 @@ export default {
     counts: function() {
       if (/^\+?[1-9]\d*$/.test(this.quantity)) {
         console.log(this);
-        
-        this.quantity = '';
+
+        this.quantity = "";
       } else {
         this.quantity = this.quantity;
       }
@@ -167,7 +179,7 @@ export default {
     margin-left: 55px;
   }
   .thd {
-      border: 1px solid #e4e4e4;
+    border: 1px solid #e4e4e4;
     color: #333;
     margin-left: 55px;
   }
@@ -288,5 +300,16 @@ export default {
     margin-left: 135px;
     margin-top: -41px;
   }
+}
+.serviceCon{
+  text-align: left;
+  margin-left: 10px;
+  line-height: 35px;
+  color: #333;
+}
+.userRating{
+  float: left;
+  margin-right: 1000px;
+  margin-top: 500px;
 }
 </style>
