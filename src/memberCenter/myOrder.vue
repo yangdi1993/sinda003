@@ -41,8 +41,8 @@
           <!-- 搜索行 -->
           <div class="orderSearch">
             <p>订单号：</p>
-            <input type="text" class="orSerIn" placeholder="请输入订单号搜索">
-            <input type="button" class="orSerBut" value="搜索" @click="orderSearch()">
+            <input type="text" class="orSerIn" v-model="orSerInVal" placeholder="请输入订单号搜索">
+            <input type="button" class="orSerBut" value="搜索" @click="orderSeaBtn()">
           </div>
           <!-- 时间行 -->
           <div class="timeSet">
@@ -60,19 +60,19 @@
             <li>订单操作</li>
           </ul>
           <!-- 订单插入 -->
-          <div id='orderInsert' v-for="(item,idx) in orderlist" :key="item.cardTypeName">
+          <div id='orderInsert' v-for="(item,idx) in orderlistDis" :key="item.cardTypeName">
             <!-- 删除 弹出框 -->
               <div class="duihuakuang" v-show="isShow">
                 <div class="confirmIma">
                   <p>信息</p>
-                  <div class="close" @click="closeFun()">X</div>
+                  <div class="close" @click="closeFun()">×</div>
                 </div>
                 <p class="confirm">确定删除该订单吗？</p>
                 <button class="confirmYes" @click="conCloseFun()">确定</button>
                 <button class="confirmNo" @click="canCliseFun()">取消</button>
               </div>
               <!-- 订单插入 -->
-              <table class="orderInTa" id="myorderInTa">
+              <table class="orderInTa" id="myorderInTa" v-show="searchShow">
                 <tr class="orderInTh">
                   <th class="orderInThTdO" colspan="2">
                     <input type="checkbox">
@@ -107,14 +107,24 @@
 </template>
 
 <script>
+// 引进头部和尾部
+// this.ajax.post("").then(data=>{
+//       console.log('');
 import ihead from '../components/ihead'
-// 翻页组件
 export default {
   data(){
     return{
       index:-1,
+      // 全部数据
       orderlist:[{name:'first'},{name:'second'},{name:'third'}],
+      // 当前页要显示的数据
+      orderlistDis:[{name:'first'},{name:'second'},{name:'third'}],
+      // 弹出框
       isShow:false,
+      // 搜索
+      orSerInVal:"",
+      // 搜索数据
+      searchShow:true,
     }
   },
   created(){
@@ -133,17 +143,27 @@ export default {
     // 点击确定
     conCloseFun:function(index){
       this.isShow = false;
-      this.orderlist.splice(index,1)
+      this.orderlistDis.splice(index,1)
     },
     // 点击取消
     canCliseFun:function(index){
       this.isShow = false;
     },
     // 订单搜索
-    orderSearch:function(){
-      
-    }
+    orderSeaBtn:function(){
+      // 清空页面要渲染的数据
+      this.orderlistDis = [];
+      for(var i=0;i<this.orderlist.length;i++){
+        var ordLiNa = this.orderlist[i].name;
+        if(ordLiNa==this.orSerInVal){
+          // 把符合条件的数据添加到[]里面
+          this.orderlistDis.push(this.orderlist[i]);
+        }
+        else{
 
+        }
+      }  
+    }
   }
 }
 </script>
@@ -179,13 +199,14 @@ export default {
       float: left;
       margin-left: 300px;
       margin-top: -36px;
-      color: #f7f7f7;
+      color: #222;
       font-size: 20px;
       text-align: center;
       line-height: 50px;
     }
     .close:hover{
-      background-color: #3f3f3f;
+      background-color: #999;
+      color: #e8e8e8;
     }
   }
 }
@@ -213,6 +234,7 @@ export default {
   margin-top: 40px;
   outline: 0;
   cursor: pointer;
+  background-color: #fff;
 }
 // 固定最小宽度
 // @media all and (min-width:1200px){
@@ -314,7 +336,7 @@ export default {
      font-weight: bold;
      color: #3e9bd6;
      margin-left: 10px;
-     padding: 5px 27px;
+     padding: 7px 27px;
      border-bottom: 2px solid #3e9bd6;
    }
  }
@@ -401,7 +423,7 @@ export default {
    color: #3f3f3f;
    font-weight: bold;
    li{
-     margin-left: 90px;
+     margin-left: 85px;
    }
    .comName{
      margin-left: 38px;
@@ -548,6 +570,17 @@ export default {
       }
     }
   }
+}
+// 未找到相应订单
+.unFindOr{
+  width: 200px;
+  height: 50px;
+  font-size: 20px;
+  border: 2px solid red;
+  line-height: 50px;
+  position: absolute;
+  margin-top: 100px;
+  margin-left: 368px;
 }
 
 </style>
