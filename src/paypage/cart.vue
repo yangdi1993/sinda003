@@ -151,7 +151,7 @@ export default {
 <style scoped lang="less">
 .pay-content {
   width: 1200px;
-  height: 650px;
+  //height: 650px;
   background: white;
   margin: 0 auto;
   overflow: hidden;
@@ -259,6 +259,7 @@ tbody {
   width: 100%;
   border-bottom: 1px solid #bcbdbd;
   margin-top: 25px;
+  padding-bottom: 25px;
   p {
     color: #74b2df;
     width: 150px;
