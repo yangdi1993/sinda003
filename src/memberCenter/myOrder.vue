@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="aaapp">
     <div class="memCenBg">
       <div class="memCenDiv">
         <!-- 左侧边栏 -->
@@ -42,7 +42,7 @@
           <div class="orderSearch">
             <p>订单号：</p>
             <input type="text" class="orSerIn" placeholder="请输入订单号搜索">
-            <input type="button" class="orSerBut" value="搜索">
+            <input type="button" class="orSerBut" value="搜索" @click="orderSearch()">
           </div>
           <!-- 时间行 -->
           <div class="timeSet">
@@ -60,12 +60,45 @@
             <li>订单操作</li>
           </ul>
           <!-- 订单插入 -->
-          <div class="orderInsert">
-            <!-- <div>1</div> -->
-
+          <div id='orderInsert' v-for="(item,idx) in orderlist" :key="item.cardTypeName">
+            <!-- 删除 弹出框 -->
+              <div class="duihuakuang" v-show="isShow">
+                <div class="confirmIma">
+                  <p>信息</p>
+                  <div class="close" @click="closeFun()">X</div>
+                </div>
+                <p class="confirm">确定删除该订单吗？</p>
+                <button class="confirmYes" @click="conCloseFun()">确定</button>
+                <button class="confirmNo" @click="canCliseFun()">取消</button>
+              </div>
+              <!-- 订单插入 -->
+              <table class="orderInTa" id="myorderInTa">
+                <tr class="orderInTh">
+                  <th class="orderInThTdO" colspan="2">
+                    <input type="checkbox">
+                    订单号：{{item.name}}
+                  </th>
+                  <th class="orderInThTdTw" colspan="5">
+                    <span></span>
+                    下单时间：{{item.name2}}</th>
+                </tr>
+                <tr class="orderInTr">
+                  <td class="orderInTrTdO">
+                    {{item.name3}}
+                  </td>
+                  <td class="orderInTrTdTw">{{item.name4}}</td>
+                  <td class="orderInTrTdTh">{{item.name5}}</td>
+                  <td class="orderInTrTdFo">{{item.name6}}</td>
+                  <td class="orderInTrTdFi">{{item.name7}}</td>
+                  <td class="orderInTrTdSi">{{item.name8}}</td>
+                  <td class="orderInTrTdSe">
+                    <input type="button" value="付款">
+                    <p class="delOr" v-on:click="delOrder()">删除订单</p>
+                  </td>
+                </tr>
+              </table>  
           </div>
           <!-- 翻页 -->
-  
         </div>
       </div>
     </div>
@@ -79,30 +112,108 @@ import ihead from '../components/ihead'
 export default {
   data(){
     return{
-      // ordDeLoad:'',
+      index:-1,
+      orderlist:[{name:'first'},{name:'second'},{name:'third'}],
+      isShow:false,
     }
   },
   created(){
-      var ordDetForm = document.createElement('div');
-      console.log(ordDetForm); 
-      var orderInsert = document.getElementsByClassName('orderInsert')[0];
-      console.log(orderInsert);
-      ordDetForm.style = {
-        border: '1px solid red',
-        width: '934px',
-        height: '80px',
-        marginTop: '12px'
-      };
-      orderInsert.appendChild(ordDetForm);
-      console.log(79);
+   
   },
   methods:{
-    
+    // 点击删除弹出框
+    delOrder:function(index){
+      // this.index=index;
+      this.isShow = true;
+    },
+    // 点击X弹出框消失
+    closeFun:function(){
+      this.isShow = false;
+    },
+    // 点击确定
+    conCloseFun:function(index){
+      this.isShow = false;
+      this.orderlist.splice(index,1)
+    },
+    // 点击取消
+    canCliseFun:function(index){
+      this.isShow = false;
+    },
+    // 订单搜索
+    orderSearch:function(){
+      
+    }
+
   }
 }
 </script>
 
 <style scoped lang="less">
+// 删除弹出框
+.duihuakuang{
+  width: 350px;
+  height: 200px;
+  background-color: #fff;
+  position: absolute;
+  top: 513px;
+  left: 655px;
+  border: 1px solid #3f3f3f;
+  .confirmIma{
+    width: 350px;
+    height: 50px;
+    background-color: #e8e8e8;
+    border-bottom: 1px solid #3f3f3f;
+     overflow: hidden;
+    p{
+      font-size: 18px;
+      font-weight: bold;
+      color: #3d3d3d;
+      margin-left: 10px;
+      margin-top: 15px;
+      float: left;
+    }
+    .close{
+      width: 50px;
+      height: 50px;
+      background-color: #e8e8e8;
+      float: left;
+      margin-left: 300px;
+      margin-top: -36px;
+      color: #f7f7f7;
+      font-size: 20px;
+      text-align: center;
+      line-height: 50px;
+    }
+    .close:hover{
+      background-color: #3f3f3f;
+    }
+  }
+}
+.confirm{
+  font-size: 18px;
+  color: #3f3f3f;
+  margin-top: 30px;
+}
+.confirmYes{
+  width: 100px;
+  height: 40px;
+  border: 1px solid #3f3f3f;
+  border-radius: 3px;
+  margin-top: 40px;
+  outline: 0;
+  cursor: pointer;
+  background-color: #2693d4;
+  color: #fff;
+}
+.confirmNo{
+  width: 100px;
+  height: 40px;
+  border: 1px solid #3f3f3f;
+  border-radius: 3px;
+  margin-top: 40px;
+  outline: 0;
+  cursor: pointer;
+}
 // 固定最小宽度
 // @media all and (min-width:1200px){
  .memCenBg{
@@ -302,6 +413,7 @@ export default {
    height: 356px;
    margin-top: 12px;
    background-color: pink;
+   position: relative;
  }
  .pageTurn{
   //  width: 300px;
@@ -335,6 +447,109 @@ export default {
 // 翻页 
 
 // }
+// 订单插入
+.orderInTa{
+  width: 935px;
+  height: 108px;
+  // margin-left: 10px;
+  margin-top: 10px;
+  border: 1px solid #e8e8e8;
+  .orderInTh{
+    width: 935px;
+    height: 37px;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #e8e8e8;
+    .orderInThTdO{
+      width: 193px;
+      height: 37px;
+      font-size: 14px;
+      color: #616161;
+      margin-left: -10px;
+      // text-align: left;
+      input{
+        margin-left: -160px;
+        outline: 0;
+      }
+    }
+    .orderInThTdTw{
+      width: 222px;
+      height: 37px;
+      font-size: 14px;
+      color: #616161;
+      margin-left: -10px;
+      span{
+        margin-left: -555px;
+      }
+    }
+  }
+  .orderInTr{
+    width: 933px;
+    height: 68px;
+    .orderInTrTdO{
+      width: 70px;
+      height: 68px;
+      background-color: royalblue;
+    }
+    .orderInTrTdTw{
+      width: 238px;
+      height: 68px;
+      background-color: red;
+      font-size: 12px;
+      color: #656565;
+      text-align: left;
+    }
+    .orderInTrTdTh{
+      width: 129px;
+      height: 68px;
+      background-color: greenyellow;
+      font-size: 12px;
+      color: #656565;
+    }
+    .orderInTrTdFo{
+      width: 95px;
+      height: 68px;
+      background-color: royalblue;
+      border-right: 1px solid #e8e8e8;
+      font-size: 12px;
+      color: #656565;
+    }
+    .orderInTrTdFi{
+      width: 139px;
+      height: 68px;
+      border-right: 1px solid #e8e8e8;
+      font-size: 12px;
+      color: #2393d5;
+    }
+    .orderInTrTdSi{
+      width: 143px;
+      height: 68px;
+      border-right: 1px solid #e8e8e8;
+      font-size: 12px;
+      color: #2393d5;
+    }
+    .orderInTrTdSe{
+      width: 118px;
+      height: 68px;
+      input{
+        width: 56px;
+        height: 23px;
+        background-color: #2793d3;
+        color: #fff;
+        font-size: 14px;
+        border-radius: 3px;
+        outline: 0;
+        cursor: pointer;
+      }
+      p{
+        font-size: 14px;
+        color: #ff4747;
+        margin-top: 9px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
 </style>
 
 

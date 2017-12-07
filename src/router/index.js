@@ -11,6 +11,25 @@ import login from '@/views/login'
 import register from '@/views/register'
 import forget from '@/views/forget'
 import homepage from '@/homepage/homepage'
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+// import shop from '@/shop/shop'
+=======
+<<<<<<< HEAD
+//<<<<<<< HEAD
+//<<<<<<< HEAD
+//<<<<<<< HEAD
+//import shop from '@/shop/shop'
+>>>>>>> d901f89f8fddf8985c6f82bf5fa68dbdb50ea933
+//支付页面
+//=======
+// <<<<<<< HEAD
+// import shop from '@/shop/shop'
+//>>>>>>> 5d72007d1078c9242209ccd48514522cd35883be
+//=======
+>>>>>>> 8f26dcc1568a8be56396441d769635dab40cf882
 
 
 //支付页面

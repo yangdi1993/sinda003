@@ -44,9 +44,20 @@
               <span></span>
           </div>
           <!-- 评价插入-已评价 -->
-          <div class="orderInsert">
-
-          </div>
+          <ul class="orderInsert" v-for="evaOrder in evaOrderList" :key="evaOrder.cardTypeName">
+              <li class="orderInsO"></li>
+              <li class="orderInsTw">
+                <p class="orderInsTwPO">111</p>
+                <p class="orderInsTwPTw">服务单号：{{evaOrder.name}}</p>
+                <p class="orderInsTwPTh">购买内容：{{evaOrder.name}}</p>
+              </li>
+              <li class="orderInsTh">
+                <p class="buyTime">购买时间：{{evaOrder.name}}</p>
+              </li>
+              <li class="orderInsFo">
+                <a href="#/goEvalu"><input type="button" value="去评价" ></a> 
+              </li>
+          </ul>
           <!-- 翻页 -->
           <div class="pageTurn">
             <input type="button" class="prePage" value="上一页">
@@ -63,9 +74,20 @@
 <script>
 import ihead from '../components/ihead'
 export default {
-  // data () {
-   
-  // },
+  data () {
+    return{
+      evaOrderList: [{name:'first'},{name:'second'},{name:'third'}]
+    }
+  },
+  // 翻页
+  created(){
+    var arr = [];
+    // this.evaOrderList
+    console.log(this.evaOrderList);
+    // for(){
+
+    // }
+  }
 }
 </script>
 
@@ -236,6 +258,68 @@ export default {
        left: 48px;
        transform: rotate(45deg);
      }
+ }
+//  评价
+ .orderInsert{
+   width: 934px;
+   height: 135px;
+   border: 1px solid #cccccc;
+   border-top: none;
+   list-style: none;
+   display: flex;
+   .orderInsO{
+     width: 116px;
+     height: 135px;
+     background-color: pink;
+   }
+   .orderInsTw{
+     width: 155px;
+     height: 135px;
+     .orderInsTwPO{
+       font-size: 16px;
+       color: #000000;
+       margin-top: 30px;
+       margin-left: -115px;
+     }
+     .orderInsTwPTw{
+       font-size: 13px;
+       color: #3f3f3f;
+       margin-top: 5px;
+       margin-left: -30px;
+     }
+     .orderInsTwPTh{
+       font-size: 13px;
+       color: #3f3f3f;
+       margin-top: 5px;
+       margin-left: -30px;
+     }
+   }
+   .orderInsTh{
+     width: 504px;
+     height: 135px;
+     .buyTime{
+       font-size: 14px;
+       color: #252525;
+       line-height: 135px;
+       margin-left: -200px;
+     }
+   }
+   .orderInsFo{
+     width: 159px;
+     height: 135px;
+     input{
+       width: 100px;
+       height: 30px;
+       border: 1px solid #2693d4;
+       border-radius: 3px;
+       margin-top: 70px;
+       outline: 0;
+       cursor: pointer;
+       color: #2494d6;
+       background-color: #ffffff;
+       font-size: 14px;
+     }
+   }
  }
 // }
 </style>
