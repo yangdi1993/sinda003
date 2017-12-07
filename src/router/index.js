@@ -13,10 +13,13 @@ import forget from '@/views/forget'
 import homepage from '@/homepage/homepage'
 <<<<<<< HEAD
 
+<<<<<<< HEAD
 // import shop from '@/shop/shop'
 //import shop from '@/shop/shop'
 //支付页面
 // import shop from '@/shop/shop'
+=======
+>>>>>>> 5048eb60b85b4f6dedadd3334fabab9e7697c7f5
 
 //支付页面
 =======
