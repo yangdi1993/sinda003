@@ -318,6 +318,7 @@ export default {
         else if (/^(\d|[a-z]){4}$/.test(this.codeImgVal) && this.codePhoneVal == 111111 && newPwReg.test(this.pwVal)) {
           user.name = this.phoneVal;
           // user.passward = md5(this.pwVal);
+          user.phoneNum = this.phoneVal;
           user.password = this.pwVal;
           user.add = address;
           localStorage.setItem(this.phoneVal, JSON.stringify(user));

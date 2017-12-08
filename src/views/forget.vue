@@ -19,7 +19,8 @@
         </li>
         <li class="code-img">
           <input type="text" placeholder="请输入验证码" v-model="fImg" v-on:blur="fiBlur" v-on:focus="fiFocus">
-          <img src="http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode" alt="">
+          <!--<img src="http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode" alt="">-->
+          <img :src="imgUrl" alt="">
           <span>*</span>
           <button v-on:click="buttonChange">看不清？换一张</button>
         </li>
@@ -75,7 +76,8 @@ export default {
     //点击更换图片验证码
     buttonChange: function() {
       var codeImage = document.querySelector('.code-img img');
-      codeImage.src = 'http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode';
+      // codeImage.src = 'http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode';
+      this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
     },
     // 手机号焦点事件
     fpBlur: function() {
@@ -102,17 +104,36 @@ export default {
     },
     // 图片验证码焦点事件
     fiBlur: function() {
+      // var codeImgSpan = document.querySelector('.code-img span');
+      // if (this.fImg == '') {
+      //   codeImgSpan.innerHTML = '图片验证码不能为空';
+      //   codeImgSpan.style.color = 'red';
+      // } else if (/^(\d|[a-z]){4}$/.test(this.fImg)) {
+      //   codeImgSpan.innerHTML = '✔';
+      //   codeImgSpan.style.color = 'green';
+      // } else {
+      //   codeImgSpan.innerHTML = '图片验证码不正确';
+      //   codeImgSpan.style.color = 'red';
+      // }
+
       var codeImgSpan = document.querySelector('.code-img span');
-      if (this.fImg == '') {
-        codeImgSpan.innerHTML = '图片验证码不能为空';
+      var button = document.querySelector('.code-phone button');
+      this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.forgetPhone, smsType: 1, imgCode: this.fImg })).then(data => {
+        // console.log(data);
+        if (this.fImg == '') {
+        codeImgSpan.innerHTML = data.data.msg;
         codeImgSpan.style.color = 'red';
-      } else if (/^(\d|[a-z]){4}$/.test(this.fImg)) {
-        codeImgSpan.innerHTML = '✔';
-        codeImgSpan.style.color = 'green';
-      } else {
-        codeImgSpan.innerHTML = '图片验证码不正确';
-        codeImgSpan.style.color = 'red';
-      }
+      }else if (data.data.status == '-1') {
+          codeImgSpan.innerHTML = data.data.msg;
+          codeImgSpan.style.color = 'red';
+          button.disabled = true;
+          button.style.background = '#ddd';
+          console.log(data.data.status)
+        }else{
+          codeImgSpan.innerHTML = '✔';
+          codeImgSpan.style.color = 'green';
+        }
+      })
     },
     fiFocus: function() {
       var codeImgSpan = document.querySelector('.code-img span');
@@ -254,11 +275,12 @@ export default {
       }
       if(localStorage.getItem(this.forgetPhone)&&this.fCmg==111111&&newPwReg.test(this.fNew)&&this.fNew==this.fPw){
         user.password = this.fNew;
-
+        localStorage.setItem(this.forgetPhone,JSON.stringify(user))
+        location.href = '/#/outter/login';
+        console.log(user);
       }else{
         // console.log('xiugaishibai' )
       }
-        // console.log(user)
     }
   }
 }
