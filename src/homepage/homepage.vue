@@ -139,6 +139,13 @@
         </transition>
       </div>
     </div>
+    <div class="partner"><!-- 合作伙伴 -->
+      <div class="proCellTop">
+        <p>合作伙伴</p>
+        <span class="lineSanjiao"></span>
+      </div>
+      <div><img src="../images/homepage/partner.png" alt=""></div>
+    </div>
   </div>
 </template>
 
@@ -185,7 +192,7 @@ require('swiper/dist/css/swiper.css')
     var that=this
     this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/recommend/list').then(function(data){
       var rData=data.data.data
-      console.log(rData);
+      // console.log(rData);
       var objone={};
       var objtwo={}
       var objthree={}
@@ -196,7 +203,8 @@ require('swiper/dist/css/swiper.css')
         j==2?that.objthree=rData[i]:j
         j++
       }
-    })
+    });
+  
     var objs={};
     objs[0]={title:'资质认证',inner:'服务商100%实名认证',class:'objsOne'}
     objs[1]={title:'资质认证',inner:'服务商100%实名认证',class:'objsTwo'}
@@ -317,7 +325,7 @@ require('swiper/dist/css/swiper.css')
 .youone{
   transition: all 2s;
   opacity: 1;
-  transform: rotateY(0deg);
+  // transform: rotateY(0deg);
   transform: translateY(0)
 }
 .youtwo{
@@ -330,12 +338,12 @@ require('swiper/dist/css/swiper.css')
 .slideleft-enter{
   opacity: 0;
   transform: rotateY(-90deg);
-  // transform: translate(550px,-550px);
+  transform: translate(550px,-550px);
 }
 .slideleft-leave-to {
   opacity: 0;
   transform: rotateY(90deg);
-  // transform: translateY(-550px);
+  transform: translateY(-550px);
 }
 .slideright-enter{
   opacity: 0;
@@ -565,7 +573,7 @@ require('swiper/dist/css/swiper.css')
     font-weight: 700;
     margin-bottom: 40px;
   }
-  .pfirst{
+  .pfirst{  
     font-size: 14px;
     color: #656565;
     font-weight: 600;
@@ -573,6 +581,14 @@ require('swiper/dist/css/swiper.css')
     text-indent: 2em;
     line-height: 22px;
     letter-spacing: 2px;
+  }
+}
+.partner{
+  width: 100%;
+  margin-bottom: 100px;
+  img{
+    width: 100%;
+    margin-top: 40px;
   }
 }
 </style>

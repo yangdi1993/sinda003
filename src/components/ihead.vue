@@ -6,7 +6,7 @@
           <a href="#/inner/homepage" class="ihead-logo"></a>  <!-- logo -->
           <a href="#/inner/homepage" class="ihead-sinda">信达</a>
           <div>
-            <p class="iheadcity">北京市</p>
+            <p class="iheadcity" :key="nowcity.id">{{nowcity.name}}</p>
             <a href="javascript:void(0)" class="iheadchange">[切换城市]</a>
           </div>
         </div>
@@ -88,6 +88,12 @@ export default {
         obj[n]=rData[i]
       }
       that.products=obj;
+    });
+    var nowcity={}
+    this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/common/select-region').then(function(data){
+      var rData=data.data.data
+      // console.log(rData);
+      that.nowcity=rData;
     })
   },
   data () {
@@ -95,7 +101,8 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       produce:false,
       active:'active',
-      products:[]
+      products:[],
+      nowcity:[],
     }
   },
   methods:{
