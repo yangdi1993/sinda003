@@ -5,9 +5,12 @@
         <div class="iheadleft">
           <a href="#/inner/homepage" class="ihead-logo"></a>  <!-- logo -->
           <a href="#/inner/homepage" class="ihead-sinda">信达</a>
-          <div>
+          <div class="iheadcity">
             <p class="iheadcity" :key="nowcity.id">{{nowcity.name}}</p>
-            <a href="javascript:void(0)" class="iheadchange">[切换城市]</a>
+            <a href="javascript:void(0)" class="iheadchange" @click="changeCity">[切换城市]</a>
+            <!-- <div class="cityTip">
+
+            </div> -->
           </div>
         </div>
         <div class="iheadcenter">
@@ -111,6 +114,10 @@ export default {
     },
     produceOut:function(){
       this.produce = false;
+    },
+    changeCity:function(){
+      console.log(123);
+      
     }
   }
 }
@@ -176,6 +183,17 @@ export default {
       }
       a:hover{
         text-decoration: underline;
+      }
+      .iheadcity{
+        position: relative;
+      }
+      .cityTip{
+        width: 500px;
+        height: 300px;
+        background: #f8f;
+        position: absolute;
+        z-index: 10;
+        left: -100px;
       }
     }
 

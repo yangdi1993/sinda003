@@ -4,14 +4,14 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-//输入验证插件
-import Validator from 'vue-validator'
-Vue.use(Validator)
+import store from './store'
 import qs from 'qs'
 //轮播部分插件引入
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 Vue.use(VueAwesomeSwiper)
-import store from './store'
+//输入验证插件
+import Validator from 'vue-validator'
+Vue.use(Validator)
 
 Vue.prototype.ajax=axios
 Vue.prototype.qs=qs
