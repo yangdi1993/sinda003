@@ -48,7 +48,7 @@
 import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
 export default {
-  name: 'HelloWorld',
+
   data() {
     return {
       loginPhone:'',
@@ -59,7 +59,7 @@ export default {
     }
   },
   methods: {
-    // ...mapActions(['setNum']),
+    ...mapActions(['setNum','setName']),
     //点击更换图片验证码
     buttonChange: function() {
       var codeImage = document.querySelector('.code-img img');
@@ -145,7 +145,7 @@ export default {
     },
     loginBut:function(){
       var username = document.querySelector('.top-login');
-      console.log(username.innerHTML)
+      // console.log(username.innerHTML)
       var phoneSpan = document.querySelector('.phone span');
       var pwSpan = document.querySelector('.pw span');
       var codeImgSpan = document.querySelector('.code-img span');
@@ -168,8 +168,12 @@ export default {
         if(this.loginPw==user.password){
           pwSpan.innerHTML='✔';
           pwSpan.style.color = 'green';
+          sessionStorage.setItem('zancun',JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录
+          location.replace('#/inner/list')
+          this.setNum(2)  //购物车物品数量
+          // this.setName(this.loginPhone)
           // username.innerHTML = this.loginPhone;
-          location.href = '/#/inner/homepage';
+          // location.href = '/#/inner/homepage';
         }else{
           pwSpan.innerHTML='密码错误';
           pwSpan.style.color = 'red';

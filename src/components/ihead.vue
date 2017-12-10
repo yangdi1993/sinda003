@@ -33,7 +33,7 @@
       </div>
       <div class="ihead-bottom">
         <router-link to="/inner/homepage" @mouseover.native="allProduce" @mouseout.native="produceOut" active-class="active">全部产品</router-link>
-        <router-link  to="/" active-class="active">财税服务</router-link>
+        <router-link  to="/inner/list" active-class="active">财税服务</router-link>
         <router-link to="/inner/homepage"  active-class="active">公司工商</router-link>
         <router-link  to="/inner/join" active-class="active">加盟我们</router-link>
         <router-link to="/inner/shoplist"  active-class="active">店铺</router-link>
@@ -82,7 +82,7 @@ export default {
   created(){
     // console.log('created');
     var that=this
-    this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/product/style/list').then(function(data){
+    this.ajax.post('xinda-api/product/style/list').then(function(data){
       var rData=data.data.data
       // console.log(rData);
       var obj = {}  //这里obj默认obj={1:{},2:{},3:{},4:{}}
@@ -93,7 +93,7 @@ export default {
       that.products=obj;
     });
     var nowcity={}
-    this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/common/select-region').then(function(data){
+    this.ajax.post('xinda-api/common/select-region').then(function(data){
       var rData=data.data.data
       // console.log(rData);
       that.nowcity=rData;
@@ -109,13 +109,13 @@ export default {
     }
   },
   methods:{
-    allProduce:function(){
+    allProduce(){
       this.produce = true;
     },
-    produceOut:function(){
+    produceOut(){
       this.produce = false;
     },
-    changeCity:function(){
+    changeCity(){
       console.log(123);
       
     }

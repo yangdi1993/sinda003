@@ -3,15 +3,16 @@
     <div class="top-in">
       <div class="top-left">
         <span class="welcome">欢迎来到信达！</span>
-        <a href="#/outter/login" class="top-login">登录</a>
-        <a href="#/outter/register" class="top-register">快速注册</a>
+        <a href="#/outter/login" class="top-login"  :key="user.id">{{user.name}}</a>
+        <a href="#/outter/register" class="top-register" v-show="nowRegister">快速注册</a>
+        <a href="#/inner/homepage" v-show="quitNow" @click="quit">退出登录</a>
       </div>
       <div class="top-right">
         <a href="javascript:void(0)" class="top-cart">
           <span class="logo-cart"></span>
           <span>购物车<span class="number">{{getNum}}</span>件</span>
         </a>
-        <a href="#/outter/myOrder" class="top-order">
+        <a href="#/outter/myOrder" class="top-order" v-show="myOrder">
           <span class="logo-order"></span>
           <span>我的订单</span>
         </a>
@@ -28,10 +29,43 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
+      user:[],
+      nowRegister:true,
+      quitNow:false,
+      myOrder:false,
     }
   },
+  methods:{
+    quit(){
+      sessionStorage.clear()
+      this.nowRegister=true
+      this.quitNow=false
+      this.myOrder=false
+      location.reload()
+    }
+  },
+  created(){
+    var user={}
+    if(sessionStorage.getItem('zancun')){
+      // setTimeout(location.reload())
+      this.nowRegister=false
+      this.quitNow=true
+      this.myOrder=true
+      var username=(JSON.parse(sessionStorage.getItem('zancun')))
+      user=JSON.parse(localStorage.getItem(username))
+      console.log(123)
+    }else{
+      this.nowRegister=true
+      this.quitNow=false
+      this.myOrder=false
+      user.name='登录'
+      console.log(456)
+    }
+    console.log(user)
+    this.user=user
+  },
   computed:{
-    ...mapGetters(['getNum'])
+    ...mapGetters(['getNum','getName'])
   },
 }
 </script>
@@ -87,7 +121,6 @@ export default {
       display: flex;
       flex-wrap: no-wrap;
       align-items: center;
-      display: none;
     }
     .number{
       color: #2693d4;

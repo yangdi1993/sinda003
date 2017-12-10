@@ -129,7 +129,7 @@ export default {
       var codeSpan = document.querySelector('.code-img span');
       var button = document.querySelector('.code-phone button');
       this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
-        // console.log(data);
+        console.log(data);
         if (this.codeImgVal == '') {
         codeSpan.innerHTML = data.data.msg;
         codeSpan.style.color = 'red';
@@ -323,7 +323,7 @@ export default {
           user.add = address;
           localStorage.setItem(this.phoneVal, JSON.stringify(user));
           console.log(user)
-          location.href = '#/outter/login';
+          location = '#/outter/login';
         }
       }
       // else{
