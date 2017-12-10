@@ -4,28 +4,23 @@
       <p>首页 / 店铺列表</p>
       <div class="ge1">
         <div class="fir"><b>服务区域</b></div>
-        <!-- <div id="liandong"> -->
-          <!-- <select v-model="prov">
-            <option v-for="option in arr" :value="option.name">
-            {{ option.name }}
-            </option>
-          </select>
-          <select v-model="city">
-            <option v-for="option in cityArr" :value="option.name">
-            {{ option.name }}
-            </option>
-          </select>
-          <select v-model="district" v-if="district">
-            <option v-for="option in districtArr" :value="option.name">
-            {{ option.name }}
-            </option>
-          </select>
-        </div> -->
+        <v-distpicker class="liandong" v-on:change="selChange" province="省" city="市" area="区"></v-distpicker>
       </div>
       <div class="ge2">
         <div class="fir"><b>产品类型</b></div>
-        
-
+        <div class="leixing">
+          <p>所有</p>
+          <p>专利申请</p>
+          <p>版权保护</p>
+          <p>商标注册</p>
+          <p>代理记账</p>
+          <p>公司注册</p>
+          <p>企业社保</p>
+          <p>公司变更</p>
+          <p>税务代办</p>
+          <p>个人社保</p>
+          <p>审计报告</p>
+        </div>
       </div>
 
 
@@ -56,7 +51,7 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
+<style  lang="less">
 .list-head p{
   text-align:left;
   margin-left: 90px;
@@ -80,15 +75,51 @@ export default {
   border-top:hidden;
   margin-left: 90px;
 }
+.leixing{
+  display: flex;
+  margin-top: -32px;
+  margin-left: 90px;
+  p{
+    font-size: 14px;
+    margin: 0;
+    width:80px;
+    height:28px;
+    line-height: 25px;
+    margin-left: 10px;
+    text-align: center;
+  }
+}
+.leixing p:hover{
+  border-radius: 3px;;
+  background-color: #2693d4;
+}
 .fir{
-  width:98px;
+  width: 100px;
   height:40px;
   border-right:1px solid #ccc;
+  display: flex;
 }
 .fir b{
+  margin-left:10px;
   font-size:18px;
   color:#000;
   line-height: 40px;
+}
+.liandong{
+  margin-top: -42px;
+  margin-left: 120px;
+  position: absolute;
+  select{
+    float: left;
+    font-size:14px;
+    line-height: 22px;
+    height: 25px;
+    padding: 0;
+    width: 90px;
+    height: 25px;
+    margin-top: 10px;
+    margin-left: 6px;
+  }
 }
 .ge3{
   width:1200px;

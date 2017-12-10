@@ -46,23 +46,20 @@
             <div class="icons">
                 <ul class="icon1" @mouseover="dismsg(0)">
                     <img src="../images/shop/icon1.png" alt="">
-                    <li>工商注册</li>
-                    <li>REGISTERED</li>
+                    <li>工商注册<br><p>REGISTERED</p></li>
                 </ul>
                <ul class="icon2" @mouseover="dismsg(1)">
                     <img src="../images/shop/icon2.png" alt="">
-                    <li>财税服务</li>
-                    <li>SERVICE</li>
+                    <li>财税服务<br><p>SERVICE</p></li>
+                    
                 </ul>
                 <ul class="icon3" @mouseover="dismsg(2)">
                     <img src="../images/shop/icon3.png" alt="">
-                   <li>知识产权</li>
-                    <li>IN TELLECTUAL PROPERTY</li>
+                   <li>知识产权<br><p>IN TELLECTUAL PROPERTY</p></li>
                 </ul>
                 <ul class="icon4" @mouseover="dismsg(3)">
                     <img src="../images/shop/icon4.png" alt="">
-                    <li>人力外包</li>
-                    <li>HR OUTSOURCING</li>
+                    <li>人力外包<br><p>HR OUTSOURCING</p></li>
                 </ul>
             </div>
             <div class="need">
@@ -274,12 +271,14 @@ export default {
         font-size:17px;
         color:#000;
         list-style: none;
+        p{
+            color:#7b7b7b;
+            font-size:17px;
+            margin-top: 5px;
+        }
     }
 }
-.icons li:nth-child(3){
-    color:#7b7b7b;
-}
-.icons li:hover{
+.icons ul>li:hover{
     color:blue;
 }
 .need{
