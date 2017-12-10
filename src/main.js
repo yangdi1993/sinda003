@@ -17,10 +17,8 @@ Vue.use(VueAwesomeSwiper)
 import Validator from 'vue-validator'
 Vue.use(Validator)
 
-//轮播部分插件引入
-import VueAwesomeSwiper from 'vue-awesome-swiper'
-Vue.use(VueAwesomeSwiper)
-import store from './store'
+
+
 
 
 Vue.prototype.ajax=axios

@@ -11,19 +11,8 @@ import login from '@/views/login'
 import register from '@/views/register'
 import forget from '@/views/forget'
 import homepage from '@/homepage/homepage'
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-// import shop from '@/shop/shop'
-//import shop from '@/shop/shop'
-//支付页面
-// import shop from '@/shop/shop'
-=======
->>>>>>> 5048eb60b85b4f6dedadd3334fabab9e7697c7f5
 
 //支付页面
-=======
->>>>>>> aa450e6d16421de0ea50db5655ea3074e4d3390b
 import paypage from '@/paypage/paypage'
 //支付失败
 import payFalse from '@/paypage/payFalse'
@@ -53,11 +42,7 @@ import shophome from '@/shop/shophome'
 import join from '@/shop/join'
 // 会员中心-用户评价-去评价
 import goEvalu from '@/memberCenter/goEvalu'
-<<<<<<< HEAD
-=======
-//省市区三级联动
-Vue.component('v-distpicker', Distpicker)
->>>>>>> aa450e6d16421de0ea50db5655ea3074e4d3390b
+
 
 //省市区三级联动
 Vue.component('v-distpicker', Distpicker)
