@@ -59,6 +59,7 @@ export default {
     }
   },
   methods: {
+    // ...mapActions(['setNum']),
     //点击更换图片验证码
     buttonChange: function() {
       var codeImage = document.querySelector('.code-img img');
@@ -143,6 +144,8 @@ export default {
       codeImgSpan.style.color = 'red';
     },
     loginBut:function(){
+      var username = document.querySelector('.top-login');
+      console.log(username.innerHTML)
       var phoneSpan = document.querySelector('.phone span');
       var pwSpan = document.querySelector('.pw span');
       var codeImgSpan = document.querySelector('.code-img span');
@@ -160,10 +163,12 @@ export default {
       }
       // 判断登录条件
       if(localStorage.getItem(this.loginPhone)){//判断手机号存在
+        // console.log(user)
         var user = JSON.parse(localStorage.getItem(this.loginPhone));
         if(this.loginPw==user.password){
           pwSpan.innerHTML='✔';
           pwSpan.style.color = 'green';
+          // username.innerHTML = this.loginPhone;
           location.href = '/#/inner/homepage';
         }else{
           pwSpan.innerHTML='密码错误';

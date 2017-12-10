@@ -89,10 +89,10 @@ export default {
     // 手机号焦点事件
     phoneBlur: function() {
       // this.setNum(0);
-      // var phoneReg = /^1[3578]\d{9}$/;
+      var phoneReg = /^1[3578]\d{9}$/;
       var phoneSpan = document.querySelector('.phone span');
       var buttonGet = document.querySelector('.code-phone button');
-      var phoneReg = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
+      // var phoneReg = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
       if (this.phoneVal == '') {
         phoneSpan.innerHTML = '电话号码不能为空';
         phoneSpan.style.color = 'red';
@@ -348,9 +348,9 @@ li {
   list-style: none;
 }
 
-.select {
-  border: 1px solid #88f;
-}
+// .select {
+//   // border: 1px solid #88f;
+// }
 
 .r-outter {
   margin: 0 auto; // background: #f5f5f5;
