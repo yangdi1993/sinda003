@@ -1,9 +1,11 @@
 <template>
   <div class="r-outter">
     <!--小导航-->
-    <div class="r-header">
-      <div class="r-logo"></div>
-      <p>欢迎登陆</p>
+    <div class="outBox">
+      <div class="r-header">
+        <a href="/#/inner/homepage"><div class="r-logo"></div></a>
+        <p>欢迎登陆</p>
+      </div>
     </div>
     <!--内容-->
     <div class="r-content">
@@ -14,7 +16,7 @@
           <span>*</span>
         </li>
         <li class="pw">
-          <input type="text" placeholder="请输入密码" v-model="loginPw" v-on:blur="lwBlur" v-on:focus="lwFocus">
+          <input type="password" placeholder="请输入密码" v-model="loginPw" v-on:blur="lwBlur" v-on:focus="lwFocus">
           <span>*</span>
         </li>
         <li class="code-img">
@@ -27,7 +29,7 @@
           <a href="#/outter/forget">忘记密码</a>
         </li>
         <li class="loginBut">
-          <button>立即登录</button>
+          <button @click="loginBut">立即登录</button>
         </li>
       </ul>
       <!--跳转登录界面-->
@@ -43,6 +45,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'HelloWorld',
   data() {
@@ -50,6 +54,7 @@ export default {
       loginPhone:'',
       loginPw:'',
       codeImage:'',
+      imgUrl: '/xinda-api/ajaxAuthcode',
       msg: 'Welcome to Your Vue.js App'
     }
   },
@@ -66,13 +71,12 @@ export default {
       if(this.loginPhone==''){
         phoneSpan.innerHTML = "手机号不能为空";
         phoneSpan.style.color = "red";
-      }else if(''){//判断手机号存在
+      }else if(localStorage.getItem(this.loginPhone)){//判断手机号存在
         phoneSpan.innerHTML = "✔";
         phoneSpan.style.color = "green";
       }else{
         phoneSpan.innerHTML = "手机号未注册";
         phoneSpan.style.color = "red";
-
       }
     },
     lpFocus:function(){
@@ -83,11 +87,11 @@ export default {
     // 密码焦点事件
     lwBlur:function(){
       var pwSpan = document.querySelector('.pw span');
+      var user = JSON.parse(localStorage.getItem(this.loginPhone))
       if(this.loginPw==''){
         pwSpan.innerHTML='密码不能为空';
         pwSpan.style.color = 'red';
-      }else if(''){//判断密码正确
-
+      }else if(this.loginPw==user.password){//判断密码正确
         pwSpan.innerHTML='✔';
         pwSpan.style.color = 'green';
       }else{
@@ -107,20 +111,66 @@ export default {
       if(this.codeImage==''){
         codeImgSpan.innerHTML='验证码不能为空';
         codeImgSpan.style.color = 'red';
-      }else if(''){//判断验证码正确
-
+      }else if(/^(\d|[a-z]){4}$/.test(this.codeImage)){//判断验证码正确
         codeImgSpan.innerHTML='✔';
         codeImgSpan.style.color = 'green';
       }else{
         codeImgSpan.innerHTML='验证码不正确,请重新输入';
         codeImgSpan.style.color = 'red';
       }
+      // var codeSpan = document.querySelector('.code-img span');
+      // var button = document.querySelector('.code-phone button');
+      // this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
+      //   // console.log(data);
+      //   if (this.codeImgVal == '') {
+      //   codeSpan.innerHTML = data.data.msg;
+      //   codeSpan.style.color = 'red';
+      // }else if (data.data.status == '-1') {
+      //     codeSpan.innerHTML = data.data.msg;
+      //     codeSpan.style.color = 'red';
+      //     button.disabled = true;
+      //     button.style.background = '#ddd';
+      //     console.log(data.data.status)
+      //   }else{
+      //     codeSpan.innerHTML = data.data.msg;
+      //     codeSpan.style.color = 'green';
+      //   }
+      // })
     },
     ciFocus:function(){
       var codeImgSpan = document.querySelector('.code-img span');
       codeImgSpan.innerHTML='*';
       codeImgSpan.style.color = 'red';
     },
+    loginBut:function(){
+      var phoneSpan = document.querySelector('.phone span');
+      var pwSpan = document.querySelector('.pw span');
+      var codeImgSpan = document.querySelector('.code-img span');
+      if(this.loginPhone==''){
+        phoneSpan.innerHTML = "手机号不能为空";
+        phoneSpan.style.color = "red";
+      }
+      if(this.loginPw==''){
+        pwSpan.innerHTML='密码不能为空';
+        pwSpan.style.color = 'red';
+      }
+      if(this.codeImage==''){
+        codeImgSpan.innerHTML='验证码不能为空';
+        codeImgSpan.style.color = 'red';
+      }
+      // 判断登录条件
+      if(localStorage.getItem(this.loginPhone)){//判断手机号存在
+        var user = JSON.parse(localStorage.getItem(this.loginPhone));
+        if(this.loginPw==user.password){
+          pwSpan.innerHTML='✔';
+          pwSpan.style.color = 'green';
+          location.href = '/#/inner/homepage';
+        }else{
+          pwSpan.innerHTML='密码错误';
+          pwSpan.style.color = 'red';
+        }
+      }
+    }
   }
 }
 </script>
@@ -139,11 +189,13 @@ li {
 .r-outter {
   margin: 0 auto; // background: #f5f5f5;
   // width: 1200px;
-  .r-header {
-    margin-bottom: 52px;
+  .outBox{
     background: #fff;
-    padding-left: 200px;
-    display: flex; // width: 1200px;
+  }
+  .r-header {
+    margin: 0 auto 52px;
+    display: flex; 
+    width: 1200px;
     height: 97px;
     overflow: hidden;
     .r-logo {
@@ -197,6 +249,7 @@ li {
         }
         img {
           margin-left: 4px;
+          margin-right: 5px;
           background: #fff;
           width: 80px;
           height: 36px;

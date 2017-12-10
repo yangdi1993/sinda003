@@ -1,8 +1,11 @@
 import Vue from 'vue'
+//路由
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import server from '@/components/server'
+//未登录时界面
 import outter from '@/components/outter'
+//登录后
 import inner from '@/components/inner'
 //省市区三级联动
 import Distpicker from 'v-distpicker'
@@ -10,7 +13,9 @@ import Distpicker from 'v-distpicker'
 import login from '@/views/login'
 import register from '@/views/register'
 import forget from '@/views/forget'
+//主页
 import homepage from '@/homepage/homepage'
+
 //支付页面
 import paypage from '@/paypage/paypage'
 //支付失败
@@ -41,7 +46,6 @@ import shophome from '@/shop/shophome'
 import join from '@/shop/join'
 // 会员中心-用户评价-去评价
 import goEvalu from '@/memberCenter/goEvalu'
-
 //省市区三级联动
 Vue.component('v-distpicker', Distpicker)
 
@@ -63,6 +67,7 @@ export default new Router({
       name: 'inner',
       component: inner,
       children:[
+        //主页
         {
           path: 'homepage',
           name: 'homepage',

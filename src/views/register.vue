@@ -3,7 +3,9 @@
     <!--小导航-->
     <div class="outBox">
       <div class="r-header">
-        <div class="r-logo"></div>
+        <a href="/#/inner/homepage">
+          <div class="r-logo"></div>
+        </a>
         <p>欢迎注册</p>
       </div>
     </div>
@@ -27,7 +29,7 @@
           <span>*</span>
         </li>
         <li class="android-wheel">
-          <v-distpicker class="select" v-on:change="selChange" province="省" city="市" area="区"></v-distpicker>
+          <v-distpicker class="select" province="省" city="市" area="区"></v-distpicker>
           <span>*</span>
         </li>
         <li class="pw">
@@ -36,21 +38,19 @@
           <span>*</span>
         </li>
         <li class="registerBut">
-          <button>立即注册</button>
+          <button @click="register">立即注册</button>
         </li>
         <li>
           <p>注册即同意遵守
-            <span>《服务协议》</span>
+            <a href="javascript:void(0)">《服务协议》</a>
           </p>
         </li>
-
       </ul>
       <!--跳转登录界面-->
       <div class="r-goto">
         <p>已有账号?</p>
         <div>
           <a href="#/outter/login">立即登录>></a>
-
         </div>
       </div>
     </div>
@@ -75,6 +75,7 @@ export default {
       codeImgVal: '',
       codePhoneVal: '',
       pwVal: '',
+      // user:{},
       imgUrl: '/xinda-api/ajaxAuthcode',
       msg: 'Welcome to Your Vue.js App',
     }
@@ -85,23 +86,24 @@ export default {
       this.phoneVal = this.phoneVal.replace(/\D/g, '');
       // console.log(this.phoneVal);
     },
-    // created(){
-
-    // },
     // 手机号焦点事件
     phoneBlur: function() {
       // this.setNum(0);
-      var phoneReg = /^1[3578]\d{9}$/;
+      // var phoneReg = /^1[3578]\d{9}$/;
       var phoneSpan = document.querySelector('.phone span');
       var buttonGet = document.querySelector('.code-phone button');
-      // var phoneReg = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
-      var phoneValue = this.phoneVal;
-      if (phoneValue == '') {
+      var phoneReg = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
+      if (this.phoneVal == '') {
         phoneSpan.innerHTML = '电话号码不能为空';
         phoneSpan.style.color = 'red';
-      } else if (phoneReg.test(phoneValue)) {
-        phoneSpan.innerHTML = '✔';
-        phoneSpan.style.color = 'green';
+      } else if (phoneReg.test(this.phoneVal)) {
+        if (localStorage.getItem(this.phoneVal)) {
+          phoneSpan.innerHTML = '用户名已存在';
+          phoneSpan.style.color = 'red';
+        } else {
+          phoneSpan.innerHTML = '✔';
+          phoneSpan.style.color = 'green';
+        }
       } else {
         phoneSpan.innerHTML = '电话号码格式错误';
         phoneSpan.style.color = 'red';
@@ -113,10 +115,9 @@ export default {
       phoneSpan.innerHTML = '*';
       phoneSpan.style.color = 'red';
       //已经开始倒计时则按钮不可用
-      if(button.innerHTML=='点击获取'){
+      if (button.innerHTML == '点击获取') {
         button.disabled = false;
         button.style.background = '#fff';
-        console.log('nonooo')
       }
     },
 
@@ -126,22 +127,34 @@ export default {
     //图片验证码
     codeImgBlur: function() {
       var codeSpan = document.querySelector('.code-img span');
-      var codeImgValue = this.codeImgVal;
-      if (codeImgValue == '') {
-        codeSpan.innerHTML = '验证码不能为空';
+      var button = document.querySelector('.code-phone button');
+      this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
+        // console.log(data);
+        if (this.codeImgVal == '') {
+        codeSpan.innerHTML = data.data.msg;
         codeSpan.style.color = 'red';
-      } else if (/^(\d|[a-z]){4}$/.test(codeImgValue)) {
-        codeSpan.innerHTML = '✔';
-        codeSpan.style.color = 'green';
-      } else {
-        codeSpan.innerHTML = '验证码格式错误';
-        codeSpan.style.color = 'red';
-      }
+      }else if (data.data.status == '-1') {
+          codeSpan.innerHTML = data.data.msg;
+          codeSpan.style.color = 'red';
+          button.disabled = true;
+          button.style.background = '#ddd';
+          console.log(data.data.status)
+        }else{
+          codeSpan.innerHTML = data.data.msg;
+          codeSpan.style.color = 'green';
+        }
+      })
     },
     codeImgFocus: function() {
       var codeSpan = document.querySelector('.code-img span');
+      var button = document.querySelector('.code-phone button');
       codeSpan.innerHTML = '*';
       codeSpan.style.color = 'red';
+      //已经开始倒计时则按钮不可用
+      if (button.innerHTML == '点击获取') {
+        button.disabled = false;
+        button.style.background = '#fff';
+      }
     },
     //点击更换图片验证码
     buttonChange: function() {
@@ -155,11 +168,10 @@ export default {
     //动态验证码
     codePhoneBlur: function() {
       var codePhoneSpan = document.querySelector('.code-phone span');
-      var codePhoneValue = this.codePhoneVal;
-      if (codePhoneValue == '') {
-        codePhoneSpan.innerHTML = '验证码不能为空';
+      if (this.codePhoneVal == '') {
+        codePhoneSpan.innerHTML = '动态验证码不能为空';
         codePhoneSpan.style.color = 'red';
-      } else if (codePhoneValue == 111111) {
+      } else if (this.codePhoneVal == 111111) {
         codePhoneSpan.innerHTML = '✔';
         codePhoneSpan.style.color = 'green';
       } else {
@@ -178,12 +190,11 @@ export default {
     //密码证码
     codePwBlur: function() {
       var pwValSpan = document.querySelector('.pw span');
-      var pwValue = this.pwVal;
       var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
-      if (pwValue == '') {
+      if (this.pwVal == '') {
         pwValSpan.innerHTML = "密码不能为空";
         pwValSpan.style.color = "red";
-      } else if (newPwReg.test(pwValue)) {
+      } else if (newPwReg.test(this.pwVal)) {
         pwValSpan.innerHTML = "✔";
         pwValSpan.style.color = "green";
       } else {
@@ -198,37 +209,126 @@ export default {
 
     },
 
+
+
+    // changeOpt:function(){
+    //   console.log('click')
+    // },
+
+
+
+
     // 点击获取验证码
     buttonGet: function() {
       var count = 60;
       var button = document.querySelector('.code-phone button');
+      var codeSpan = document.querySelector('.code-img span');
       var phoneSpan = document.querySelector('.phone span');
-      if (/^1[3578]\d{9}$/.test(this.phoneVal)) {
+      if (this.phoneVal == '') {
+        phoneSpan.innerHTML = '手机号不能为空';
+        phoneSpan.style.color = 'red';
+      }
+      if (/^1[3578]\d{9}$/.test(this.phoneVal) && /^(\d|[a-z]){4}$/.test(this.codeImgVal)) {
+        this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
+          // console.log(data);
+          if (data.data.status == '-1') {
+            codeSpan.innerHTML = '图片验证码错误';
+            codeSpan.style.color = 'red';
+            button.disabled = true;
+            button.style.background = '#ddd';
+            console.log(data.data.status)
+            var regStatus = data.data.status;
+          } else {
+            button.style.background = '#ddd';
+            button.innerHTML = '重新获取' + count;
+            button.disabled = true;
+            var dic = setInterval(function() {
+              count--;
+              button.innerHTML = '重新获取' + count;
+              if (count == 1) {
+                clearInterval(dic);
+                button.style.background = '#fff';
+                button.innerHTML = '点击获取';
+                button.disabled = false;
+              }
+            }, 1000);
+          }
+        })
+
+      } else if (this.codeImgVal == '') {
+        codeSpan.innerHTML = '图片验证码不能为空';
+        codeSpan.style.color = 'red';
         button.disabled = true;
         button.style.background = '#ddd';
-        button.innerHTML = '重新获取' + count;
-        var dic = setInterval(function() {
-          count--;
-          button.innerHTML = '重新获取' + count;
-          if (count == 1) {
-            clearInterval(dic);
-            button.style.background = '#fff';
-            button.innerHTML = '点击获取';
-            button.disabled = false;
-          }
-        }, 1000);
-        this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
-          console.log(data);
-        })
       } else {
         button.disabled = true;
         button.style.background = '#ddd';
         phoneSpan.innerHTML = '请输入正确的手机号';
         phoneSpan.style.color = 'red';
       }
+
     },
-    selChange: function() {
-      // console.log(province)
+
+
+
+    //注册按钮
+    register: function() {
+      var phoneSpan = document.querySelector('.phone span');
+      var codeSpan = document.querySelector('.code-img span');
+      var codePhoneSpan = document.querySelector('.code-phone span');
+      var pwValSpan = document.querySelector('.pw span');
+      var selectSpan = document.querySelector('.android-wheel span');
+      var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+      var phoneReg = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
+      var md5 = require('md5');
+      var select = document.querySelectorAll('select');
+      var address = select[0].selectedOptions[0].innerHTML + ' ' + select[1].selectedOptions[0].innerHTML + ' ' + select[2].selectedOptions[0].innerHTML;
+      console.log(address);
+      var user = {};
+      if (this.phoneVal == '') {
+        phoneSpan.innerHTML = '电话号码不能为空';
+        phoneSpan.style.color = 'red';
+      }
+      if (this.codeImgVal == '') {
+        codeSpan.innerHTML = '验证码不能为空';
+        codeSpan.style.color = 'red';
+      }
+      if (this.codePhoneVal == '') {
+        codePhoneSpan.innerHTML = '动态验证码不能为空';
+        codePhoneSpan.style.color = 'red';
+      }
+      if (this.pwVal == '') {
+        pwValSpan.innerHTML = "密码不能为空";
+        pwValSpan.style.color = "red";
+      }
+      if (address == '省 市 区') {
+        selectSpan.innerHTML = "地址不能为空";
+        selectSpan.style.color = "red";
+      }
+      // else{
+      //   selectSpan.innerHTML = "✔";
+      //   selectSpan.style.color = "green";
+      // }
+      // 判断注册条件
+      if (phoneReg.test(this.phoneVal)) {
+        if (localStorage.getItem(this.phoneVal)) {
+          phoneSpan.innerHTML = '用户名已存在';
+          phoneSpan.style.color = 'red';
+        }
+        else if (/^(\d|[a-z]){4}$/.test(this.codeImgVal) && this.codePhoneVal == 111111 && newPwReg.test(this.pwVal)) {
+          user.name = this.phoneVal;
+          // user.passward = md5(this.pwVal);
+          user.phoneNum = this.phoneVal;
+          user.password = this.pwVal;
+          user.add = address;
+          localStorage.setItem(this.phoneVal, JSON.stringify(user));
+          console.log(user)
+          location.href = '#/outter/login';
+        }
+      }
+      // else{
+      //   console.log('注册失败');
+      // }
     },
   }
 }
@@ -248,6 +348,10 @@ li {
   list-style: none;
 }
 
+.select {
+  border: 1px solid #88f;
+}
+
 .r-outter {
   margin: 0 auto; // background: #f5f5f5;
   // width: 1200px; // 小导航
@@ -255,9 +359,8 @@ li {
     background: #fff;
   }
   .r-header {
-    margin-bottom: 52px; // margin: 0 auto;
-    background: #fff; // padding-left: 200px;
-    padding-left: 12.5%;
+    margin: 0 auto 52px;
+    background: #fff;
     display: flex;
     width: 1200px;
     height: 97px;
@@ -394,8 +497,9 @@ li {
         margin-left: -150px;
         font-size: 13px;
         text-align: center;
-        span {
+        a {
           color: #2693d6;
+          text-decoration: none;
         }
       }
     }
