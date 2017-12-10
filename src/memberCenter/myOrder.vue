@@ -125,10 +125,19 @@ export default {
       orSerInVal:"",
       // 搜索数据
       searchShow:true,
+      // 接口数据全部
+      rData:[],
+      // 接口数据显示
+      rDataSh:[],
     }
   },
   created(){
-   
+    // 接口获取订单数据
+    var that = this;
+    this.ajax.post('da-api/commonlect-region',{}).then(function(data){
+    var rData = data.data.data
+    });
+    
   },
   methods:{
     // 点击删除弹出框
