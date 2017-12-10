@@ -123,7 +123,6 @@ export default {
           this.servicePro1=true;
           this.tencent1=false;
           this.zizhi1=false;
-          console.log(123)
       },
       tencent:function(){
           this.servicePro1=false;
