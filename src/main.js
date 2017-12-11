@@ -6,19 +6,16 @@ import router from './router'
 import axios from 'axios'
 
 
-
 import store from './store'
 import qs from 'qs'
 //轮播部分插件引入
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 Vue.use(VueAwesomeSwiper)
 
+
 //输入验证插件
 import Validator from 'vue-validator'
 Vue.use(Validator)
-
-
-
 
 
 Vue.prototype.ajax=axios

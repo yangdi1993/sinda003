@@ -46,7 +46,7 @@
             </li>
             <li class="name">
               <p>姓名：</p>
-              <input type="text">
+              <input type="text" v-model="name">
             </li>
             <li class="gender">
               <p>性别：</p>
@@ -60,9 +60,9 @@
             </li>
             <li  class="select">
               <p>所在地区：</p>
-              <v-distpicker province="省" city="市" area="区"></v-distpicker>
+              <v-distpicker province='省' city='市' area='区'></v-distpicker>
             </li>
-           <button class="save">保存</button>
+           <button class="save" @click="saveBut">保存</button>
           </ul>
         </div>
       </div>
@@ -76,7 +76,11 @@ import ihead from '../components/ihead'
 export default {
   data () {
     return{
+      name:'',
       email:'',
+      province:'',
+      city:'',
+      area:'',
     }
   },
   methods:{
@@ -102,6 +106,19 @@ export default {
       emailSpan.style.color = "red";
       
     },
+    // 保存按钮事件
+    saveBut:function(){
+      var select = document.querySelectorAll('select');
+      var address = select[0].selectedOptions[0].innerHTML + ' ' + select[1].selectedOptions[0].innerHTML + ' ' + select[2].selectedOptions[0].innerHTML;
+      // console.log(address);
+      var username = 15232145698;
+      var user = JSON.parse(localStorage.getItem(username));
+      user.name = this.name;
+      user.email = this.email;
+      user.add = address;
+      localStorage.setItem(username,JSON.stringify(user))
+      // console.log(user)
+    }
   }
 
 }

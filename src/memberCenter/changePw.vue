@@ -55,7 +55,7 @@
               <input type="password" v-model="conPw" v-on:blur="conPwBlur" v-on:focus="conPwFocus">
               <span>*</span>
             </li>
-            <button class="savePw">保存</button>
+            <button class="savePw" @click ='savePwBut'>保存</button>
           </ul>
         </div>
       </div>
@@ -77,11 +77,14 @@ export default {
   methods:{
     // 旧密码焦点事件
     pwBlur:function() {
+      var username = 15232145698;
       var pwSpan = document.querySelector('.password span');
+      var user = JSON.parse(localStorage.getItem(username));
+      console.log(user)
       if(this.password==''){
-        pwSpan.innerHTML = "新密码不能为空";
+        pwSpan.innerHTML = "旧密码不能为空";
         pwSpan.style.color = "red";
-      }else if(''){//获取用户密码进行判断
+      }else if(this.password==user.password){//获取用户密码进行判断
         pwSpan.innerHTML = "✔";
         pwSpan.style.color = "green";
       }else{
@@ -136,6 +139,32 @@ export default {
       var conPwSpan = document.querySelector('.conPw span');
       conPwSpan.innerHTML = "*";
       conPwSpan.style.color = "red";
+    },
+    savePwBut:function(){
+      var username = 15232145698;
+      var user = JSON.parse(localStorage.getItem(username));
+      var newPwSpan = document.querySelector('.newPw span');
+      var pwSpan = document.querySelector('.password span');
+      var conPwSpan = document.querySelector('.conPw span');
+      var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+      // console.log(user)
+      if(this.password==''){
+        pwSpan.innerHTML = "旧密码不能为空";
+        pwSpan.style.color = "red";
+      }
+      if(this.newPw==''){
+        newPwSpan.innerHTML = "新密码不能为空";
+        newPwSpan.style.color = "red";
+      }
+       if(this.conPw==''){
+        conPwSpan.innerHTML = "确认密码不能为空";
+        conPwSpan.style.color = "red";
+       }
+      if(this.password==user.password&&newPwReg.test(this.newPw)&&this.newPw==this.conPw){
+        // console.log('修改成功')
+        user.password = this.newPw;
+        localStorage.setItem(username,JSON.stringify(user));
+      }
     },
   }
 }

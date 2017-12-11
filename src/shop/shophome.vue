@@ -22,9 +22,85 @@
     </div>
     <div class="shophome-right">
         <div class="shophome-right1">
-            <p>服务产品</p>
-            <p>客服</p>
-            <p>资质证书</p>
+            <p @click="servicePro">服务产品</p>
+            <p @click="tencent">客服</p>
+            <p @click="zizhi">资质证书</p>
+        </div>
+        <div class="shophome-right2">
+            <div class="rights" v-show="servicePro1">
+                <div class="right">
+                    <div class="box">
+                        <p>商标快速注册通道（5个小时...</p>
+                        <img src="../images/shop/chang.gif" alt=""><br>
+                        <a href="">工作日内5个小时提交申报，次日拿到</a><br>
+                        <a href="">销量</a><br>
+                        <h1>￥ 1400.00</h1><br>
+                        <a href=""class="line-through">原价：￥2000.00</a>
+                        <div class="on"></div>
+                        <span>查看详情>>></span>
+                    </div>
+                    <div class="box">
+                        <p>商标快速注册通道（5个小时...</p>
+                        <img src="../images/shop/chang.gif" alt=""><br>
+                        <a href="">工作日内5个小时提交申报，次日拿到</a><br>
+                        <a href="">销量</a><br>
+                        <h1>￥ 1400.00</h1><br>
+                        <a href=""class="line-through">原价：￥2000.00</a>
+                        <div class="on"></div>
+                        <span>查看详情>>></span>
+                    </div>
+                    <div class="box">
+                        <p>商标快速注册通道（5个小时...</p>
+                        <img src="../images/shop/chang.gif" alt=""><br>
+                        <a href="">工作日内5个小时提交申报，次日拿到</a><br>
+                        <a href="">销量</a><br>
+                        <h1>￥ 1400.00</h1><br>
+                        <a href=""class="line-through">原价：￥2000.00</a>
+                        <div class="on"></div>
+                        <span>查看详情>>></span>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="box">
+                        <p>商标快速注册通道（5个小时...</p>
+                        <img src="../images/shop/chang.gif" alt=""><br>
+                        <a href="">工作日内5个小时提交申报，次日拿到</a><br>
+                        <a href="">销量</a><br>
+                        <h1>￥ 1400.00</h1><br>
+                        <a href=""class="line-through">原价：￥2000.00</a>
+                        <div class="on"></div>
+                        <span>查看详情>>></span>
+                    </div>
+                    <div class="box">
+                        <p>商标快速注册通道（5个小时...</p>
+                        <img src="../images/shop/chang.gif" alt=""><br>
+                        <a href="">工作日内5个小时提交申报，次日拿到</a><br>
+                        <a href="">销量</a><br>
+                        <h1>￥ 1400.00</h1><br>
+                        <a href=""class="line-through">原价：￥2000.00</a>
+                        <div class="on"></div>
+                        <span>查看详情>>></span>
+                    </div>
+                    <div class="box">
+                        <p>商标快速注册通道（5个小时...</p>
+                        <img src="../images/shop/chang.gif" alt=""><br>
+                        <a href="">工作日内5个小时提交申报，次日拿到</a><br>
+                        <a href="">销量</a><br>
+                        <h1>￥ 1400.00</h1><br>
+                        <a href=""class="line-through">原价：￥2000.00</a>
+                        <div class="on"></div>
+                        <span>查看详情>>></span>
+                    </div>
+                </div>
+            </div>
+            <div class="qq" v-show="tencent1">
+                <b>工作时间：周一到周五</b><br>
+                <strong>QQ咨询:</strong><br>
+                <img src="../images/shop/qq.png" alt="">
+            </div>
+            <div class="zizhi" v-show="zizhi1">
+                <img src="../images/shop/4652.png" alt="">
+            </div>
         </div>
     </div>
     <router-view/>
@@ -36,9 +112,30 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      servicePro1:true,
+      tencent1:false,
+      zizhi1:false,
     }
   },
+  methods:{
+      servicePro:function(){
+          this.servicePro1=true;
+          this.tencent1=false;
+          this.zizhi1=false;
+          console.log(123)
+      },
+      tencent:function(){
+          this.servicePro1=false;
+          this.tencent1=true;
+          this.zizhi1=false;
+      },
+      zizhi:function(){
+          this.servicePro1=false;
+          this.tencent1=false;
+          this.zizhi1=true;
+      }
+  }
 }
 </script>
 
@@ -174,6 +271,73 @@ export default {
 }
 .shophome-right1 p:hover{
     border-bottom: 1px solid #2693d4;
+}
+.right{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+    .box{
+        width:265px;
+        height:190px;
+        margin-top: 20px;
+        border:1px solid #e9e9e9;
+        p{
+            color: #000;
+            font-size:17px;
+            margin-top: 20px;
+            margin-left:10px;
+        }
+        img{
+            margin-left:-60px;
+        }
+        a{
+            font-size:14px;
+            color:#000;
+            text-decoration: none;
+            float: left;
+            margin-left:17px;
+            line-height: 30px;
+        }
+        h1{
+            color:#2794d5;
+            margin-top: 20px;
+            float: left;
+            font-size:32px;
+        }
+        .line-through{
+            text-decoration: line-through;
+        }
+        span{
+            color:#2794d5;
+            font-size:14px;
+            margin-top: 5px;
+            display: inline-block;
+        }
+    }
+    
+}
+.qq{
+    margin-left: 20px;
+    margin-top: 20px;
+    color:#000;
+    float: left;
+    b{
+        margin-left: 20px;
+    }
+    strong{
+        margin-left: -70px;
+        padding-top: 30px;
+        position: absolute;
+    }
+    img{
+        position: absolute; 
+    }
+}
+.zizhi img{
+    margin-top:10px;
+    margin-left:-250px;
+    width: 300px;
+    height: 400px;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

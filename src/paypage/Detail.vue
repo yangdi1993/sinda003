@@ -33,7 +33,7 @@
             </p>
           </div>
           <div class="number">购买数量：
-            <input type="text" v-model="quantity" v-on:blur="counts">
+            <input type="text" v-model="quantity" @keydown="counts" class="Quantity">
           </div>
           <div class="buy">立即购买</div>
           <div class="add">加入购物车</div>
@@ -50,11 +50,11 @@
       <div class="bg-img"><img src="../images/paypage/u1225.png" alt=""></div>
       <div class="proservice">
         <div class="kuang">
-          <div class="touch fir">服务内容</div>
-          <div class="touch sec">商品评价</div>
+          <div class="touch t-fir" v-bind:class="{'t-fir':isA,'t-Fir':!isA}">服务内容</div>
+          <div class="touch t-sec" v-bind:class="{'t-sec':isA,'t-Sec':!isA}">商品评价</div>
         </div>
-        <div class="serviceCon" style="display:none">服务内容： <br>1.整理原始票据 <br>2.记账 <br>3.装订凭证 <br>4.出报表 <br>5.月报、季度企业所得税、年度汇算清缴 <br>6.打印总帐、明晰账本 </div>
-        <div class="userRating">
+        <div class="serviceCon" v-bind:class="{'serviceCon':isA,'ServiceCon':!isA}" style="display:none">服务内容： <br>1.整理原始票据 <br>2.记账 <br>3.装订凭证 <br>4.出报表 <br>5.月报、季度企业所得税、年度汇算清缴 <br>6.打印总帐、明晰账本 </div>
+        <div class="userRating" v-bind:class="{'userRating':isA,'UserRating':!isA}">
           <div class="con">
             <p class="main-fir">
               <span>0%</span>好评</p>
@@ -87,10 +87,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                <tr v-for="key in products" :key="key">
+                  <td>{{111}}</td>
+                  <td>{{111}}</td>
+                  <td>{{111}}</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -114,34 +114,55 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 export default {
   name: "HelloWorld",
   data() {
     return {
       msg: "Welcome to Your Vue.js App",
       quantity: 1,
-      products:[]
+      products: [],
+      isA: true
     };
   },
   methods: {
     counts: function() {
+      var Quantity = document.querySelector(".Quantity");
       if (/^\+?[1-9]\d*$/.test(this.quantity)) {
-        console.log(this);
+        //console.log(this);
         this.quantity = "";
       } else {
         this.quantity = this.quantity;
       }
+    },
+    changefir: function() {
+      var serviceCon = document.querySelector(".serviceCon");
+      var userRating = document.querySelector(".userRating");
+      var changesec = document.querySelector(".changesec");
+      this.isA = this.isA;
+      changesec.isA = !changesec.isA;
+      userRating.isA = !userRating.isA;
+      serviceCon.isA = serviceCon.isA;
+    },
+    changesec: function() {
+      var changefir = document.querySelector(".changefir");
+      var userRating = document.querySelector(".userRating");
+      var serviceCon = document.querySelector(".serviceCon");
+      //console.log(userRating);
+      this.isA = this.isA;
+      changefir.isA = !changefir.isA;
+      userRating.isA = userRating.isA;
+      serviceCon.isA = !serviceCon.isA;
     }
   },
-  created() {
-    // console.log('created');
-    var that = this;
-    this.ajax
-      .post("http://115.182.107.203:8088/xinda/xinda-api/product/judge/grid").then(function(data) {
-        var rData = data.data.data;
-        console.log(rData);
-        that.products = rData;
-      });
+  UserRating: function() {
+    this.ajax.post(
+      "/xinda-api/product/judge/grid",
+      this.qs.stringify({}).then(data => {
+        
+      })
+    );
   }
 };
 </script>
@@ -337,7 +358,7 @@ export default {
   height: 41px;
   border-bottom: 1px solid #ccc;
   background-color: #f7f7f7;
-  .fir {
+  .t-fir {
     //display: block;
     width: 135px;
     line-height: 41px;
@@ -345,10 +366,25 @@ export default {
     color: white;
     cursor: pointer;
   }
-  .sec {
+  .t-Fir {
     width: 135px;
     line-height: 41px;
     color: #636363;
+    cursor: pointer;
+  }
+  .t-sec {
+    width: 135px;
+    line-height: 41px;
+    color: #636363;
+    cursor: pointer;
+    margin-left: 135px;
+    margin-top: -41px;
+  }
+  .t-Sec {
+    width: 135px;
+    line-height: 41px;
+    background-color: #2693d4;
+    color: white;
     cursor: pointer;
     margin-left: 135px;
     margin-top: -41px;
@@ -359,16 +395,32 @@ export default {
   margin-left: 10px;
   line-height: 35px;
   color: #333;
-  height: 0;
-  width: 0;
+  height: 0px;
+  width: 0px;
+}
+.ServiceCon {
+  text-align: left;
+  margin-left: 10px;
+  line-height: 35px;
+  color: #333;
+  height: 0px;
+  width: 0px;
 }
 .userRating {
   float: left;
   //line-height: 120px;
   // margin-left: -530px;
   // margin-top: 400px;
-  width: 1200px;
-  height: 90px;
+  width: 1200px; //1200
+  height: 790px; //790
+}
+.UserRating {
+  float: left;
+  //line-height: 120px;
+  // margin-left: -530px;
+  // margin-top: 400px;
+  width: 1200px; //1200
+  height: 790px; //7
 }
 .list {
   //margin-left: 530px;
