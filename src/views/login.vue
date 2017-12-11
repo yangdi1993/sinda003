@@ -16,7 +16,7 @@
         <li class="phone">
           <input type="text" placeholder="请输入手机号" v-model="loginPhone" v-on:blur="lpBlur" v-on:focus="lpFocus">
           <span v-show="phoneNull">手机号不能为空</span>
-          <span v-show="phoneNotExist">手机号未注册</span>
+          <span v-show="phoneNotExist">账号不存在</span>
           <span v-show="phoneRight" id="green">✔</span>
           <span v-show="phoneStar">*</span>
         </li>
@@ -93,25 +93,20 @@ export default {
 
     // 手机号焦点事件
     lpBlur: function() {
-      var phoneSpan = document.querySelector('.phone span');
       if (this.loginPhone == '') {
         // 手机号不能为空
         this.phoneNull = true;
-        this.phoneNotExist = false;
-        this.phoneRight = false;
         this.phoneStar = false;
-      } else if (localStorage.getItem(this.loginPhone)) {//判断手机号存在
-        this.phoneNull = false;
-        this.phoneNotExist = false;
-        this.phoneRight = true;
-        this.phoneStar = false;
-      } else {
-        // 手机号未注册
-        this.phoneNull = false;
-        this.phoneNotExist = true;
-        this.phoneRight = false;
-        this.phoneStar = false;
-      }
+      } 
+      // else if (localStorage.getItem(this.loginPhone)) {
+      //   //判断手机号存在
+      //   this.phoneRight = true;
+      //   this.phoneStar = false;
+      // } else {
+      //   // 手机号未注册
+      //   this.phoneNotExist = true;
+      //   this.phoneStar = false;
+      // }
     },
     // 手机号获得焦点
     lpFocus: function() {
@@ -122,27 +117,21 @@ export default {
     },
     // 密码焦点事件
     lwBlur: function() {
-      var pwSpan = document.querySelector('.pw span');
-      var user = JSON.parse(localStorage.getItem(this.loginPhone))
+      // var user = JSON.parse(localStorage.getItem(this.loginPhone))
       if (this.loginPw == '') {
         //密码不能为空
         this.pwNull = true;
-        this.pwWrong = false;
-        this.pwRight = false;
         this.pwStar = false;
-      } else if (this.loginPw == user.password) {
-        //判断密码正确
-        this.pwNull = false;
-        this.pwWrong = false;
-        this.pwRight = true;
-        this.pwStar = false;
-      } else {
-        //密码不正确
-        this.pwNull = false;
-        this.pwWrong = true;
-        this.pwRight = false;
-        this.pwStar = false;
-      }
+      } 
+      // else if (this.loginPw == user.password) {
+      //   //判断密码正确
+      //   this.pwRight = true;
+      //   this.pwStar = false;
+      // } else {
+      //   //密码不正确
+      //   this.pwWrong = true;
+      //   this.pwStar = false;
+      // }
     },
     // 密码获得焦点
     lwFocus: function() {
@@ -153,38 +142,28 @@ export default {
     },
     // 验证码焦点事件
     ciBlur: function() {
-      // this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/sso/login',,this.qs.stringify({loginId: this.loginPhone, password: this.loginPw, imgCode: this.codeImage })).then(data => {
-      //     console.log(data.data.msg);})
-      
       if (this.codeImage == '') {
         //验证码不能为空
         this.imgNull = true;
-        this.imgWrong = false;
-        this.imgRight = false;
         this.imgStar = false;
-      } else if (/^(\d|[a-z]){4}$/.test(this.codeImage)) {//判断验证码正确
-
-        // /1111111111111111111111111111111111111111
-        // this.ajax.post('/xinda-api/ajaxAuthcode').then(data => {
-          // console.log(data);
-        //   if (data.data.status == 1) {
-        //     console.log(123)
-        //     this.imgNull = false;
-        //     this.imgWrong = false;
-        //     this.imgRight = true;
-        //     this.imgStar = false;
-        //   }
-        // })
-      } else {
-        //验证码不正确,请重新输入
-        this.imgNull = false;
-        this.imgWrong = true;
-        this.imgRight = false;
-        this.imgStar = false;
-      }
+      } 
+      // else if (/^(\d|[a-z]){4}$/.test(this.codeImage)) {
+      //判断验证码正确
+      // this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.loginPhone, smsType: 1, imgCode: this.codeImage })).then(data => {
+      //   // console.log(data);
+        // if (data.data.status == 1) {
+        //   this.imgRight = true;
+        //   this.imgStar = false;
+        // }
+      // })
+      // } else {
+      //   //验证码不正确
+      //   this.imgWrong = true;
+      //   this.imgStar = false;
+      // }
     },
     // 验证码获得焦点
-    ciFocus: function() {
+    ciFocus:function() {
       this.imgNull = false;
       this.imgWrong = false;
       this.imgRight = false;
@@ -195,57 +174,71 @@ export default {
     },
     // 登录按钮
     loginBut: function() {
+      // console.log('loginUser'+loginUser)
       var md5 = require('md5');
       if (this.loginPhone == '') {
         // 手机号不能为空
         this.phoneNull = true;
-        this.phoneNotExist = false;
-        this.phoneRight = false;
         this.phoneStar = false;
+        this.pwWrong = false;
+        this.pwRight = false;
       } else if (this.loginPw == '') {
         //密码不能为空
         this.pwNull = true;
+        this.pwStar = false;
         this.pwWrong = false;
         this.pwRight = false;
-        this.pwStar = false;
       } else if (this.codeImage == '') {
         //验证码不能为空
         this.imgNull = true;
+        this.imgStar = false;
         this.imgWrong = false;
         this.imgRight = false;
-        this.imgStar = false;
       }
       // 判断登录条件
-      // if (localStorage.getItem(this.loginPhone)) {//判断手机号存在
-      // console.log(user)
-      this.ajax.post('/xinda-api/sso/login',this.qs.stringify({ loginId: this.loginPhone, password: this.loginPw, imgCode: this.codeImage })).then(data => {
-        console.log(data.data.msg,data.data.status)
-        console.log(this.loginPw)
+      //判断手机号存在
+      this.ajax.post('/xinda-api/sso/login', this.qs.stringify({ loginId: this.loginPhone, password: this.loginPw, imgCode: this.codeImage })).then(data => {
+        console.log(data.data.msg, data.data.status)
+        if (data.data.msg == '账号不存在') {
+          // console.log('账号不存在')
+          this.phoneNull = true;
+          this.phoneStar = false;
+          this.pwWrong = false;
+          this.pwRight = false;
+          this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
+        }
+        if (data.data.msg == '图片验证码错误！') {
+          this.imgWrong = true;
+          this.imgRight = false;
+          this.imgNull = false;
+          this.imgStar = false;
+          // console.log('图片验证码错误！')
+          this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
+        }
+        if (data.data.msg == '账号或密码不正确！') {
+          this.pwWrong = true;
+          this.pwStar = false;
+          this.pwNull = false;
+          this.pwRight = false;
+          // console.log('账号或密码不正确！')
+          this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
+        }
+        if (data.data.status == 1) {
+          this.phoneRight = true;
+          this.phoneStar = false;
+          this.imgRight = true;
+          this.imgStar = false;
+          this.pwRight = true;
+          this.pwStar = false;
+          // 登录成功后保存当前用户名
+          var loginUser = {};
+          loginUser.username = this.loginPhone;
+          loginUser.password = this.loginPw;
+          sessionStorage.setItem(this.loginPhone,JSON.stringify(loginUser));
+          // console.log('loginUser'+loginUser)
+          location.href = '/#/inner/homepage';
+        }
       });
-      // var user = JSON.parse(localStorage.getItem(this.loginPhone));
-      // if (this.loginPw == user.password) {
-      //   this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.loginPhone, smsType: 1, imgCode: this.codeImage })).then(data => {
-      //     console.log(data);
-      //     if (data.data.status == 1) {
-      //       console.log('登陆成功')
-      //     } else {
-      //       //验证码错误
-      //       this.imgNull = false;
-      //       this.imgWrong = true;
-      //       this.imgRight = false;
-      //       this.imgStar = false;
-      //     }
-      //   })
-
-        location.href = '/#/inner/homepage';
-      // } else {
-      //   //密码不正确
-      //   this.pwNull = false;
-      //   this.pwWrong = true;
-      //   this.pwRight = false;
-      //   this.pwStar = false;
-      // }
-      // }
     }
   }
 }
