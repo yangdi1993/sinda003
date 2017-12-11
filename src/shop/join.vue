@@ -278,7 +278,28 @@ export default {
         }
     }
 }
-.icons ul>li:hover{
+.icon1:hover li{
+    color:blue;
+}
+.icon1:hover li>p{
+    color:blue;
+}
+.icon2:hover li{
+    color:blue;
+}
+.icon2:hover li>p{
+    color:blue;
+}
+.icon3:hover li{
+    color:blue;
+}
+.icon3:hover li>p{
+    color:blue;
+}
+.icon4:hover li{
+    color:blue;
+}
+.icon4:hover li>p{
     color:blue;
 }
 .need{
