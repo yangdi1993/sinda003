@@ -99,7 +99,7 @@
                 <img src="../images/shop/qq.png" alt="">
             </div>
             <div class="zizhi" v-show="zizhi1">
-                <img src="../images/shop/4652.png" alt="">
+                <img src="../images/shop/zhizhao.png" alt="">
             </div>
         </div>
     </div>

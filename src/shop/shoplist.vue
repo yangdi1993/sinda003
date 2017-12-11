@@ -14,8 +14,8 @@
       <div class="bigge">
         <div class="ge3">
           <p> 综合排序</p>
-          <p> 价格<img src="../images/shop/sm.gif" alt=""></p>
-          <p> 接单数<img src="../images/shop/sm.gif" alt=""></p>
+          <p> 价格<img src="../images/shop/jiantou.gif" alt=""></p>
+          <p> 接单数<img src="../images/shop/jiantou.gif" alt=""></p>
         </div>
         <div class="bigges">
           <div class="box" v-for="store in stores" :key="store.id">

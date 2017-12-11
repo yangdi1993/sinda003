@@ -10,7 +10,7 @@
             </div>
             <p>www.xinda.com</p>
             <h4>信达提供线上精准营销方案、帮助服务商快捷、低成本的获取有效客户，为传统优质服务商插上互联网的翅膀，助力企业腾飞。</h4>
-            <img src="../images/shop/lv.jpg" alt=""class="smlpic">
+            <img src="../images/shop/jiameng2.jpg" alt=""class="smlpic">
         </div>
         <div class="join-acquisition">
             <div class="join-centwo">YOU WILL RECEIVE</div>
@@ -191,14 +191,14 @@ export default {
     .img1{
         width:82px;
         height: 82px;
-        background: url(../images/shop/a.png) 100% no-repeat;
+        background: url(../images/shop/join.png) 100% no-repeat;
         background-position: 0px -87px;
     }
     .img2{
         margin-top: 20px;
         width:82px;
         height: 82px;
-        background: url(../images/shop/a.png) 100% no-repeat;
+        background: url(../images/shop/join.png) 100% no-repeat;
         background-position: 0px 0px;
     }
 }
@@ -210,14 +210,14 @@ export default {
     .img1{
         width:82px;
         height: 82px;
-        background: url(../images/shop/a.png) 100% no-repeat;
+        background: url(../images/shop/join.png) 100% no-repeat;
         background-position: -120px 0px;
     }
     .img2{
         margin-top: 20px;
         width:82px;
         height: 82px;
-        background: url(../images/shop/a.png) 100% no-repeat;
+        background: url(../images/shop/join.png) 100% no-repeat;
         background-position: -109px -103px;
     }
 } 
