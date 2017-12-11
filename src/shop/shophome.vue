@@ -99,7 +99,7 @@
                 <img src="../images/shop/qq.png" alt="">
             </div>
             <div class="zizhi" v-show="zizhi1">
-                <img src="../images/shop/4652.png" alt="">
+                <img src="../images/shop/zhizhao.png" alt="">
             </div>
         </div>
     </div>
@@ -123,7 +123,6 @@ export default {
           this.servicePro1=true;
           this.tencent1=false;
           this.zizhi1=false;
-          console.log(123)
       },
       tencent:function(){
           this.servicePro1=false;
