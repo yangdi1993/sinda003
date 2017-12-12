@@ -35,34 +35,50 @@
         <!-- 右侧边栏 -->
         <div class="memCenRi">
           <div class="myOrderHead">
-            <a href="#/accountSetting"><p >账户设置</p></a>
-            <a href="#/changePw"><p>修改密码</p></a>
+            <a href="#/accountSetting">
+              <p>账户设置</p>
+            </a>
+            <a href="#/changePw">
+              <p>修改密码</p>
+            </a>
             <!--<router-link to='changePw' replace>账户设置</router-link>-->
           </div>
           <ul class="settings">
             <li class="photo">
               <p>当前头像：</p>
-              <div></div>
+              <div><img src=headImg alt=""></div>
             </li>
             <li class="name">
               <p>姓名：</p>
-              <input type="text" v-model="name">
+              <input type="text" v-model="name"v-on:blur="nameBlur" v-on:focus="nameFocus">
+              <span v-show="headRight" class="right">✔</span>
+              <span v-show="headNull">姓名不能为空</span>
+              <span v-show="headStar">*</span>
             </li>
             <li class="gender">
               <p>性别：</p>
-              <input type="radio" name="selGenter"><span>男</span>
-              <input type="radio" name="selGenter"><span>女</span>
+              <!--<el-radio v-model="gender" label="1">男</el-radio>
+              <el-radio v-model="gender" label="2">女</el-radio>-->
+              <span v-show="genderRight" class="right">✔</span>
+              <span v-show="genderNull">性别不能为空</span>
+              <span v-show="genderStar">*</span>
             </li>
             <li class="email">
               <p>邮箱：</p>
-              <input type="text" placeholder="请输入邮箱" v-model="email" v-on:blur="emailBlur"v-on:focus="emailFocus">
-              <span>*</span>
+              <input type="text" placeholder="请输入邮箱" v-model="email" v-on:blur="emailBlur" v-on:focus="emailFocus">
+              <span v-show="emailRight" class="right">✔</span>
+              <span v-show="emailWrong">邮箱格式错误</span>
+              <span v-show="emailNull">邮箱不能为空</span>
+              <span v-show="emailStar">*</span>
             </li>
-            <li  class="select">
+            <li class="select">
               <p>所在地区：</p>
               <v-distpicker province='省' city='市' area='区'></v-distpicker>
             </li>
-           <button class="save" @click="saveBut">保存</button>
+            <button class="save" @click="saveBut">保存</button>
+            <span v-show="addRight" class="right">✔</span>
+              <span v-show="addNull">地址不能为空</span>
+              <span v-show="addStar">*</span>
           </ul>
         </div>
       </div>
@@ -74,50 +90,66 @@
 <script>
 import ihead from '../components/ihead'
 export default {
-  data () {
-    return{
-      name:'',
-      email:'',
-      province:'',
-      city:'',
-      area:'',
+  data() {
+    return {
+      // 姓名
+      name: '',
+      headRight:'',
+      headNull:'',
+      headStar:'',
+      // 性别
+      gender:'',
+     genderRight:'',
+      genderNull:'',
+      genderStar:'',
+      // 邮箱验证
+      email: '',
+      emailRight: false,
+      emailWrong: false,
+      emailNull: false,
+      emailStar: false,
+      // 地址
+      province: '',
+      city: '',
+      area: '',
+      addRight: false,
+      addNull: false,
+      addStar: false,
     }
   },
-  methods:{
-    emailBlur:function(){
+  methods: {
+    nameBlur:function(){
+
+    },
+    nameFocus:function(){
+this.nameRight = false;
+      this.nameWrong = false;
+      this.nameStar = true;
+    },
+    emailBlur: function() {
       var emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
-      var emailSpan = document.querySelector('.email span');
       var emailValue = this.email;
-      if(emailValue==''){
-        emailSpan.innerHTML = "邮箱不能为空";
-        emailSpan.style.color = "red";
-      }else if(emailReg.test(emailValue)){
-        console.log(emailValue);
-        emailSpan.innerHTML = "✔";
-        emailSpan.style.color = "green";
-      }else{
-        emailSpan.innerHTML = "邮箱格式错误";
-        emailSpan.style.color = "red";
+      if (emailReg.test(emailValue)) {
+        this.emailRight = true;
+        this.emailWrong = false;
+      } else {
+        // 邮箱格式错误
+        this.emailRight = false;
+        this.emailWrong = true;
       }
     },
-    emailFocus:function(){
-      var emailSpan = document.querySelector('.email span');
-      emailSpan.innerHTML = "*";
-      emailSpan.style.color = "red";
-      
+    emailFocus: function() {
+      this.emailRight = false;
+      this.emailWrong = false;
+      this.emailStar = true;
+
     },
     // 保存按钮事件
-    saveBut:function(){
-      var select = document.querySelectorAll('select');
-      var address = select[0].selectedOptions[0].innerHTML + ' ' + select[1].selectedOptions[0].innerHTML + ' ' + select[2].selectedOptions[0].innerHTML;
-      // console.log(address);
-      var username = 15232145698;
-      var user = JSON.parse(localStorage.getItem(username));
-      user.name = this.name;
-      user.email = this.email;
-      user.add = address;
-      localStorage.setItem(username,JSON.stringify(user))
-      // console.log(user)
+    saveBut: function() {
+      this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/member/info').then(data=>{
+        console.log(data)
+      })
+
     }
   }
 
@@ -233,7 +265,7 @@ li {
   margin-top: 60px;
   margin-left: 0;
   border-bottom: 1px solid #e9e9e9;
- 
+
   p {
     width: 80px;
     font-size: 14px;
@@ -242,14 +274,14 @@ li {
     margin-left: 10px;
     padding: 5px 27px;
   }
-   a{
+  a {
     text-decoration: none;
   }
-  a:nth-child(1) p{
+  a:nth-child(1) p {
     color: #3e9bd6;
     border-bottom: 2px solid #3e9bd6;
   }
-  a:nth-child(2) p{
+  a:nth-child(2) p {
     color: #262626;
     border-bottom: none;
   }
@@ -287,7 +319,7 @@ li {
 
 .settings {
   width: 950px;
-  height: 500px; 
+  height: 500px;
   li {
     display: flex;
     margin-top: 25px;
@@ -319,22 +351,22 @@ li {
     width: 180px;
     height: 23px;
   }
-  .email{
-    span{
+  .email {
+    span {
       font-size: 11px;
-      color:red;
+      color: red;
       margin: 5px;
     }
   }
-  .gender{
-    span{
+  .gender {
+    span {
       margin-right: 18px;
     }
-    input{
+    input {
       margin: 5px 8px 0 0;
     }
   }
-  .select select{
+  .select select {
     margin-right: 11px;
     width: 75px;
     height: 23px;
@@ -343,7 +375,7 @@ li {
     font-size: 12px;
     padding: 0;
   }
-  .save{
+  .save {
     float: left;
     margin: 45px 0 0 151px;
     width: 68px;
@@ -353,10 +385,11 @@ li {
     border: 1px solid #2793d4;
     border-radius: 3px;
     background: #fff;
-
+  }
+  .right {
+    color: green;
   }
 }
-
 </style>
 
 

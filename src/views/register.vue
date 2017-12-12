@@ -31,8 +31,10 @@
           <span v-show="imgStar">*</span>
         </li>
         <li class="code-phone"><input type="text" placeholder="请输入验证码" v-model="codePhoneVal" v-on:blur="codePhoneBlur" v-on:focus="codePhoneFocus">
-          <!--<p></p>-->
-          <button v-on:click="buttonGet">点击获取</button>
+          <button v-on:click="buttonGet" v-bind:disabled="dis">
+            <span v-show="get" id="blueget">点击获取</span>
+            <span v-show="getNew" id="bluegetNew">重新获取{{count}}</span>
+          </button>
           <span v-show="codeNull">动态验证码不能为空</span>
           <span v-show="codeWrong">动态验证码错误</span>
           <span v-show="codeRight" id="green">✔</span>
@@ -75,10 +77,6 @@
 
 
 
-
-
-
-
 <script>
 import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
@@ -88,8 +86,9 @@ export default {
   components: { VDistpicker },
   data() {
     return {
-      seleCode: '',
-      address:'',
+      // 点击获取验证码按钮
+      dis: false,
+      count: 60,
       // 手机号内容及报错提示
       phoneVal: '',
       phoneNull: false,
@@ -119,6 +118,11 @@ export default {
       addNull: '',
       addStar: '',
       addRight: false,
+      seleCode: '',
+      address: '',
+      // 获取验证码按钮
+      getNew: false,
+      get: true,
       imgUrl: '/xinda-api/ajaxAuthcode',
       msg: 'Welcome to Your Vue.js App',
     }
@@ -135,50 +139,26 @@ export default {
       // var phoneReg = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
       if (this.phoneVal == '') {
         this.phoneNull = true;//电话号码不能为空'
-        this.phoneExist = false;
-        this.phoneWrong = false;
         this.phoneStar = false;
-        this.phoneRight = false;
       } else if (phoneReg.test(this.phoneVal)) {
-        this.ajax.post('/xinda-api/register/valid-sms',this.qs.stringify({cellphone:this.phoneVal,smsType:1,validCode:111111})).then(data=>{
-        // console.log(data)
-        // if (localStorage.getItem(this.phoneVal)) {
-          if(data.data.status == -2){
-            //用户名已存在
-          this.phoneNull = false;
-          this.phoneExist = true;
-          this.phoneWrong = false;
-          this.phoneStar = false;
-          this.phoneRight = false;
-        } else {
-          //验证通过
-          this.phoneNull = false;
-          this.phoneExist = false;
-          this.phoneWrong = false;
-          this.phoneStar = false;
-          this.phoneRight = true;
-        }
-      })
-    } else {
-      //用户名已存在
-        this.phoneWrong = true;
-        this.phoneNull = false;
-        this.phoneExist = false;
+        this.phoneRight = true;
         this.phoneStar = false;
-        this.phoneRight = false;
+      } else {
+        this.phoneWrong = true;
+        this.phoneStar = false;
       }
     },
     // 手机号获得焦点事件
     phoneFocus: function() {
-      var button = document.querySelector('.code-phone button');
       this.phoneNull = false;
       this.phoneExist = false;
       this.phoneWrong = false;
-      this.phoneStar = true;
       this.phoneRight = false;
+      this.phoneStar = true;
     },
     //图片验证码
     codeImgBlur: function() {
+<<<<<<< HEAD
       var codeSpan = document.querySelector('.code-img span');
       var button = document.querySelector('.code-phone button');
       this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
@@ -204,10 +184,34 @@ export default {
       //   this.imgRight = false;
       // }
       
+=======
+      if (this.codeImgVal == '') {
+        this.imgNull = true;
+        this.imgStar = false;
+      } else {
+        this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
+          console.log(data.data.msg, data.data.status)
+          if (data.data.status == 1) {
+            this.phoneStar = false;
+            this.phoneRight = true;
+          } else if (data.data.status == -2) {
+            this.phoneExist = true;
+            this.phoneStar = false;
+          } else if (data.data.status == -3) {
+            this.imgStar = false;
+            // this.imgWrong = true;
+          } else {
+            this.phoneWrong = true;
+            this.phoneStar = false;
+          }
+        })
+      }
+>>>>>>> 5d2e6e4ecdee031c96f3f49cd2eb79a408213c9a
     },
     // 验证码获得焦点事件
     codeImgFocus: function() {
       if (this.codeImgVal != '') {
+        // 验证码需要重新输入时更新验证码
         this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
       }
       this.imgStar = true;
@@ -224,53 +228,42 @@ export default {
     codePhoneBlur: function() {
       if (this.codePhoneVal == '') {
         this.codeNull = true;
-        this.codeWrong = false;
         this.codeStar = false;
-        this.codeRight = false;
       } else if (this.codePhoneVal == 111111) {
-        this.codeNull = false;
-        this.codeWrong = false;
         this.codeStar = false;
         this.codeRight = true;
       } else {
-        this.codeNull = false;
         this.codeWrong = true;
         this.codeStar = false;
-        this.codeRight = false;
       }
+      // this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
+      //   console.log(data.data.msg, data.data.status)
+      //   
+      // })
     },
     // 验证码获得焦点
     codePhoneFocus: function() {
       this.codeNull = false;
       this.codeWrong = false;
-      this.codeStar = true
       this.codeRight = false;
+      this.codeStar = true
     },
-
-
 
     //密码证码
     codePwBlur: function() {
-      var pwValSpan = document.querySelector('.pw span');
       var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
       if (this.pwVal == '') {
         //密码不为空
         this.pwNull = true;
-        this.pwWrong = false;
         this.pwStar = false;
-        this.pwRight = false;
       } else if (newPwReg.test(this.pwVal)) {
         // 验证通过
-        this.pwNull = false;
-        this.pwWrong = false;
         this.pwStar = false;
         this.pwRight = true;
       } else {
         // 密码格式错误
-        this.pwNull = false;
         this.pwWrong = true;
         this.pwStar = false;
-        this.pwRight = false;
       }
     },
     // 密码获得焦点
@@ -283,73 +276,61 @@ export default {
 
     //地址验证
     onSelected: function(data) {
-      this.addNull = false;
       this.addStar = false;
       this.addRight = true;
       this.seleCode = data.area.code;
-      this.address = data.province.value+' '+data.city.value+' '+data.area.value;
+      this.address = data.province.value + ' ' + data.city.value + ' ' + data.area.value;
       // console.log(this.address);
     },
 
     // 点击获取验证码
     buttonGet: function() {
-      var count = 60;
-      var button = document.querySelector('.code-phone button');
       if (this.phoneVal == '') {
         //电话号码不能为空
         this.phoneNull = true;
-        this.phoneExist = false;
-        this.phoneWrong = false;
         this.phoneStar = false;
-        this.phoneRight = false;
       }
+
       if (/^1[3578]\d{9}$/.test(this.phoneVal)) {
         // 手机号匹配正确
         if (this.codeImgVal == '') {
-          this.imgStar = false;
           this.imgNull = true;
-          this.imgWrong = false;
-          this.imgRight = false;
+          this.imgStar = false;
         } else {
           // 图片验证码匹配
           this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
             // console.log(data);
             if (data.data.status == 1) {
               this.imgStar = false;
-              this.imgNull = false;
-              this.imgWrong = false;
               this.imgRight = true;
-              button.style.background = '#ddd';
-              button.innerHTML = '重新获取' + count;
-              button.disabled = true;
+              this.imgWorng = false;
+              this.imgNull = false;
+              this.dis = true;
+              this.getNew = true;
+              this.get = false;
               // 60秒倒计时
+              var that = this;
               var dic = setInterval(function() {
-                count--;
-                button.innerHTML = '重新获取' + count;
-                if (count == 1) {
+                that.count--;
+                if (that.count == 1) {
                   // 60秒倒计时结束后清除计时器
                   clearInterval(dic);
-                  button.style.background = '#fff';
-                  button.innerHTML = '点击获取';
-                  button.disabled = false;
+                  that.dis = false;
+                  that.getNew = false;
+                  that.get = true;
                 }
               }, 1000);
             } else {
               // 验证码匹配失败
-              this.imgStar = false;
-              this.imgNull = false;
-              this.imgWrong = true;
               this.imgRight = false;
+              this.imgWrong = true;
             }
           })
         }
       } else {
         //电话号码格式错误
-        this.phoneNull = false;
-        this.phoneExist = false;
         this.phoneWrong = true;
         this.phoneStar = false;
-        this.phoneRight = false;
       }
     },
 
@@ -357,42 +338,33 @@ export default {
 
     //注册按钮
     register: function() {
+       console.log(user)
       var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
-      var phoneReg = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
+      var phoneReg = /^1[3578]\d{9}$/;
       var md5 = require('md5');
       if (this.phoneVal == '') {
         //电话号码不能为空'
         this.phoneNull = true;
-        this.phoneExist = false;
-        this.phoneWrong = false;
         this.phoneStar = false;
-        this.phoneRight = false;
       } else if (this.codeImgVal == '') {
         // 图片验证码不能为空
         this.imgStar = true;
-        this.imgNull = false;
-        this.imgWrong = false;
-        this.imgRight = false;
       } else if (this.codePhoneVal == '') {
         // 动态验证码不能为空
         this.codeNull = true;
-        this.codeWrong = false;
         this.codeStar = false;
-        this.codeRight = false;
       } else if (this.pwVal == '') {
         // 密码不能为空
         this.pwNull = true;
-        this.pwWrong = false;
         this.pwStar = false;
-        this.pwRight = false;
       } else if (this.address == '省 市 区') {
         // 地址不能为空
         this.addNull = true;
         this.addStar = false;
-        this.addRight = false;
       }
       // 判断注册条件
       if (phoneReg.test(this.phoneVal)) {
+<<<<<<< HEAD
         
         // this.ajax.post('/xinda-api/register/valid-sms',this.qs.stringify({cellphone:this.phoneVal,smsType:1,validCode:this.codeImgVal})).then(data=>{
         // console.log(data)})
@@ -419,6 +391,30 @@ export default {
           console.log(user)
           location = '#/outter/login';
         }
+=======
+        this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
+          console.log(data.data.msg, data.data.status)
+          if (data.data.status == 2) {
+            // 用户名已存在
+            this.phoneExist = true;
+            this.phoneStar = false;
+          }
+          else if (data.data.status == 1 && this.codePhoneVal == 111111 && newPwReg.test(this.pwVal)) {
+            this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/register', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111, password: this.pwVal, regionId: this.seleCode })).then(data => {
+              console.log(data)
+            })
+            var user = {};
+            user.name = this.phoneVal;
+            // user.passward = md5(this.pwVal);
+            user.phoneNum = this.phoneVal;
+            user.password = this.pwVal;
+            user.add = this.address;
+            localStorage.setItem(this.phoneVal, JSON.stringify(user));
+            console.log(user)
+            location.href = '#/outter/login';
+          }
+        })
+>>>>>>> 5d2e6e4ecdee031c96f3f49cd2eb79a408213c9a
       }
     },
   }
@@ -439,9 +435,6 @@ li {
   list-style: none;
 }
 
-// .select {
-//   // border: 1px solid #88f;
-// }
 .r-outter {
   margin: 0 auto; // background: #f5f5f5;
   // width: 1200px; // 小导航
@@ -547,6 +540,9 @@ li {
         color: #2693d6;
         border: 1px solid #2693d6;
       }
+      .code-phone button:disabled {
+        background: #666;
+      }
       .code-phone {
         position: relative;
       }
@@ -618,6 +614,12 @@ li {
   }
   #green {
     color: green;
+  }
+  #bluegetNew {
+    color: #fff;
+  }
+  #blueget {
+    color: #2693d6;
   }
 }
 </style>
