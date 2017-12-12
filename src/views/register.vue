@@ -158,33 +158,6 @@ export default {
     },
     //图片验证码
     codeImgBlur: function() {
-<<<<<<< HEAD
-      var codeSpan = document.querySelector('.code-img span');
-      var button = document.querySelector('.code-phone button');
-      this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
-        console.log(data);
-        if (this.codeImgVal == '') {
-        codeSpan.innerHTML = data.data.msg;
-        codeSpan.style.color = 'red';
-      }else if (data.data.status == '-1') {
-          codeSpan.innerHTML = data.data.msg;
-          codeSpan.style.color = 'red';
-          button.disabled = true;
-          button.style.background = '#ddd';
-          console.log(data.data.status)
-        }else{
-          codeSpan.innerHTML = data.data.msg;
-          codeSpan.style.color = 'green';
-        }
-      })
-      // if (this.codeImgVal == '') {
-      //   this.imgStar = false;
-      //   this.imgNull = true;
-      //   this.imgWrong = false;
-      //   this.imgRight = false;
-      // }
-      
-=======
       if (this.codeImgVal == '') {
         this.imgNull = true;
         this.imgStar = false;
@@ -206,7 +179,6 @@ export default {
           }
         })
       }
->>>>>>> 5d2e6e4ecdee031c96f3f49cd2eb79a408213c9a
     },
     // 验证码获得焦点事件
     codeImgFocus: function() {
@@ -364,34 +336,6 @@ export default {
       }
       // 判断注册条件
       if (phoneReg.test(this.phoneVal)) {
-<<<<<<< HEAD
-        
-        // this.ajax.post('/xinda-api/register/valid-sms',this.qs.stringify({cellphone:this.phoneVal,smsType:1,validCode:this.codeImgVal})).then(data=>{
-        // console.log(data)})
-        if (localStorage.getItem(this.phoneVal)) {
-          // 用户名已存在
-          this.phoneNull = false;
-          this.phoneExist = true;
-          this.phoneWrong = false;
-          this.phoneStar = false;
-          this.phoneRight = false;
-        }
-        else if (this.codePhoneVal == 111111 && newPwReg.test(this.pwVal)) {
-          this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/register',this.qs.stringify({cellphone: this.phoneVal, smsType: 1, validCode: 111111,password:this.pwVal,regionId:this.seleCode})).then(data => {
-            // console.log(data)
-          })
-          // console.log('123')
-          var user = {};
-          user.name = this.phoneVal;
-          // user.passward = md5(this.pwVal);
-          user.phoneNum = this.phoneVal;
-          user.password = this.pwVal;
-          user.add = this.address;
-          localStorage.setItem(this.phoneVal, JSON.stringify(user));
-          console.log(user)
-          location = '#/outter/login';
-        }
-=======
         this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
           console.log(data.data.msg, data.data.status)
           if (data.data.status == 2) {
@@ -414,7 +358,6 @@ export default {
             location.href = '#/outter/login';
           }
         })
->>>>>>> 5d2e6e4ecdee031c96f3f49cd2eb79a408213c9a
       }
     },
   }

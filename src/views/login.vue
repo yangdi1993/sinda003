@@ -195,61 +195,6 @@ export default {
         this.imgWrong = false;
         this.imgRight = false;
       }
-<<<<<<< HEAD
-      // 判断登录条件  //2017年12月10日删除部分
-      // if(localStorage.getItem(this.loginPhone)){//判断手机号存在
-      //   // console.log(user)
-      //   var user = JSON.parse(localStorage.getItem(this.loginPhone));
-      //   if(this.loginPw==user.password){
-      //     pwSpan.innerHTML='✔';
-      //     pwSpan.style.color = 'green';
-      //     sessionStorage.setItem('zancun',JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录
-      //     location.replace('#/inner/list')
-      //     this.setNum(2)  //购物车物品数量
-      //     // this.setName(this.loginPhone)
-      //     // username.innerHTML = this.loginPhone;
-      //     // location.href = '/#/inner/homepage';
-      //   }else{
-      //     pwSpan.innerHTML='密码错误';
-      //     pwSpan.style.color = 'red';
-      //   }
-      // }
-      if (localStorage.getItem(this.loginPhone)) {//判断手机号存在
-      console.log(user)
-      this.ajax.post('/xinda-api/sso/login',this.qs.stringify({ loginId: this.loginPhone, password: this.loginPw, imgCode: this.codeImage })).then(data => {
-        console.log(data.data.msg,data.data.status)
-        console.log(this.loginPw)
-      });
-      
-      sessionStorage.setItem('zancun',JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录
-      location.replace('/#/inner/homepage')
-      this.setNum(2)  //购物车物品数量
-
-      var user = JSON.parse(localStorage.getItem(this.loginPhone));
-      if (this.loginPw == user.password) {
-        this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.loginPhone, smsType: 1, imgCode: this.codeImage })).then(data => {
-          // console.log(data);
-          if (data.data.status == 1) {
-            // console.log('登陆成功')
-          } else {
-            //验证码错误
-            this.imgNull = false;
-            this.imgWrong = true;
-            this.imgRight = false;
-            this.imgStar = false;
-          }
-        })
-
-        // location.href = '/#/inner/homepage';
-      } else {
-        //密码不正确
-        this.pwNull = false;
-        this.pwWrong = true;
-        this.pwRight = false;
-        this.pwStar = false;
-      }
-      }
-=======
       // 判断登录条件
       //判断手机号存在
       this.ajax.post('/xinda-api/sso/login', this.qs.stringify({ loginId: this.loginPhone, password: this.loginPw, imgCode: this.codeImage })).then(data => {
@@ -290,11 +235,15 @@ export default {
           loginUser.username = this.loginPhone;
           loginUser.password = this.loginPw;
           sessionStorage.setItem(this.loginPhone,JSON.stringify(loginUser));
+
+          sessionStorage.setItem('zancun',JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录,杨迪留的
+          location.replace('/#/inner/homepage')
+          this.setNum(2)  //购物车物品数量
+
           // console.log('loginUser'+loginUser)
           location.href = '/#/inner/homepage';
         }
       });
->>>>>>> 5d2e6e4ecdee031c96f3f49cd2eb79a408213c9a
     }
   }
 }
