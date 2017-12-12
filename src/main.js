@@ -6,6 +6,7 @@ import router from './router'
 import axios from 'axios'
 import store from './store'
 import qs from 'qs'
+//三级联动插件
 import dist from './images/districts'
 //轮播部分插件引入
 import VueAwesomeSwiper from 'vue-awesome-swiper'
