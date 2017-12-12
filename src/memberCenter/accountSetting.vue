@@ -46,22 +46,28 @@
           <ul class="settings">
             <li class="photo">
               <p>当前头像：</p>
-              <div><img src=headImg alt=""></div>
+              <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+              <span v-show="headLarge">上传图片不能超过2MB</span>
+              <span v-show="headType">上传图片只能是JPG格式</span>
+              <!--<span v-show="headStar">*</span>-->
             </li>
             <li class="name">
               <p>姓名：</p>
-              <input type="text" v-model="name"v-on:blur="nameBlur" v-on:focus="nameFocus">
-              <span v-show="headRight" class="right">✔</span>
-              <span v-show="headNull">姓名不能为空</span>
-              <span v-show="headStar">*</span>
+              <input type="text" v-model="name" v-on:blur="nameBlur" v-on:focus="nameFocus">
+              <span v-show="nameRight" class="right">✔</span>
+              <span v-show="nameNull">姓名不能为空</span>
+              <span v-show="nameStar">*</span>
             </li>
             <li class="gender">
               <p>性别：</p>
-              <!--<el-radio v-model="gender" label="1">男</el-radio>
-              <el-radio v-model="gender" label="2">女</el-radio>-->
-              <span v-show="genderRight" class="right">✔</span>
-              <span v-show="genderNull">性别不能为空</span>
-              <span v-show="genderStar">*</span>
+              <el-radio v-model="radio" label="1" class="male" checked>男</el-radio>
+              <el-radio v-model="radio" label="2" class="female">女</el-radio>
+              <!--<span v-show="genderRight" class="right hint">✔</span>
+                  <span v-show="genderNull" class="hint">性别不能为空</span>
+                  <span v-show="genderStar" class="hint">*</span>-->
             </li>
             <li class="email">
               <p>邮箱：</p>
@@ -73,12 +79,12 @@
             </li>
             <li class="select">
               <p>所在地区：</p>
-              <v-distpicker province='省' city='市' area='区'></v-distpicker>
-            </li>
-            <button class="save" @click="saveBut">保存</button>
-            <span v-show="addRight" class="right">✔</span>
+              <v-distpicker province='省' city='市' area='区' @selected="onSelected"></v-distpicker>
+              <span v-show="addRight" class="right">✔</span>
               <span v-show="addNull">地址不能为空</span>
               <span v-show="addStar">*</span>
+            </li>
+            <button class="save" @click="saveBut">保存</button>
           </ul>
         </div>
       </div>
@@ -92,63 +98,151 @@ import ihead from '../components/ihead'
 export default {
   data() {
     return {
+      // 头像
+      imageUrl: '',
+      headLarge: false,
+      headType: false,
+      // headStar: true,
       // 姓名
       name: '',
-      headRight:'',
-      headNull:'',
-      headStar:'',
+      nameRight: false,
+      nameNull: false,
+      nameStar: true,
       // 性别
-      gender:'',
-     genderRight:'',
-      genderNull:'',
-      genderStar:'',
+      radio: '1',
+      // genderRight: false,
+      // genderNull: false,
+      // genderStar: true,
       // 邮箱验证
       email: '',
       emailRight: false,
       emailWrong: false,
       emailNull: false,
-      emailStar: false,
+      emailStar: true,
       // 地址
-      province: '',
-      city: '',
-      area: '',
+      code: '',
       addRight: false,
       addNull: false,
-      addStar: false,
+      addStar: true,
     }
   },
   methods: {
-    nameBlur:function(){
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+      console.log("Success" + this.imageUrl)
+      //  http://localhost:8080/317d48bf-edf2-449f-a746-d854b54c9a22
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
 
-    },
-    nameFocus:function(){
-this.nameRight = false;
-      this.nameWrong = false;
-      this.nameStar = true;
-    },
-    emailBlur: function() {
-      var emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
-      var emailValue = this.email;
-      if (emailReg.test(emailValue)) {
-        this.emailRight = true;
-        this.emailWrong = false;
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.headType = true;
+        this.headLarge = false;
+      } else if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.headLarge = true;
+        this.headType = false;
       } else {
-        // 邮箱格式错误
-        this.emailRight = false;
-        this.emailWrong = true;
+        // console.log( this.imageUrl)
+        this.headType = false;
+        this.headLarge = false;
+      }
+      return isJPG && isLt2M;
+    },
+    // 姓名焦点事件
+    nameBlur: function() {
+      if (this.name == '') {
+        // 用户名不能为空
+        this.nameNull = true;
+        this.nameStar = false;
+      } else {
+        this.nameRight = true;
+        this.nameStar = false;
       }
     },
+    // 姓名获得焦点事件
+    nameFocus: function() {
+      this.nameRight = false;
+      this.nameNull = false;
+      this.nameStar = true;
+    },
+    // 邮箱失去焦点事件
+    emailBlur: function() {
+      var emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
+      if (this.email == '') {
+        // 邮箱不为空
+        this.emailNull = true;
+        this.emailStar = false;
+      } else
+        if (emailReg.test(this.email)) {
+          // 邮箱格式正确
+          this.emailRight = true;
+          this.emailStar = false;
+        } else {
+          // 邮箱格式错误
+          this.emailStar = false;
+          this.emailWrong = true;
+        }
+    },
+    // 邮箱失去焦点事件
     emailFocus: function() {
       this.emailRight = false;
       this.emailWrong = false;
+      this.emailNull = false;
       this.emailStar = true;
+
+    },
+    // 地址设置
+    onSelected: function(data) {
+      var address = data.province.value + data.city.value + data.area.value;
+      this.code = data.area.code;
+      // console.log(this.code)
+      // console.log(address)
 
     },
     // 保存按钮事件
     saveBut: function() {
-      this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/member/info').then(data=>{
-        console.log(data)
-      })
+      this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/member/info', this.qs.stringify({ headImg:this.imageUrl, name: this.name, gender: this.radio, email: this.email, regionId: this.code })).then(data => {
+          console.log(data)
+          console.log(data.data)
+        })
+      var emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
+      if (this.name == '') {
+        // 用户名不能为空
+        this.nameNull = true;
+        this.nameStar = false;
+      } else if (this.email == '') {
+        // 邮箱不为空
+        this.emailNull = true;
+        this.emailStar = false;
+      } else if (this.code == '') {
+        // 地址不为空
+        this.addNull = true;
+        this.addStar = false;
+      } else {
+        // 地址提示内容初始化
+        this.addNull = false;
+        this.addStar = false;
+        this.addRight = true;
+      }
+      if (this.name != '' && this.email != '' && this.code != '' && emailReg.test(this.email)) {
+        // 判断头像是否更换
+        this.imageUrl == ''?'http://localhost:8080/317d48bf-edf2-449f-a746-d854b54c9a22':this.imageUrl;
+        this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/member/info', this.qs.stringify({ headImg:this.imageUrl, name: this.name, gender: this.radio, email: this.email, regionId: this.code })).then(data => {
+          console.log(data)
+          // console.log('this.imageUrl' + this.imageUrl)
+          // console.log('this.name' + this.name)
+          // console.log('this.radio' + this.radio)
+          // console.log('this.email' + this.email)
+          // console.log('this.code' + this.code)
+        })
+
+      }
+
+
+
 
     }
   }
@@ -334,46 +428,97 @@ li {
       border: 1px solid #b0b0b0;
       padding-left: 10px;
     }
+    span {
+      color: red;
+      font-size: 11px;
+      margin-left: 5px;
+    }
   }
   .photo {
     p {
       height: 100px;
       line-height: 100px;
     }
+    span {
+      margin: 30px 98px;
+    }
     div {
       width: 100px;
       height: 100px;
-      background: url(../images/login/login_logo1.png) no-repeat 0 -443px;
+    }
+    .avatar-uploader .el-upload {
+      // border: 1px dashed #d9d9d9;
+      border-radius: 50%;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      outline: 0;
+      background: url(../images/login/head.png) no-repeat;
+    } // .avatar-uploader .el-upload:hover {
+    //   // border-color: #409EFF;
+    // }
+    .avatar-uploader-icon {
+      font-size: 28px; // color: #8c939d;
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
+      text-align: center;
+    }
+    .avatar {
+      width: 100px;
+      height: 100px;
+      display: block;
     }
   }
-  .name input,
-  .email input {
-    width: 180px;
-    height: 23px;
+  .name {
+    input {
+      width: 180px;
+      height: 23px;
+    }
+    span {
+      margin-top: 5px;
+    }
   }
   .email {
     span {
       font-size: 11px;
-      color: red;
       margin: 5px;
+    }
+    input {
+      width: 180px;
+      height: 23px;
     }
   }
   .gender {
-    span {
-      margin-right: 18px;
-    }
     input {
       margin: 5px 8px 0 0;
     }
+    .male {
+      margin-right: 30px;
+      span {
+        color: #000;
+      }
+    }
+    .female span {
+      color: #000;
+    }
+    .hint {
+      margin: 5px 0 0 72px;
+    }
   }
-  .select select {
-    margin-right: 11px;
-    width: 75px;
-    height: 23px;
-    border: 1px solid #b0b0b0;
-    border-radius: 0;
-    font-size: 12px;
-    padding: 0;
+  .select {
+    select {
+      margin-right: 0px;
+      width: 61px;
+      height: 23px;
+      border: 1px solid #b0b0b0;
+      border-radius: 0;
+      font-size: 12px;
+      padding: 0;
+    }
+    span {
+      margin: 5px 0 0 5px;
+    }
   }
   .save {
     float: left;

@@ -14,6 +14,10 @@ Vue.use(VueAwesomeSwiper)
 //输入验证插件
 import Validator from 'vue-validator'
 Vue.use(Validator)
+// ElementUI组件
+import ElementUI from 'element-ui'
+Vue.use(ElementUI);
+
 
 Vue.prototype.ajax=axios
 Vue.prototype.qs=qs

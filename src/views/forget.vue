@@ -325,7 +325,7 @@ export default {
         this.fpwNewNull = true;
         this.fpwNewiStar = false;
       }
-      this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/findpas', this.qs.stringify({ cellphone: this.forgetPhone, smsType: 1, validCode: 111111, password: this.fNew })).then(data => {
+      this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/findpas', this.qs.stringify({ cellphone: this.forgetPhone, smsType: 2, validCode: 111111, password: this.fNew })).then(data => {
         console.log(data.data.status, data.data.msg);
         if (data.data.status == 1 && newPwReg.test(this.fNew) && this.fNew == this.fPw) {
           // 修改成功提示
