@@ -83,7 +83,7 @@ export default {
   created(){
     var arr = [];
     // this.evaOrderList
-    console.log(this.evaOrderList);
+    // console.log(this.evaOrderList);
     // for(){
 
     // }
@@ -324,4 +324,7 @@ export default {
 // }
 </style>
 
+
+
+ 
 

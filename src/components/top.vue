@@ -53,15 +53,15 @@ export default {
       this.myOrder=true
       var username=(JSON.parse(sessionStorage.getItem('zancun')))
       user=JSON.parse(localStorage.getItem(username))
-      console.log(123)
+      // console.log(123)
     }else{
       this.nowRegister=true
       this.quitNow=false
       this.myOrder=false
       user.name='登录'
-      console.log(456)
+      // console.log(456)
     }
-    console.log(user)
+    // console.log(user)
     this.user=user
   },
   computed:{

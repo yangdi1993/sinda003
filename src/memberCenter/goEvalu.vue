@@ -64,11 +64,11 @@
             <li id="rank" class="pingfen">
                 评分：
                 <ul>  
-                    <li></li>  
-                    <li></li>  
-                    <li></li>  
-                    <li></li>  
-                    <li></li>  
+                    <li :class='index>=0?"active":""' @click="image(0)"></li>  
+                    <li :class='index>=1?"active":""' @click="image(1)"></li>  
+                    <li :class='index>=2?"active":""' @click="image(2)"></li>  
+                    <li :class='index>=3?"active":""' @click="image(3)"></li>  
+                    <li :class='index>=4?"active":""' @click="image(4)"></li>  
                 </ul>  
                 <p class="starGra">加载中</p>  
             </li>
@@ -77,7 +77,7 @@
                 <textarea name="" id="" cols="30" rows="10"></textarea>
             </li>
         </ul>
-        <input class="orderSub" type="button" value="提交">
+        <a href="#/userUnEvalu"><input class="orderSub" type="button" value="提交"></a>
         </div>
       </div>
     </div>
@@ -89,49 +89,20 @@
 import ihead from '../components/ihead'
 export default {
   data () {
-   
+   return{
+     index: -1,
+    //  image:''
+   }
   },
-}
-methods:{
- 
-  }
+  methods:{
   // 评分五角星
-var aData =["很差","较差","一般","推荐","力推"];  
-window.onload=function(){  
-    var oDiv = document.getElementById("rank");  
-    var aLi = document.querySelectorAll("#rank li");  
-    var oP = document.querySelector(".starGra");  
-    var i =0;  
-    for(i=0;i<aLi.length;i++){  
-        aLi[i].index = i;  
-        // 鼠标进入
-        aLi[i].onmouseover = function(){  
-            oP.style.display = "block";  
-            oP.innerHTML=aData[this.index];  
-            for(i=0; i<=this.index;i++){  
-                aLi[i].className="active";  
-            }  
-        };
-          // 鼠标离开
-        aLi[i].onmouseout = function(){  
-            oP.style.display = "";  
-            for(i=0; i<aLi.length; i++){  
-                aLi[i].className="";  
-            }  
-        }; 
-        //  点击
-        aLi[i].onclick=function(){  
-            // alert(this.index +1);
-            for(i=0;i<this.index;i++){
-                aLi[i].className="active";
-            }
-        };  
-    }  
-};
-// 点击跳转页面
-var perBusTw = document.querySelector('.perBusTw');
-// console.log(perBusTw);
+    image:function(index){
+      this.index = index;
+    } 
+  }
+}
 
+ 
 </script>
 
 
@@ -294,6 +265,7 @@ var perBusTw = document.querySelector('.perBusTw');
     outline: 0;
     margin-left: 220px;
     margin-top: 30px;
+    cursor: pointer;
 }
 .pingfen{ 
     width: 135px; 
@@ -314,7 +286,10 @@ var perBusTw = document.querySelector('.perBusTw');
     cursor: pointer; 
     background: url(../images/memCen.png) no-repeat -67px -189px; 
     list-style: none;
-   }    
+   }  
+   .pingfen li:hover{
+     background: url(../images/memCen.png) no-repeat -67px -152px;
+   }  
   .pingfen .active{
     background: url(../images/memCen.png) no-repeat -67px -152px;
   }   

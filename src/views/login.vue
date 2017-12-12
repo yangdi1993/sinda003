@@ -3,7 +3,9 @@
     <!--小导航-->
     <div class="outBox">
       <div class="r-header">
-        <a href="/#/inner/homepage"><div class="r-logo"></div></a>
+        <a href="/#/inner/homepage">
+          <div class="r-logo"></div>
+        </a>
         <p>欢迎登陆</p>
       </div>
     </div>
@@ -13,16 +15,25 @@
       <ul class="r-operate">
         <li class="phone">
           <input type="text" placeholder="请输入手机号" v-model="loginPhone" v-on:blur="lpBlur" v-on:focus="lpFocus">
-          <span>*</span>
+          <span v-show="phoneNull">手机号不能为空</span>
+          <span v-show="phoneNotExist">手机号未注册</span>
+          <span v-show="phoneRight" id="green">✔</span>
+          <span v-show="phoneStar">*</span>
         </li>
         <li class="pw">
           <input type="password" placeholder="请输入密码" v-model="loginPw" v-on:blur="lwBlur" v-on:focus="lwFocus">
-          <span>*</span>
+          <span v-show="pwNull">密码不能为空</span>
+          <span v-show="pwWrong">密码错误</span>
+          <span v-show="pwRight" id="green">✔</span>
+          <span v-show="pwStar">*</span>
         </li>
         <li class="code-img">
-          <input type="text" placeholder="请输入验证码"  v-model="codeImage" v-on:blur="ciBlur" v-on:focus="ciFocus">
-          <img src="http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode" alt="">
-          <span>*</span>
+          <input type="text" placeholder="请输入验证码" v-model="codeImage" v-on:blur="ciBlur" v-on:focus="ciFocus">
+          <img :src="imgUrl" alt="">
+          <span v-show="imgNull">图片验证码不能为空</span>
+          <span v-show="imgWrong">图片验证码错误</span>
+          <span v-show="imgRight" id="green">✔</span>
+          <span v-show="imgStar">*</span>
           <button v-on:click="buttonChange">看不清？换一张</button>
         </li>
         <li class="forget">
@@ -51,9 +62,24 @@ export default {
 
   data() {
     return {
-      loginPhone:'',
-      loginPw:'',
-      codeImage:'',
+      // 手机号
+      loginPhone: '',
+      phoneNull: false,
+      phoneNotExist: false,
+      phoneRight: false,
+      phoneStar: false,
+      // 密码
+      loginPw: '',
+      pwNull: false,
+      pwWrong: false,
+      pwRight: false,
+      pwStar: false,
+      // 验证码
+      codeImage: '',
+      imgNull: false,
+      imgWrong: false,
+      imgRight: false,
+      imgStar: false,
       imgUrl: '/xinda-api/ajaxAuthcode',
       msg: 'Welcome to Your Vue.js App'
     }
@@ -62,122 +88,185 @@ export default {
     ...mapActions(['setNum','setName']),
     //点击更换图片验证码
     buttonChange: function() {
-      var codeImage = document.querySelector('.code-img img');
-      codeImage.src = 'http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode';
+      this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
     },
 
     // 手机号焦点事件
-    lpBlur:function(){
+    lpBlur: function() {
       var phoneSpan = document.querySelector('.phone span');
-      if(this.loginPhone==''){
-        phoneSpan.innerHTML = "手机号不能为空";
-        phoneSpan.style.color = "red";
-      }else if(localStorage.getItem(this.loginPhone)){//判断手机号存在
-        phoneSpan.innerHTML = "✔";
-        phoneSpan.style.color = "green";
-      }else{
-        phoneSpan.innerHTML = "手机号未注册";
-        phoneSpan.style.color = "red";
+      if (this.loginPhone == '') {
+        // 手机号不能为空
+        this.phoneNull = true;
+        this.phoneNotExist = false;
+        this.phoneRight = false;
+        this.phoneStar = false;
+      } else if (localStorage.getItem(this.loginPhone)) {//判断手机号存在
+        this.phoneNull = false;
+        this.phoneNotExist = false;
+        this.phoneRight = true;
+        this.phoneStar = false;
+      } else {
+        // 手机号未注册
+        this.phoneNull = false;
+        this.phoneNotExist = true;
+        this.phoneRight = false;
+        this.phoneStar = false;
       }
     },
-    lpFocus:function(){
-      var phoneSpan = document.querySelector('.phone span');
-      phoneSpan.innerHTML = "*";
-      phoneSpan.style.color = "red";
+    // 手机号获得焦点
+    lpFocus: function() {
+      this.phoneNull = false;
+      this.phoneNotExist = false;
+      this.phoneRight = false;
+      this.phoneStar = true;
     },
     // 密码焦点事件
-    lwBlur:function(){
+    lwBlur: function() {
       var pwSpan = document.querySelector('.pw span');
       var user = JSON.parse(localStorage.getItem(this.loginPhone))
-      if(this.loginPw==''){
-        pwSpan.innerHTML='密码不能为空';
-        pwSpan.style.color = 'red';
-      }else if(this.loginPw==user.password){//判断密码正确
-        pwSpan.innerHTML='✔';
-        pwSpan.style.color = 'green';
-      }else{
-        pwSpan.innerHTML='密码不正确,请重新输入';
-        pwSpan.style.color = 'red';
+      if (this.loginPw == '') {
+        //密码不能为空
+        this.pwNull = true;
+        this.pwWrong = false;
+        this.pwRight = false;
+        this.pwStar = false;
+      } else if (this.loginPw == user.password) {
+        //判断密码正确
+        this.pwNull = false;
+        this.pwWrong = false;
+        this.pwRight = true;
+        this.pwStar = false;
+      } else {
+        //密码不正确
+        this.pwNull = false;
+        this.pwWrong = true;
+        this.pwRight = false;
+        this.pwStar = false;
       }
-
     },
-    lwFocus:function(){
-      var pwSpan = document.querySelector('.pw span');
-      pwSpan.innerHTML='*';
-        pwSpan.style.color = 'red';
+    // 密码获得焦点
+    lwFocus: function() {
+      this.pwNull = false;
+      this.pwWrong = false;
+      this.pwRight = false;
+      this.pwStar = true;
     },
     // 验证码焦点事件
-    ciBlur:function(){
-      var codeImgSpan = document.querySelector('.code-img span');
-      if(this.codeImage==''){
-        codeImgSpan.innerHTML='验证码不能为空';
-        codeImgSpan.style.color = 'red';
-      }else if(/^(\d|[a-z]){4}$/.test(this.codeImage)){//判断验证码正确
-        codeImgSpan.innerHTML='✔';
-        codeImgSpan.style.color = 'green';
-      }else{
-        codeImgSpan.innerHTML='验证码不正确,请重新输入';
-        codeImgSpan.style.color = 'red';
+    ciBlur: function() {
+      // this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/sso/login',,this.qs.stringify({loginId: this.loginPhone, password: this.loginPw, imgCode: this.codeImage })).then(data => {
+      //     console.log(data.data.msg);})
+      
+      if (this.codeImage == '') {
+        //验证码不能为空
+        this.imgNull = true;
+        this.imgWrong = false;
+        this.imgRight = false;
+        this.imgStar = false;
+      } else if (/^(\d|[a-z]){4}$/.test(this.codeImage)) {//判断验证码正确
+
+        // /1111111111111111111111111111111111111111
+        // this.ajax.post('/xinda-api/ajaxAuthcode').then(data => {
+          // console.log(data);
+        //   if (data.data.status == 1) {
+        //     console.log(123)
+        //     this.imgNull = false;
+        //     this.imgWrong = false;
+        //     this.imgRight = true;
+        //     this.imgStar = false;
+        //   }
+        // })
+      } else {
+        //验证码不正确,请重新输入
+        this.imgNull = false;
+        this.imgWrong = true;
+        this.imgRight = false;
+        this.imgStar = false;
       }
-      // var codeSpan = document.querySelector('.code-img span');
-      // var button = document.querySelector('.code-phone button');
-      // this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
-      //   // console.log(data);
-      //   if (this.codeImgVal == '') {
-      //   codeSpan.innerHTML = data.data.msg;
-      //   codeSpan.style.color = 'red';
-      // }else if (data.data.status == '-1') {
-      //     codeSpan.innerHTML = data.data.msg;
-      //     codeSpan.style.color = 'red';
-      //     button.disabled = true;
-      //     button.style.background = '#ddd';
-      //     console.log(data.data.status)
+    },
+    // 验证码获得焦点
+    ciFocus: function() {
+      this.imgNull = false;
+      this.imgWrong = false;
+      this.imgRight = false;
+      this.imgStar = true;
+      if (this.codeImage != '') {
+        this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
+      }
+    },
+    // 登录按钮
+    loginBut: function() {
+      var md5 = require('md5');
+      if (this.loginPhone == '') {
+        // 手机号不能为空
+        this.phoneNull = true;
+        this.phoneNotExist = false;
+        this.phoneRight = false;
+        this.phoneStar = false;
+      } else if (this.loginPw == '') {
+        //密码不能为空
+        this.pwNull = true;
+        this.pwWrong = false;
+        this.pwRight = false;
+        this.pwStar = false;
+      } else if (this.codeImage == '') {
+        //验证码不能为空
+        this.imgNull = true;
+        this.imgWrong = false;
+        this.imgRight = false;
+        this.imgStar = false;
+      }
+      // 判断登录条件  //2017年12月10日删除部分
+      // if(localStorage.getItem(this.loginPhone)){//判断手机号存在
+      //   // console.log(user)
+      //   var user = JSON.parse(localStorage.getItem(this.loginPhone));
+      //   if(this.loginPw==user.password){
+      //     pwSpan.innerHTML='✔';
+      //     pwSpan.style.color = 'green';
+      //     sessionStorage.setItem('zancun',JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录
+      //     location.replace('#/inner/list')
+      //     this.setNum(2)  //购物车物品数量
+      //     // this.setName(this.loginPhone)
+      //     // username.innerHTML = this.loginPhone;
+      //     // location.href = '/#/inner/homepage';
       //   }else{
-      //     codeSpan.innerHTML = data.data.msg;
-      //     codeSpan.style.color = 'green';
+      //     pwSpan.innerHTML='密码错误';
+      //     pwSpan.style.color = 'red';
       //   }
-      // })
-    },
-    ciFocus:function(){
-      var codeImgSpan = document.querySelector('.code-img span');
-      codeImgSpan.innerHTML='*';
-      codeImgSpan.style.color = 'red';
-    },
-    loginBut:function(){
-      var username = document.querySelector('.top-login');
-      // console.log(username.innerHTML)
-      var phoneSpan = document.querySelector('.phone span');
-      var pwSpan = document.querySelector('.pw span');
-      var codeImgSpan = document.querySelector('.code-img span');
-      if(this.loginPhone==''){
-        phoneSpan.innerHTML = "手机号不能为空";
-        phoneSpan.style.color = "red";
+      // }
+      if (localStorage.getItem(this.loginPhone)) {//判断手机号存在
+      console.log(user)
+      this.ajax.post('/xinda-api/sso/login',this.qs.stringify({ loginId: this.loginPhone, password: this.loginPw, imgCode: this.codeImage })).then(data => {
+        console.log(data.data.msg,data.data.status)
+        console.log(this.loginPw)
+      });
+      
+      sessionStorage.setItem('zancun',JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录
+      location.replace('/#/inner/homepage')
+      this.setNum(2)  //购物车物品数量
+
+      var user = JSON.parse(localStorage.getItem(this.loginPhone));
+      if (this.loginPw == user.password) {
+        this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.loginPhone, smsType: 1, imgCode: this.codeImage })).then(data => {
+          // console.log(data);
+          if (data.data.status == 1) {
+            // console.log('登陆成功')
+          } else {
+            //验证码错误
+            this.imgNull = false;
+            this.imgWrong = true;
+            this.imgRight = false;
+            this.imgStar = false;
+          }
+        })
+
+        // location.href = '/#/inner/homepage';
+      } else {
+        //密码不正确
+        this.pwNull = false;
+        this.pwWrong = true;
+        this.pwRight = false;
+        this.pwStar = false;
       }
-      if(this.loginPw==''){
-        pwSpan.innerHTML='密码不能为空';
-        pwSpan.style.color = 'red';
-      }
-      if(this.codeImage==''){
-        codeImgSpan.innerHTML='验证码不能为空';
-        codeImgSpan.style.color = 'red';
-      }
-      // 判断登录条件
-      if(localStorage.getItem(this.loginPhone)){//判断手机号存在
-        // console.log(user)
-        var user = JSON.parse(localStorage.getItem(this.loginPhone));
-        if(this.loginPw==user.password){
-          pwSpan.innerHTML='✔';
-          pwSpan.style.color = 'green';
-          sessionStorage.setItem('zancun',JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录
-          location.replace('#/inner/list')
-          this.setNum(2)  //购物车物品数量
-          // this.setName(this.loginPhone)
-          // username.innerHTML = this.loginPhone;
-          // location.href = '/#/inner/homepage';
-        }else{
-          pwSpan.innerHTML='密码错误';
-          pwSpan.style.color = 'red';
-        }
       }
     }
   }
@@ -198,12 +287,12 @@ li {
 .r-outter {
   margin: 0 auto; // background: #f5f5f5;
   // width: 1200px;
-  .outBox{
+  .outBox {
     background: #fff;
   }
   .r-header {
     margin: 0 auto 52px;
-    display: flex; 
+    display: flex;
     width: 1200px;
     height: 97px;
     overflow: hidden;
@@ -312,6 +401,9 @@ li {
       border-left: 1px solid #cbcbcb;
       background: url(../images/login/login.png) no-repeat 240px 40px;
     }
+  }
+  #green {
+    color: green;
   }
 }
 </style>

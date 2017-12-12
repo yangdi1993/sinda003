@@ -44,7 +44,7 @@
               <span></span>
           </div>
           <!-- 评价插入-已评价 -->
-           <ul class="orderInsert" v-for="evaOrder in evaOrderList" :key="evaOrder">
+           <ul class="orderInsert" v-for="evaOrder in evaOrderList" :key="evaOrder.cardTypeName">
               <li class="orderInsO"></li>
               <li class="orderInsTw">
                 <p class="orderInsTwPO">111</p>
