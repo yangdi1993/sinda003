@@ -33,7 +33,7 @@
             </p>
           </div>
           <div class="number">购买数量：
-            <input type="text" v-model="quantity" @keydown="counts" class="Quantity">
+            <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
           </div>
           <div class="buy">立即购买</div>
           <div class="add">加入购物车</div>
@@ -50,11 +50,13 @@
       <div class="bg-img"><img src="../images/paypage/u1225.png" alt=""></div>
       <div class="proservice">
         <div class="kuang">
-          <div class="touch t-fir" v-bind:class="{'t-fir':isA,'t-Fir':!isA}">服务内容</div>
-          <div class="touch t-sec" v-bind:class="{'t-sec':isA,'t-Sec':!isA}">商品评价</div>
+          <el-radio-group v-model="tabPosition" style="margin-bottom: 30px; margin-right:1000px;">
+            <el-radio-button label="top" v-on:click="changefir">服务列表</el-radio-button>
+            <el-radio-button label="" v-on:click="changesec">商品评价</el-radio-button>
+          </el-radio-group>
         </div>
-        <div class="serviceCon" v-bind:class="{'serviceCon':isA,'ServiceCon':!isA}" style="display:none">服务内容： <br>1.整理原始票据 <br>2.记账 <br>3.装订凭证 <br>4.出报表 <br>5.月报、季度企业所得税、年度汇算清缴 <br>6.打印总帐、明晰账本 </div>
-        <div class="userRating" v-bind:class="{'userRating':isA,'UserRating':!isA}">
+        <div class="serviceCon">服务内容： <br>1.整理原始票据 <br>2.记账 <br>3.装订凭证 <br>4.出报表 <br>5.月报、季度企业所得税、年度汇算清缴 <br>6.打印总帐、明晰账本 </div>
+        <div class="userRating" style="display:none">
           <div class="con">
             <p class="main-fir">
               <span>0%</span>好评</p>
@@ -105,13 +107,12 @@
             </table>
           </div>
         </div>
-
       </div>
-
     </div>
     <router-view/>
   </div>
 </template>
+
 
 <script>
 import { mapGetters } from "vuex";
@@ -123,10 +124,16 @@ export default {
       msg: "Welcome to Your Vue.js App",
       quantity: 1,
       products: [],
-      isA: true
+      isA: true,
+      num1: 1,
+      tabPosition: "top"
     };
   },
   methods: {
+    //购买数量
+    handleChange(value) {
+      console.log(value);
+    },
     counts: function() {
       var Quantity = document.querySelector(".Quantity");
       if (/^\+?[1-9]\d*$/.test(this.quantity)) {
@@ -137,33 +144,24 @@ export default {
       }
     },
     changefir: function() {
-      var serviceCon = document.querySelector(".serviceCon");
-      var userRating = document.querySelector(".userRating");
-      var changesec = document.querySelector(".changesec");
-      this.isA = this.isA;
-      changesec.isA = !changesec.isA;
-      userRating.isA = !userRating.isA;
-      serviceCon.isA = serviceCon.isA;
-    },
-    changesec: function() {
-      var changefir = document.querySelector(".changefir");
-      var userRating = document.querySelector(".userRating");
-      var serviceCon = document.querySelector(".serviceCon");
-      //console.log(userRating);
-      this.isA = this.isA;
-      changefir.isA = !changefir.isA;
-      userRating.isA = userRating.isA;
-      serviceCon.isA = !serviceCon.isA;
+      var ServiceCon = document.querySelector(".serviceCon");
+      var UserRating = document.querySelector(".userRating");
     }
   },
-  UserRating: function() {
-    this.ajax.post(
-      "/xinda-api/product/judge/grid",
-      this.qs.stringify({}).then(data => {
-        
-      })
-    );
-  }
+  // created: {
+  //   UserRating: function() {
+  //     this.ajax.post(
+  //       "/xinda-api/product/judge/grid",
+  //       this.qs
+  //         .stringify({
+  //           start: 0
+  //         })
+  //         .then(data => {
+  //           console.log(data);
+  //         })
+  //     );
+  //   }
+  // }
 };
 </script>
 
@@ -395,16 +393,8 @@ export default {
   margin-left: 10px;
   line-height: 35px;
   color: #333;
-  height: 0px;
-  width: 0px;
-}
-.ServiceCon {
-  text-align: left;
-  margin-left: 10px;
-  line-height: 35px;
-  color: #333;
-  height: 0px;
-  width: 0px;
+  height: 120px;
+  width: 790px;
 }
 .userRating {
   float: left;
@@ -413,14 +403,6 @@ export default {
   // margin-top: 400px;
   width: 1200px; //1200
   height: 790px; //790
-}
-.UserRating {
-  float: left;
-  //line-height: 120px;
-  // margin-left: -530px;
-  // margin-top: 400px;
-  width: 1200px; //1200
-  height: 790px; //7
 }
 .list {
   //margin-left: 530px;

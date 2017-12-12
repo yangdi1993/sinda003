@@ -17,6 +17,10 @@ Vue.use(VueAwesomeSwiper)
 import Validator from 'vue-validator'
 Vue.use(Validator)
 
+//elementui
+import Elementui from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(Elementui)
 
 Vue.prototype.ajax=axios
 Vue.prototype.qs=qs

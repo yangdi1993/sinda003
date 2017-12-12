@@ -33,8 +33,8 @@
                         <td>代理记账</td>
                         <td>￥1200</td>
                         <td>
-                            <button>-</button><input type="text" value=1>
-                            <button>+</button>
+                            <!-- <button>-</button><input type="text" value=1><button>+</button> -->
+                            <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字" style="width:140px;"></el-input-number>
                         </td>
                         <td class="zjia">￥1200</td>
                         <td class="dele">
@@ -55,79 +55,22 @@
                     <p>热门服务
                     </p>
                 </div>
-                <div class="service">
+                <div class="service" v-for="product in products":key="product.id">
                     <div class="fir">
-                        <p>商品快速注册通道（5个小时快速注册）</p>
+                        <p>{{product.serviceName}}</p>
                     </div>
                     <div class="bg-img"></div>
                     <div class="sec">
-                        <p>工作日内5个小时提交申报，次日拿到</p>
+                        <p>{{product.serviceInfo}}</p>
                     </div>
                     <div class="thd">
                         <p>销量：</p>
                     </div>
                     <div class="four">
-                        <p>￥1200.00</p>
+                        <p>￥{{product.marketPrice}}</p>
                     </div>
                     <div class="fifth">
-                        <p>原价：￥1400.00</p>
-                    </div>
-                    <div class="check">查看详情>>></div>
-                </div>
-                <div class="service">
-                    <div class="fir">
-                        <p>商品快速注册通道（5个小时快速注册）</p>
-                    </div>
-                    <div class="bg-img"></div>
-                    <div class="sec">
-                        <p>工作日内5个小时提交申报，次日拿到</p>
-                    </div>
-                    <div class="thd">
-                        <p>销量：</p>
-                    </div>
-                    <div class="four">
-                        <p>￥1200.00</p>
-                    </div>
-                    <div class="fifth">
-                        <p>原价：￥1400.00</p>
-                    </div>
-                    <div class="check">查看详情>>></div>
-                </div>
-                <div class="service">
-                    <div class="fir">
-                        <p>商品快速注册通道（5个小时快速注册）</p>
-                    </div>
-                    <div class="bg-img"></div>
-                    <div class="sec">
-                        <p>工作日内5个小时提交申报，次日拿到</p>
-                    </div>
-                    <div class="thd">
-                        <p>销量：</p>
-                    </div>
-                    <div class="four">
-                        <p>￥1200.00</p>
-                    </div>
-                    <div class="fifth">
-                        <p>原价：￥1400.00</p>
-                    </div>
-                    <div class="check">查看详情>>></div>
-                </div>
-                <div class="service">
-                    <div class="fir">
-                        <p>商品快速注册通道（5个小时快速注册）</p>
-                    </div>
-                    <div class="bg-img"></div>
-                    <div class="sec">
-                        <p>工作日内5个小时提交申报，次日拿到</p>
-                    </div>
-                    <div class="thd">
-                        <p>销量：</p>
-                    </div>
-                    <div class="four">
-                        <p>￥1200.00</p>
-                    </div>
-                    <div class="fifth">
-                        <p>原价：￥1400.00</p>
+                        <p>原价：￥250000</p>
                     </div>
                     <div class="check">查看详情>>></div>
                 </div>
@@ -142,8 +85,25 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      msg: "Welcome to Your Vue.js App"
+      msg: "Welcome to Your Vue.js App",
+      num1: 1,
+      products:[],
     };
+  },
+  methods: {
+    handleChange(value) {
+      console.log(value);
+    }
+  },
+  created() {
+    var that = this;
+    this.ajax
+      .post("/xinda-api/recommend/list")
+      .then(function(data) {
+        var rData = data.data.data.hq;
+        console.log(rData);
+        that.products = rData;
+      });
   }
 };
 </script>
@@ -259,7 +219,6 @@ tbody {
   width: 100%;
   border-bottom: 1px solid #bcbdbd;
   margin-top: 25px;
-  padding-bottom: 25px;
   p {
     color: #74b2df;
     width: 150px;
@@ -276,6 +235,8 @@ tbody {
   float: left;
   margin-left: 25px;
   text-align: left;
+  margin-bottom: 25px;
+  cursor: pointer;
   div {
     margin-left: 10px;
   }
@@ -300,36 +261,35 @@ tbody {
     }
   }
   .thd {
-      p{
-        color: #676767;
-      }
+    p {
+      color: #676767;
+    }
   }
-  .four{
-      p{
-        color: #2693d4;
-        font-size: 30px;
-        font-weight: bold;
-      }
-  }
-  
-  .bg-img{
-      width: 200px;
-      height: 6px;
-      background: url(../images/paypage/Sprites.png) no-repeat;
-      background-position: -219px -488px;
-      margin-bottom: 10px;
-  }
-  .fifth{
-      p{
-          color: #676767;
-          
-      }
-  }
-  .check{
-      float: right;
-      cursor: pointer;
+  .four {
+    p {
       color: #2693d4;
-      margin-top: -28px;
+      font-size: 30px;
+      font-weight: bold;
+    }
+  }
+
+  .bg-img {
+    width: 200px;
+    height: 6px;
+    background: url(../images/paypage/Sprites.png) no-repeat;
+    background-position: -219px -488px;
+    margin-bottom: 10px;
+  }
+  .fifth {
+    p {
+      color: #676767;
+      text-decoration: line-through;
+    }
+  }
+  .check {
+    float: right;
+    color: #2693d4;
+    margin-top: -28px;
   }
 }
 </style>
