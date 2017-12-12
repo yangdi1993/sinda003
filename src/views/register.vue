@@ -158,33 +158,6 @@ export default {
     },
     //图片验证码
     codeImgBlur: function() {
-<<<<<<< HEAD
-      var codeSpan = document.querySelector('.code-img span');
-      var button = document.querySelector('.code-phone button');
-      this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
-        console.log(data);
-        if (this.codeImgVal == '') {
-        codeSpan.innerHTML = data.data.msg;
-        codeSpan.style.color = 'red';
-      }else if (data.data.status == '-1') {
-          codeSpan.innerHTML = data.data.msg;
-          codeSpan.style.color = 'red';
-          button.disabled = true;
-          button.style.background = '#ddd';
-          console.log(data.data.status)
-        }else{
-          codeSpan.innerHTML = data.data.msg;
-          codeSpan.style.color = 'green';
-        }
-      })
-      // if (this.codeImgVal == '') {
-      //   this.imgStar = false;
-      //   this.imgNull = true;
-      //   this.imgWrong = false;
-      //   this.imgRight = false;
-      // }
-      
-=======
       if (this.codeImgVal == '') {
         this.imgNull = true;
         this.imgStar = false;
@@ -206,7 +179,6 @@ export default {
           }
         })
       }
->>>>>>> 5d2e6e4ecdee031c96f3f49cd2eb79a408213c9a
     },
     // 验证码获得焦点事件
     codeImgFocus: function() {
@@ -289,48 +261,56 @@ export default {
         //电话号码不能为空
         this.phoneNull = true;
         this.phoneStar = false;
-      }
-
-      if (/^1[3578]\d{9}$/.test(this.phoneVal)) {
-        // 手机号匹配正确
-        if (this.codeImgVal == '') {
-          this.imgNull = true;
-          this.imgStar = false;
-        } else {
-          // 图片验证码匹配
-          this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
-            // console.log(data);
-            if (data.data.status == 1) {
-              this.imgStar = false;
-              this.imgRight = true;
-              this.imgWorng = false;
-              this.imgNull = false;
-              this.dis = true;
-              this.getNew = true;
-              this.get = false;
-              // 60秒倒计时
-              var that = this;
-              var dic = setInterval(function() {
-                that.count--;
-                if (that.count == 1) {
-                  // 60秒倒计时结束后清除计时器
-                  clearInterval(dic);
-                  that.dis = false;
-                  that.getNew = false;
-                  that.get = true;
-                }
-              }, 1000);
-            } else {
-              // 验证码匹配失败
-              this.imgRight = false;
-              this.imgWrong = true;
-            }
-          })
-        }
       } else {
-        //电话号码格式错误
-        this.phoneWrong = true;
-        this.phoneStar = false;
+        this.phoneWrong = false;
+        this.phoneStar = true;
+        this.phoneNull = false;
+        this.phoneRight = false;
+        this.phoneExist = false;
+        if (/^1[3578]\d{9}$/.test(this.phoneVal)) {
+          // 手机号匹配正确
+          if (this.codeImgVal == '') {
+            this.imgNull = true;
+            this.imgStar = false;
+          } else {
+            // 图片验证码匹配
+            this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
+              // console.log(data);
+              if (data.data.status == 1) {
+                this.imgStar = false;
+                this.imgRight = true;
+                this.imgWorng = false;
+                this.imgNull = false;
+                this.dis = true;
+                this.getNew = true;
+                this.get = false;
+                // 60秒倒计时
+                var that = this;
+                var dic = setInterval(function() {
+                  that.count--;
+                  if (that.count == 1) {
+                    // 60秒倒计时结束后清除计时器
+                    clearInterval(dic);
+                    that.dis = false;
+                    that.getNew = false;
+                    that.get = true;
+                  }
+                }, 1000);
+              } else {
+                // 验证码匹配失败
+                this.imgRight = false;
+                this.imgWrong = true;
+              }
+            })
+          }
+        } else {
+          //电话号码格式错误
+          this.phoneWrong = true;
+          this.phoneStar = false;
+          this.phoneNull = false;
+          this.phoneRight = false;
+          this.phoneExist = false;
+        }
       }
     },
 
@@ -338,7 +318,7 @@ export default {
 
     //注册按钮
     register: function() {
-       console.log(user)
+      // console.log(user)
       var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
       var phoneReg = /^1[3578]\d{9}$/;
       var md5 = require('md5');
@@ -363,35 +343,7 @@ export default {
         this.addStar = false;
       }
       // 判断注册条件
-      if (phoneReg.test(this.phoneVal)) {
-<<<<<<< HEAD
-        
-        // this.ajax.post('/xinda-api/register/valid-sms',this.qs.stringify({cellphone:this.phoneVal,smsType:1,validCode:this.codeImgVal})).then(data=>{
-        // console.log(data)})
-        if (localStorage.getItem(this.phoneVal)) {
-          // 用户名已存在
-          this.phoneNull = false;
-          this.phoneExist = true;
-          this.phoneWrong = false;
-          this.phoneStar = false;
-          this.phoneRight = false;
-        }
-        else if (this.codePhoneVal == 111111 && newPwReg.test(this.pwVal)) {
-          this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/register',this.qs.stringify({cellphone: this.phoneVal, smsType: 1, validCode: 111111,password:this.pwVal,regionId:this.seleCode})).then(data => {
-            // console.log(data)
-          })
-          // console.log('123')
-          var user = {};
-          user.name = this.phoneVal;
-          // user.passward = md5(this.pwVal);
-          user.phoneNum = this.phoneVal;
-          user.password = this.pwVal;
-          user.add = this.address;
-          localStorage.setItem(this.phoneVal, JSON.stringify(user));
-          console.log(user)
-          location = '#/outter/login';
-        }
-=======
+      else if (phoneReg.test(this.phoneVal)) {
         this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
           console.log(data.data.msg, data.data.status)
           if (data.data.status == 2) {
@@ -400,12 +352,13 @@ export default {
             this.phoneStar = false;
           }
           else if (data.data.status == 1 && this.codePhoneVal == 111111 && newPwReg.test(this.pwVal)) {
-            this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/register', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111, password: this.pwVal, regionId: this.seleCode })).then(data => {
-              console.log(data)
+            this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/register', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111, password: md5(this.pwVal), regionId: this.seleCode })).then(data => {
+              console.log(data.data)
+              console.log(this.pwVal)
             })
             var user = {};
             user.name = this.phoneVal;
-            // user.passward = md5(this.pwVal);
+            user.passward = md5(this.pwVal);
             user.phoneNum = this.phoneVal;
             user.password = this.pwVal;
             user.add = this.address;
@@ -414,7 +367,6 @@ export default {
             location.href = '#/outter/login';
           }
         })
->>>>>>> 5d2e6e4ecdee031c96f3f49cd2eb79a408213c9a
       }
     },
   }
