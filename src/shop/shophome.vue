@@ -27,29 +27,55 @@
             <p @click="zizhi">资质证书</p>
         </div>
         <div class="shophome-right2">
-            <div class="rights" v-show="servicePro1">
-                <div class="right" v-if="right">
-                    <div class="box" v-for="list in box" :key="list.id" >
-                        <p>{{list.serviceName}}</p>
-                        <img src="../images/shop/chang.gif" alt=""><br>
-                        <a href="">{{list.serviceInfo}}</a><br>
-                        <a href="">{{list.marketPrice}}</a><br>
-                        <h1>￥ 1400.00</h1><br>
-                        <a href=""class="line-through">原价：￥2000.00</a>
-                        <div class="on"></div>
-                        <span>查看详情>>></span>
-                    </div>
-                </div>
-            </div>
-            <div class="qq" v-show="tencent1">
-                <b>工作时间：周一到周五</b><br>
-                <strong>QQ咨询:</strong><br>
-                <img src="../images/shop/qq.png" alt="">
-            </div>
-            <div class="zizhi" v-show="zizhi1">
-                <img src="../images/shop/zhizhao.png" alt="">
-            </div>
+          <div class="rights" v-show="servicePro1">
+            <!-- <div class="boxes" v-if="boxes"> -->
+              <div class="box" v-for="list in box" :key="list.id" >
+                <p>{{list.serviceName}}</p>
+                <img src="../images/shop/chang.gif" alt=""><br>
+                <a href="">{{list.serviceInfo}}</a><br>
+                <a href="">销量：{{list.buyNum}}</a><br>
+                <h1>￥: {{list.marketPrice}}.00</h1><br>
+                <a href=""class="line-through">原价：￥{{list.price}}.00</a>
+                <span>查看详情>>></span>
+              </div>
+            
+          </div>
+          <div class="rights" v-show="servicePro1">
+            <!-- <div class="boxes" v-if="boxes"> -->
+              <div class="box" v-for="list in box" :key="list.id" >
+                <p>{{list.serviceName}}</p>
+                <img src="../images/shop/chang.gif" alt=""><br>
+                <a href="">{{list.serviceInfo}}</a><br>
+                <a href="">{{list.marketPrice}}</a><br>
+                <h1>￥ 1400.00</h1><br>
+                <a href=""class="line-through">原价：￥2000.00</a>
+                <span>查看详情>>></span>
+              </div>
+            
+          </div>
+          <div class="qq" v-show="tencent1">
+            <b>工作时间：周一到周五</b><br>
+            <strong>QQ咨询:</strong><br>
+            <img src="../images/shop/qq.png" alt="">
+          </div>
+          <div class="zizhi" v-show="zizhi1">
+            <img src="../images/shop/zhizhao.png" alt="">
+          </div>
         </div>
+    </div>
+    <div class="page">
+      <a>上一页</a>
+      <a href="">1</a>
+      <a href="">2</a>
+      <a href="">3</a>
+      <a href="">4</a>
+      <a href="">5</a>
+      <a href="">6</a>
+      <a href="">7</a>
+      <a href="">8</a>
+      <a href="">9</a>
+      <a href="">10</a>
+      <a>下一页</a>
     </div>
     <router-view/>
   </div>
@@ -60,13 +86,13 @@ export default {
   created() {
     var that = this;
     this.ajax
-      .post("/xinda-api/product/package/grid", {
-        // start: 1,
-        // limit: 8,
+      .post("/xinda-api/product/package/grid", this.qs.stringify({
+        start: 1,
+        limit: 3,
         // // productTypeCode: "1"
         // providerId: "8a82f52b674543e298d2e5f685946e6e",
         // sort: 2
-      })
+      }))
       .then(function(data) {
         //data=>{}
 
@@ -75,11 +101,8 @@ export default {
         console.log(box);
       });
   },
-
-  name: "HelloWorld",
   data() {
     return {
-      msg: "Welcome to Your Vue.js App",
       servicePro1: true,
       tencent1: false,
       zizhi1: false,
@@ -179,10 +202,10 @@ export default {
     background: url(../images/shop/home.gif) 100% no-repeat;
     background-position: 0px -65px;
   }
-
   p {
     margin-top: 70px;
     width: 60px;
+    margin-left: -10px;
   }
 }
 .imgs1 {
@@ -209,6 +232,7 @@ export default {
   p {
     margin-top: 70px;
     width: 60px;
+    margin-left:-10px;
   }
 }
 .shophome-right {
@@ -236,10 +260,11 @@ export default {
 .shophome-right1 p:hover {
   border-bottom: 1px solid #2693d4;
 }
-.right {
+.rights {
   display: flex;
   justify-content: space-around;
   margin-top: 30px;
+  // display:none;
   .box {
     width: 265px;
     height: 190px;
@@ -301,6 +326,22 @@ export default {
   margin-left: -250px;
   width: 300px;
   height: 400px;
+}
+.page{
+  height: 35px;
+  margin: 50px auto 130px;
+  a{
+    height: 35px;
+    border:1px solid #cccccc;
+    background-color: #ffffff;
+    text-decoration: none;
+    padding:10px 15px;
+    color:#000;
+    cursor: pointer;
+  }
+}
+.page a:hover{
+  color:red;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
