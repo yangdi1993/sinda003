@@ -15,6 +15,8 @@ import register from '@/views/register'
 import forget from '@/views/forget'
 //主页
 import homepage from '@/homepage/homepage'
+//列表页
+import list from '@/homepage/list'
 
 //支付页面
 import paypage from '@/paypage/paypage'
@@ -71,6 +73,12 @@ export default new Router({
           path: 'homepage',
           name: 'homepage',
           component: homepage
+        },
+        //列表页
+        {
+          path: 'list',
+          name: 'list',
+          component: list
         },
         // 会员中心-我的订单
         {

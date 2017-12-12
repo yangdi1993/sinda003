@@ -8,6 +8,7 @@ import axios from 'axios'
 
 import store from './store'
 import qs from 'qs'
+import dist from './images/districts'
 //轮播部分插件引入
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 Vue.use(VueAwesomeSwiper)
