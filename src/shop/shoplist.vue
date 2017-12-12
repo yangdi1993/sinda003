@@ -213,7 +213,7 @@ export default {
       text-align: center;
     }
     span{
-      margin-left:45px;
+      margin-left:40px;
       display: block;
       border-bottom: 9px solid transparent;
       border-left: 9px solid transparent;
@@ -310,7 +310,11 @@ export default {
     background-color: #ffffff;
     padding:10px 15px;
     color:#000;
+    cursor: pointer;
   }
+}
+.lastbutton a:hover{
+  color:red;
 }
 
 </style>
