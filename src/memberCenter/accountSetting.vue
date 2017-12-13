@@ -24,7 +24,7 @@
                 <p>用户评价</p>
               </div>
             </a>
-            <a href="">
+            <a href="#/accountSetting">
               <div class="perBusTh">
                 <div class="perBusThB"></div>
                 <p>账户设置</p>
@@ -453,7 +453,7 @@ li {
       position: relative;
       overflow: hidden;
       outline: 0;
-      background: url(../images/login/head.png) no-repeat;
+      // background: url(../images/login/head.png) no-repeat;
     } // .avatar-uploader .el-upload:hover {
     //   // border-color: #409EFF;
     // }

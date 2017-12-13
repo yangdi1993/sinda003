@@ -343,7 +343,8 @@ export default {
         this.addStar = false;
       }
       // 判断注册条件
-      if (phoneReg.test(this.phoneVal)) {
+
+      else if (phoneReg.test(this.phoneVal)) {
         this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
           console.log(data.data.msg, data.data.status)
           if (data.data.status == 2) {

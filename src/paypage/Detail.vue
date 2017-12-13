@@ -6,9 +6,9 @@
           <span>购物车</span>
         </p>
       </div>
-      <div class="content">
-        <div class="g-img"><img src="../images/paypage/u1182.png" alt=""></div>
-        <div class="main" v-for="detail in details" :key="detail.id">
+      <div class="content" v-for="detail in details" :key="detail.id">
+        <div class="g-img"><img :src="'http://115.182.107.203:8088/xinda/pic'+ detail.providerImg"alt=""></div>
+        <div class="main">
           <div>
             <p class="name">{{detail.serviceName}}</p>
           </div>
@@ -36,7 +36,7 @@
             <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
           </div>
           <div class="buy">立即购买</div>
-          <div class="add">加入购物车</div>
+          <div class="add" v-on:click="add()">加入购物车</div>
         </div>
         <div class="service">
           <p class="fir">顶级服务商</p>
@@ -146,6 +146,7 @@ export default {
     changefir: function() {},
     changesec: function() {}
   },
+  //获取商品详情
   created() {
     var that = this;
     this.ajax
@@ -162,6 +163,10 @@ export default {
         console.log(rData);
         that.details = rData;
       });
+  },
+  //加入购物车
+  add(){
+
   }
 };
 </script>
@@ -185,8 +190,12 @@ export default {
 }
 .content {
   margin-top: 20px;
+  height: 400px;
+  width: 1200px;
 }
 .g-img {
+   width: 525px;
+    height: 393px;
   img {
     width: 525px;
     height: 393px;
