@@ -12,19 +12,19 @@
           </li>
           <!-- 业务 -->
           <li class="perBus">
-            <a href="#/myOrder">
+            <a href="#/inner/myOrder">
               <div class="perBusO">
                 <div class="perBusOB"></div>
                 <p>我的订单</p>
               </div>
             </a>
-            <a href="#/userUnEvalu">
+            <a href="#/inner/userUnEvalu">
               <div class="perBusTw">
                 <div class="perBusTwB"></div>
                 <p>用户评价</p>
               </div>
             </a>
-            <a href="">
+            <a href="#/inner/accountSetting">
               <div class="perBusTh">
                 <div class="perBusThB"></div>
                 <p>账户设置</p>
@@ -35,10 +35,10 @@
         <!-- 右侧边栏 -->
         <div class="memCenRi">
           <div class="myOrderHead">
-            <a href="#/accountSetting">
+            <a href="#/inner/accountSetting">
               <p>账户设置</p>
             </a>
-            <a href="#/changePw">
+            <a href="#/inner/changePw">
               <p>修改密码</p>
             </a>
             <!--<router-link to='changePw' replace>账户设置</router-link>-->
@@ -279,10 +279,6 @@ export default {
         }
 
       }
-
-
-
-
     }
   }
 
@@ -292,10 +288,10 @@ export default {
 <style lang="less">
 // 固定最小宽度
 // @media all and (min-width:1200px){
+  *{font-family: '\5B8B\4F53'}
 li {
   list-style: none;
 }
-
 .memCenBg {
   width: 100%;
   height: 786px;
@@ -405,7 +401,7 @@ li {
     font-weight: bold;
     color: #262626;
     margin-left: 10px;
-    padding: 5px 27px;
+    padding: 7px 27px;
   }
   a {
     text-decoration: none;
