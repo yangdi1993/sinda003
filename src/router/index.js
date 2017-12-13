@@ -86,31 +86,31 @@ export default new Router({
         },
         // 会员中心-我的订单
         {
-          path:'/myOrder',
+          path:'myOrder',
           name:'myOrder',
           component:myOrder,
         },
         // 会员中心-用户评价-未评价
         {
-          path:'/userUnEvalu',
+          path:'userUnEvalu',
           name:'userUnEvalu',
           component:userUnEvalu,
         },
         // 会员中心-用户评价-已评价
         {
-          path:'/userHavaEvalu',
+          path:'userHavaEvalu',
           name:'userHavaEvalu',
           component:userHavaEvalu,
         },
         // 用户设置
         {
-          path:'/accountSetting',
+          path:'accountSetting',
           name:'accountSetting',
           component:accountSetting,
         },
         // 修改密码
         {
-          path:'/changePw',
+          path:'changePw',
           name:'changePw',
           component:changePw,
         },
@@ -141,7 +141,7 @@ export default new Router({
         },
         // 会员中心-用户评价-去评价
         {
-          path:'/goEvalu',
+          path:'goEvalu',
           name:'goEvalu',
           component:goEvalu,
         },
