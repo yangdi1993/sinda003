@@ -39,8 +39,8 @@
           </div>
           <!-- 评价表头 -->
           <div class="evaluHead">
-              <a href="#/userUnEvalu"><div class="unvalued">未评价</div></a>
-              <a href="#/userHavaEvalu"><div class="haveEvalu">已评价</div></a>
+              <a href="#/inner/userUnEvalu"><div class="unvalued">未评价</div></a>
+              <a href="#/inner/userHavaEvalu"><div class="haveEvalu">已评价</div></a>
               <span></span>
           </div>
           <!-- 评价插入-已评价 -->
