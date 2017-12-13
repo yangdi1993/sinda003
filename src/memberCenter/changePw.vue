@@ -35,10 +35,10 @@
         <!-- 右侧边栏 -->
         <div class="memCenRi">
           <div class="myOrderHead">
-            <a href="#/accountSetting">
+            <a href="#/inner/accountSetting">
               <p>账户设置</p>
             </a>
-            <a href="#/changePw">
+            <a href="#/inner/changePw">
               <p>修改密码</p>
             </a>
           </div>

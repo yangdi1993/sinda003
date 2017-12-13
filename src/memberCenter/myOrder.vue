@@ -98,6 +98,11 @@
               </table>  
           </div>
           <!-- 翻页 -->
+          <div class="pageTurn">
+            <button class="prePage" @click="prePageBtn()">上一页</button>
+            <button class="pageNum">{{page}}</button>
+            <button class="nextPage" @click="nextPageBtn()">下一页</button>
+          </div>
         </div>
       </div>
     </div>
@@ -110,6 +115,7 @@
 // this.ajax.post("").then(data=>{
 //       console.log('');
 import ihead from '../components/ihead'
+import getData from '../homepage/public'
 export default {
   data(){
     return{
@@ -128,14 +134,22 @@ export default {
       // rData:[],
       // // 接口数据显示
       // rDataSh:[],
+      // 总页数
+      totol:0,
+      // 总页数对象
+      pageCount:[],
     }
   },
   created(){
     // 接口获取订单数据
     var that = this;
-    this.ajax.post('/xinda-api/business-order/grid',this.qs.stringfy({businessNo:businessNo})).then(function(data){
+    this.ajax.post('/xinda-api/business-order/grid',this.qs.stringfy({
+      businessNo:businessNo,
+      start:0,
+      limit:3,
+    })).then(function(data){
       // 循环订单
-    for(var i=0;i<data.data.length;i++){
+    for(var i=0;i<data.data.data.length;i++){
       // 获取时间戳
       var time = data.data[i].createTime;
       // 转换为标准日期格式
@@ -149,10 +163,24 @@ export default {
       s = newTime.getSeconds();
       var showTime = Y+M+D+h+m+s;
       console.log(showTime); //显示标准时间
-      var rData1 = data.data;
+      // 转变后的时间替换
+      time = showTime;
     }
-    this.rData = rData1;
+    var rData1 = data.data.data;
+    that.rData = rData1;
+    // 总页数
+    var totol = Math.ceil(data.data.totalCount/3);
+    var pageCount = {};
+    for(var i=0;i<totolPage;i++){
+      pageCount[i]=i+1;
+    }
+    // 总页数
+    that.totle=totle;
+    // 总页数对象
+    that.pageCount=pageCout;
+
     });
+    gitDate(this.listobjsA,this.changepage)
   },
   methods:{
     // 点击删除弹出框

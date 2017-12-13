@@ -184,7 +184,7 @@ export default {
      font-weight: bold;
      color: #3e9bd6;
      margin-left: 10px;
-     padding: 5px 27px;
+     padding: 7px 27px;
      border-bottom: 2px solid #3e9bd6;
    }
  }
