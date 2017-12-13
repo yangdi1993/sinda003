@@ -41,14 +41,14 @@ export default {
     }
   },
   created(){
-    this.ajax.post('xinda-api/register/valid-sms',this.qs.stringify({
-      cellphone:18369902972,				
-      smsType:1,
-      validCode:111111
-    })).then(function(data){
-      // var rData=data.data.data
-      console.log(data.data);
-      });
+    // this.ajax.post('xinda-api/register/valid-sms',this.qs.stringify({
+    //   cellphone:18369902972,				
+    //   smsType:1,
+    //   validCode:111111
+    // })).then(function(data){
+    //   // var rData=data.data.data
+    //   console.log(data.data);
+    //   });
 
 
     var user={}
