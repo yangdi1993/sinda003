@@ -24,7 +24,7 @@
                 <p>用户评价</p>
               </div>
             </a> 
-            <a href="">
+            <a href="#/accountSetting">
               <div class="perBusTh">
                 <div class="perBusThB"></div>
                 <p>账户设置</p>

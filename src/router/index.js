@@ -53,6 +53,7 @@ import goEvalu from '@/memberCenter/goEvalu'
 //省市区三级联动
 Vue.component('v-distpicker', Distpicker)
 
+
 //省市区三级联动
 Vue.component('v-distpicker', Distpicker)
 

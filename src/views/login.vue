@@ -236,12 +236,11 @@ export default {
           var loginUser = {};
           loginUser.username = this.loginPhone;
           loginUser.password = this.loginPw;
-          sessionStorage.setItem(this.loginPhone,JSON.stringify(loginUser));
+          // sessionStorage.setItem(this.loginPhone,JSON.stringify(loginUser));
 
           sessionStorage.setItem('zancun',JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录,杨迪留的
           location.replace('/#/inner/homepage')
           this.setNum(2)  //购物车物品数量
-
           // console.log('loginUser'+loginUser)
           sessionStorage.setItem('zancun',JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录
           location.replace('/#/inner/homepage')

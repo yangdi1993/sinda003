@@ -19,13 +19,12 @@
               </div>
             </a> 
             <a href="#/userUnEvalu">
-            <!-- <a v-bind:href="userUnEvalu"> -->
               <div class="perBusTw">
                 <div class="perBusTwB"></div>
                 <p>用户评价</p>
               </div>
             </a> 
-            <a href="">
+            <a href="#/accountSetting">
               <div class="perBusTh">
                 <div class="perBusThB"></div>
                 <p>账户设置</p>
@@ -60,7 +59,7 @@
             <li>订单操作</li>
           </ul>
           <!-- 订单插入 -->
-          <div id='orderInsert' v-for="(item,idx) in orderlistDis" :key="item.cardTypeName">
+          <div id='orderInsert' v-for="(item,idx) in rDataSh" :key="item.cardTypeName">
             <!-- 删除 弹出框 -->
               <div class="duihuakuang" v-show="isShow">
                 <div class="confirmIma">
@@ -75,12 +74,12 @@
               <table class="orderInTa" id="myorderInTa" v-show="searchShow">
                 <tr class="orderInTh">
                   <th class="orderInThTdO" colspan="2">
-                    <input type="checkbox">
-                    订单号：{{item.name}}
+                    <input type="checkbox" v-model="businessNo">
+                    订单号：{{item.businessNo}}
                   </th>
                   <th class="orderInThTdTw" colspan="5">
                     <span></span>
-                    下单时间：{{item.name2}}</th>
+                    下单时间：{{item.createTime}}</th>
                 </tr>
                 <tr class="orderInTr">
                   <td class="orderInTrTdO">
@@ -89,7 +88,7 @@
                   <td class="orderInTrTdTw">{{item.name4}}</td>
                   <td class="orderInTrTdTh">{{item.name5}}</td>
                   <td class="orderInTrTdFo">{{item.name6}}</td>
-                  <td class="orderInTrTdFi">{{item.name7}}</td>
+                  <td class="orderInTrTdFi">{{item.totalPrice}}</td>
                   <td class="orderInTrTdSi">{{item.name8}}</td>
                   <td class="orderInTrTdSe">
                     <input type="button" value="付款">
@@ -116,33 +115,48 @@ export default {
     return{
       index:-1,
       // 全部数据
-      orderlist:[{name:'first'},{name:'second'},{name:'third'}],
+      rData:[{name:'first'},{name:'second'},{name:'third'}],
       // 当前页要显示的数据
-      orderlistDis:[{name:'first'},{name:'second'},{name:'third'}],
+      rDataSh:[{name:'first'},{name:'second'},{name:'third'}],
       // 弹出框
       isShow:false,
       // 搜索
       orSerInVal:"",
       // 搜索数据
       searchShow:true,
-      // 接口数据全部
-      rData:[],
-      // 接口数据显示
-      rDataSh:[],
+      // // 接口数据全部
+      // rData:[],
+      // // 接口数据显示
+      // rDataSh:[],
     }
   },
   created(){
     // 接口获取订单数据
     var that = this;
-    this.ajax.post('da-api/commonlect-region',{}).then(function(data){
-    var rData = data.data.data
+    this.ajax.post('/xinda-api/business-order/grid',this.qs.stringfy({businessNo:businessNo})).then(function(data){
+      // 循环订单
+    for(var i=0;i<data.data.length;i++){
+      // 获取时间戳
+      var time = data.data[i].createTime;
+      // 转换为标准日期格式
+      var newTime = new Data(time);
+      // 年-月-日-时-分-秒
+      Y = newTime.getFullYear() + '-';
+      M = (newTime.getMonth()+1 < 10 ? '0'+(newTime.getMonth()+1) : newTime.getMonth()+1) + '-';
+      D = newTime.getDate() + ' ';
+      h = newTime.getHours() + ':';
+      m = newTime.getMinutes() + ':';
+      s = newTime.getSeconds();
+      var showTime = Y+M+D+h+m+s;
+      console.log(showTime); //显示标准时间
+      var rData1 = data.data;
+    }
+    this.rData = rData1;
     });
-    
   },
   methods:{
     // 点击删除弹出框
     delOrder:function(index){
-      // this.index=index;
       this.isShow = true;
     },
     // 点击X弹出框消失
@@ -152,7 +166,7 @@ export default {
     // 点击确定
     conCloseFun:function(index){
       this.isShow = false;
-      this.orderlistDis.splice(index,1)
+      this.rDataSh.splice(index,1)
     },
     // 点击取消
     canCliseFun:function(index){
@@ -161,12 +175,12 @@ export default {
     // 订单搜索
     orderSeaBtn:function(){
       // 清空页面要渲染的数据
-      this.orderlistDis = [];
-      for(var i=0;i<this.orderlist.length;i++){
-        var ordLiNa = this.orderlist[i].name;
+      this.rDataSh = [];
+      for(var i=0;i<this.rData.length;i++){
+        var ordLiNa = this.rData[i].name;
         if(ordLiNa==this.orSerInVal){
           // 把符合条件的数据添加到[]里面
-          this.orderlistDis.push(this.orderlist[i]);
+          this.rDataSh.push(this.rData[i]);
         }
         else{
 
@@ -447,7 +461,6 @@ export default {
    position: relative;
  }
  .pageTurn{
-  //  width: 300px;
    height: 36px;
    margin-top: 37px;
    font-size: 14px;
@@ -482,7 +495,6 @@ export default {
 .orderInTa{
   width: 935px;
   height: 108px;
-  // margin-left: 10px;
   margin-top: 10px;
   border: 1px solid #e8e8e8;
   .orderInTh{
@@ -496,7 +508,6 @@ export default {
       font-size: 14px;
       color: #616161;
       margin-left: -10px;
-      // text-align: left;
       input{
         margin-left: -160px;
         outline: 0;

@@ -28,9 +28,26 @@
           <span>商品</span>
           <span>价格</span>
         </div>
-        <div class="menuinner">
-
+        <div class="menuinner" v-for="(listobj,key,index) in listobjsA.page" :key="listobj.providerName">
+          <span class="bgimg"><img :src="'http://115.182.107.203:8088/xinda/pic'+listobj.productImg" @error="errorimg()" alt=""></span>
+          <div class="innertext">
+            <p class="innertitle">{{listobj.providerName}}</p>
+            <p class="innermore">{{listobj.serviceInfo}}</p>
+            <p class="innermore"><span>{{listobj.serviceName}}</span><span>{{listobj.regionName}}</span></p>
+          </div>
+          <div class="innerpay">
+            <p>￥ {{listobj.marketPrice}}.00</p>
+            <div>
+              <a href="#/inner/Alipay" class="buynow">立即购买</a>
+              <a href="javascript:void(0)">加入购物车</a>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="btnpage"> <!-- 翻页器 -->
+        <button class="pravicepage" @click="praverpage">上一页</button>
+        <button :class="{bluebd:index==showborder}" v-for="(page,key,index) in pagecount" :key="page.id" class="pagenum" @click="choosepage(index)">{{page}}</button>
+        <button class="nextpage" @click="nexpage">下一页</button>
       </div>
     </div>
     <div class="rightlist"> <!-- 右边带图的那几个 -->
@@ -40,6 +57,7 @@
 </template>
 
 <script>
+import getData from './public'
 export default {
   data () {
     return {
@@ -47,6 +65,12 @@ export default {
       innerobjs:[],
       showclass:0,
       showkind:0,
+      listobjs:[],
+      listobjsA:{page:''},
+      totle:0,
+      showborder:0,
+      pagecount:[],  //总页数对象
+      changepage:0,  //点击之后选择的页数
     }
   },
   methods:{
@@ -57,6 +81,40 @@ export default {
     },
     typekinds(index){
       this.showkind=index
+    },
+    errorimg(){ //图片路径错误时报错事件 
+
+    },
+    // getDa(){
+    //    var that=this
+    //   this.ajax.post('xinda-api/product/package/grid',this.qs.stringify({
+    //     start:this.changepage*3,
+    //     limit:3,
+    //     productTypeCode: "1",
+    //     // sort:2,
+    //   })).then(function(data){
+   
+    //     var rData=data.data.data
+    //     that.listobjsW=rData   //数据
+    //   })
+
+    // },
+
+
+    praverpage(){ //上一页
+      // this.changepage+=1
+      this.changepage<=0?this.changepage:this.changepage-=1
+      getData(this.listobjsA,this.changepage)
+    },
+    nexpage(){  //下一页
+      // this.changepage-=1
+      this.changepage>=this.totle-1?this.changepage:this.changepage+=1;
+      getData(this.listobjsA,this.changepage)
+    },
+    choosepage(index){  //点击页数
+      this.changepage=index
+      this.showborder=index
+      getData(this.listobjsA,this.changepage)
     }
   },
   created(){
@@ -79,10 +137,26 @@ export default {
       // console.log(objs)
       that.innerobjs=objs[0].itemList
     });
-    this.ajax.post('xinda-api/product/package/grid').then(function(data){
+      this.ajax.post('xinda-api/product/package/grid',this.qs.stringify({
+      start:0,
+      limit:3,
+      productTypeCode: "1",
+      // providerId: "8a82f52b674543e298d2e5f685946e6e",
+      sort:2,
+    })).then(function(data){
+      console.log(123)
       var rData=data.data.data
-      console.log(rData)
+      var totle=Math.ceil(data.data.totalCount/3)   //总页数
+      var pagecount={}  //翻页器的对象
+      for(var i=0;i<totle;i++){
+        pagecount[i]=i+1
+      }
+      that.totle=totle  //总页数
+      that.pagecount=pagecount  //总页数对象
+      that.listobjs=rData   //数据
     })
+
+    getData(this.listobjsA,this.changepage)
   }
 }
 </script>
@@ -92,6 +166,10 @@ export default {
 .bluebg{
   background: #2693d4;
   color: #fff;
+}
+.bluebd{
+  color: #2693d4;
+  border: 1px solid #2693d4;
 }
 .listbody{
   width: 1200px;
@@ -164,7 +242,7 @@ export default {
 }
 .listmenu{
   width: 100%;
-  height: 470px;
+  // height: 461px;
   border: 1px solid #ccc;
   margin-top: 25px;
   .menutop{
@@ -218,8 +296,95 @@ export default {
     text-align: left;
     padding: 11px 0;
     border-bottom: 1px solid #eaeaea;
-    
+    display: flex;
+    .bgimg{
+      width: 98px;
+      height: 98px;
+      display: block;
+      border: 1px solid #ccc;
+      background: url(../images/homepage/errorimg.png) 100% 100% no-repeat;
+      background-position: 22px 20px;
+      img{
+      width: 98px;
+      height: 98px;
+      }
+    }
+    .innertext{
+      width: 500px;
+      padding: 5px 12px;
+      font-family: '黑体';
+      // margin-left: 12px;
+      display: flex;
+      align-content: space-between;
+      flex-wrap: wrap;
+      p{
+        width: 100%;
+      }
+      .innertitle{
+        font-size: 16px;
+        color: #000;
+      }
+      .innermore{
+        font-size: 14px;
+        color: #676767;
+        span:nth-child(1){
+          margin-right: 70px;
+        }
+      }
+    }
+    .innerpay{
+      width: 300px;
+      margin-left: 14px;
+      text-align: right;
+      p{
+        font-size: 30px;
+        color: #f00;
+        margin-right: 40px;
+        margin-top: 10px;
+      }
+      a{
+        width: 89px;
+        height: 29px;
+        font-size: 14px;
+        color: #fff;
+        text-decoration: none;
+        background: #2693d4;
+        line-height: 29px;
+        text-align: center;
+        letter-spacing: 1px;
+        border-radius: 4px;
+        margin-right: 11px;
+        display: inline-block;
+        margin-top: 25px;
+      }
+    }
   }
+}
+
+//翻页按钮的公共样式
+
+.btnpage{
+  margin: 29px 0 202px;
+  button{
+  height: 34px;
+  font-size: 13px;
+  color: #aaa;
+  line-height: 34px;
+  text-align: center;
+  border: 1px solid #ccc;
+  margin: 0 3px;
+  background: #fff;
+  cursor: pointer;
+  }
+}
+.pravicepage{//下一页与上一页
+  width: 66px;
+}
+.nextpage{
+  width: 66px;
+}
+.pagenum{   //翻页器的页数
+  width: 38px;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

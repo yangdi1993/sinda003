@@ -24,7 +24,7 @@
                 <p>用户评价</p>
               </div>
             </a> 
-            <a href="">
+            <a href="#/accountSetting">
               <div class="perBusTh">
                 <div class="perBusThB"></div>
                 <p>账户设置</p>
@@ -85,6 +85,7 @@ export default {
 <style scoped lang="less">
 // 固定最小宽度
 // @media all and (min-width:1200px){
+  *{font-family: '\5B8B\4F53'}
  .memCenBg{
     width: 100%;
     height: 786px;
