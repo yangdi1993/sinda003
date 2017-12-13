@@ -198,7 +198,6 @@ export default {
             this.oldStar = false;
           }
         })
-
         // 旧密码重置错误提示信息
         this.oldNull = false;
         this.oldWrong = false;

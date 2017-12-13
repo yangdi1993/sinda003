@@ -9,7 +9,7 @@ export default function getData(listobjsA,changepage){
         // sort:2,
     })).then(function(data){
         var rData=data.data.data
-        listobjsA.page=rData   //数据
+        listobjsA=rData   //数据
     })
 
 }

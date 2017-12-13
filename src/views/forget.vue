@@ -41,7 +41,11 @@
           <span v-show="fCodeStar">*</span>
         </li>
         <li class="newPw">
-          <input type="password" placeholder="请输入新密码" v-model="fNew" v-on:blur="fnBlur" v-on:focus="fnFocus">
+          <input :type="newPwType" placeholder="请输入新密码" v-model="fNew" v-on:blur="fnBlur" v-on:focus="fnFocus">
+           <div class="eye" @click="changeType">
+            <img v-show="invisible" src="../images/login/invisible.png" alt="">
+            <img v-show="visible" src="../images/login/visible.png" alt="">
+          </div>
           <a href="#">密码由6-16位数字和字母组成</a>
           <span v-show="fpwNull">新密码不能为空</span>
           <span v-show="fpwWrong">新密码格式错误</span>
@@ -49,7 +53,11 @@
           <span v-show="fpwStar">*</span>
         </li>
         <li class="pw">
-          <input type="password" placeholder="请再次输入密码" v-model="fPw" v-on:blur="fPwBlur" v-on:focus="fPwFocus">
+          <input :type="pwType" placeholder="请再次输入密码" v-model="fPw" v-on:blur="fPwBlur" v-on:focus="fPwFocus">
+           <div class="eye" @click="chVerType">
+            <img v-show="Vinvisible" src="../images/login/invisible.png" alt="">
+            <img v-show="Vvisible" src="../images/login/visible.png" alt="">
+          </div>
           <span v-show="fpwNewNull">确认密码不能为空</span>
           <span v-show="fpwNewWrong">两次输入密码不一致</span>
           <span v-show="fpwNewRight" id="right">✔</span>
@@ -105,16 +113,22 @@ export default {
       fpwWrong: '',
       fpwRight: '',
       fpwStar: '',
+      newPwType:'password',
+      invisible: '',
+      visible: '',
       // 确认密码验证
       fPw: '',
       fpwNewNull: '',
       fpwNewWrong: '',
       fpwNewRight: '',
       fpwNewStar: '',
+      pwType:'password',
+      Vinvisible: '',
+      Vvisible: '',
       // 获取动态验证码按钮
       fgetNew: false,
       fget: true,
-      count: 60,
+      count: '',
       msg: 'Welcome to Your Vue.js App',
       imgUrl: '/xinda-api/ajaxAuthcode',
 
@@ -222,6 +236,36 @@ export default {
       this.fpwiStar = true;
       this.fpwRight = false;
     },
+    // 新密码切换密码明码和暗骂
+    changeType: function() {
+      var input = document.querySelector('.pw input')
+      this.pwType = this.pwType === 'password' ? 'text' : 'password'
+      // console.log(this.pwType,input)
+      if (this.pwType === 'password') {
+        // 密码
+        this.invisible = true;
+        this.visible = false;
+      } else {
+        // 明码
+        this.invisible = false;
+        this.visible = true;
+      }
+    },
+    // 确认切换密码明码和暗骂
+    chVerType: function() {
+      var input = document.querySelector('.pw input')
+      this.pwType = this.pwType === 'password' ? 'text' : 'password'
+      // console.log(this.pwType,input)
+      if (this.pwType === 'password') {
+        // 密码
+        this.Vinvisible = true;
+        this.Vvisible = false;
+      } else {
+        // 明码
+        this.Vinvisible = false;
+        this.Vvisible = true;
+      }
+    },
     // 确认密码焦点事件
     fPwBlur: function() {
       if (this.fPw == '') {
@@ -273,6 +317,7 @@ export default {
               this.fget = false;
               // 60秒倒计时
               var that = this;
+              this.count = 60;
               var reduce = setInterval(function() {
                 that.count--;
                 if (that.count == 1) {
@@ -325,7 +370,7 @@ export default {
         this.fpwNewNull = true;
         this.fpwNewiStar = false;
       }
-      this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/findpas', this.qs.stringify({ cellphone: this.forgetPhone, smsType: 2, validCode: 111111, password: this.fNew })).then(data => {
+      this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/findpas', this.qs.stringify({ cellphone: this.forgetPhone, smsType: 1, validCode: 111111, password: this.fNew })).then(data => {
         console.log(data.data.status, data.data.msg);
         if (data.data.status == 1 && newPwReg.test(this.fNew) && this.fNew == this.fPw) {
           // 修改成功提示
@@ -473,14 +518,6 @@ li {
           margin-top: 7px;
         }
       }
-      // p {
-      //   margin: -10px auto;
-      //   font-size: 13px;
-      //   text-align: center;
-      //   span {
-      //     color: #2693d6;
-      //   }
-      // }
       .newPw {
         position: relative;
         a {
@@ -490,6 +527,17 @@ li {
           color: #aaa;
           margin: 38px 0 0 -275px;
         }
+        .eye {
+          position: absolute;
+          // margin: -28px 0 0 250px;
+        }
+      }
+      .pw{
+        position: relative;
+        // .eye {
+        //   position: absolute;
+        //   // margin: -28px 0 0 250px;
+        // }
       }
     }
   }
