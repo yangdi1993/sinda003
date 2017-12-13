@@ -8,19 +8,19 @@
       </div>
       <div class="content">
         <div class="g-img"><img src="../images/paypage/u1182.png" alt=""></div>
-        <div class="main">
+        <div class="main" v-for="detail in details" :key="detail.id">
           <div>
-            <p class="name">代理记账（半年）</p>
+            <p class="name">{{detail.serviceName}}</p>
           </div>
           <div>
-            <p class="mingxi">6个月小规模企业代理记账业务</p>
+            <p class="mingxi">{{detail.serviceInfo}}</p>
           </div>
           <div class="rate">
             <p>市场价：
-              <span class="line-through ">￥900</span>
+              <span class="line-through ">￥{{detail.marketPrice}}</span>
             </p>
             <p>价格：
-              <span class="price">￥800.00</span>元</p>
+              <span class="price">￥{{detail.price}}</span>元</p>
           </div>
           <div class="types">类型：
             <div class="type type-fir">代理记账（半年）</div><br>
@@ -89,7 +89,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="key in products" :key="key">
+                <tr>
                   <td>{{111}}</td>
                   <td>{{111}}</td>
                   <td>{{111}}</td>
@@ -123,7 +123,7 @@ export default {
     return {
       msg: "Welcome to Your Vue.js App",
       quantity: 1,
-      products: [],
+      details: [],
       isA: true,
       num1: 1,
       tabPosition: "top"
@@ -143,25 +143,26 @@ export default {
         this.quantity = this.quantity;
       }
     },
-    changefir: function() {
-      var ServiceCon = document.querySelector(".serviceCon");
-      var UserRating = document.querySelector(".userRating");
-    }
+    changefir: function() {},
+    changesec: function() {}
   },
-  // created: {
-  //   UserRating: function() {
-  //     this.ajax.post(
-  //       "/xinda-api/product/judge/grid",
-  //       this.qs
-  //         .stringify({
-  //           start: 0
-  //         })
-  //         .then(data => {
-  //           console.log(data);
-  //         })
-  //     );
-  //   }
-  // }
+  created() {
+    var that = this;
+    this.ajax
+      .post(
+        "/xinda-api/product/package/grid",
+        this.qs.stringify({
+          start: 0,
+          limit: 1,
+          productTypeCode: "1",
+        })
+      )
+      .then(data => {
+        var rData = data.data.data;
+        console.log(rData);
+        that.details = rData;
+      });
+  }
 };
 </script>
 

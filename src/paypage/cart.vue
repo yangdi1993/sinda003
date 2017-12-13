@@ -1,83 +1,83 @@
 <template>
-    <div class="pay">
-        <div class="pay-content">
-            <div class="pay-top">
-                <p>首页/
-                    <span>购物车</span>
-                </p>
-            </div>
-            <div class="pay-head">
-                <div>
-                    <p>全部商品
-                        <span>(1)</span>
-                    </p>
-                </div>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>公司</th>
-                        <th>服务商品</th>
-                        <th>单价</th>
-                        <th>数量</th>
-                        <th>金额</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <p>店铺：
-                        <span>哈哈哈哈啊哈哈</span>
-                    </p>
-                    <tr>
-                        <td><img src="" alt="">哈哈哈哈</td>
-                        <td>代理记账</td>
-                        <td>￥1200</td>
-                        <td>
-                            <!-- <button>-</button><input type="text" value=1><button>+</button> -->
-                            <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字" style="width:140px;"></el-input-number>
-                        </td>
-                        <td class="zjia">￥1200</td>
-                        <td class="dele">
-                            <div>删除</div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="tomoney">
-                <div class="total">金额总计：
-                    <p class="">￥800.00</p>
-                </div>
-                <div class="continue">继续购物</div>
-                <div class="balance">去结算</div>
-            </div>
-            <div class="hotservice">
-                <div>
-                    <p>热门服务
-                    </p>
-                </div>
-                <div class="service" v-for="product in products":key="product.id">
-                    <div class="fir">
-                        <p>{{product.serviceName}}</p>
-                    </div>
-                    <div class="bg-img"></div>
-                    <div class="sec">
-                        <p>{{product.serviceInfo}}</p>
-                    </div>
-                    <div class="thd">
-                        <p>销量：</p>
-                    </div>
-                    <div class="four">
-                        <p>￥{{product.marketPrice}}</p>
-                    </div>
-                    <div class="fifth">
-                        <p>原价：￥250000</p>
-                    </div>
-                    <div class="check">查看详情>>></div>
-                </div>
-            </div>
+  <div class="pay">
+    <div class="pay-content">
+      <div class="pay-top">
+        <p>首页/
+          <span>购物车</span>
+        </p>
+      </div>
+      <div class="pay-head">
+        <div>
+          <p>全部商品
+            <span>(1)</span>
+          </p>
         </div>
-        <router-view/>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>公司</th>
+            <th>服务商品</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>金额</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody v-for="cart in carts":key="cart.id">
+          <p>店铺：
+            <span>{{cart.providerName}}</span>
+          </p>
+          <tr>
+            <td><img src="" alt="">哈哈哈哈</td>
+            <td>{{cart.serviceName}}</td>
+            <td>￥{{cart.unitPrice}}</td>
+            <td>
+              <!-- <button>-</button><input type="text" value=1><button>+</button> -->
+              <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字" style="width:140px;"></el-input-number>
+            </td>
+            <td class="zjia">￥1200</td>
+            <td class="dele">
+              <div>删除</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="tomoney">
+        <div class="total">金额总计：
+          <p class="">￥800.00</p>
+        </div>
+        <div class="continue">继续购物</div>
+        <div class="balance">去结算</div>
+      </div>
+      <div class="hotservice">
+        <div>
+          <p>热门服务
+          </p>
+        </div>
+        <div class="service" v-for="product in products" :key="product.id">
+          <div class="fir">
+            <p>{{product.serviceName}}</p>
+          </div>
+          <div class="bg-img"></div>
+          <div class="sec">
+            <p>{{product.serviceInfo}}</p>
+          </div>
+          <div class="thd">
+            <p>销量：</p>
+          </div>
+          <div class="four">
+            <p>￥{{product.marketPrice}}</p>
+          </div>
+          <div class="fifth">
+            <p>原价：￥250000</p>
+          </div>
+          <div class="check">查看详情>>></div>
+        </div>
+      </div>
     </div>
+    <router-view/>
+  </div>
 </template>
 
 <script>
@@ -87,23 +87,30 @@ export default {
     return {
       msg: "Welcome to Your Vue.js App",
       num1: 1,
-      products:[],
+      products: [],
+      carts:[],
     };
   },
   methods: {
-    handleChange(value) {
-      console.log(value);
+    handleChange(num) {
+      console.log(num);
     }
   },
   created() {
     var that = this;
-    this.ajax
-      .post("/xinda-api/recommend/list")
-      .then(function(data) {
-        var rData = data.data.data.hq;
-        console.log(rData);
-        that.products = rData;
-      });
+    this.ajax.post("/xinda-api/recommend/list").then(function(data) {
+      var rData = data.data.data.hq;
+      //console.log(rData);
+      that.products = rData;
+    });
+  },
+  created() {
+    var that = this;
+    this.ajax.post("/xinda-api/cart/list").then(function(data) {
+      var rData = data.data;
+      //console.log(rData);
+      that.carts = rData;
+    });
   }
 };
 </script>
