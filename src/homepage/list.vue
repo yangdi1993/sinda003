@@ -28,7 +28,7 @@
           <span>商品</span>
           <span>价格</span>
         </div>
-        <div class="menuinner" v-for="(listobj,key,index) in listobjsA.page" :key="listobj.providerName">
+        <div class="menuinner" v-for="(listobj,key,index) in listobjsA" :key="listobj.providerName">
           <span class="bgimg"><img :src="'http://115.182.107.203:8088/xinda/pic'+listobj.productImg" @error="errorimg()" alt=""></span>
           <div class="innertext">
             <p class="innertitle">{{listobj.providerName}}</p>
@@ -66,7 +66,7 @@ export default {
       showclass:0,
       showkind:0,
       listobjs:[],
-      listobjsA:{page:''},
+      listobjsA:[],
       totle:0,
       showborder:0,
       pagecount:[],  //总页数对象
@@ -85,21 +85,6 @@ export default {
     errorimg(){ //图片路径错误时报错事件 
 
     },
-    // getDa(){
-    //    var that=this
-    //   this.ajax.post('xinda-api/product/package/grid',this.qs.stringify({
-    //     start:this.changepage*3,
-    //     limit:3,
-    //     productTypeCode: "1",
-    //     // sort:2,
-    //   })).then(function(data){
-   
-    //     var rData=data.data.data
-    //     that.listobjsW=rData   //数据
-    //   })
-
-    // },
-
 
     praverpage(){ //上一页
       // this.changepage+=1
@@ -115,6 +100,7 @@ export default {
       this.changepage=index
       this.showborder=index
       getData(this.listobjsA,this.changepage)
+      console.log(this.listobjsA)
     }
   },
   created(){
@@ -144,18 +130,18 @@ export default {
       // providerId: "8a82f52b674543e298d2e5f685946e6e",
       sort:2,
     })).then(function(data){
-      console.log(123)
+      // console.log(123)
       var rData=data.data.data
       var totle=Math.ceil(data.data.totalCount/3)   //总页数
+      console.log(data.data)
       var pagecount={}  //翻页器的对象
       for(var i=0;i<totle;i++){
         pagecount[i]=i+1
       }
       that.totle=totle  //总页数
       that.pagecount=pagecount  //总页数对象
-      that.listobjs=rData   //数据
+      // that.listobjs=rData   //数据
     })
-
     getData(this.listobjsA,this.changepage)
   }
 }
