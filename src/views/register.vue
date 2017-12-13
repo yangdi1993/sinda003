@@ -41,13 +41,31 @@
           <span v-show="codeStar">*</span>
         </li>
         <li class="android-wheel">
-          <v-distpicker class="select" province="省" city="市" area="区" @selected="onSelected"></v-distpicker>
+          <!--<v-distpicker class="select" province="省" city="市" area="区" @selected="onSelected"></v-distpicker>-->
+          <div class="adress">
+            <select @change="proChange" v-model="province">
+              <option value="0">省</option>
+              <option :value="code" v-for="(province,code) in provinces" :key="province.code">{{province}}</option>
+            </select>
+            <select @change="cityChange" v-model="city">
+              <option value="0">市</option>
+              <option :value="code" v-for="(city,code) in citys" :key="city.code">{{city}}</option>
+            </select>
+            <select @change="areaChange" v-model="area">
+              <option value="0">区</option>
+              <option :value="code" v-for="(area,code) in areas" :key="area.code">{{area}}</option>
+            </select>
+          </div>
           <span v-show="addNull">地址不能为空</span>
           <span v-show="addRight" id="green">✔</span>
           <span v-show="addStar">*</span>
         </li>
         <li class="pw">
-          <input type="password" placeholder="请设置密码" v-model="pwVal" v-on:blur="codePwBlur" v-on:focus="codePwFocus">
+          <input :type="pwType" placeholder="请设置密码" v-model="pwVal" v-on:blur="codePwBlur" v-on:focus="codePwFocus">
+          <div class="eye" @click="changeType">
+            <img v-show="invisible" src="../images/login/invisible.png" alt="">
+            <img v-show="visible" src="../images/login/visible.png" alt="">
+          </div>
           <a href="javascript:void(0)">密码由6-16位数字和字母组成</a>
           <span v-show="pwNull">密码不能为空</span>
           <span v-show="pwWrong">密码错误</span>
@@ -80,15 +98,16 @@
 <script>
 import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
-import VDistpicker from 'v-distpicker'
+// import VDistpicker from 'v-distpicker'
+import dist from '../images/districts'
 export default {
   name: 'HelloWorld',
-  components: { VDistpicker },
+  // components: { VDistpicker },
   data() {
     return {
       // 点击获取验证码按钮
       dis: false,
-      count: 60,
+      count: '',
       // 手机号内容及报错提示
       phoneVal: '',
       phoneNull: false,
@@ -114,12 +133,22 @@ export default {
       pwWrong: false,
       pwStar: false,
       pwRight: false,
+      // 切换密码可不可见
+      pwType: 'password',
+      invisible: true,
+      visible: false,
       // 地址报错
       addNull: '',
       addStar: '',
       addRight: false,
       seleCode: '',
-      address: '',
+      provinces: dist[100000],
+      citys: [],
+      areas: [],
+      province: '0',
+      city: '0',
+      area: '0',
+      // address: '',
       // 获取验证码按钮
       getNew: false,
       get: true,
@@ -245,15 +274,38 @@ export default {
       this.pwStar = true;
       this.pwRight = false;
     },
-
-    //地址验证
-    onSelected: function(data) {
-      this.addStar = false;
-      this.addRight = true;
-      this.seleCode = data.area.code;
-      this.address = data.province.value + ' ' + data.city.value + ' ' + data.area.value;
-      // console.log(this.address);
+    // 切换密码明码和暗骂
+    changeType: function() {
+      var input = document.querySelector('.pw input')
+      this.pwType = this.pwType === 'password' ? 'text' : 'password'
+      // console.log(this.pwType,input)
+      if (this.pwType === 'password') {
+        // 密码
+        this.invisible = true;
+        this.visible = false;
+      } else {
+        // 明码
+        this.invisible = false;
+        this.visible = true;
+      }
     },
+    //地址验证
+    proChange() {
+      //  省
+      this.citys = dist[this.province];
+      // console.log(this.province)
+    },
+    cityChange() {
+      // 市
+      this.areas = dist[this.city];
+      // console.log(this.city)
+    },
+    // 区
+    areaChange() {
+      this.seleCode = this.area;
+      // console.log(this.seleCode)
+    },
+
 
     // 点击获取验证码
     buttonGet: function() {
@@ -285,6 +337,7 @@ export default {
                 this.getNew = true;
                 this.get = false;
                 // 60秒倒计时
+                this.count = 60;
                 var that = this;
                 var dic = setInterval(function() {
                   that.count--;
@@ -318,7 +371,7 @@ export default {
 
     //注册按钮
     register: function() {
-      // console.log(user)
+      // console.log(this.seleCode)
       var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
       var phoneReg = /^1[3578]\d{9}$/;
       var md5 = require('md5');
@@ -337,13 +390,14 @@ export default {
         // 密码不能为空
         this.pwNull = true;
         this.pwStar = false;
-      } else if (this.address == '省 市 区') {
+      } else if (this.seleCode == '') {
         // 地址不能为空
         this.addNull = true;
         this.addStar = false;
       }
       // 判断注册条件
       else if (phoneReg.test(this.phoneVal)) {
+        // 注册验证借口
         this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
           console.log(data.data.msg, data.data.status)
           if (data.data.status == 2) {
@@ -352,6 +406,7 @@ export default {
             this.phoneStar = false;
           }
           else if (data.data.status == 1 && this.codePhoneVal == 111111 && newPwReg.test(this.pwVal)) {
+            // 注册提交接口
             this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/register', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111, password: md5(this.pwVal), regionId: this.seleCode })).then(data => {
               console.log(data.data)
               console.log(this.pwVal)
@@ -462,8 +517,7 @@ li {
       .urban {
         margin-right: 0;
       }
-      .phone input,
-      .pw input {
+      .phone input {
         width: 255px;
       }
       .pw {
@@ -474,6 +528,13 @@ li {
           font-size: 11px;
           text-decoration: none;
           color: #aaa;
+        }
+        input {
+          width: 255px;
+        }
+        .eye {
+          position: absolute;
+          margin: -28px 0 0 250px;
         }
       }
       .registerBut button {

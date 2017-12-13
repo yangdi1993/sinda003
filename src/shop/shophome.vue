@@ -27,31 +27,27 @@
             <p @click="zizhi">资质证书</p>
         </div>
         <div class="shophome-right2">
-          <div class="rights" v-show="servicePro1">
-            <!-- <div class="boxes" v-if="boxes"> -->
-              <div class="box" v-for="list in box" :key="list.id" >
-                <p>{{list.serviceName}}</p>
-                <img src="../images/shop/chang.gif" alt=""><br>
-                <a href="">{{list.serviceInfo}}</a><br>
-                <a href="">销量：{{list.buyNum}}</a><br>
-                <h1>￥: {{list.marketPrice}}.00</h1><br>
-                <a href=""class="line-through">原价：￥{{list.price}}.00</a>
-                <span>查看详情>>></span>
-              </div>
-            
+          <div class="rights"v-show="servicePro1">
+            <div class="box"v-for="list in box" :key="list.id">
+              <p>{{list.serviceName}}</p>
+              <img src="../images/shop/chang.gif" alt="">
+              <div class="jianjie"><p>{{list.serviceInfo}}</p></div>
+              <div class="xiaoliang"><p>销量：{{list.buyNum}}</p></div>
+              <h1>￥: {{list.price}}.00</h1>
+              <p class="line-through">原价:￥{{list.marketPrice}}.00</p>
+              <a href="">查看详情>>></a>
+            </div>
           </div>
-          <div class="rights" v-show="servicePro1">
-            <!-- <div class="boxes" v-if="boxes"> -->
-              <div class="box" v-for="list in box" :key="list.id" >
-                <p>{{list.serviceName}}</p>
-                <img src="../images/shop/chang.gif" alt=""><br>
-                <a href="">{{list.serviceInfo}}</a><br>
-                <a href="">{{list.marketPrice}}</a><br>
-                <h1>￥ 1400.00</h1><br>
-                <a href=""class="line-through">原价：￥2000.00</a>
-                <span>查看详情>>></span>
-              </div>
-            
+          <div class="rights"v-show="servicePro1">
+            <div class="box"v-for="list in box" :key="list.id">
+              <p>{{list.serviceName}}</p>
+              <img src="../images/shop/chang.gif" alt="">
+              <div class="jianjie"><p>{{list.serviceInfo}}</p></div>
+              <div class="xiaoliang"><p>销量：{{list.buyNum}}</p></div>
+              <h1>￥: {{list.price}}.00</h1>
+              <p class="line-through">原价:￥{{list.marketPrice}}.00</p>
+              <a href="">查看详情>>></a>
+            </div>
           </div>
           <div class="qq" v-show="tencent1">
             <b>工作时间：周一到周五</b><br>
@@ -264,43 +260,66 @@ export default {
   display: flex;
   justify-content: space-around;
   margin-top: 30px;
-  // display:none;
   .box {
     width: 265px;
-    height: 190px;
-    margin-top: 20px;
+    height: 220px;
     border: 1px solid #e9e9e9;
-    p {
+    clear: both;
+    p{
       color: #000;
       font-size: 17px;
+      margin-left: 20px;
+      text-align: left;
+      width:240px;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       margin-top: 20px;
-      margin-left: 10px;
     }
     img {
-      margin-left: -60px;
+      margin-left: -60px; 
+      // height: 20px;
     }
-    a {
-      font-size: 14px;
-      color: #000;
-      text-decoration: none;
-      float: left;
-      margin-left: 17px;
-      line-height: 30px;
+    .jianjie{
+      margin-left:-95px;
+      margin-top:-10px;
+      position: absolute;
+      p {
+        width:240px;
+        font-size: 14px;
+        color: #000;
+        margin-left: 115px;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    .xiaoliang{
+      margin-top:40px;
     }
     h1 {
       color: #2794d5;
-      margin-top: 20px;
       float: left;
-      font-size: 32px;
+      font-size: 31px;
+      margin-left: 15px;
+      margin-top:10px;
+      position: absolute;
     }
     .line-through {
       text-decoration: line-through;
+      position: absolute;
+      margin-top: 55px;
     }
-    span {
+    a {
       color: #2794d5;
-      font-size: 14px;
-      margin-top: 5px;
-      display: inline-block;
+      font-size: 14px;  
+      margin-left: 178px;
+      margin-top: 55px;
+      position: absolute;
+      display:block;
+      text-decoration: none;
     }
   }
 }
@@ -332,8 +351,8 @@ export default {
   margin: 50px auto 130px;
   a{
     height: 35px;
-    border:1px solid #cccccc;
-    background-color: #ffffff;
+    border:1px solid #ccc;
+    background-color: #fff;
     text-decoration: none;
     padding:10px 15px;
     color:#000;

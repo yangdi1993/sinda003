@@ -12,19 +12,19 @@
           </li>
           <!-- 业务 -->
           <li class="perBus">
-            <a href="#/myOrder">
+            <a href="#/inner/myOrder">
               <div class="perBusO">
                 <div class="perBusOB"></div>
                 <p>我的订单</p>
               </div>
             </a>
-            <a href="#/userUnEvalu">
+            <a href="#/inner/userUnEvalu">
               <div class="perBusTw">
                 <div class="perBusTwB"></div>
                 <p>用户评价</p>
               </div>
             </a>
-            <a href="">
+            <a href="#/inner/accountSetting">
               <div class="perBusTh">
                 <div class="perBusThB"></div>
                 <p>账户设置</p>
@@ -198,7 +198,6 @@ export default {
             this.oldStar = false;
           }
         })
-
         // 旧密码重置错误提示信息
         this.oldNull = false;
         this.oldWrong = false;
@@ -224,6 +223,7 @@ export default {
 <style scoped lang="less">
 // 固定最小宽度
 // @media all and (min-width:1200px){
+  *{font-family: '\5B8B\4F53'}
 .memCenBg {
   width: 100%;
   height: 786px;
@@ -332,7 +332,7 @@ export default {
     font-weight: bold;
     color: #262626;
     margin-left: 10px;
-    padding: 5px 27px;
+    padding: 7px 27px;
   }
   a {
     text-decoration: none;

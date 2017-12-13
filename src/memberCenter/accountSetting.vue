@@ -12,19 +12,19 @@
           </li>
           <!-- 业务 -->
           <li class="perBus">
-            <a href="#/myOrder">
+            <a href="#/inner/myOrder">
               <div class="perBusO">
                 <div class="perBusOB"></div>
                 <p>我的订单</p>
               </div>
             </a>
-            <a href="#/userUnEvalu">
+            <a href="#/inner/userUnEvalu">
               <div class="perBusTw">
                 <div class="perBusTwB"></div>
                 <p>用户评价</p>
               </div>
             </a>
-            <a href="">
+            <a href="#/inner/accountSetting">
               <div class="perBusTh">
                 <div class="perBusThB"></div>
                 <p>账户设置</p>
@@ -35,10 +35,10 @@
         <!-- 右侧边栏 -->
         <div class="memCenRi">
           <div class="myOrderHead">
-            <a href="#/accountSetting">
+            <a href="#/inner/accountSetting">
               <p>账户设置</p>
             </a>
-            <a href="#/changePw">
+            <a href="#/inner/changePw">
               <p>修改密码</p>
             </a>
             <!--<router-link to='changePw' replace>账户设置</router-link>-->
@@ -50,6 +50,7 @@
                 <img v-if="imageUrl" :src="imageUrl" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
+              <a href="#" class="reminder">上传图片只能是小于2MB的JPG格式</a>
               <span v-show="headLarge">上传图片不能超过2MB</span>
               <span v-show="headType">上传图片只能是JPG格式</span>
               <!--<span v-show="headStar">*</span>-->
@@ -66,8 +67,8 @@
               <el-radio v-model="radio" label="1" class="male" checked>男</el-radio>
               <el-radio v-model="radio" label="2" class="female">女</el-radio>
               <!--<span v-show="genderRight" class="right hint">✔</span>
-                  <span v-show="genderNull" class="hint">性别不能为空</span>
-                  <span v-show="genderStar" class="hint">*</span>-->
+                    <span v-show="genderNull" class="hint">性别不能为空</span>
+                    <span v-show="genderStar" class="hint">*</span>-->
             </li>
             <li class="email">
               <p>邮箱：</p>
@@ -79,7 +80,20 @@
             </li>
             <li class="select">
               <p>所在地区：</p>
-              <v-distpicker province='省' city='市' area='区' @selected="onSelected"></v-distpicker>
+              <div class="adress">
+                <select @change="proChange" v-model="province">
+                  <option value="0">省</option>
+                  <option :value="code" v-for="(province,code) in provinces" :key="province.code">{{province}}</option>
+                </select>
+                <select @change="cityChange" v-model="city">
+                  <option value="0">市</option>
+                  <option :value="code" v-for="(city,code) in citys" :key="city.code">{{city}}</option>
+                </select>
+                <select @change="areaChange" v-model="area">
+                  <option value="0">区</option>
+                  <option :value="code" v-for="(area,code) in areas" :key="area.code">{{area}}</option>
+                </select>
+              </div>
               <span v-show="addRight" class="right">✔</span>
               <span v-show="addNull">地址不能为空</span>
               <span v-show="addStar">*</span>
@@ -95,6 +109,7 @@
 
 <script>
 import ihead from '../components/ihead'
+import dist from '../images/districts'
 export default {
   data() {
     return {
@@ -120,16 +135,31 @@ export default {
       emailNull: false,
       emailStar: true,
       // 地址
-      code: '',
+      seleCode: '',
+      provinces: dist[100000],
+      citys: [],
+      areas: [],
+      province: '0',
+      city: '0',
+      area: '0',
       addRight: false,
       addNull: false,
       addStar: true,
+      // 登录状态
+      status: '',
     }
+  },
+  created() {
+    // 验证登录信息
+    this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/sso/login-info').then(data => {
+      // console.log(data.data)
+      status = data.data.status;
+    })
   },
   methods: {
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      console.log("Success" + this.imageUrl)
+      // console.log("Success" + this.imageUrl)
       //  http://localhost:8080/317d48bf-edf2-449f-a746-d854b54c9a22
     },
     beforeAvatarUpload(file) {
@@ -153,6 +183,9 @@ export default {
     },
     // 姓名焦点事件
     nameBlur: function() {
+      if (status == 0) {
+        console.log('未登录')
+      }
       if (this.name == '') {
         // 用户名不能为空
         this.nameNull = true;
@@ -195,55 +228,57 @@ export default {
 
     },
     // 地址设置
-    onSelected: function(data) {
-      var address = data.province.value + data.city.value + data.area.value;
-      this.code = data.area.code;
-      // console.log(this.code)
-      // console.log(address)
-
+    //地址验证
+    proChange() {
+      //  省
+      this.citys = dist[this.province];
+      // console.log(this.province)
+    },
+    cityChange() {
+      // 市
+      this.areas = dist[this.city];
+      // console.log(this.city)
+    },
+    // 区
+    areaChange() {
+      this.seleCode = this.area;
+      // console.log(this.seleCode)
     },
     // 保存按钮事件
     saveBut: function() {
-      this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/member/info', this.qs.stringify({ headImg:this.imageUrl, name: this.name, gender: this.radio, email: this.email, regionId: this.code })).then(data => {
-          console.log(data)
-          console.log(data.data)
-        })
-      var emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
-      if (this.name == '') {
-        // 用户名不能为空
+      if (status == 0) {
         this.nameNull = true;
         this.nameStar = false;
-      } else if (this.email == '') {
-        // 邮箱不为空
-        this.emailNull = true;
-        this.emailStar = false;
-      } else if (this.code == '') {
-        // 地址不为空
-        this.addNull = true;
-        this.addStar = false;
       } else {
-        // 地址提示内容初始化
-        this.addNull = false;
-        this.addStar = false;
-        this.addRight = true;
-      }
-      if (this.name != '' && this.email != '' && this.code != '' && emailReg.test(this.email)) {
-        // 判断头像是否更换
-        this.imageUrl == ''?'http://localhost:8080/317d48bf-edf2-449f-a746-d854b54c9a22':this.imageUrl;
-        this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/member/info', this.qs.stringify({ headImg:this.imageUrl, name: this.name, gender: this.radio, email: this.email, regionId: this.code })).then(data => {
-          console.log(data)
-          // console.log('this.imageUrl' + this.imageUrl)
-          // console.log('this.name' + this.name)
-          // console.log('this.radio' + this.radio)
-          // console.log('this.email' + this.email)
-          // console.log('this.code' + this.code)
-        })
+        var emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
+        if (this.name == '') {
+          // 用户名不能为空
+          this.nameNull = true;
+          this.nameStar = false;
+        } else if (this.email == '') {
+          // 邮箱不为空
+          this.emailNull = true;
+          this.emailStar = false;
+        } else if (this.code == '') {
+          // 地址不为空
+          this.addNull = true;
+          this.addStar = false;
+        } else {
+          // 地址提示内容初始化
+          this.addNull = false;
+          this.addStar = false;
+          this.addRight = true;
+        }
+        if (this.name != '' && this.email != '' && this.code != '' && emailReg.test(this.email)) {
+          // 判断头像是否更换
+          // this.imageUrl == '' ? 'http://localhost:8080/317d48bf-edf2-449f-a746-d854b54c9a22' : this.imageUrl;
+          this.ajax.post('/xinda-api/member/info', this.qs.stringify({ headImg: this.imageUrl, name: this.name, gender: this.radio, email: this.email, regionId: this.code })).then(data => {
+            console.log(data)
+          })
+
+        }
 
       }
-
-
-
-
     }
   }
 
@@ -253,10 +288,10 @@ export default {
 <style lang="less">
 // 固定最小宽度
 // @media all and (min-width:1200px){
+  *{font-family: '\5B8B\4F53'}
 li {
   list-style: none;
 }
-
 .memCenBg {
   width: 100%;
   height: 786px;
@@ -366,7 +401,7 @@ li {
     font-weight: bold;
     color: #262626;
     margin-left: 10px;
-    padding: 5px 27px;
+    padding: 7px 27px;
   }
   a {
     text-decoration: none;
@@ -435,6 +470,7 @@ li {
     }
   }
   .photo {
+    position: relative;
     p {
       height: 100px;
       line-height: 100px;
@@ -447,13 +483,13 @@ li {
       height: 100px;
     }
     .avatar-uploader .el-upload {
-      // border: 1px dashed #d9d9d9;
+      border: 1px dashed #d9d9d9;
       border-radius: 50%;
       cursor: pointer;
       position: relative;
       overflow: hidden;
       outline: 0;
-      background: url(../images/login/head.png) no-repeat;
+      background: url(../images/login/head.png) no-repeat 2px 0;
     } // .avatar-uploader .el-upload:hover {
     //   // border-color: #409EFF;
     // }
@@ -468,6 +504,13 @@ li {
       width: 100px;
       height: 100px;
       display: block;
+    }
+    .reminder {
+      position: absolute;
+      font-size: 11px;
+      color: #999;
+      margin: 100px 0 0 150px;
+      text-decoration: none;
     }
   }
   .name {
