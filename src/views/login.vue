@@ -185,8 +185,6 @@ export default {
         this.imgWrong = false;
         this.imgRight = false;
       }
-      
-
       // 判断登录条件
       //判断手机号存在
       this.ajax.post('/xinda-api/sso/login', this.qs.stringify({ loginId: this.loginPhone, password: this.loginPw, imgCode: this.codeImage })).then(data => {
@@ -226,7 +224,10 @@ export default {
           var loginUser = {};
           loginUser.username = this.loginPhone;
           loginUser.password = this.loginPw;
-
+this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/sso/login-info').then(data => {
+      console.log(data.data)
+      status = data.data.status;
+    })
           sessionStorage.setItem('userPhone',this.loginPhone)  //此处为登录状态信息，登陆后判断状态是否为登录
           location.replace('/#/inner/homepage')
           this.setNum(0)  //购物车物品数量
