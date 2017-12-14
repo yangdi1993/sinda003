@@ -184,6 +184,70 @@ export default {
       } else {
         this.lphoneErr = '手机号格式错误';
       }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      
+
+=======
+>>>>>>> bbaae2b28b0c60c8442725b93510e03d0a5da0f0
+      // 判断登录条件
+      //判断手机号存在
+      this.ajax.post('/xinda-api/sso/login', this.qs.stringify({ loginId: this.loginPhone, password: this.loginPw, imgCode: this.codeImage })).then(data => {
+        console.log(data.data.msg, data.data.status)
+        if (data.data.msg == '账号不存在') {
+          // console.log('账号不存在')
+          this.phoneNull = true;
+          this.phoneStar = false;
+          this.pwWrong = false;
+          this.pwRight = false;
+          this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
+        }
+        if (data.data.msg == '图片验证码错误！') {
+          this.imgWrong = true;
+          this.imgRight = false;
+          this.imgNull = false;
+          this.imgStar = false;
+          // console.log('图片验证码错误！')
+          this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
+        }
+        if (data.data.msg == '账号或密码不正确！') {
+          this.pwWrong = true;
+          this.pwStar = false;
+          this.pwNull = false;
+          this.pwRight = false;
+          // console.log('账号或密码不正确！')
+          this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
+        }
+        if (data.data.status == 1) {
+          this.phoneRight = true;
+          this.phoneStar = false;
+          this.imgRight = true;
+          this.imgStar = false;
+          this.pwRight = true;
+          this.pwStar = false;
+          // 登录成功后保存当前用户名
+          var loginUser = {};
+          loginUser.username = this.loginPhone;
+          loginUser.password = this.loginPw;
+<<<<<<< HEAD
+          // sessionStorage.setItem(this.loginPhone,JSON.stringify(loginUser));
+          // console.log('loginUser'+loginUser)
+          sessionStorage.setItem('zancun',JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录
+=======
+this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/sso/login-info').then(data => {
+      console.log(data.data)
+      status = data.data.status;
+    })
+          sessionStorage.setItem('userPhone',this.loginPhone)  //此处为登录状态信息，登陆后判断状态是否为登录
+>>>>>>> bbaae2b28b0c60c8442725b93510e03d0a5da0f0
+          location.replace('/#/inner/homepage')
+          this.setNum(0)  //购物车物品数量
+          this.setName(this.loginPhone)
+          this.$router.push({path:'/inner/homepage'});
+        }
+      });
+>>>>>>> 1b2a37765c78b785cca663d273038b4c27712044
     }
   }
 }

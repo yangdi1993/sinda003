@@ -61,7 +61,7 @@ export default {
 }
 .movebox{
     height: 120px;
-    width:100%;
+    // width:100%;
     .logoimg{
         width:170px;
         height: 170px;
