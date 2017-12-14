@@ -114,8 +114,8 @@ export default {
       fpwRight: '',
       fpwStar: '',
       newPwType:'password',
-      invisible: '',
-      visible: '',
+      invisible: true,
+      visible: false,
       // 确认密码验证
       fPw: '',
       fpwNewNull: '',
@@ -123,8 +123,8 @@ export default {
       fpwNewRight: '',
       fpwNewStar: '',
       pwType:'password',
-      Vinvisible: '',
-      Vvisible: '',
+      Vinvisible: true,
+      Vvisible: false,
       // 获取动态验证码按钮
       fgetNew: false,
       fget: true,
@@ -239,9 +239,9 @@ export default {
     // 新密码切换密码明码和暗骂
     changeType: function() {
       var input = document.querySelector('.pw input')
-      this.pwType = this.pwType === 'password' ? 'text' : 'password'
+      this.newPwType = this.newPwType === 'password' ? 'text' : 'password'
       // console.log(this.pwType,input)
-      if (this.pwType === 'password') {
+      if (this.newPwType === 'password') {
         // 密码
         this.invisible = true;
         this.visible = false;
@@ -529,15 +529,15 @@ li {
         }
         .eye {
           position: absolute;
-          // margin: -28px 0 0 250px;
+          margin: -28px 0 0 250px;
         }
       }
       .pw{
         position: relative;
-        // .eye {
-        //   position: absolute;
-        //   // margin: -28px 0 0 250px;
-        // }
+        .eye {
+          position: absolute;
+          margin: -28px 0 0 250px;
+        }
       }
     }
   }

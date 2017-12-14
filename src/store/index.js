@@ -26,9 +26,8 @@ export default new Vuex.Store({
     getNum:state=>state.num,
     getName:state=>{
       if(state.name){
-        // return state.name;
-        return sessionStorage.getItem('userPhone');
-        console.log(state.name )
+        return state.name;
+        // return sessionStorage.getItem('userPhone');
       }else{
         return sessionStorage.getItem('userPhone');
       }

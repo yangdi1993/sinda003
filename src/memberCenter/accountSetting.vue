@@ -152,7 +152,7 @@ export default {
   created() {
     // 验证登录信息
     this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/sso/login-info').then(data => {
-      // console.log(data.data)
+      console.log(data.data)
       status = data.data.status;
     })
   },
