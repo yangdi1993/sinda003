@@ -197,7 +197,9 @@ export default {
      border-bottom: 2px solid #3e9bd6;
    }
  }
-
+ .perBusTh{
+   background-color: #f7f7f7;
+ }
  .pageTurn{
   //  width: 300px;
    height: 36px;

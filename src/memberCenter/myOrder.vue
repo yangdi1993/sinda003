@@ -365,6 +365,9 @@ export default {
  .perBusO{
    background-color: #e9e9e9;
  }
+ .perBusTh{
+   background-color: #f7f7f7;
+ }
 //  左边栏小背景
  .perBusOB{
    background: url(../images/memCen.png) -25px -126px no-repeat;
