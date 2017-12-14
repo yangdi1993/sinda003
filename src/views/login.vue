@@ -197,11 +197,8 @@ export default {
         this.imgWrong = false;
         this.imgRight = false;
       }
-<<<<<<< HEAD
-=======
       
 
->>>>>>> a6ef3d9a480b8eec8bb0eb65322750b450e5fba7
       // 判断登录条件
       //判断手机号存在
       this.ajax.post('/xinda-api/sso/login', this.qs.stringify({ loginId: this.loginPhone, password: this.loginPw, imgCode: this.codeImage })).then(data => {
@@ -242,13 +239,6 @@ export default {
           loginUser.username = this.loginPhone;
           loginUser.password = this.loginPw;
           // sessionStorage.setItem(this.loginPhone,JSON.stringify(loginUser));
-<<<<<<< HEAD
-
-          sessionStorage.setItem('zancun',JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录,杨迪留的
-          location.replace('/#/inner/homepage')
-          this.setNum(2)  //购物车物品数量
-=======
->>>>>>> a6ef3d9a480b8eec8bb0eb65322750b450e5fba7
           // console.log('loginUser'+loginUser)
           sessionStorage.setItem('zancun',JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录
           location.replace('/#/inner/homepage')
