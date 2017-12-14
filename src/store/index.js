@@ -4,7 +4,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state:{ //状态集合
     num:0,
-    name:'登录',
+    name:'',
   },
   mutations:{ //突变集合
     SET_NUM(state,num){
@@ -24,7 +24,15 @@ export default new Vuex.Store({
   },
   getters:{ //显示集合
     getNum:state=>state.num,
-    getName:state=>state.name
+    getName:state=>{
+      if(state.name){
+        return state.name;
+        // return sessionStorage.getItem('userPhone');
+      }else{
+        return sessionStorage.getItem('userPhone');
+      }
+    }
+    
   }
 })
 // import Vue from 'vue'

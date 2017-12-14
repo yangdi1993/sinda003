@@ -109,7 +109,7 @@
     </div>
     
 
-    <div class="service">  <!-- 推荐的服务商 -->
+    <div class="service" id="server">  <!-- 推荐的服务商 -->
       <div class="proCellTop">
         <p><a href="javascript:void(0)" class="servicers" @click="servicers">推荐服务</a><a href="javascript:void(0)" class="proservice" @click="proservice">推荐服务商</a></p>
         <span class="lineSanjiao"></span>
@@ -185,10 +185,11 @@ require('swiper/dist/css/swiper.css')
         objs:[],
         busInner:true,
         provider:false,
+        fleg:true,
       }
     },
     created(){
-    // console.log(this);
+    // console.log(123);
     var that=this
     this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/recommend/list').then(function(data){
       var rData=data.data.data

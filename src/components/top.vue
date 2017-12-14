@@ -3,20 +3,22 @@
     <div class="top-in">
       <div class="top-left">
         <span class="welcome">欢迎来到信达！</span>
-        <a href="#/outter/login" class="top-login"  :key="user.id">{{user.name}}</a>
-        <a href="#/outter/register" class="top-register" v-show="nowRegister">快速注册</a>
-        <a href="#/inner/homepage" v-show="quitNow" @click="quit">退出登录</a>
+        <a href="#/outter/login" class="top-login" v-show="!getName">登录</a>
+        <a href="#/inner/accountSetting" class="top-login" v-show="getName">{{getName}}</a>
+        <a href="#/outter/register" class="top-register" v-show="!getName">快速注册</a>
+        <a href="#/inner/homepage" v-show="getName" @click="quit">退出登录</a>
       </div>
       <div class="top-right">
         <a href="javascript:void(0)" class="top-cart">
           <span class="logo-cart"></span>
-          <span>购物车<span class="number">{{getNum}}</span>件</span>
+          <a href="#/outter/login" style="color:#000;margin:0;" v-show="!getName">购物车<span class="number">{{getNum}}</span>件</a>
+          <a href="#/inner/cart" style="color:#000;margin:0;" v-show="getName">购物车<span class="number">{{getNum}}</span>件</a>
         </a>
-        <a href="#/outter/myOrder" class="top-order" v-show="myOrder">
+        <a href="#/inner/myOrder" class="top-order" v-show="getName">
           <span class="logo-order"></span>
-          <span>我的订单</span>
+          <a href="#/inner/myOrder"  style="color:#000;margin:0;" v-show="getName">我的订单</a>
         </a>
-        <a href="javascript:void(0)" class="facilitator">服务商入口</a>
+        <a href="#/inner/homepage" class="facilitator">服务商入口</a>
       </div>
     </div>
   </div>
@@ -30,39 +32,35 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       user:[],
-      nowRegister:true,
-      quitNow:false,
-      myOrder:false,
     }
   },
   methods:{
     quit(){
       sessionStorage.clear()
-      this.nowRegister=true
-      this.quitNow=false
-      this.myOrder=false
       location.reload()
     }
   },
   created(){
+    // this.ajax.post('xinda-api/register/valid-sms',this.qs.stringify({
+    //   cellphone:18369902972,				
+    //   smsType:1,
+    //   validCode:111111
+    // })).then(function(data){
+    //   // var rData=data.data.data
+    //   console.log(data.data);
+    //   });
+
+
     var user={}
-    if(sessionStorage.getItem('zancun')){
-      // setTimeout(location.reload())
-      this.nowRegister=false
-      this.quitNow=true
-      this.myOrder=true
-      var username=(JSON.parse(sessionStorage.getItem('zancun')))
-      user=JSON.parse(localStorage.getItem(username))
-      // console.log(123)
-    }else{
-      this.nowRegister=true
-      this.quitNow=false
-      this.myOrder=false
-      user.name='登录'
-      // console.log(456)
+    if(sessionStorage.getItem('userPhone')){
+      // var that =this
+      // this.ajax.post('xinda-api/sso/login-info').then(function(data){
+      //   var rData=data.data.data
+      //   console.log(rData);
+      //   that.user=rData
+      // });
+      // this.href='#/inner/cart'
     }
-    // console.log(user)
-    this.user=user
   },
   computed:{
     ...mapGetters(['getNum','getName'])

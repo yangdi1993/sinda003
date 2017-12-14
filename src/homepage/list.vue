@@ -21,8 +21,8 @@
       </div>
       <div class="listmenu">   <!-- 靠下的部分 -->
         <div class="menutop">
-          <span>综合排序<span></span></span>
-          <span>价格↑↑<span></span></span>
+          <span @click="zonghe" :class="{bluebg:1==autopaixu}">综合排序<span v-show="daosanjian"></span></span>
+          <span @click="upprice" :class="{bluebg:2==autopaixu}">价格↑↑<span v-show="!daosanjian"></span></span>
         </div>
         <div class="menuhead">
           <span>商品</span>
@@ -46,7 +46,7 @@
       </div>
       <div class="btnpage"> <!-- 翻页器 -->
         <button class="pravicepage" @click="praverpage">上一页</button>
-        <button :class="{bluebd:index==showborder}" v-for="(page,key,index) in pagecount" :key="page.id" class="pagenum" @click="choosepage(index)">{{page}}</button>
+        <button :class="{bluebd:index==showborder}" v-for="(page,key,index) in pagecount.allshow" :key="page.id" class="pagenum" @click="choosepage(index)">{{page}}</button>
         <button class="nextpage" @click="nexpage">下一页</button>
       </div>
     </div>
@@ -67,10 +67,13 @@ export default {
       showkind:0,
       listobjs:[],
       listobjsA:{page:''},
-      totle:0,
+      totle:{allpage:0},
       showborder:0,
-      pagecount:[],  //总页数对象
+      pagecount:{allshow:{}},  //总页数对象
       changepage:0,  //点击之后选择的页数
+      paixu:2,  //排序方式
+      autopaixu:1,
+      daosanjian:true,
     }
   },
   methods:{
@@ -85,36 +88,33 @@ export default {
     errorimg(){ //图片路径错误时报错事件 
 
     },
-    // getDa(){
-    //    var that=this
-    //   this.ajax.post('xinda-api/product/package/grid',this.qs.stringify({
-    //     start:this.changepage*3,
-    //     limit:3,
-    //     productTypeCode: "1",
-    //     // sort:2,
-    //   })).then(function(data){
-   
-    //     var rData=data.data.data
-    //     that.listobjsW=rData   //数据
-    //   })
-
-    // },
-
-
     praverpage(){ //上一页
       // this.changepage+=1
       this.changepage<=0?this.changepage:this.changepage-=1
-      getData(this.listobjsA,this.changepage)
+      getData(this.listobjsA,this.changepage,3,this.paixu,'xinda-api/product/package/grid',this.totle,this.pagecount)
     },
     nexpage(){  //下一页
       // this.changepage-=1
-      this.changepage>=this.totle-1?this.changepage:this.changepage+=1;
-      getData(this.listobjsA,this.changepage)
+      this.changepage>=this.totle.allpage-1?this.changepage:this.changepage+=1;
+      getData(this.listobjsA,this.changepage,3,this.paixu,'xinda-api/product/package/grid',this.totle,this.pagecount)
+      console.log(this.totle.allpage)
     },
     choosepage(index){  //点击页数
       this.changepage=index
       this.showborder=index
-      getData(this.listobjsA,this.changepage)
+      getData(this.listobjsA,this.changepage,3,this.paixu,'xinda-api/product/package/grid',this.totle,this.pagecount)
+    },
+    zonghe(){ //综合排序
+      this.paixu=2
+      this.autopaixu=1
+      this.daosanjian=true
+      getData(this.listobjsA,this.changepage,3,this.paixu,'xinda-api/product/package/grid',this.totle,this.pagecount)
+    },
+    upprice(){ //升价排序
+      this.paixu=3
+      this.autopaixu=2
+      this.daosanjian=false
+      getData(this.listobjsA,this.changepage,3,this.paixu,'xinda-api/product/package/grid',this.totle,this.pagecount)
     }
   },
   created(){
@@ -129,34 +129,14 @@ export default {
         // console.log(n)
         for(var j in n){
           objs[x]=n[j]
-          // console.log(n[j])
           x++
         }
       }
       that.objs=objs
-      // console.log(objs)
       that.innerobjs=objs[0].itemList
     });
-      this.ajax.post('xinda-api/product/package/grid',this.qs.stringify({
-      start:0,
-      limit:3,
-      productTypeCode: "1",
-      // providerId: "8a82f52b674543e298d2e5f685946e6e",
-      sort:2,
-    })).then(function(data){
-      console.log(123)
-      var rData=data.data.data
-      var totle=Math.ceil(data.data.totalCount/3)   //总页数
-      var pagecount={}  //翻页器的对象
-      for(var i=0;i<totle;i++){
-        pagecount[i]=i+1
-      }
-      that.totle=totle  //总页数
-      that.pagecount=pagecount  //总页数对象
-      that.listobjs=rData   //数据
-    })
 
-    getData(this.listobjsA,this.changepage)
+    getData(this.listobjsA,0,3,2,'xinda-api/product/package/grid',this.totle,this.pagecount)
   }
 }
 </script>
@@ -244,6 +224,7 @@ export default {
   width: 100%;
   // height: 461px;
   border: 1px solid #ccc;
+  color: #636363;
   margin-top: 25px;
   .menutop{
     width: 100%;
@@ -254,12 +235,12 @@ export default {
       width: 107px;
       height: 100%;
       font-size: 14px;
-      color: #636363;
       // background: #2693d4;
       text-align: center;
       line-height: 41px;
       display: inline-block;
       position: relative;
+      cursor: pointer;
       span{
         width: 10px;
         height: 10px;

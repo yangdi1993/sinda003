@@ -34,7 +34,7 @@
       <div class="ihead-bottom">
         <router-link to="/inner/homepage" @mouseover.native="allProduce" @mouseout.native="produceOut" active-class="active">全部产品</router-link>
         <router-link  to="/inner/list" active-class="active">财税服务</router-link>
-        <router-link to="/inner/homepage"  active-class="active">公司工商</router-link>
+        <router-link to="/inner/list"  active-class="active">公司工商</router-link>
         <router-link  to="/inner/join" active-class="active">加盟我们</router-link>
         <router-link to="/inner/shoplist"  active-class="active">店铺</router-link>
         <transition name="fold">
