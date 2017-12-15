@@ -91,7 +91,7 @@ export default {
   // components: { VDistpicker },
   data() {
     return {
-      fail:false,//注册失败提示信息
+      fail: false,//注册失败提示信息
       // 点击获取验证码按钮
       dis: false,
       count: '',
@@ -144,9 +144,9 @@ export default {
           console.log(data.data.msg, data.data.status)
           if (data.data.status == -2) {
             this.phoneErr = '手机号已注册';
-          } else{
+          } else {
             this.phoneErr = '\u2736';
-          } 
+          }
         })
       } else {
         this.phoneErr = '电话号码格式错误';
@@ -160,7 +160,7 @@ export default {
     codeImgBlur: function() {
       if (this.codeImgVal == '') {
         this.imgErr = '图片验证码不能为空';
-      } 
+      }
     },
     // 验证码获得焦点事件
     codeImgFocus: function() {
@@ -336,7 +336,7 @@ export default {
             localStorage.setItem(this.phoneVal, JSON.stringify(user));
             // console.log(user)
             location.href = '#/outter/login';
-          }else{
+          } else {
             this.fail = true;
           }
         })
@@ -460,8 +460,8 @@ li {
         }
         .eye {
           position: absolute;
-          width: 20px;
-          height: 12px;
+          width: 18px;
+          height: 10px;
           margin: 13px 0 0 -40px;
         }
       }

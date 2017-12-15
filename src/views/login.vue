@@ -177,20 +177,13 @@ export default {
             this.setNum(0)  //购物车物品数量
             this.setName(this.loginPhone)
             this.$router.push({ path: '/inner/homepage' });
-          }else{
+          } else {
             this.fail = true;
           }
         });
       } else {
         this.lphoneErr = '手机号格式错误';
       }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-      
-
-=======
->>>>>>> bbaae2b28b0c60c8442725b93510e03d0a5da0f0
       // 判断登录条件
       //判断手机号存在
       this.ajax.post('/xinda-api/sso/login', this.qs.stringify({ loginId: this.loginPhone, password: this.loginPw, imgCode: this.codeImage })).then(data => {
@@ -230,24 +223,20 @@ export default {
           var loginUser = {};
           loginUser.username = this.loginPhone;
           loginUser.password = this.loginPw;
-<<<<<<< HEAD
           // sessionStorage.setItem(this.loginPhone,JSON.stringify(loginUser));
           // console.log('loginUser'+loginUser)
-          sessionStorage.setItem('zancun',JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录
-=======
-this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/sso/login-info').then(data => {
-      console.log(data.data)
-      status = data.data.status;
-    })
-          sessionStorage.setItem('userPhone',this.loginPhone)  //此处为登录状态信息，登陆后判断状态是否为登录
->>>>>>> bbaae2b28b0c60c8442725b93510e03d0a5da0f0
+          sessionStorage.setItem('zancun', JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录
+          this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/sso/login-info').then(data => {
+            console.log(data.data)
+            // status = data.data.status;
+          })
+          sessionStorage.setItem('userPhone', this.loginPhone)  //此处为登录状态信息，登陆后判断状态是否为登录
           location.replace('/#/inner/homepage')
           this.setNum(0)  //购物车物品数量
           this.setName(this.loginPhone)
-          this.$router.push({path:'/inner/homepage'});
+          this.$router.push({ path: '/inner/homepage' });
         }
       });
->>>>>>> 1b2a37765c78b785cca663d273038b4c27712044
     }
   }
 }
@@ -331,8 +320,8 @@ li {
         position: relative;
         .eye {
           position: absolute;
-          width: 20px;
-          height: 12px;
+          width: 18px;
+          height: 10px;
           margin: 13px 0 0 -40px;
         }
       }

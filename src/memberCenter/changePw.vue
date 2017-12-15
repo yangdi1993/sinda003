@@ -412,8 +412,8 @@ export default {
     position: relative;
     .eye{
       position: absolute;
-      width: 20px;
-      height: 12px;
+      width: 18px;
+      height: 10px;
       margin: 6px 0 0 288px;
     }
   }
@@ -428,8 +428,8 @@ export default {
     }
     .eye{
       position: absolute;
-      width: 20px;
-      height: 12px;
+      width: 18px;
+      height: 10px;
       margin: 6px 0 0 288px;
     }
   }
@@ -437,8 +437,8 @@ export default {
      position: relative;
     .eye{
       position: absolute;
-      width: 20px;
-      height: 12px;
+      width: 18px;
+      height: 10px;
       margin: 6px 0 0 288px;
     }
   }
@@ -457,6 +457,7 @@ export default {
     color: green;
   }
   #success{
+    font-weight: bold;
     font-size: 20px;
     color: green;
     margin: 34px 1px -35px -540px;

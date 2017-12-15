@@ -84,13 +84,13 @@ export default {
       // 新密码验证
       fNew: '',
       fnPwErr: '\u2736',
-      newPwType:'password',
-      newUrl:eye[0],
+      newPwType: 'password',
+      newUrl: eye[0],
       // 确认密码验证
       fPw: '',
       fpwErr: '\u2736',
-      pwType:'password',
-      verUrl:eye[0],
+      pwType: 'password',
+      verUrl: eye[0],
       // 获取动态验证码按钮
       fgetNew: false,
       fget: true,
@@ -130,7 +130,7 @@ export default {
           } else if (data.data.status == -3) {
             this.fiErr = '图片验证码错误';
           } else {
-             this.fpErr = '手机号格式错误';
+            this.fpErr = '手机号格式错误';
           }
         })
       }
@@ -206,7 +206,7 @@ export default {
       }
     },
     fPwFocus: function() {
-     this.fpwErr = '\u2736';
+      this.fpwErr = '\u2736';
     },
 
     // 点击获得动态验证码
@@ -216,13 +216,13 @@ export default {
       } else if (/^1[3578]\d{9}$/.test(this.forgetPhone)) {
         this.fpErr = '\u2736';
         if (this.fImg == '') {
-         this.fiErr = '图片验证码不能为空';
+          this.fiErr = '图片验证码不能为空';
         } else {
           // 图片验证码匹配
           this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.forgetPhone, smsType: 1, imgCode: this.fImg })).then(data => {
             console.log(data.data.msg, data.data.status);
             if (data.data.status == 1) {
-               this.fiErr = '\u2736';
+              this.fiErr = '\u2736';
               //设置点击按钮不可用
               this.disable = true;
               // 切换按钮内容显示
@@ -251,7 +251,7 @@ export default {
           })
         }
       } else {
-       this.fpErr = '手机号格式错误';
+        this.fpErr = '手机号格式错误';
       }
     },
 
@@ -259,7 +259,7 @@ export default {
     modifyBut: function() {
       var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
       if (this.forgetPhone == '') {
-       this.fpErr = '手机号不能为空';
+        this.fpErr = '手机号不能为空';
       } else if (this.fImg == '') {
         this.fiErr = '图片验证码不能为空';
       } else if (this.fCmg == '') {
@@ -418,17 +418,17 @@ li {
         }
         .eye {
           position: absolute;
-          width: 20px;
-          height: 12px;
+          width: 18px;
+          height: 10px;
           margin: 13px 0 0 -40px;
         }
       }
-      .pw{
+      .pw {
         position: relative;
         .eye {
           position: absolute;
-          width: 20px;
-          height: 12px;
+          width: 18px;
+          height: 10px;
           margin: 13px 0 0 -40px;
         }
       }
