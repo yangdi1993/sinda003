@@ -1,7 +1,8 @@
 import axios from 'axios';
+
 import qs from 'qs'
 
-export default function getData(listobjsA,changepage=0,much=3,sort=2,url,alltotle,allpagecount){
+export default function getData(listobjsA,changepage=0,much=3,sort=2,url,alltotle,allpagecount,productId,productTypeCode){
     //此翻页器的方法形参分别为：listobjsA为需要在页面显示的所有数据，即this.listobjsA，必填；
     //changepage=获取数据的起始位置，选填，默认是0；much为单次请求/显示个数，选填，默认是3;
     //sort为排序方式，空为默认排序，2为价格升序，3为降序；url为获取地址，，必填；
@@ -10,7 +11,8 @@ export default function getData(listobjsA,changepage=0,much=3,sort=2,url,alltotl
     axios.post(url,qs.stringify({
         start:changepage*3,
         limit:much,
-        productTypeCode: "1",
+        productTypeCode: productTypeCode,
+        productId:productId,
         sort:sort,
     })).then(function(data){
         var totle=Math.ceil(data.data.totalCount/3)   //总页数
@@ -21,6 +23,7 @@ export default function getData(listobjsA,changepage=0,much=3,sort=2,url,alltotl
         alltotle.allpage=totle  //总页数
         allpagecount.allshow=pagecount  //总页数对象z
         var rData=data.data.data
+        // console.log(rData)
         listobjsA.page=rData   //数据
     })
 

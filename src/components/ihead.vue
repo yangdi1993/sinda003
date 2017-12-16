@@ -33,8 +33,8 @@
       </div>
       <div class="ihead-bottom">
         <router-link to="/inner/homepage" @mouseover.native="allProduce" @mouseout.native="produceOut" active-class="active">全部产品</router-link>
-        <router-link  to="/inner/list" active-class="active">财税服务</router-link>
-        <router-link to="/inner/list"  active-class="active">公司工商</router-link>
+        <router-link  to="/inner/list" active-class="active" @click="caishui">财税服务</router-link>
+        <router-link to="/inner/list"  active-class="active" @click="company">公司工商</router-link>
         <router-link  to="/inner/join" active-class="active">加盟我们</router-link>
         <router-link to="/inner/shoplist"  active-class="active">店铺</router-link>
         <transition name="fold">
@@ -46,10 +46,10 @@
                 <span class="knows-logo"></span>
                 <span class="social-logo"></span>
               </div>
-              <div class="row1" v-for="product in products" :key="product.id">
-                <div class="first">
+              <div class="row1" v-for="(product,index) in products" :key="product.id" @click="onechoose(index)">
+                <div class="first" >
                   <p>{{product.name}}</p>
-                  <span class="row2" v-for="product in product.itemList" :key="product.id">
+                  <span class="row2" v-for="(product,index) in product.itemList" :key="product.id">
                     <span>{{product.name}}</span>
                   </span>
                 </div>
@@ -79,6 +79,16 @@ var btn=document.querySelector('.iheadbtn')
 // }
 export default {
   name: 'HelloWorld',
+  data () {
+    return {
+      msg: 'Welcome to Your Vue.js App',
+      produce:false,
+      active:'active',
+      products:[],
+      nowcity:[],
+      // onechoose:1,  //列表页数据一级选择
+    }
+  },
   created(){
     // console.log('created');
     var that=this
@@ -99,15 +109,7 @@ export default {
       that.nowcity=rData;
     })
   },
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App',
-      produce:false,
-      active:'active',
-      products:[],
-      nowcity:[],
-    }
-  },
+
   methods:{
     allProduce(){
       this.produce = true;
@@ -116,9 +118,19 @@ export default {
       this.produce = false;
     },
     changeCity(){
-      console.log(123);
-      
-    }
+    },
+    caishui(){  //财税服务
+      sessionStorage.setItem('index',1)
+    },
+    company(){  //公司工商
+      sessionStorage.setItem('index',2)
+    },
+    onechoose(index){  //全部产品点击
+      sessionStorage.setItem('index',index)
+      this.$router.push('/inner/list')
+      this.produce = false;
+    },
+
   }
 }
 </script>
@@ -272,17 +284,23 @@ export default {
     height: 38px;
     text-align: left;
     position: relative;
-    a{
+    >a{
       font-size: 18px;
       color: #000;
       padding: 8px 0;
       font-family: '黑体';
       margin: 0 62px;
+      border-bottom: 3px solid #fff;
       text-decoration: none;
       line-height: 38px;
+      
       &.active{
-        color: #2693d4;border-bottom: 4px solid #2693d4
+        color: #2693d4;
+        border-bottom: 4px solid #2693d4
       }
+    }
+    a{
+      text-decoration: none;
     }
   }
 }
@@ -326,6 +344,7 @@ export default {
     .first{
       width: 160px;
       padding: 15px 0 15px 40px;
+      cursor: pointer;
     }
 
     .row2{
