@@ -14,31 +14,22 @@
     <div class="r-content">
       <!--注册操作界面-->
       <ul class="r-operate">
+        <p class="fail" v-show="fail">注册失败，请检验输入信息是否正确</p>
         <li class="phone"><input type="text" placeholder="请输入手机号" v-on:blur="phoneBlur" v-on:focus="phoneFocus" v-on:keyup="phoneKeyup" v-model="phoneVal">
-          <span v-show="phoneNull">手机号不能为空</span>
-          <span v-show="phoneExist">手机号已存在</span>
-          <span v-show="phoneWrong">手机号格式错误</span>
-          <span v-show="phoneRight" id="green">✔</span>
-          <span v-show="phoneStar">*</span>
+          <span>{{phoneErr}}</span>
         </li>
         <li class="code-img"><input type="text" placeholder="请输入验证码" v-on:blur="codeImgBlur" v-on:focus="codeImgFocus" v-model="codeImgVal">
           <!--<img src="http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode" alt="">-->
           <img :src="imgUrl" alt="">
           <button v-on:click="buttonChange">看不清？换一张</button>
-          <span v-show="imgNull">图片验证码不能为空</span>
-          <span v-show="imgWrong">图片验证码错误</span>
-          <span v-show="imgRight" id="green">✔</span>
-          <span v-show="imgStar">*</span>
+          <span>{{imgErr}}</span>
         </li>
         <li class="code-phone"><input type="text" placeholder="请输入验证码" v-model="codePhoneVal" v-on:blur="codePhoneBlur" v-on:focus="codePhoneFocus">
           <button v-on:click="buttonGet" v-bind:disabled="dis">
             <span v-show="get" id="blueget">点击获取</span>
             <span v-show="getNew" id="bluegetNew">重新获取{{count}}</span>
           </button>
-          <span v-show="codeNull">动态验证码不能为空</span>
-          <span v-show="codeWrong">动态验证码错误</span>
-          <span v-show="codeRight" id="green">✔</span>
-          <span v-show="codeStar">*</span>
+          <span>{{codeErr}}</span>
         </li>
         <li class="android-wheel">
           <!--<v-distpicker class="select" province="省" city="市" area="区" @selected="onSelected"></v-distpicker>-->
@@ -56,21 +47,13 @@
               <option :value="code" v-for="(area,code) in areas" :key="area.code">{{area}}</option>
             </select>
           </div>
-          <span v-show="addNull">地址不能为空</span>
-          <span v-show="addRight" id="green">✔</span>
-          <span v-show="addStar">*</span>
+          <span>{{addErr}}</span>
         </li>
         <li class="pw">
           <input :type="pwType" placeholder="请设置密码" v-model="pwVal" v-on:blur="codePwBlur" v-on:focus="codePwFocus">
-          <div class="eye" @click="changeType">
-            <img v-show="invisible" src="../images/login/invisible.png" alt="">
-            <img v-show="visible" src="../images/login/visible.png" alt="">
-          </div>
+          <img :src="regUrl" alt="" class="eye" @click="changeType">
           <a href="javascript:void(0)">密码由6-16位数字和字母组成</a>
-          <span v-show="pwNull">密码不能为空</span>
-          <span v-show="pwWrong">密码错误</span>
-          <span v-show="pwRight" id="green">✔</span>
-          <span v-show="pwStar">*</span>
+          <span>{{pwErr}}</span>
         </li>
         <li class="registerBut">
           <button @click="register">立即注册</button>
@@ -98,49 +81,37 @@
 <script>
 import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
-// import VDistpicker from 'v-distpicker'
+const eye = [
+  require('../images/login/invisible.png'),
+  require('../images/login/visible.png'),
+];
 import dist from '../images/districts'
 export default {
   name: 'HelloWorld',
   // components: { VDistpicker },
   data() {
     return {
+      fail: false,//注册失败提示信息
       // 点击获取验证码按钮
       dis: false,
       count: '',
       // 手机号内容及报错提示
       phoneVal: '',
-      phoneNull: false,
-      phoneExist: false,
-      phoneWrong: false,
-      phoneStar: false,
-      phoneRight: false,
+      phoneErr: '\u2736',
       // 图片验证码及报错提示
       codeImgVal: '',
-      imgNull: false,
-      imgWrong: false,
-      imgStar: false,
-      imgRight: false,
+      imgErr: '\u2736',
       // 动态验证码及报错提示
       codePhoneVal: '',
-      codeNull: false,
-      codeWrong: false,
-      codeStar: false,
-      codeRight: false,
+      codeErr: '\u2736',
       // 密码及报错提示
       pwVal: '',
-      pwNull: false,
-      pwWrong: false,
-      pwStar: false,
-      pwRight: false,
+      pwErr: '\u2736',
+      regUrl: eye[0],
       // 切换密码可不可见
       pwType: 'password',
-      invisible: true,
-      visible: false,
       // 地址报错
-      addNull: '',
-      addStar: '',
-      addRight: false,
+      addErr: '\u2736',
       seleCode: '',
       provinces: dist[100000],
       citys: [],
@@ -163,50 +134,32 @@ export default {
     },
     // 手机号焦点事件
     phoneBlur: function() {
-      // this.setNum(0);
       var phoneReg = /^1[3578]\d{9}$/;
       // var phoneReg = /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/;
       if (this.phoneVal == '') {
-        this.phoneNull = true;//电话号码不能为空'
-        this.phoneStar = false;
+        this.phoneErr = '电话号码不能为空';
       } else if (phoneReg.test(this.phoneVal)) {
-        this.phoneRight = true;
-        this.phoneStar = false;
+        this.phoneErr = '\u2736';
+        this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
+          console.log(data.data.msg, data.data.status)
+          if (data.data.status == -2) {
+            this.phoneErr = '手机号已注册';
+          } else {
+            this.phoneErr = '\u2736';
+          }
+        })
       } else {
-        this.phoneWrong = true;
-        this.phoneStar = false;
+        this.phoneErr = '电话号码格式错误';
       }
     },
     // 手机号获得焦点事件
     phoneFocus: function() {
-      this.phoneNull = false;
-      this.phoneExist = false;
-      this.phoneWrong = false;
-      this.phoneRight = false;
-      this.phoneStar = true;
+      this.phoneErr = '\u2736';
     },
     //图片验证码
     codeImgBlur: function() {
       if (this.codeImgVal == '') {
-        this.imgNull = true;
-        this.imgStar = false;
-      } else {
-        this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
-          console.log(data.data.msg, data.data.status)
-          if (data.data.status == 1) {
-            this.phoneStar = false;
-            this.phoneRight = true;
-          } else if (data.data.status == -2) {
-            this.phoneExist = true;
-            this.phoneStar = false;
-          } else if (data.data.status == -3) {
-            this.imgStar = false;
-            // this.imgWrong = true;
-          } else {
-            this.phoneWrong = true;
-            this.phoneStar = false;
-          }
-        })
+        this.imgErr = '图片验证码不能为空';
       }
     },
     // 验证码获得焦点事件
@@ -214,65 +167,46 @@ export default {
       if (this.codeImgVal != '') {
         // 验证码需要重新输入时更新验证码
         this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
+        this.codeImgVal = '';
       }
-      this.imgStar = true;
-      this.imgNull = false;
-      this.imgWrong = false;
-      this.imgRight = false;
+      this.codeErr = '\u2736';
     },
     //更换图片验证码
     buttonChange: function() {
       this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
+      this.codeImgVal = '';
     },
 
     //动态验证码
     codePhoneBlur: function() {
       if (this.codePhoneVal == '') {
-        this.codeNull = true;
-        this.codeStar = false;
+        this.codeErr = '动态验证码不能空';
       } else if (this.codePhoneVal == 111111) {
-        this.codeStar = false;
-        this.codeRight = true;
+        this.codeErr = '\u2736';
       } else {
-        this.codeWrong = true;
-        this.codeStar = false;
+        this.codeErr = '动态验证码错误';
       }
-      // this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
-      //   console.log(data.data.msg, data.data.status)
-      //   
-      // })
     },
     // 验证码获得焦点
     codePhoneFocus: function() {
-      this.codeNull = false;
-      this.codeWrong = false;
-      this.codeRight = false;
-      this.codeStar = true
+      this.codeErr = '\u2736';
     },
 
     //密码证码
     codePwBlur: function() {
       var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
       if (this.pwVal == '') {
-        //密码不为空
-        this.pwNull = true;
-        this.pwStar = false;
+        this.pwErr = '密码不能为空';
       } else if (newPwReg.test(this.pwVal)) {
         // 验证通过
-        this.pwStar = false;
-        this.pwRight = true;
+        this.pwErr = '\u2736';
       } else {
-        // 密码格式错误
-        this.pwWrong = true;
-        this.pwStar = false;
+        this.pwErr = '密码格式错误';
       }
     },
     // 密码获得焦点
     codePwFocus: function() {
-      this.pwNull = false;
-      this.pwWrong = false;
-      this.pwStar = true;
-      this.pwRight = false;
+      this.pwErr = '\u2736';
     },
     // 切换密码明码和暗骂
     changeType: function() {
@@ -281,19 +215,24 @@ export default {
       // console.log(this.pwType,input)
       if (this.pwType === 'password') {
         // 密码
-        this.invisible = true;
-        this.visible = false;
+        this.regUrl = eye[0];
       } else {
         // 明码
-        this.invisible = false;
-        this.visible = true;
+        this.regUrl = eye[1];
       }
     },
     //地址验证
     proChange() {
       //  省
       this.citys = dist[this.province];
-      // console.log(this.province)
+      this.city = "0";
+      this.area = "0";
+      if (this.province != "0") {
+        this.citys = dist[this.province];
+      } else {
+        this.citys = [];
+        this.areas = [];
+      }
     },
     cityChange() {
       // 市
@@ -310,29 +249,19 @@ export default {
     // 点击获取验证码
     buttonGet: function() {
       if (this.phoneVal == '') {
-        //电话号码不能为空
-        this.phoneNull = true;
-        this.phoneStar = false;
+        this.phoneErr = '电话号码不能为空';
       } else {
-        this.phoneWrong = false;
-        this.phoneStar = true;
-        this.phoneNull = false;
-        this.phoneRight = false;
-        this.phoneExist = false;
+        this.phoneErr = '\u2736';
         if (/^1[3578]\d{9}$/.test(this.phoneVal)) {
           // 手机号匹配正确
           if (this.codeImgVal == '') {
-            this.imgNull = true;
-            this.imgStar = false;
+            this.imgErr = '图片验证码不能为空';
           } else {
             // 图片验证码匹配
             this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
-              // console.log(data);
+              console.log(data.data);
               if (data.data.status == 1) {
-                this.imgStar = false;
-                this.imgRight = true;
-                this.imgWorng = false;
-                this.imgNull = false;
+                this.imgErr = '\u2736';
                 this.dis = true;
                 this.getNew = true;
                 this.get = false;
@@ -351,18 +280,13 @@ export default {
                 }, 1000);
               } else {
                 // 验证码匹配失败
-                this.imgRight = false;
-                this.imgWrong = true;
+                this.imgErr = '图片验证码错误';
               }
             })
           }
         } else {
           //电话号码格式错误
-          this.phoneWrong = true;
-          this.phoneStar = false;
-          this.phoneNull = false;
-          this.phoneRight = false;
-          this.phoneExist = false;
+          this.phoneErr = '电话号码格式错误';
         }
       }
     },
@@ -376,41 +300,33 @@ export default {
       var phoneReg = /^1[3578]\d{9}$/;
       var md5 = require('md5');
       if (this.phoneVal == '') {
-        //电话号码不能为空'
-        this.phoneNull = true;
-        this.phoneStar = false;
+        this.phoneErr = '电话号码不能为空';
       } else if (this.codeImgVal == '') {
-        // 图片验证码不能为空
-        this.imgStar = true;
+        this.imgErr = '图片验证码不能为空';
       } else if (this.codePhoneVal == '') {
-        // 动态验证码不能为空
-        this.codeNull = true;
-        this.codeStar = false;
-      } else if (this.pwVal == '') {
-        // 密码不能为空
-        this.pwNull = true;
-        this.pwStar = false;
+        this.codeErr = '动态验证码不能空';
       } else if (this.seleCode == '') {
         // 地址不能为空
-        this.addNull = true;
-        this.addStar = false;
+        // console.log(this.seleCode)
+        this.addErr = '地址不能为空';
+      } else if (this.pwVal == '') {
+        this.pwErr = '密码不能为空';
       }
       // 判断注册条件
       else if (phoneReg.test(this.phoneVal)) {
         // 注册验证借口
         this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
-          console.log(data.data.msg, data.data.status)
+          // console.log(data.data.msg, data.data.status)
           if (data.data.status == 2) {
-            // 用户名已存在
-            this.phoneExist = true;
-            this.phoneStar = false;
+            this.phoneErr = '手机号已注册';
           }
           else if (data.data.status == 1 && this.codePhoneVal == 111111 && newPwReg.test(this.pwVal)) {
             // 注册提交接口
-            this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/register', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111, password: md5(this.pwVal), regionId: this.seleCode })).then(data => {
-              console.log(data.data)
-              console.log(this.pwVal)
+            this.ajax.post('/xinda-api/register/register', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111, password: md5(this.pwVal), regionId: this.seleCode })).then(data => {
+              // console.log(data.data)
             })
+            this.fail = false;//注册失败提示信息
+            this.phoneErr = '\u2736';
             var user = {};
             user.name = this.phoneVal;
             user.passward = md5(this.pwVal);
@@ -418,8 +334,10 @@ export default {
             user.password = this.pwVal;
             user.add = this.address;
             localStorage.setItem(this.phoneVal, JSON.stringify(user));
-            console.log(user)
+            // console.log(user)
             location.href = '#/outter/login';
+          } else {
+            this.fail = true;
           }
         })
       }
@@ -477,10 +395,18 @@ li {
     height: 436px;
     display: flex; // 左侧操作
     .r-operate {
+      position: relative;
       text-align: left;
       margin: 53px 19px 0 147px;
       width: 433px;
       height: 383px; // border:1px solid #88f;
+      .fail {
+        position: absolute;
+        margin: -35px 25px;
+        font-size: 15px;
+        color: red;
+        font-weight: bold;
+      }
       span {
         margin-left: 5px;
         font-size: 11px;
@@ -534,7 +460,9 @@ li {
         }
         .eye {
           position: absolute;
-          margin: -28px 0 0 250px;
+          width: 18px;
+          height: 10px;
+          margin: 13px 0 0 -40px;
         }
       }
       .registerBut button {
