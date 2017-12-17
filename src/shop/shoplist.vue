@@ -35,10 +35,10 @@
             <span class="logoimg"><img :src="'http://115.182.107.203:8088/xinda/pic'+store.providerImg" alt=""></span>
             <span class="jinpai"><img src="../images/shop/jinpai.gif"><p>金牌服务商</p></span>
             <p>{{store.providerName}}</p>
-            <p>信誉</p>
+            <p>信誉</p><div class="xinyu"><img src="../images/shop/xinyu.gif" alt=""></div>
             <p>{{store.regionName}}</p>
             <p>累计服务客户次数：{{store.orderNum}} | 好评率：100%</p>
-            <div class="type"><p>{{store.productTypes}}</p></div>
+            <div class="type"><p v-for="pro in store.productTypes" :key="pro.id" >{{pro}}</p></div>
             <div class="store"><a href="#/inner/shophome">进入店铺</a></div>
           </div>
         </div>
@@ -81,9 +81,15 @@ export default {
       })).then(function(data) {//data=>{}
        
         var box = data.data.data;
-         that.stores = box;
+         
         console.log('box',box);
+        for( var key in box){
+          box[key].productTypes=box[key].productTypes.split(",");
+          console.log(box[key].productTypes);
+        }
+        that.stores = box;
         });
+        // that.box=box;
   },
   data(){
     return{
@@ -93,7 +99,7 @@ export default {
     citys:[],
     areas:[],
     province:'0',
-    city:'0'
+    city:'0',
     }
   },
   methods:{
@@ -163,22 +169,6 @@ export default {
   border-radius: 3px;
   background-color: #2693d4;
 }
-// .liandong {
-//   margin-top: -42px;
-//   margin-left: 120px;
-//   position: absolute;
-//   select {
-//     float: left;
-//     font-size: 14px;
-//     line-height: 22px;
-//     height: 25px;
-//     padding: 0;
-//     width: 90px;
-//     height: 25px;
-//     margin-top: 10px;
-//     margin-left: 6px;
-//   }
-// }
 .adress{
   margin-left:130px;
   margin-top:-35px;
@@ -245,9 +235,7 @@ export default {
     margin-left: 17px;
     margin-top: 12px;
     float: left;
-    .logoimg{
-      
-      // margin-left: -360px;
+    .logoimg{ 
       margin-top: 50px;
       float: left;
       margin-left:30px;
@@ -259,30 +247,53 @@ export default {
     .jinpai{
       margin-top: 70px;
       float: left;
-      margin-left: -230px;
+      margin-left: -200px;
       margin-top: 180px;
       position: relative;
       img{
         width:30px;
         height: 35px;
-        
+        margin-left: 20px;
       }
       p{
-        font-size: 14px;
+        font-size: 13px;
         margin-left: 155px;
         margin-top: -27px;
       }
     }
     p{
-      margin-top: 20px;
+      margin-top: 13px;
       margin-left: 230px;
-      font-size: 14px;
-      line-height:5px;
+      font-size: 13px;
+      line-height: 10px;
+      text-align: left;
+    }
+    .xinyu{
+      margin-top: -17px;
+      
+      img{
+        margin-left: -110px;
+
+      }
     }
     .type{
-      p{
-        height:40px;
+      display: flex;
+      margin-left: 220px;
+      flex-wrap: wrap;
+      position: absolute;
+      width:370px;
+      clear: both;
+      p {
+        font-size: 13px;
+        text-align: center;
+        width: 70px;
+        height: 25px;
+        color:#f6fafd;
+        margin-top: 15px;
         line-height: 25px;
+        margin-left: 10px;
+        border-radius: 3px;
+        background-color: #2693d4;
       }
     }
     .store{
@@ -290,8 +301,9 @@ export default {
       height: 33px;
       background-color: #ff591b;
       margin-left: 230px;
-      margin-top: 25px;
       border-radius: 5px;
+      position: absolute;
+      margin-top: 100px;
       a{
         font-size: 13px;
         color:#fff;

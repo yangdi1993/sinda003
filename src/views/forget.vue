@@ -15,18 +15,12 @@
       <!--注册操作界面-->
       <ul class="r-operate">
         <li class="phone"><input type="text" placeholder="请输入手机号" v-model="forgetPhone" v-on:blur="fpBlur" v-on:focus="fpFocus">
-          <span v-show="fpNull">手机号不能为空</span>
-          <span v-show="fpWrong">手机号未注册</span>
-          <span v-show="fpRight" id="right">✔</span>
-          <span v-show="fpStar">*</span>
+          <span>{{fpErr}}</span>
         </li>
         <li class="code-img">
           <input type="text" placeholder="请输入验证码" v-model="fImg" v-on:blur="fiBlur" v-on:focus="fiFocus">
           <img :src="imgUrl" alt="">
-          <span v-show="fiNull">图片验证码错误</span>
-          <span v-show="fiWrong">图片验证码不正确</span>
-          <span v-show="fiRight" id="right">✔</span>
-          <span v-show="fiStar">*</span>
+          <span>{{fiErr}}</span>
           <button v-on:click="buttonChange">看不清？换一张</button>
         </li>
         <li class="code-phone">
@@ -35,33 +29,18 @@
             <span v-show="fget" id="blueget">点击获取</span>
             <span v-show="fgetNew" id="bluegetNew">重新获取{{count}}</span>
           </button>
-          <span v-show="fCodeNull">动态验证码不能为空</span>
-          <span v-show="fCodeWrong">动态验证码错误</span>
-          <span v-show="fCodeRight" id="right">✔</span>
-          <span v-show="fCodeStar">*</span>
+          <span>{{fcErr}}</span>
         </li>
         <li class="newPw">
           <input :type="newPwType" placeholder="请输入新密码" v-model="fNew" v-on:blur="fnBlur" v-on:focus="fnFocus">
-           <div class="eye" @click="changeType">
-            <img v-show="invisible" src="../images/login/invisible.png" alt="">
-            <img v-show="visible" src="../images/login/visible.png" alt="">
-          </div>
+          <img :src="newUrl" alt="" class="eye" @click="changeType">
           <a href="#">密码由6-16位数字和字母组成</a>
-          <span v-show="fpwNull">新密码不能为空</span>
-          <span v-show="fpwWrong">新密码格式错误</span>
-          <span v-show="fpwRight" id="right">✔</span>
-          <span v-show="fpwStar">*</span>
+          <span>{{fnPwErr}}</span>
         </li>
         <li class="pw">
           <input :type="pwType" placeholder="请再次输入密码" v-model="fPw" v-on:blur="fPwBlur" v-on:focus="fPwFocus">
-           <div class="eye" @click="chVerType">
-            <img v-show="Vinvisible" src="../images/login/invisible.png" alt="">
-            <img v-show="Vvisible" src="../images/login/visible.png" alt="">
-          </div>
-          <span v-show="fpwNewNull">确认密码不能为空</span>
-          <span v-show="fpwNewWrong">两次输入密码不一致</span>
-          <span v-show="fpwNewRight" id="right">✔</span>
-          <span v-show="fpwNewStar">*</span>
+          <img :src="verUrl" alt="" class="eye" @click="chVerType">
+          <span>{{fpwErr}}</span>
         </li>
         <li class="modify">
           <button @click="modifyBut">确认修改</button>
@@ -83,6 +62,10 @@
 <script>
 import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
+const eye = [
+  require('../images/login/invisible.png'),
+  require('../images/login/visible.png'),
+];
 export default {
   name: 'HelloWorld',
   data() {
@@ -90,45 +73,28 @@ export default {
 
       // 手机号验证
       forgetPhone: '',
-      fpNull: '',
-      fpWrong: '',
-      fpRight: '',
-      fpStar: '',
+      fpErr: '\u2736',
       // 图片验证码验证
       fImg: '',
-      fiNull: '',
-      fiWrong: '',
-      fiRight: '',
-      fiStar: '',
+      fiErr: '\u2736',
       // 动态验证码验证
       disable: false,
       fCmg: '',
-      fCodeNull: '',
-      fCodeWrong: '',
-      fCodeRight: '',
-      fCodeStar: '',
+      fcErr: '\u2736',
       // 新密码验证
       fNew: '',
-      fpwNull: '',
-      fpwWrong: '',
-      fpwRight: '',
-      fpwStar: '',
-      newPwType:'password',
-      invisible: true,
-      visible: false,
+      fnPwErr: '\u2736',
+      newPwType: 'password',
+      newUrl: eye[0],
       // 确认密码验证
       fPw: '',
-      fpwNewNull: '',
-      fpwNewWrong: '',
-      fpwNewRight: '',
-      fpwNewStar: '',
-      pwType:'password',
-      Vinvisible: true,
-      Vvisible: false,
+      fpwErr: '\u2736',
+      pwType: 'password',
+      verUrl: eye[0],
       // 获取动态验证码按钮
       fgetNew: false,
       fget: true,
-      count: '',
+      count: '\u2736',
       msg: 'Welcome to Your Vue.js App',
       imgUrl: '/xinda-api/ajaxAuthcode',
 
@@ -142,52 +108,36 @@ export default {
     // 手机号焦点事件
     fpBlur: function() {
       if (this.forgetPhone == '') {
-        //手机号不能为空
-        this.fpNull = true;
-        this.fpStar = false;
+        this.fpErr = '手机号不能为空';
       }
     },
     fpFocus: function() {
-      this.fpNull = false;
-      this.fpExist = false;
-      this.fpWrong = false;
-      this.fpStar = true;
-      this.fpRight = false;
+      this.fpErr = '\u2736';
     },
     // 图片验证码焦点事件
     fiBlur: function() {
       if (this.fImg == '') {
-        //图片验证码不能为空
-        this.fiNull = true;
-        this.fiStar = false;
+        this.fiErr = '图片验证码不能为空';
       } else {
         this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.forgetPhone, smsType: 1, validCode: 111111 })).then(data => {
           // console.log(data.data.msg, data.data.status)
           if (data.data.status == -2) {
             // 手机号已注册，可完成修改密码
-            this.fpStar = false;
-            this.fpRight = true;
+            this.fpErr = '\u2736';
           } else if (data.data.status == 1) {
             // 手机号未注册，报错
-            this.fpWrong = true;
-            this.fpStar = false;
+            this.fpErr = '手机号未注册';
           } else if (data.data.status == -3) {
-            // 图片验证码错误
-            this.fiStar = false;
-            // this.fiWrong = true;
+            this.fiErr = '图片验证码错误';
           } else {
-            this.fpWrong = true;
-            this.fpStar = false;
+            this.fpErr = '手机号格式错误';
           }
         })
       }
     },
     // 图片文本框获得焦点
     fiFocus: function() {
-      this.fiNull = false;
-      this.fiWrong = false;
-      this.fiStar = true;
-      this.fiRight = false;
+      this.fiErr = '\u2736';
       if (this.fImg != '') {
         //验证失败后更新图片验证码
         this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
@@ -196,120 +146,83 @@ export default {
     // 动态验证码焦点事件
     fcBlur: function() {
       if (this.fCmg == '') {
-        this.fCodeNull = true;
-        this.fCodeStar = false;
+        this.fcErr = '动态验证码不能为空';
       } else if (this.fCmg == 111111) {
-        this.fCodeStar = false;
-        this.fCodeRight = true;
+        this.fcErr = '\u2736';
       } else {
-        this.fCodeWrong = true;
-        this.fCodeStar = false;
+        this.fcErr = '动态验证码错误';
       }
     },
     fcFocus: function() {
-      this.fCodeNull = false;
-      this.fCodeWrong = false;
-      this.fCodeiStar = true;
-      this.fCodeRight = false;
+      this.fcErr = '\u2736';
     },
 
     // 密码焦点事件
     fnBlur: function() {
       var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
       if (this.fNew == '') {
-        //新密码不能为空
-        this.fpwNull = true;
-        this.fpwiStar = false;
+        this.fnPwErr = '新密码不能为空';
       } else if (newPwReg.test(this.fNew)) {
         // 验证通过
-        this.fpwiStar = false;
-        this.fpwRight = true;
+        this.fnPwErr = '\u2736';
       } else {
-        //新密码格式错误
-        this.fpwWrong = true;
-        this.fpwiStar = false;
+        this.fnPwErr = '新密码格式错误';
       }
     },
     fnFocus: function() {
-      this.fpwNull = false;
-      this.fpwWrong = false;
-      this.fpwiStar = true;
-      this.fpwRight = false;
+      this.fnPwErr = '\u2736';
     },
-    // 新密码切换密码明码和暗骂
+    // 新密码切换明码和暗码
     changeType: function() {
-      var input = document.querySelector('.pw input')
       this.newPwType = this.newPwType === 'password' ? 'text' : 'password'
-      // console.log(this.pwType,input)
       if (this.newPwType === 'password') {
         // 密码
-        this.invisible = true;
-        this.visible = false;
+        this.newUrl = eye[0];
       } else {
         // 明码
-        this.invisible = false;
-        this.visible = true;
+        this.newUrl = eye[1];
       }
     },
     // 确认切换密码明码和暗骂
     chVerType: function() {
-      var input = document.querySelector('.pw input')
       this.pwType = this.pwType === 'password' ? 'text' : 'password'
-      // console.log(this.pwType,input)
       if (this.pwType === 'password') {
         // 密码
-        this.Vinvisible = true;
-        this.Vvisible = false;
+        this.verUrl = eye[0];
       } else {
         // 明码
-        this.Vinvisible = false;
-        this.Vvisible = true;
+        this.verUrl = eye[1];
       }
     },
     // 确认密码焦点事件
     fPwBlur: function() {
       if (this.fPw == '') {
-        //确认密码不能为空
-        this.fpwNewNull = true;
-        this.fpwNewiStar = false;
+        this.fpwErr = '确认密码不能为空';
       } else if (this.fNew == this.fPw) {
         // 通过验证
-        this.fpwNewiStar = false;
-        this.fpwNewRight = true;
+        this.fpwErr = '\u2736';
       } else {
-        // 两次输入密码不一致
-        this.fpwNewWrong = true;
-        this.fpwNewiStar = false;
+        this.fpwErr = '两次输入密码不一致';
       }
     },
     fPwFocus: function() {
-      this.fpwNewNull = false;
-      this.fpwNewWrong = false;
-      this.fpwNewiStar = true;
-      this.fpwNewRight = false;
+      this.fpwErr = '\u2736';
     },
 
     // 点击获得动态验证码
     gutCode: function() {
       if (this.forgetPhone == '') {
-        //电话号码不能为空
-        this.fpNull = true;
-        this.fpStar = false;
+        this.fpErr = '手机号不能为空';
       } else if (/^1[3578]\d{9}$/.test(this.forgetPhone)) {
-        // 手机号匹配正确
+        this.fpErr = '\u2736';
         if (this.fImg == '') {
-          // 图片验证码不为空
-          this.ifiNull = true;
-          this.fiStar = false;
+          this.fiErr = '图片验证码不能为空';
         } else {
           // 图片验证码匹配
           this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.forgetPhone, smsType: 1, imgCode: this.fImg })).then(data => {
             console.log(data.data.msg, data.data.status);
             if (data.data.status == 1) {
-              this.fiNull = false;
-              this.fiWrong = false;
-              this.fiStar = false;
-              this.fiRight = true;
+              this.fiErr = '\u2736';
               //设置点击按钮不可用
               this.disable = true;
               // 切换按钮内容显示
@@ -333,16 +246,12 @@ export default {
               }, 1000);
             } else {
               // 图片验证码匹配失败
-              this.fiWrong = true;
-              this.fiStar = false;
-              this.fiRight = false;
+              this.fiErr = '图片验证码错误';
             }
           })
         }
       } else {
-        //电话号码格式错误
-        this.fpWrong = true;
-        this.fpStar = false;
+        this.fpErr = '手机号格式错误';
       }
     },
 
@@ -350,55 +259,35 @@ export default {
     modifyBut: function() {
       var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
       if (this.forgetPhone == '') {
-        //手机号不能为空
-        this.fpNull = true;
-        this.fpStar = false;
+        this.fpErr = '手机号不能为空';
       } else if (this.fImg == '') {
-        //图片验证码不能为空
-        this.fiNull = true;
-        this.fiStar = false;
+        this.fiErr = '图片验证码不能为空';
       } else if (this.fCmg == '') {
-        //动态验证码不能为空
-        this.fCodeNull = true;
-        this.fCodeStar = false;
+        this.fcErr = '动态验证码不能为空';
       } else if (this.fNew == '') {
-        //新密码不能为空
-        this.fpwNull = true;
-        this.fpwiStar = false;
+        this.fnPwErr = '新密码不能为空';
       } else if (this.fPw == '') {
-        //确认密码不能为空
-        this.fpwNewNull = true;
-        this.fpwNewiStar = false;
+        this.fpwErr = '确认密码不能为空';
       }
       this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/findpas', this.qs.stringify({ cellphone: this.forgetPhone, smsType: 1, validCode: 111111, password: this.fNew })).then(data => {
         console.log(data.data.status, data.data.msg);
         if (data.data.status == 1 && newPwReg.test(this.fNew) && this.fNew == this.fPw) {
           // 修改成功提示
           // 手机提示
-          this.fpRight = true;
-          this.fpStar = false;
+          this.fpErr = '\u2736';
           location.href = '#/outter/login';
           // 图像验证码
-          this.fiRight = true;
-          this.fiStar = false;
+          this.fiErr = '\u2736';
           // 动态验证码
-          this.fCodeRight = true;
-          this.fCodeStar = false;
+          this.fcErr = '\u2736';
           // 新密码
-          this.fpwRight = true;
-          this.fpwiStar = false;
+          this.fnPwErr = '\u2736';
           // 确认密码
-          this.fpwNewRight = true;
-          this.fpwNewiStar = false;
+          this.fpwErr = '\u2736';
         } else if (data.data.status == -2) {
-          // 手机号未注册
-          this.fpWrong = true;
-          this.fpStar = false;
+          this.fpErr = '手机号未注册';
         } else if (data.data.status == -3) {
-          // 图片验证码错误
-          this.fiWrong = true;
-          this.fiStar = false;
-          this.fiRight = false;
+          this.fiErr = '图片验证码错误';
         }
       })
 
@@ -529,14 +418,18 @@ li {
         }
         .eye {
           position: absolute;
-          margin: -28px 0 0 250px;
+          width: 18px;
+          height: 10px;
+          margin: 13px 0 0 -40px;
         }
       }
-      .pw{
+      .pw {
         position: relative;
         .eye {
           position: absolute;
-          margin: -28px 0 0 250px;
+          width: 18px;
+          height: 10px;
+          margin: 13px 0 0 -40px;
         }
       }
     }
