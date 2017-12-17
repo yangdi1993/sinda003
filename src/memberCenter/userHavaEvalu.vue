@@ -12,19 +12,19 @@
           </li>
           <!-- 业务 -->
           <li class="perBus">
-            <a href="#/myOrder">
+            <a href="#/inner/myOrder">
               <div class="perBusO">
                 <div class="perBusOB"></div>
                 <p>我的订单</p>
               </div>
             </a> 
-            <a href="#/userUnEvalu">
+            <a href="#/inner/userUnEvalu">
               <div class="perBusTw">
                 <div class="perBusTwB"></div>
                 <p>用户评价</p>
               </div>
             </a> 
-            <a href="#/accountSetting">
+            <a href="#/inner/accountSetting">
               <div class="perBusTh">
                 <div class="perBusThB"></div>
                 <p>账户设置</p>
@@ -39,8 +39,8 @@
           </div>
           <!-- 评价表头 -->
           <div class="evaluHead">
-              <a href="#/userUnEvalu"><div class="unvalued">未评价</div></a>
-              <a href="#/userHavaEvalu"><div class="haveEvalu">已评价</div></a>
+              <a href="#/inner/userUnEvalu"><div class="unvalued">未评价</div></a>
+              <a href="#/inner/userHavaEvalu"><div class="haveEvalu">已评价</div></a>
               <span></span>
           </div>
           <!-- 评价插入-已评价 -->

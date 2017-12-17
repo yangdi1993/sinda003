@@ -7,7 +7,7 @@
         </p>
       </div>
       <div class="content" v-for="detail in details" :key="detail.id">
-        <div class="g-img"><img :src="'http://115.182.107.203:8088/xinda/pic'+ detail.providerImg"alt=""></div>
+        <div class="g-img"><img :src="'http://115.182.107.203:8088/xinda/pic'+ detail.providerImg" alt=""></div>
         <div class="main">
           <div>
             <p class="name">{{detail.serviceName}}</p>
@@ -35,7 +35,7 @@
           <div class="number">购买数量：
             <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
           </div>
-          <div class="buy">立即购买</div>
+          <div class="buy" v-on:click="buy()">立即购买</div>
           <div class="add" v-on:click="add()">加入购物车</div>
         </div>
         <div class="service">
@@ -144,30 +144,50 @@ export default {
       }
     },
     changefir: function() {},
-    changesec: function() {}
+    changesec: function() {},
+    buy: function() {
+      location.href = "#/inner/paypage";
+    }
   },
   //获取商品详情
   created() {
     var that = this;
     this.ajax
       .post(
-        "/xinda-api/product/package/grid",
+        "/xinda-api/product/package/detail",
         this.qs.stringify({
-          start: 0,
-          limit: 1,
-          productTypeCode: "1",
+        sId:'0cb85ec6b63b41fc8aa07133b6144ea3'
         })
       )
       .then(data => {
-        var rData = data.data.data;
+        var rData = data.data.data.serviceList;
         console.log(rData);
         that.details = rData;
+        // that.details.marketprice=that.details.product.marketprice;
+        // that.details.price=that.details.providerProduct.price;
+        // that.details.serviceName=that.details.providerProduct.serviceName;
+        // that.details.serviceInfo=that.details.providerProduct.serviceInfo;
       });
+
+
+    // var that = this;
+    // this.ajax
+    //   .post(
+    //     "http://115.182.107.203:8088/xinda/xinda-api/product/package/detail",
+    //     this.qs.stringify({ sId: this.$route.query.id })
+    //   )
+    //   .then(function(data) {
+    //     var prodata = data.data.data;
+    //     that.details = prodata;
+    //     console.log("prodata==", that.details);
+    //     that.details.serviceName=that.details.providerProduct.serviceName;
+    //     that.details.serviceInfo=that.details.providerProduct.serviceInfo;
+    //     that.details.marketprice=that.details.product.marketprice;
+    //     that.details.price=that.details.providerProduct.price;
+    //   });
   },
   //加入购物车
-  add(){
-
-  }
+  add() {}
 };
 </script>
 
@@ -194,8 +214,8 @@ export default {
   width: 1200px;
 }
 .g-img {
-   width: 525px;
-    height: 393px;
+  width: 525px;
+  height: 393px;
   img {
     width: 525px;
     height: 393px;
