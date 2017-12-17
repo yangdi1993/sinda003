@@ -7,7 +7,9 @@
           <p class="homePer">首页/个人主页</p>
           <!-- 个人信息 -->
           <li class="perIma">
-            <div class="headPor"></div>
+            <div class="headPor">
+              <img :src="imageUrl" alt="">
+            </div>
             <p class="perPnoNum">13800138000</p>
           </li>
           <!-- 业务 -->
@@ -50,7 +52,7 @@
                 <img v-if="imageUrl" :src="imageUrl" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
-              <a href="#" class="reminder">上传图片只能是小于2MB的JPG格式</a>
+              <a href="#" class="reminder">上传图片小于2MB</a>
             </li>
             <li class="name">
               <p>姓名：</p>
@@ -130,7 +132,7 @@ export default {
   created() {
     // 验证登录信息
     this.ajax.post('/xinda-api/sso/login-info').then(data => {
-      // console.log(data.data.data)
+      console.log(data.data.data)
       this.status = data.data.status
       // console.log('status==',this.status);
     })
@@ -179,7 +181,6 @@ export default {
     emailFocus: function() {
      this.emailErr = '\u2736';
     },
-    // 地址设置
     //地址验证
     proChange() {
       //  省
@@ -214,10 +215,10 @@ export default {
         }else if (this.username != '' &&emailReg.test(this.email)&& this.seleCode != '') {
           // 判断头像是否更换
           // this.imageUrl.match('Successblob') ? this.imageUrl = this.imageUrl:this.imageUrl = head;
-          if(this.imageUrl.match('Successblob')){
-            this.imageUrl = 'Successblob:http://localhost:8080/3376f961-ebe2-43b2-90e6-27b18814b86b'
-          }else{
+          if(this.imageUrl.match('blob')){
             this.imageUrl = this.imageUrl
+          }else{
+            this.imageUrl = 'blob:http://localhost:8080/ab209253-a503-45d1-9abc-5e90611db509';
           }
           console.log('this.imageUrl=',this.imageUrl)
           this.ajax.post('/xinda-api/member/update-info', this.qs.stringify({ headImg: this.imageUrl, name: this.username, gender: this.radio, email: this.email, regionId: this.seleCode })).then(data => {
@@ -231,10 +232,10 @@ export default {
               })
               this.word = true;
               this.message = '操作成功';
-              // var head = {};
-              // head.url = this.imageUrl;
-              // localStorage.setItem(head.url,JSON.stringify(head))
-              // this.imageUrl = head.url;
+              var head = {};
+              head.url = this.imageUrl;
+              sessionStorage.setItem(this.imageUrl,JSON.stringify(head))
+              this.imageUrl = head.url;
               console.log(head)
             }else{
               this.word = false;
@@ -244,7 +245,6 @@ export default {
       }
     }
   }
-
 }
 </script>
 
@@ -294,7 +294,12 @@ li {
     margin: 9px auto;
     width: 96px;
     height: 96px;
-    background: url(../images/memCen.png) -14px -12px no-repeat;
+    // background: url(../images/memCen.png) -14px -12px no-repeat;
+    img{
+      width: 100%;
+      height: 100%;
+      border-radius: 50%
+    }
   }
   .perPnoNum {
     font-size: 16px;
