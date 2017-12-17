@@ -65,7 +65,7 @@
             <div class="need">
                 <h4>我们需要什么样的服务商?</h4>
                 <div class="change1"><p>{{msg}}</p></div>
-                <div><p>与时俱进视野立足未来，了解创业者的需求，并乐于为创业者服务。</p></div>
+                <div v-show="feture"><p>与时俱进视野立足未来，了解创业者的需求，并乐于为创业者服务。</p></div>
             </div>
         </div>
     </div>
@@ -78,11 +78,12 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
+        feture:true,
       msgData: [
           '在公司注册、公司变更、资质审批等领域深耕多年，在业内享有一定的知名度，可以提供优质优价的服务；',
           '在代理记账、审计验资等领域深耕多年，可以提供涉足各个行业优秀的财会人员；',
           '在商标注册，版权专利，著作权等领域深耕多年，具有丰富的知识产权经验；',
-          '在人事代理、企业社保、个人社保等领域深耕多年，具有丰富的社保代理经验。 。'
+          '在人事代理、企业社保、个人社保等领域深耕多年，具有丰富的社保代理经验。'
         ],
       msg:''
     }
@@ -90,8 +91,16 @@ export default {
   methods:{
     dismsg:function(index){
         this.msg = this.msgData[index]; 
-        
-    }
+        if (index==3) {
+            this.feture=false
+        }else{
+            this.feture=true
+        }
+    },
+    
+  },
+  created(){
+    this.msg = this.msgData[0];
   }
 }
 </script>
@@ -146,6 +155,7 @@ export default {
 .join-acquisition{
     height: 568px;
     background-color: #edf1f4;
+    margin-top:-90px;
 }
 .join-centwo {
     color:black;
@@ -305,10 +315,12 @@ export default {
 .need{
     color:#000;
     line-height:50px;
-    height: 225px;
+    clear: both; 
     p{
         font-size:18px;
+        margin-top:15px;
     }
+    
 }
 
 
