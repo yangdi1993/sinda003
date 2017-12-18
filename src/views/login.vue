@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="r-outter">
     <!--小导航-->
@@ -15,27 +13,20 @@
     <div class="r-content">
       <!--注册操作界面-->
       <ul class="r-operate">
+        <p class="fail" v-show="fail">登录失败，请检验输入信息是否正确</p>
         <li class="phone">
           <input type="text" placeholder="请输入手机号" v-model="loginPhone" v-on:blur="lpBlur" v-on:focus="lpFocus">
-          <span v-show="phoneNull">手机号不能为空</span>
-          <span v-show="phoneNotExist">账号不存在</span>
-          <span v-show="phoneRight" id="green">✔</span>
-          <span v-show="phoneStar">*</span>
+          <span>{{lphoneErr}}</span>
         </li>
         <li class="pw">
-          <input type="password" placeholder="请输入密码" v-model="loginPw" v-on:blur="lwBlur" v-on:focus="lwFocus">
-          <span v-show="pwNull">密码不能为空</span>
-          <span v-show="pwWrong">密码错误</span>
-          <span v-show="pwRight" id="green">✔</span>
-          <span v-show="pwStar">*</span>
+          <input :type="pwType" placeholder="请输入密码" v-model="loginPw" v-on:blur="lwBlur" v-on:focus="lwFocus">
+          <img :src="loginUrl" alt="" class="eye" @click="changeType">
+          <span>{{lpwErr}}</span>
         </li>
         <li class="code-img">
           <input type="text" placeholder="请输入验证码" v-model="codeImage" v-on:blur="ciBlur" v-on:focus="ciFocus">
           <img :src="imgUrl" alt="">
-          <span v-show="imgNull">图片验证码不能为空</span>
-          <span v-show="imgWrong">图片验证码错误</span>
-          <span v-show="imgRight" id="green">✔</span>
-          <span v-show="imgStar">*</span>
+          <span>{{limgErr}}</span>
           <button v-on:click="buttonChange">看不清？换一张</button>
         </li>
         <li class="forget">
@@ -60,34 +51,33 @@
 <script>
 import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
+const eye = [
+  require('../images/login/invisible.png'),
+  require('../images/login/visible.png'),
+];
 export default {
 
   data() {
     return {
+      fail: false,//登陆失败提示信息
       // 手机号
       loginPhone: '',
-      phoneNull: false,
-      phoneNotExist: false,
-      phoneRight: false,
-      phoneStar: false,
+      lphoneErr: '\u2736',
       // 密码
       loginPw: '',
-      pwNull: false,
-      pwWrong: false,
-      pwRight: false,
-      pwStar: false,
+      lpwErr: '\u2736',
+      loginUrl: eye[0],
+      // 切换密码可不可见
+      pwType: 'password',
       // 验证码
       codeImage: '',
-      imgNull: false,
-      imgWrong: false,
-      imgRight: false,
-      imgStar: false,
+      limgErr: '\u2736',
       imgUrl: '/xinda-api/ajaxAuthcode',
       msg: 'Welcome to Your Vue.js App'
     }
   },
   methods: {
-    ...mapActions(['setNum','setName']),
+    ...mapActions(['setNum', 'setName']),
     //点击更换图片验证码
     buttonChange: function() {
       this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
@@ -96,82 +86,46 @@ export default {
     // 手机号焦点事件
     lpBlur: function() {
       if (this.loginPhone == '') {
-        // 手机号不能为空
-        this.phoneNull = true;
-        this.phoneStar = false;
-      } 
-      // else if (localStorage.getItem(this.loginPhone)) {
-      //   //判断手机号存在
-      //   this.phoneRight = true;
-      //   this.phoneStar = false;
-      // } else {
-      //   // 手机号未注册
-      //   this.phoneNotExist = true;
-      //   this.phoneStar = false;
-      // }
+        this.lphoneErr = '手机号不能为空';
+      }
     },
     // 手机号获得焦点
     lpFocus: function() {
-      this.phoneNull = false;
-      this.phoneNotExist = false;
-      this.phoneRight = false;
-      this.phoneStar = true;
+      this.lphoneErr = '\u2736';
     },
     // 密码焦点事件
     lwBlur: function() {
-      // var user = JSON.parse(localStorage.getItem(this.loginPhone))
       if (this.loginPw == '') {
-        //密码不能为空
-        this.pwNull = true;
-        this.pwStar = false;
-      } 
-      // else if (this.loginPw == user.password) {
-      //   //判断密码正确
-      //   this.pwRight = true;
-      //   this.pwStar = false;
-      // } else {
-      //   //密码不正确
-      //   this.pwWrong = true;
-      //   this.pwStar = false;
-      // }
+        this.lpwErr = '密码不能为空';
+      }
     },
     // 密码获得焦点
     lwFocus: function() {
-      this.pwNull = false;
-      this.pwWrong = false;
-      this.pwRight = false;
-      this.pwStar = true;
+      this.lpwErr = '\u2736';
     },
     // 验证码焦点事件
     ciBlur: function() {
       if (this.codeImage == '') {
-        //验证码不能为空
-        this.imgNull = true;
-        this.imgStar = false;
-      } 
-      // else if (/^(\d|[a-z]){4}$/.test(this.codeImage)) {
-      //判断验证码正确
-      // this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.loginPhone, smsType: 1, imgCode: this.codeImage })).then(data => {
-      //   // console.log(data);
-        // if (data.data.status == 1) {
-        //   this.imgRight = true;
-        //   this.imgStar = false;
-        // }
-      // })
-      // } else {
-      //   //验证码不正确
-      //   this.imgWrong = true;
-      //   this.imgStar = false;
-      // }
+        this.limgErr = '验证码不能为空';
+      }
+    },
+    // 切换密码明码和暗骂
+    changeType: function() {
+      this.pwType = this.pwType === 'password' ? 'text' : 'password'
+      if (this.pwType === 'password') {
+        // 密码
+        this.loginUrl = eye[0];
+      } else {
+        // 明码
+        this.loginUrl = eye[1];
+      }
     },
     // 验证码获得焦点
-    ciFocus:function() {
-      this.imgNull = false;
-      this.imgWrong = false;
-      this.imgRight = false;
-      this.imgStar = true;
+    ciFocus: function() {
+      this.limgErr = '\u2736';
       if (this.codeImage != '') {
         this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
+        this.codeImage == ''
       }
     },
     // 登录按钮
@@ -179,23 +133,56 @@ export default {
       // console.log('loginUser'+loginUser)
       var md5 = require('md5');
       if (this.loginPhone == '') {
-        // 手机号不能为空
-        this.phoneNull = true;
-        this.phoneStar = false;
-        this.pwWrong = false;
-        this.pwRight = false;
+        this.lphoneErr = '手机号不能为空';
       } else if (this.loginPw == '') {
-        //密码不能为空
-        this.pwNull = true;
-        this.pwStar = false;
-        this.pwWrong = false;
-        this.pwRight = false;
+        this.lpwErr = '密码不能为空';
       } else if (this.codeImage == '') {
         //验证码不能为空
-        this.imgNull = true;
-        this.imgStar = false;
-        this.imgWrong = false;
-        this.imgRight = false;
+        this.limgErr = '验证码不能为空';
+      } else if (/^1[3578]\d{9}$/.test(this.loginPhone)) {
+
+
+        // 判断登录条件
+        //判断手机号存在
+        this.ajax.post('/xinda-api/sso/login', this.qs.stringify({ loginId: this.loginPhone, password: this.loginPw, imgCode: this.codeImage })).then(data => {
+          console.log(data.data.msg, data.data.status)
+          if (data.data.msg == '账号不存在') {
+            this.lphoneErr = '手机号未注册';
+            this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
+          }
+          if (data.data.msg == '图片验证码错误！') {
+            this.limgErr = '验证码错误';
+            // console.log('图片验证码错误！')
+            this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
+          }
+          if (data.data.msg == '账号或密码不正确！') {
+            this.lpwErr = '密码错误';
+            this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
+          }
+          if (data.data.status == 1) {
+            // 登陆失败提示信息
+            this.fail = false;
+            this.lphoneErr = '\u2736';
+            this.lpwErr = '\u2736';
+            this.limgErr = '\u2736';
+            // 登录成功后保存当前用户名
+            var loginUser = {};
+            loginUser.username = this.loginPhone;
+            loginUser.password = this.loginPw;
+            // this.ajax.post('/xinda-api/sso/login-info').then(data => {
+            //   console.log(data.data.data)
+            // })
+            sessionStorage.setItem('userPhone', this.loginPhone)  //此处为登录状态信息，登陆后判断状态是否为登录
+            location.replace('/#/inner/homepage')
+            this.setNum(0)  //购物车物品数量
+            this.setName(this.loginPhone)
+            this.$router.push({ path: '/inner/homepage' });
+          } else {
+            this.fail = true;
+          }
+        });
+      } else {
+        this.lphoneErr = '手机号格式错误';
       }
       // 判断登录条件
       //判断手机号存在
@@ -237,9 +224,17 @@ export default {
           loginUser.username = this.loginPhone;
           loginUser.password = this.loginPw;
           // sessionStorage.setItem(this.loginPhone,JSON.stringify(loginUser));
-          sessionStorage.setItem('zancun',JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录,杨迪留的
+          // console.log('loginUser'+loginUser)
+          sessionStorage.setItem('zancun', JSON.stringify(this.loginPhone))  //此处为登录状态信息，登陆后判断状态是否为登录
+          this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/sso/login-info').then(data => {
+            console.log(data.data)
+            // status = data.data.status;
+          })
+          sessionStorage.setItem('userPhone', this.loginPhone)  //此处为登录状态信息，登陆后判断状态是否为登录
           location.replace('/#/inner/homepage')
-          this.setNum(2)  //购物车物品数量
+          this.setNum(0)  //购物车物品数量
+          this.setName(this.loginPhone)
+          this.$router.push({ path: '/inner/homepage' });
         }
       });
     }
@@ -297,6 +292,13 @@ li {
       margin: 53px 19px 0 147px;
       width: 433px;
       height: 383px;
+      .fail {
+        position: absolute;
+        margin: -35px 25px;
+        font-size: 15px;
+        color: red;
+        font-weight: bold;
+      }
       span {
         margin-left: 5px;
         font-size: 11px;
@@ -313,6 +315,15 @@ li {
         border-radius: 3px;
         border: 1px solid #cbcbcb;
         outline: 0;
+      }
+      .pw {
+        position: relative;
+        .eye {
+          position: absolute;
+          width: 18px;
+          height: 10px;
+          margin: 13px 0 0 -40px;
+        }
       }
       .code-img {
         display: flex;

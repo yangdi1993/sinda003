@@ -6,21 +6,21 @@
           <span>购物车</span>
         </p>
       </div>
-      <div class="content" v-for="detail in details" :key="detail.id">
-        <div class="g-img"><img :src="'http://115.182.107.203:8088/xinda/pic'+ detail.providerImg" alt=""></div>
+      <div class="content" :key="products.id">
+        <div class="g-img"><img :src="'http://115.182.107.203:8088/xinda/pic'" alt=""></div>
         <div class="main">
           <div>
-            <p class="name">{{detail.serviceName}}</p>
+            <p class="name">{{providerProducts.serviceName}}</p>
           </div>
           <div>
-            <p class="mingxi">{{detail.serviceInfo}}</p>
+            <p class="mingxi">{{providerProducts.serviceInfo}}</p>
           </div>
           <div class="rate">
             <p>市场价：
-              <span class="line-through ">￥{{detail.marketPrice}}</span>
+              <span class="line-through ">￥{{products.marketPrice}}</span>
             </p>
             <p>价格：
-              <span class="price">￥{{detail.price}}</span>元</p>
+              <span class="price">￥{{providerProducts.price}}</span>元</p>
           </div>
           <div class="types">类型：
             <div class="type type-fir">代理记账（半年）</div><br>
@@ -43,9 +43,16 @@
           <p class="sec">北京信达服务中心</p>
           <div class="consult">马上咨询</div>
           <div class="search">
-            <div>查看服务商</div>
+            <div><a href="#/inner/shophome">查看服务商</a></div>
           </div>
         </div>
+        <!-- <div class="advice">
+          <div class="ad-top">
+            <div>免费电话咨询</div>
+            <div>X</div>
+          </div>
+
+        </div> -->
       </div>
       <div class="bg-img"><img src="../images/paypage/u1225.png" alt=""></div>
       <div class="proservice">
@@ -123,10 +130,11 @@ export default {
     return {
       msg: "Welcome to Your Vue.js App",
       quantity: 1,
-      details: [],
+      products: {},
       isA: true,
       num1: 1,
-      tabPosition: "top"
+      tabPosition: "top",
+      providerProducts:{},
     };
   },
   methods: {
@@ -151,40 +159,33 @@ export default {
   },
   //获取商品详情
   created() {
-    var that = this;
-    this.ajax
-      .post(
-        "/xinda-api/product/package/detail",
-        this.qs.stringify({
-        sId:'0cb85ec6b63b41fc8aa07133b6144ea3'
-        })
-      )
-      .then(data => {
-        var rData = data.data.data.serviceList;
-        console.log(rData);
-        that.details = rData;
-        // that.details.marketprice=that.details.product.marketprice;
-        // that.details.price=that.details.providerProduct.price;
-        // that.details.serviceName=that.details.providerProduct.serviceName;
-        // that.details.serviceInfo=that.details.providerProduct.serviceInfo;
-      });
-
-
     // var that = this;
     // this.ajax
     //   .post(
-    //     "http://115.182.107.203:8088/xinda/xinda-api/product/package/detail",
-    //     this.qs.stringify({ sId: this.$route.query.id })
+    //     "/xinda-api/product/package/detail",
+    //     this.qs.stringify({
+    //     sId:'0cb85ec6b63b41fc8aa07133b6144ea3'
+    //     })
     //   )
-    //   .then(function(data) {
-    //     var prodata = data.data.data;
-    //     that.details = prodata;
-    //     console.log("prodata==", that.details);
-    //     that.details.serviceName=that.details.providerProduct.serviceName;
-    //     that.details.serviceInfo=that.details.providerProduct.serviceInfo;
-    //     that.details.marketprice=that.details.product.marketprice;
-    //     that.details.price=that.details.providerProduct.price;
+    //   .then(data => {
+    //     var rData = data.data.data;
+    //     console.log(rData);
+    //     that.details = rData;
     //   });
+
+
+    this.ajax
+      .post(
+        "/xinda-api/product/package/detail",
+        this.qs.stringify({sId: this.$route.query.id})//this.$route.query.id
+      )
+      .then(function(data) {
+        this.products = data.data.data.product;
+        this.providerProducts=data.data.data.providerProduct;
+        this.provider=data.data.data.provider;
+        console.log(this.products);
+        console.log(this.providerProducts);
+      });
   },
   //加入购物车
   add() {}
@@ -198,6 +199,10 @@ export default {
   background: white;
   margin: 0 auto;
   overflow: hidden;
+}
+
+.advice{
+
 }
 .pay-top {
   width: 100%;
@@ -365,6 +370,10 @@ export default {
       margin-top: 23px;
       margin-left: 44px;
       cursor: pointer;
+      a{
+        text-decoration: none;
+        color:white; 
+      }
     }
   }
 }

@@ -37,7 +37,7 @@
       </div>
       <div class="shophome-right2">
         <div class="rights" v-show="servicePro1">
-          <div class="box" v-for="(list,idx) in lists" :key="list.id">
+          <div class="box" v-for="list in lists" :key="list.id">
             <p>{{list.serviceName}}</p>
             <img src="../images/shop/chang.gif" alt="">
             <div class="jianjie">
@@ -110,7 +110,6 @@ export default {
           start: 0,
           limit: 6,
           productTypeCode: "1",
-          //providerId: "8a82f52b674543e298d2e5f685946e6e"
         })
       )
       .then(function(data) {

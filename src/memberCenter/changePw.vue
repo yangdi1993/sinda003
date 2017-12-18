@@ -35,40 +35,34 @@
         <!-- 右侧边栏 -->
         <div class="memCenRi">
           <div class="myOrderHead">
-            <a href="#/accountSetting">
+            <a href="#/inner/accountSetting">
               <p>账户设置</p>
             </a>
-            <a href="#/changePw">
+            <a href="#/inner/changePw">
               <p>修改密码</p>
             </a>
           </div>
           <ul class="changePassword">
             <li class="password">
               <p>旧密码：</p>
-              <input type="password" v-model="password" v-on:blur="pwBlur" v-on:focus="pwFocus">
-              <span v-show="oldNull">旧密码不能为空</span>
-              <span v-show="oldWrong">旧密码错误</span>
-              <span v-show="notLogin">请先登录</span>
-              <span v-show="oldRight" class="right">✔</span>
-              <span v-show="oldStar">*</span>
+              <input :type="oldPwTppe" v-model="password" v-on:blur="pwBlur" v-on:focus="pwFocus">
+                <img :src="oldUrl" alt="" class="eye" @click="changeOP">
+              <span>{{oldErr}}</span>
             </li>
             <li class="newPw">
               <p>新密码：</p>
-              <input type="password" v-model="newPw" v-on:blur="newPwBlur" v-on:focus="newPwFocus">
+              <input :type="newPwTppe" v-model="newPw" v-on:blur="newPwBlur" v-on:focus="newPwFocus">
+              <img :src="newUrl" alt="" class="eye" @click="changeNP">
               <a href="#">密码由6-16位数字和字母组成</a>
-              <span v-show="newNull">新密码不能为空</span>
-              <span v-show="newWrong">新密码格式错误</span>
-              <span v-show="newRight" class="right">✔</span>
-              <span v-show="newStar">*</span>
+              <span>{{newErr}}</span>
             </li>
             <li class="conPw">
               <p>再次输入新密码：</p>
-              <input type="password" v-model="conPw" v-on:blur="conPwBlur" v-on:focus="conPwFocus">
-              <span v-show="verNull">确认密码不能为空</span>
-              <span v-show="verWrong">两次输入密码不一致</span>
-              <span v-show="verRight" class="right">✔</span>
-              <span v-show="verStar">*</span>
+              <input :type="verPwTppe" v-model="conPw" v-on:blur="conPwBlur" v-on:focus="conPwFocus">
+              <img :src="verUrl" alt="" class="eye" @click="changeVP">
+              <span>{{verErr}}</span>
             </li>
+            <p v-show="success" id="success">密码修改成功</p>
             <button class="savePw" @click='savePwBut'>保存</button>
           </ul>
         </div>
@@ -79,142 +73,152 @@
 </template>
 
 <script>
-import ihead from '../components/ihead'
+import ihead from '../components/ihead';
+const eye = [
+require('../images/login/invisible.png'),
+require('../images/login/visible.png'),
+];
 export default {
   data() {
     return {
       //  旧密码
-      password: '',
-      oldNull: false,
-      oldWrong: false,
-      oldRight: false,
-      oldStar: true,
-      notLogin: false,
+      password: '',//密码
+      oldErr: '\u2736',//报错提示
+      oldPwTppe: 'password',//密码显示类型
+      Oinvisible: '',//密码
+      Ovisible: '',//明码
+      oldUrl: eye[0],//明码
       //  新密码
       newPw: '',
-      newNull: false,
-      newWrong: false,
-      newRight: false,
-      newStar: true,
+      newErr: '\u2736',
+      newPwTppe: 'password',
+      newUrl: eye[0],
       //  确认密码
       conPw: '',
-      verNull: false,
-      verWrong: false,
-      verRight: false,
-      verStar: true,
+      verErr: '\u2736',
+      verPwTppe: 'password',
+      verUrl: eye[0],
+      loginId: '',//登录id
+      success:false,//修改成功提示
     }
+  },
+  created() {
+    // 验证登录信息
+    this.ajax.post('/xinda-api/sso/login-info').then(data => {
+      // console.log(data.data.data)
+      this.loginId = data.data.data.loginId;
+      // console.log(this.loginId);
+    })
   },
   methods: {
     // 旧密码失去焦点事件
     pwBlur: function() {
       if (this.password == '') {
-        //旧密码不能为空
-        this.oldNull = true;
-        this.oldStar = false;
+        this.oldErr = '旧密码不能为空';
       }
     },
     // 旧密码获得焦点事件
     pwFocus: function() {
-      this.oldNull = false;
-      this.oldWrong = false;
-      this.oldRight = false;
-      this.notLogin = false;
-      this.oldStar = true;
+      this.oldErr = '\u2736';
     },
 
     // 新密码失去焦点事件
     newPwBlur: function() {
       var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
       if (this.newPw == '') {
-        // 新密码不能为空
-        this.newNull = true;
-        this.newStar = false;
+        this.newErr = '新密码不能为空';
       } else if (newPwReg.test(this.newPw)) {
         // 验证通过
-        this.newRight = true;
-        this.newStar = false;
+        this.newErr = '\u2736';
       } else {
-        // 验证码格式错
-        this.newWrong = true;
-        this.newStar = false;
+        this.newErr = '新密码格式错误';
       }
     },
     // 新密码获得焦点事件
     newPwFocus: function() {
-      this.newNull = false;
-      this.newWrong = false;
-      this.newRight = false;
-      this.newStar = true;
+      this.newErr = '\u2736';
     },
 
     // 确认密码焦点事件
     conPwBlur: function() {
       if (this.conPw == '') {
-        //确认密码不能为空
-        this.verNull = true;
-        this.verStar = false;
+        this.verErr = '确认密码不能为空';
       } else if (this.newPw == this.conPw) {
         // 验证通过
-        this.verRight = true;
-        this.verStar = false;
+        this.verErr = '\u2736';
       } else {
-        //两次输入密码不一致
-        this.verWrong = true;
-        this.verStar = false;
+        this.verErr = '两次输入密码不一致';
       }
     },
     conPwFocus: function() {
-      this.verNull = false;
-      this.verWrong = false;
-      this.verRight = false;
-      this.verStar = true;
+      this.verErr = '\u2736';
     },
+    // 切换明码暗码
+    changeOP: function() {
+      this.oldPwTppe = this.oldPwTppe === 'password' ? 'text' : 'password';
+      if (this.oldPwTppe === 'password') {
+        // 密码
+        this.oldUrl = eye[0];
+      } else {
+        // 明码
+        this.oldUrl = eye[1];
+      }
+    },
+    changeNP: function() {
+      this.newPwTppe = this.newPwTppe === 'password' ? 'text' : 'password';
+      if (this.newPwTppe === 'password') {
+        // 密码
+        this.newUrl = eye[0];
+      } else {
+        // 明码
+        this.newUrl = eye[1];
+      }
+    },
+    changeVP: function() {
+      this.verPwTppe = this.verPwTppe === 'password' ? 'text' : 'password';
+      if (this.verPwTppe === 'password') {
+        // 密码
+        this.verUrl = eye[0];
+      } else {
+        // 明码
+        this.verUrl = eye[1];
+      }
+    },
+    // 保存按钮
     savePwBut: function() {
-      // this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/sso/change-pwd',this.qs.stringify({oldPwd:this.password,newPwd:this.newPw})).then(data=>{
-      //    console.log(data.data)
-      //  })
       var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
       // console.log(user)
       if (this.password == '') {
-        // 旧密码不能为空
-        this.oldNull = true;
-        this.oldStar = false;
+        this.oldErr = '旧密码不能为空';
       } else if (this.newPw == '') {
-        // 新密码不能为空
-        this.newNull = true;
-        this.newStar = false;
+        this.newErr = '新密码不能为空';
       } else if (this.conPw == '') {
-        // 确认密码不能为空
-        this.verNull = true;
-        this.verStar = false;
+        this.verErr = '确认密码不能为空';
       } else if (newPwReg.test(this.newPw) && this.newPw == this.conPw) {
-        this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/sso/change-pwd', this.qs.stringify({ oldPwd: this.password, newPwd: this.newPw })).then(data => {
+        this.ajax.post('/xinda-api/sso/change-pwd', this.qs.stringify({ oldPwd: this.password, newPwd: this.newPw })).then(data => {
           console.log(data.data)
           if (data.data.status == -999) {
-            this.password == '';
-            this.newPw == '';
-            this.conPw == '';
-            this.notLogin = true;
-            this.oldStar = false;
+            this.password = '';
+            this.newPw = '';
+            this.conPw = '';
+            this.verErr = '未登录账号';
+          } else if (data.data.status == -1) {
+            this.verErr = '旧密码错误';
+          } else if (data.data.status == 1) {
+            this.success = true;
+            this.password = '';
+            this.newPw = '';
+            this.conPw = '';
           }
         })
-
-        // 旧密码重置错误提示信息
-        this.oldNull = false;
-        this.oldWrong = false;
-        this.oldRight = false;
-        this.notLogin = false;
-        this.oldStar = true;
-        // 新密码重置错误提示信息
-        this.newNull = false;
-        this.newWrong = false;
-        this.newRight = false;
-        this.newStar = true;
-        // 确认密码重置错误提示信息
-        this.verNull = false;
-        this.verWrong = false;
-        this.verRight = false;
-        this.verStar = true;
+        // 重置错误提示信息
+        this.oldErr = '\u2736';
+        this.newErr = '\u2736';
+        this.verErr = '\u2736';
+      }else if(this.newPw != this.conPw){
+        this.verErr = '两次输入密码不一致';
+      }else{
+        this.newErr = '新密码格式错误';
       }
     },
   }
@@ -224,7 +228,10 @@ export default {
 <style scoped lang="less">
 // 固定最小宽度
 // @media all and (min-width:1200px){
-  *{font-family: '\5B8B\4F53'}
+* {
+  font-family: '\5B8B\4F53'
+}
+
 .memCenBg {
   width: 100%;
   height: 786px;
@@ -379,6 +386,7 @@ export default {
 }
 
 .changePassword {
+  // 改密码模块
   li {
     margin: 27px 0 0 30px;
     list-style: none;
@@ -401,6 +409,13 @@ export default {
   }
   .password {
     margin-top: 45px;
+    position: relative;
+    .eye{
+      position: absolute;
+      width: 18px;
+      height: 10px;
+      margin: 6px 0 0 288px;
+    }
   }
   .newPw {
     position: relative;
@@ -410,6 +425,21 @@ export default {
       text-decoration: none;
       color: #aaa;
       margin: 28px 0 0 135px;
+    }
+    .eye{
+      position: absolute;
+      width: 18px;
+      height: 10px;
+      margin: 6px 0 0 288px;
+    }
+  }
+  .conPw{
+     position: relative;
+    .eye{
+      position: absolute;
+      width: 18px;
+      height: 10px;
+      margin: 6px 0 0 288px;
     }
   }
   .savePw {
@@ -425,6 +455,12 @@ export default {
   }
   .right {
     color: green;
+  }
+  #success{
+    font-weight: bold;
+    font-size: 20px;
+    color: green;
+    margin: 34px 1px -35px -540px;
   }
 }
 
