@@ -231,7 +231,6 @@ export default {
 * {
   font-family: '\5B8B\4F53'
 }
-
 .memCenBg {
   width: 100%;
   height: 786px;
