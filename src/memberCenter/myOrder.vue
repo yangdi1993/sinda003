@@ -134,10 +134,6 @@ export default {
       // rData:[],
       // // 接口数据显示
       // rDataSh:[],
-      // 总页数
-      totol:0,
-      // 总页数对象
-      pageCount:[],
     }
   },
   created(){
@@ -168,19 +164,15 @@ export default {
     }
     var rData1 = data.data.data;
     that.rData = rData1;
-    // 总页数
-    var totol = Math.ceil(data.data.totalCount/3);
-    var pageCount = {};
-    for(var i=0;i<totolPage;i++){
-      pageCount[i]=i+1;
-    }
-    // 总页数
-    that.totle=totle;
-    // 总页数对象
-    that.pageCount=pageCout;
+   
 
     });
-    gitDate(this.listobjsA,this.changepage)
+
+
+
+    this.ajax.post('xinda-api/cart/list').then(function(data){
+      console.log(data.data)
+    })
   },
   methods:{
     // 点击删除弹出框

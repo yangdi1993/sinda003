@@ -132,6 +132,8 @@ export default {
         that.innerobjs=objs[0].itemList
 
 
+       
+
         that.url='xinda-api/product/package/grid' //定义数据地址
         var numb=0
         for(var i in n){
@@ -144,6 +146,7 @@ export default {
         // that.productTypeCode=0
         getData(that.listobjsA,0,3,2,that.url,that.totle,that.pagecount,that.productId,that.productTypeCode)
       });
+      
       // this.url='xinda-api/product/package/grid' //定义数据地址
       // getData(this.listobjsA,0,3,2,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
     }
@@ -207,6 +210,12 @@ export default {
     },
   },
   created(){
+
+
+
+     this.ajax.post('xinda-api/cart/list').then(function(data){
+      console.log(data.data)
+    })
     // this.nowindex=sessionStorage.getItem('index')
     // console.log('qqq',this.nowindex)
     this.nowindex=this.$route.query.num
