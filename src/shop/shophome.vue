@@ -37,31 +37,17 @@
         </div>
         <div class="shophome-right2">
           <div class="rights" v-show="servicePro1">
-            <div class="box" v-for="list in box" :key="list.id">
+            <div class="box" v-for="list in lists" :key="list.id">
               <div class="serviceName"><p>{{list.serviceName}}</p></div>
               <img src="../images/shop/chang.gif" alt="">
               <div class="jianjie"><p>{{list.serviceInfo}}</p></div>
               <div class="xiaoliang"><p>销量：{{list.buyNum}}</p></div>
               <h1>￥: {{list.price}}.00</h1>
               <p class="line-through">原价:￥{{list.marketPrice}}.00</p>
-              <a href="">查看详情>>></a>
+              <a href="javascript:void(0)" @click="viewDetails(list.id)">查看详情>>></a>
             </div>
-            <h1>￥: {{list.price}}.00</h1>
-            <p class="line-through">原价:￥{{list.marketPrice}}.00</p>
-            <a href="#/inner/Detail" v-on:click="viewDetails(list.id)">查看详情>>></a>
           </div>
         </div>
-        <!-- <div class="rights"v-show="servicePro1">
-            <div class="box"v-for="list in box" :key="list.id">
-              <p>{{list.serviceName}}</p>
-              <img src="../images/shop/chang.gif" alt="">
-              <div class="jianjie"><p>{{list.serviceInfo}}</p></div>
-              <div class="xiaoliang"><p>销量：{{list.buyNum}}</p></div>
-              <h1>￥: {{list.price}}.00</h1>
-              <p class="line-through">原价:￥{{list.marketPrice}}.00</p>
-              <a href="#/inner/Detail" v-on:click="viewDetails">查看详情>>></a>
-            </div>
-          </div> -->
         <div class="qq" v-show="tencent1">
           <b>工作时间：周一到周五</b><br>
           <strong>QQ咨询:</strong><br>
@@ -72,22 +58,6 @@
         </div>
       </div>
     </div>
-    <div class="page">
-      <a>上一页</a>
-      <a href="">1</a>
-      <a href="">2</a>
-      <a href="">3</a>
-      <a href="">4</a>
-      <a href="">5</a>
-      <a href="">6</a>
-      <a href="">7</a>
-      <a href="">8</a>
-      <a href="">9</a>
-      <a href="">10</a>
-      <a>下一页</a>
-    </div>
-   <!-- <router-view/> -->
-  </div>
 </template>
 
 <script>
@@ -98,7 +68,8 @@ export default {
       tencent1: false,
       zizhi1: false,
       lists: [],
-      id: ""
+      id: "",
+      list:''
     };
   },
   created() {
@@ -115,7 +86,6 @@ export default {
       .then(function(data) {
         var box = data.data.data;
         that.lists = box;
-        //console.log(box);
         console.log(that.lists);
       });
   },
@@ -136,7 +106,7 @@ export default {
       this.zizhi1 = true;
     },
     viewDetails: function(id) {
-      this.$router.push({ path: "#/inner/Detail", query: { id: id } });
+      this.$router.push({ path: "/inner/Detail", query: { id: id } });
       console.log(this.$route.query.id)
     }
   }

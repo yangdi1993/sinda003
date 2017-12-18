@@ -6,8 +6,8 @@
           <span>购物车</span>
         </p>
       </div>
-      <div class="content" :key="products.id">
-        <div class="g-img"><img :src="'http://115.182.107.203:8088/xinda/pic'" alt=""></div>
+      <div class="content">
+        <div class="g-img"><img :src="'http://115.182.107.203:8088/xinda/pic' + products.img" alt=""></div>
         <div class="main">
           <div>
             <p class="name">{{providerProducts.serviceName}}</p>
@@ -29,11 +29,11 @@
           </div>
           <div class="area">
             <p>地区：
-              <span class="place">北京-北京市-朝阳区</span>
+              <span class="place">{{}}</span>
             </p>
           </div>
           <div class="number">购买数量：
-            <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+           <button>-</button><input type="text"><button>+</button>
           </div>
           <div class="buy" v-on:click="buy()">立即购买</div>
           <div class="add" v-on:click="add()">加入购物车</div>
@@ -43,7 +43,9 @@
           <p class="sec">北京信达服务中心</p>
           <div class="consult">马上咨询</div>
           <div class="search">
-            <div><a href="#/inner/shophome">查看服务商</a></div>
+            <div>
+              <a href="#/inner/shophome">查看服务商</a>
+            </div>
           </div>
         </div>
         <!-- <div class="advice">
@@ -134,7 +136,7 @@ export default {
       isA: true,
       num1: 1,
       tabPosition: "top",
-      providerProducts:{},
+      providerProducts: {},
     };
   },
   methods: {
@@ -173,18 +175,17 @@ export default {
     //     that.details = rData;
     //   });
 
-
+    var that = this;
     this.ajax
       .post(
         "/xinda-api/product/package/detail",
-        this.qs.stringify({sId: this.$route.query.id})//this.$route.query.id
+        this.qs.stringify({ sId: this.$route.query.id }) //this.$route.query.id
       )
       .then(function(data) {
-        this.products = data.data.data.product;
-        this.providerProducts=data.data.data.providerProduct;
-        this.provider=data.data.data.provider;
-        console.log(this.products);
-        console.log(this.providerProducts);
+        that.products = data.data.data.product;
+        that.providerProducts=data.data.data.providerProduct;
+        console.log(that.products);
+        // console.log(this.$route.query.id);
       });
   },
   //加入购物车
@@ -199,10 +200,6 @@ export default {
   background: white;
   margin: 0 auto;
   overflow: hidden;
-}
-
-.advice{
-
 }
 .pay-top {
   width: 100%;
@@ -370,9 +367,9 @@ export default {
       margin-top: 23px;
       margin-left: 44px;
       cursor: pointer;
-      a{
+      a {
         text-decoration: none;
-        color:white; 
+        color: white;
       }
     }
   }
