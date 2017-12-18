@@ -32,7 +32,6 @@
           <span>{{codeErr}}</span>
         </li>
         <li class="android-wheel">
-          <!--<v-distpicker class="select" province="省" city="市" area="区" @selected="onSelected"></v-distpicker>-->
           <div class="adress">
             <select @change="proChange" v-model="province">
               <option value="0">省</option>
@@ -79,13 +78,17 @@
 
 
 <script>
-import { mapGetters } from 'vuex'
-import { mapActions } from 'vuex'
+import { mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
+// 密码明码暗码图片切换
 const eye = [
   require('../images/login/invisible.png'),
   require('../images/login/visible.png'),
 ];
-import dist from '../images/districts'
+// 引入三级联动数据
+import dist from '../images/districts';
+// 密码加密
+var md5 = require('md5');
 export default {
   name: 'HelloWorld',
   // components: { VDistpicker },
@@ -140,7 +143,8 @@ export default {
         this.phoneErr = '电话号码不能为空';
       } else if (phoneReg.test(this.phoneVal)) {
         this.phoneErr = '\u2736';
-        this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
+        this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ 
+          cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
           console.log(data.data.msg, data.data.status)
           if (data.data.status == -2) {
             this.phoneErr = '手机号已注册';
@@ -210,9 +214,7 @@ export default {
     },
     // 切换密码明码和暗骂
     changeType: function() {
-      var input = document.querySelector('.pw input')
       this.pwType = this.pwType === 'password' ? 'text' : 'password'
-      // console.log(this.pwType,input)
       if (this.pwType === 'password') {
         // 密码
         this.regUrl = eye[0];
@@ -224,6 +226,7 @@ export default {
     //地址验证
     proChange() {
       //  省
+      // console.log(code)
       this.citys = dist[this.province];
       this.city = "0";
       this.area = "0";
@@ -258,7 +261,8 @@ export default {
             this.imgErr = '图片验证码不能为空';
           } else {
             // 图片验证码匹配
-            this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
+            this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ 
+              cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
               console.log(data.data);
               if (data.data.status == 1) {
                 this.imgErr = '\u2736';
@@ -298,7 +302,6 @@ export default {
       // console.log(this.seleCode)
       var newPwReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
       var phoneReg = /^1[3578]\d{9}$/;
-      var md5 = require('md5');
       if (this.phoneVal == '') {
         this.phoneErr = '电话号码不能为空';
       } else if (this.codeImgVal == '') {
@@ -316,14 +319,16 @@ export default {
 
       else if (phoneReg.test(this.phoneVal)) {
         // 注册验证借口
-        this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
+        this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ 
+          cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
           // console.log(data.data.msg, data.data.status)
           if (data.data.status == 2) {
             this.phoneErr = '手机号已注册';
           }
           else if (data.data.status == 1 && this.codePhoneVal == 111111 && newPwReg.test(this.pwVal)) {
             // 注册提交接口
-            this.ajax.post('/xinda-api/register/register', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111, password: md5(this.pwVal), regionId: this.seleCode })).then(data => {
+            this.ajax.post('/xinda-api/register/register', this.qs.stringify({ 
+              cellphone: this.phoneVal, smsType: 1, validCode: 111111, password: md5(this.pwVal), regionId: this.seleCode })).then(data => {
               // console.log(data.data)
             })
             this.fail = false;//注册失败提示信息

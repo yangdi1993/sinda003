@@ -23,7 +23,7 @@ export default new Vuex.Store({
     }
   },
   getters:{ //显示集合
-    getNum:state=>state.num,
+    getNum:state=>state.num,  
     getName:state=>{
       if(state.name){
         return state.name;

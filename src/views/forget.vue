@@ -61,7 +61,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { mapActions } from 'vuex'
+import { mapActions } from 'vuex';
+var md5 = require('md5');
 const eye = [
   require('../images/login/invisible.png'),
   require('../images/login/visible.png'),
@@ -119,7 +120,8 @@ export default {
       if (this.fImg == '') {
         this.fiErr = '图片验证码不能为空';
       } else {
-        this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.forgetPhone, smsType: 1, validCode: 111111 })).then(data => {
+        this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ 
+          cellphone: this.forgetPhone, smsType: 1, validCode: 111111 })).then(data => {
           // console.log(data.data.msg, data.data.status)
           if (data.data.status == -2) {
             // 手机号已注册，可完成修改密码
@@ -219,7 +221,8 @@ export default {
           this.fiErr = '图片验证码不能为空';
         } else {
           // 图片验证码匹配
-          this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ cellphone: this.forgetPhone, smsType: 1, imgCode: this.fImg })).then(data => {
+          this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ 
+            cellphone: this.forgetPhone, smsType: 1, imgCode: this.fImg })).then(data => {
             console.log(data.data.msg, data.data.status);
             if (data.data.status == 1) {
               this.fiErr = '\u2736';
@@ -269,7 +272,8 @@ export default {
       } else if (this.fPw == '') {
         this.fpwErr = '确认密码不能为空';
       }
-      this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/findpas', this.qs.stringify({ cellphone: this.forgetPhone, smsType: 1, validCode: 111111, password: this.fNew })).then(data => {
+      this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/findpas', this.qs.stringify({ 
+        cellphone: this.forgetPhone, smsType: 1, validCode: 111111, password: md5(this.fNew) })).then(data => {
         console.log(data.data.status, data.data.msg);
         if (data.data.status == 1 && newPwReg.test(this.fNew) && this.fNew == this.fPw) {
           // 修改成功提示
