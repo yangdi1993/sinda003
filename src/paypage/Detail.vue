@@ -29,14 +29,15 @@
           </div>
           <div class="area">
             <p>地区：
-              <span class="place">{{}}</span>
+              <span class="place">北京-北京市-朝阳区</span>
             </p>
           </div>
           <div class="number">购买数量：
-           <button>-</button><input type="text"><button>+</button>
+            <button @click="min(num)">-</button><input type="text" v-model="num">
+            <button @click="add(num)">+</button>
           </div>
           <div class="buy" v-on:click="buy()">立即购买</div>
-          <div class="add" v-on:click="add()">加入购物车</div>
+          <div class="add" v-on:click="addCart(id)">加入购物车</div>
         </div>
         <div class="service">
           <p class="fir">顶级服务商</p>
@@ -137,13 +138,10 @@ export default {
       num1: 1,
       tabPosition: "top",
       providerProducts: {},
+      num: 1
     };
   },
   methods: {
-    //购买数量
-    handleChange(value) {
-      console.log(value);
-    },
     counts: function() {
       var Quantity = document.querySelector(".Quantity");
       if (/^\+?[1-9]\d*$/.test(this.quantity)) {
@@ -153,28 +151,40 @@ export default {
         this.quantity = this.quantity;
       }
     },
+    min(num) {
+      if (num >= 1) {
+        num += -1;
+        console.log("-=", num);
+      } else {
+        num = 1;
+      }
+    },
+    add(num) {
+      num -= -1;
+      console.log("+=", num);
+    },
     changefir: function() {},
     changesec: function() {},
     buy: function() {
-      location.href = "#/inner/paypage";
+      
+    },
+    //加入购物车
+    addCart(id) {
+      this.ajax.post(
+        "/xinda-api/cart/add",
+        this.qs
+          .stringify({
+            id: id,
+            num: 1
+          })
+          .then(function(data) {
+            console.log(data);
+          })
+      );
     }
   },
   //获取商品详情
   created() {
-    // var that = this;
-    // this.ajax
-    //   .post(
-    //     "/xinda-api/product/package/detail",
-    //     this.qs.stringify({
-    //     sId:'0cb85ec6b63b41fc8aa07133b6144ea3'
-    //     })
-    //   )
-    //   .then(data => {
-    //     var rData = data.data.data;
-    //     console.log(rData);
-    //     that.details = rData;
-    //   });
-
     var that = this;
     this.ajax
       .post(
@@ -183,13 +193,9 @@ export default {
       )
       .then(function(data) {
         that.products = data.data.data.product;
-        that.providerProducts=data.data.data.providerProduct;
-        console.log(that.products);
-        // console.log(this.$route.query.id);
+        that.providerProducts = data.data.data.providerProduct;
       });
-  },
-  //加入购物车
-  add() {}
+  }
 };
 </script>
 

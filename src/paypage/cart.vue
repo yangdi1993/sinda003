@@ -24,17 +24,20 @@
             <th>操作</th>
           </tr>
         </thead>
-        <tbody v-for="cart in carts":key="cart.id">
-          <p>店铺：
-            <span>{{cart.providerName}}</span>
-          </p>
-          <tr>
-            <td><img src="" alt="">哈哈哈哈</td>
+        <tbody v-for="cart in carts" :key="cart.id">
+          <tr class="shopname">
+            <p>店铺：
+              <span>{{cart.providerName}}</span>
+            </p>
+          </tr>
+          <tr class="goods">
+            <td><img src="'http://115.182.107.203:8088/xinda/pic'" alt=""></td>
             <td>{{cart.serviceName}}</td>
             <td>￥{{cart.unitPrice}}</td>
             <td>
-              <!-- <button>-</button><input type="text" value=1><button>+</button> -->
-              <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字" style="width:140px;"></el-input-number>
+              <button>-</button><input type="text" value=1>
+              <button>+</button>
+              <!-- <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字" style="width:140px;"></el-input-number> -->
             </td>
             <td class="zjia">￥1200</td>
             <td class="dele">
@@ -88,7 +91,7 @@ export default {
       msg: "Welcome to Your Vue.js App",
       num1: 1,
       products: [],
-      carts:[],
+      carts: []
     };
   },
   methods: {
@@ -96,20 +99,22 @@ export default {
       console.log(num);
     }
   },
-  created() {
-    var that = this;
-    this.ajax.post("/xinda-api/recommend/list").then(function(data) {
-      var rData = data.data.data.hq;
-      //console.log(rData);
-      that.products = rData;
-    });
-  },
+  //热门服务
+  // created() {
+  //   var that = this;
+  //   this.ajax.post("/xinda-api/recommend/list").then(function(data) {
+  //     var rData = data.data.data.hq;
+  //     that.products = rData;
+  //     console.log(that.products);
+  //   });
+  // },
+
   created() {
     var that = this;
     this.ajax.post("/xinda-api/cart/list").then(function(data) {
-      var rData = data.data;
-      //console.log(rData);
-      that.carts = rData;
+      var proData = data.data.data;
+      that.carts = proData;
+      console.log(that.carts);
     });
   }
 };
@@ -118,7 +123,7 @@ export default {
 <style scoped lang="less">
 .pay-content {
   width: 1200px;
-  //height: 650px;
+  height: 650px;
   background: white;
   margin: 0 auto;
   overflow: hidden;
@@ -164,8 +169,9 @@ tbody {
     color: #686868;
     margin-right: 1000px;
     line-height: 40px;
+    background-color: white;
   }
-  tr {
+  .goods {
     background-color: #f7f7f7;
     line-height: 55px;
     width: 1200px;
