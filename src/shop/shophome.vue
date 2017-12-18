@@ -30,31 +30,14 @@
       </div>
     </div>
     <div class="shophome-right">
-<<<<<<< HEAD
-      <div class="shophome-right1">
-        <p @click="servicePro">服务产品</p>
-        <p @click="tencent">客服</p>
-        <p @click="zizhi">资质证书</p>
-      </div>
-      <div class="shophome-right2">
-        <div class="rights" v-show="servicePro1">
-          <div class="box" v-for="list in lists" :key="list.id">
-            <p>{{list.serviceName}}</p>
-            <img src="../images/shop/chang.gif" alt="">
-            <div class="jianjie">
-              <p>{{list.serviceInfo}}</p>
-            </div>
-            <div class="xiaoliang">
-              <p>销量：{{list.buyNum}}</p>
-=======
         <div class="shophome-right1">
             <p @click="servicePro">服务产品</p>
             <p @click="tencent">客服</p>
             <p @click="zizhi">资质证书</p>
         </div>
         <div class="shophome-right2">
-          <div class="rights"v-show="servicePro1">
-            <div class="box"v-for="list in box" :key="list.id">
+          <div class="rights" v-show="servicePro1">
+            <div class="box" v-for="list in box" :key="list.id">
               <div class="serviceName"><p>{{list.serviceName}}</p></div>
               <img src="../images/shop/chang.gif" alt="">
               <div class="jianjie"><p>{{list.serviceInfo}}</p></div>
@@ -62,7 +45,6 @@
               <h1>￥: {{list.price}}.00</h1>
               <p class="line-through">原价:￥{{list.marketPrice}}.00</p>
               <a href="">查看详情>>></a>
->>>>>>> 0dd9925844b2a3a6e833c878d933cbaac112ee6b
             </div>
             <h1>￥: {{list.price}}.00</h1>
             <p class="line-through">原价:￥{{list.marketPrice}}.00</p>
@@ -104,7 +86,7 @@
       <a href="">10</a>
       <a>下一页</a>
     </div>
-    <router-view/>
+   <!-- <router-view/> -->
   </div>
 </template>
 

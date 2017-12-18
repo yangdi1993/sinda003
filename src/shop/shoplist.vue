@@ -55,17 +55,8 @@
             <p>信誉</p><div class="xinyu"><img src="../images/shop/xinyu.gif" alt=""></div>
             <p>{{store.regionName}}</p>
             <p>累计服务客户次数：{{store.orderNum}} | 好评率：100%</p>
-<<<<<<< HEAD
-            <div class="type">
-              <p>{{store.productTypes}}</p>
-            </div>
-            <div class="store">
-              <a href="#/inner/shophome">进入店铺</a>
-            </div>
-=======
             <div class="type"><p v-for="pro in store.productTypes" :key="pro.id" >{{pro}}</p></div>
             <div class="store"><a href="#/inner/shophome">进入店铺</a></div>
->>>>>>> 0dd9925844b2a3a6e833c878d933cbaac112ee6b
           </div>
         </div>
       </div>
@@ -113,23 +104,6 @@ export default {
         //data=>{}
 
         var box = data.data.data;
-<<<<<<< HEAD
-        that.stores = box;
-        console.log("box", box);
-      });
-  },
-  data() {
-    return {
-      names: [],
-      stores: [],
-      provinces: dist[100000],
-      citys: [],
-      areas: [],
-      province: "0",
-      city: "0"
-    };
-=======
-         
         console.log('box',box);
         for( var key in box){
           box[key].productTypes=box[key].productTypes.split(",");
@@ -149,7 +123,6 @@ export default {
     province:'0',
     city:'0',
     }
->>>>>>> 0dd9925844b2a3a6e833c878d933cbaac112ee6b
   },
   methods: {
     proChange() {
@@ -229,31 +202,9 @@ export default {
   border-radius: 3px;
   background-color: #2693d4;
 }
-<<<<<<< HEAD
-// .liandong {
-//   margin-top: -42px;
-//   margin-left: 120px;
-//   position: absolute;
-//   select {
-//     float: left;
-//     font-size: 14px;
-//     line-height: 22px;
-//     height: 25px;
-//     padding: 0;
-//     width: 90px;
-//     height: 25px;
-//     margin-top: 10px;
-//     margin-left: 6px;
-//   }
-// }
-.adress {
-  margin-left: 130px;
-  margin-top: -35px;
-=======
 .adress{
   margin-left:130px;
   margin-top:-35px;
->>>>>>> 0dd9925844b2a3a6e833c878d933cbaac112ee6b
   position: absolute;
   select {
     border: 1px solid #cdcdcd;
@@ -317,12 +268,7 @@ export default {
     margin-left: 17px;
     margin-top: 12px;
     float: left;
-<<<<<<< HEAD
-    .logoimg {
-      // margin-left: -360px;
-=======
     .logoimg{ 
->>>>>>> 0dd9925844b2a3a6e833c878d933cbaac112ee6b
       margin-top: 50px;
       float: left;
       margin-left: 30px;
@@ -340,31 +286,14 @@ export default {
       img {
         width: 30px;
         height: 35px;
-<<<<<<< HEAD
-      }
-      p {
-        font-size: 14px;
-=======
         margin-left: 20px;
       }
       p{
         font-size: 13px;
->>>>>>> 0dd9925844b2a3a6e833c878d933cbaac112ee6b
         margin-left: 155px;
         margin-top: -27px;
       }
     }
-<<<<<<< HEAD
-    p {
-      margin-top: 20px;
-      margin-left: 230px;
-      font-size: 14px;
-      line-height: 5px;
-    }
-    .type {
-      p {
-        height: 40px;
-=======
     p{
       margin-top: 13px;
       margin-left: 230px;
@@ -394,7 +323,6 @@ export default {
         height: 25px;
         color:#f6fafd;
         margin-top: 15px;
->>>>>>> 0dd9925844b2a3a6e833c878d933cbaac112ee6b
         line-height: 25px;
         margin-left: 10px;
         border-radius: 3px;
@@ -407,13 +335,9 @@ export default {
       background-color: #ff591b;
       margin-left: 230px;
       border-radius: 5px;
-<<<<<<< HEAD
-      a {
-=======
       position: absolute;
       margin-top: 100px;
       a{
->>>>>>> 0dd9925844b2a3a6e833c878d933cbaac112ee6b
         font-size: 13px;
         color: #fff;
         text-decoration: none;
