@@ -7,7 +7,9 @@
           <p class="homePer">首页/个人主页</p>
           <!-- 个人信息 -->
           <li class="perIma">
-            <div class="headPor"></div>
+            <div class="headPor">
+              <img :src="imageUrl" alt="">
+            </div>
             <p class="perPnoNum">13800138000</p>
           </li>
           <!-- 业务 -->
@@ -46,11 +48,11 @@
           <ul class="settings">
             <li class="photo">
               <p>当前头像：</p>
-              <el-upload class="avatar-uploader" action="/xinda-api/member/info" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+              <el-upload class="avatar-uploader" action="/xinda-api/member/update-info" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                 <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>  
               </el-upload>
-              <a href="#" class="reminder">上传图片只能是小于2MB的JPG格式</a>
+              <a href="#" class="reminder">上传图片小于2MB</a>
             </li>
             <li class="name">
               <p>姓名：</p>
@@ -130,15 +132,20 @@ export default {
   created() {
     // 验证登录信息
     this.ajax.post('/xinda-api/sso/login-info').then(data => {
-      // console.log(data.data.data)
+      console.log(data.data.data)
       this.status = data.data.status
       // console.log('status==',this.status);
     })
+
+    // if(localStorage.getItem('headImg')){
+    //   this.imageUrl = localStorage.getItem('headImg');
+    // }
+    
   },
   methods: {
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-      console.log("Success" + this.imageUrl)
+    handleAvatarSuccess(res, file,fileList) {
+      this.imageUrl = file.url;
+      console.log("Success" + this.imageUrl,file,res,fileList) 
     },
     beforeAvatarUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 2;
@@ -179,7 +186,6 @@ export default {
     emailFocus: function() {
      this.emailErr = '\u2736';
     },
-    // 地址设置
     //地址验证
     proChange() {
       //  省
@@ -213,12 +219,11 @@ export default {
           this.addErr = '地址不能为空';
         }else if (this.username != '' &&emailReg.test(this.email)&& this.seleCode != '') {
           // 判断头像是否更换
-          // this.imageUrl.match('Successblob') ? this.imageUrl = this.imageUrl:this.imageUrl = head;
-          if(this.imageUrl.match('Successblob')){
-            this.imageUrl = 'Successblob:http://localhost:8080/3376f961-ebe2-43b2-90e6-27b18814b86b'
-          }else{
-            this.imageUrl = this.imageUrl
-          }
+          // if(this.imageUrl.match('blob')){
+          //   this.imageUrl =head; 
+          // }else{
+          //   this.imageUrl = this.imageUrl;
+          // }
           console.log('this.imageUrl=',this.imageUrl)
           this.ajax.post('/xinda-api/member/update-info', this.qs.stringify({ headImg: this.imageUrl, name: this.username, gender: this.radio, email: this.email, regionId: this.seleCode })).then(data => {
             console.log(data.data)
@@ -231,11 +236,8 @@ export default {
               })
               this.word = true;
               this.message = '操作成功';
-              // var head = {};
-              // head.url = this.imageUrl;
-              // localStorage.setItem(head.url,JSON.stringify(head))
-              // this.imageUrl = head.url;
-              console.log(head)
+              console.log('save this.imageUrl',this.imageUrl);
+              localStorage.setItem('headImg',this.imageUrl)
             }else{
               this.word = false;
             }
@@ -244,7 +246,6 @@ export default {
       }
     }
   }
-
 }
 </script>
 
@@ -294,7 +295,12 @@ li {
     margin: 9px auto;
     width: 96px;
     height: 96px;
-    background: url(../images/memCen.png) -14px -12px no-repeat;
+    // background: url(../images/memCen.png) -14px -12px no-repeat;
+    img{
+      width: 100%;
+      height: 100%;
+      border-radius: 50%
+    }
   }
   .perPnoNum {
     font-size: 16px;

@@ -4,6 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+
+
 import store from './store'
 import qs from 'qs'
 //三级联动插件
@@ -11,6 +13,8 @@ import dist from './images/districts'
 //轮播部分插件引入
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 Vue.use(VueAwesomeSwiper)
+
+
 //输入验证插件
 import Validator from 'vue-validator'
 Vue.use(Validator)
@@ -18,6 +22,11 @@ Vue.use(Validator)
 import ElementUI from 'element-ui'
 Vue.use(ElementUI);
 
+
+//elementui
+import Elementui from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(Elementui)
 
 Vue.prototype.ajax=axios
 Vue.prototype.qs=qs
@@ -31,9 +40,6 @@ new Vue({
   template: '<App/>',
   components: { App },
  
-});
-Vue.validator('tel', function (val) {
-  return /^[0-9]{11}$/.test(val)
 });
 
 

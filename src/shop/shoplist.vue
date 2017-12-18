@@ -3,13 +3,15 @@
     <div class="list-head">
       <p>首页 / 店铺列表</p>
       <div class="ge1">
-        <div class="fir"><b>服务区域</b></div>
+        <div class="fir">
+          <b>服务区域</b>
+        </div>
         <div class="adress">
-          <select  @change="proChange" v-model="province">
+          <select @change="proChange" v-model="province">
             <option value="0">省</option>
             <option :value="code" v-for="(province,code) in provinces" :key="province.code">{{province}}</option>
           </select>
-          <select  @change="cityChange" v-model="city">
+          <select @change="cityChange" v-model="city">
             <option value="0">市</option>
             <option :value="code" v-for="(city,code) in citys" :key="city.code">{{city}}</option>
           </select>
@@ -20,25 +22,40 @@
         </div>
       </div>
       <div class="ge2">
-        <div class="fir"><b>产品类型</b>
-          <div class="leixing"><p>所有</p><p v-for="name in names" :key="name.id">{{name}}</p></div>
+        <div class="fir">
+          <b>产品类型</b>
+          <div class="leixing">
+            <p>所有</p>
+            <p v-for="name in names" :key="name.id">{{name}}</p>
+          </div>
         </div>
       </div>
       <div class="bigge">
         <div class="ge3">
-          <div class="forms"><p> 综合排序</p><span></span></div>
-          <div class="forms"><p> 价格↓↓</p><span></span></div>
-          <div class="forms"><p> 接单数↑↑</p><span></span></div>
+          <div class="forms">
+            <p> 综合排序</p>
+            <span></span>
+          </div>
+          <div class="forms">
+            <p> 价格↓↓</p>
+            <span></span>
+          </div>
+          <div class="forms">
+            <p> 接单数↑↑</p>
+            <span></span>
+          </div>
         </div>
         <div class="bigges">
           <div class="box" v-for="store in stores" :key="store.id">
             <span class="logoimg"><img :src="'http://115.182.107.203:8088/xinda/pic'+store.providerImg" alt=""></span>
-            <span class="jinpai"><img src="../images/shop/jinpai.gif"><p>金牌服务商</p></span>
+            <span class="jinpai"><img src="../images/shop/jinpai.gif">
+              <p>金牌服务商</p>
+            </span>
             <p>{{store.providerName}}</p>
-            <p>信誉</p>
+            <p>信誉</p><div class="xinyu"><img src="../images/shop/xinyu.gif" alt=""></div>
             <p>{{store.regionName}}</p>
             <p>累计服务客户次数：{{store.orderNum}} | 好评率：100%</p>
-            <div class="type"><p>{{store.productTypes}}</p></div>
+            <div class="type"><p v-for="pro in store.productTypes" :key="pro.id" >{{pro}}</p></div>
             <div class="store"><a href="#/inner/shophome">进入店铺</a></div>
           </div>
         </div>
@@ -49,41 +66,52 @@
         <a>下一页</a>
       </div>
     </div>
-    <router-view/> 
+    <router-view/>
   </div>
 </template>
 
 <script>
-  
-import dist from '../images/districts'
+import dist from "../images/districts";
 
 export default {
-  created(){
-    var that=this;
-    this.ajax.post("/xinda-api/product/style/list",{}).then(function(data){
-      var ser=data.data.data;
+  created() {
+    var that = this;
+    this.ajax.post("/xinda-api/product/style/list", {}).then(function(data) {
+      var ser = data.data.data;
       // console.log(ser);
-      var names=[];
-      for(var key in ser){
-        var name=ser[key].itemList;
+      var names = [];
+      for (var key in ser) {
+        var name = ser[key].itemList;
         // console.log(ser);
-        for(var vice in name){
+        for (var vice in name) {
           names.push(name[vice].name);
           // conaole.log(name)
         }
       }
-      that.names=names;
-      console.log(names)
+      that.names = names;
+      console.log(names);
     });
-    this.ajax.post("/xinda-api/provider/grid", this.qs.stringify({//数据地址
-        start: 0,//数据参数
-        limit: 6
-      })).then(function(data) {//data=>{}
-       
+    this.ajax
+      .post(
+        "/xinda-api/provider/grid",
+        this.qs.stringify({
+          //数据地址
+          start: 0, //数据参数
+          limit: 6
+        })
+      )
+      .then(function(data) {
+        //data=>{}
+
         var box = data.data.data;
-         that.stores = box;
         console.log('box',box);
+        for( var key in box){
+          box[key].productTypes=box[key].productTypes.split(",");
+          console.log(box[key].productTypes);
+        }
+        that.stores = box;
         });
+        // that.box=box;
   },
   data(){
     return{
@@ -93,24 +121,35 @@ export default {
     citys:[],
     areas:[],
     province:'0',
-    city:'0'
+    city:'0',
     }
   },
-  methods:{
-    proChange(){
-      this.citys = dist[this.province];
+  methods: {
+    proChange() {
+      this.city = "0";
+      this.area = "0";
+      if (this.province != "0") {
+        this.citys = dist[this.province];
+      } else {
+        this.citys = [];
+        this.areas = [];
+      }
     },
-    cityChange(){
-      this.areas=dist[this.city];
-    },
+    cityChange() {
+      this.areas = dist[this.city];
+    }
   }
-}
+};
 </script>
 
 <style  lang="less">
+.shoplist {
+  width: 1200px;
+  margin: 0 auto;
+}
 .list-head p {
   text-align: left;
-  margin-left: 90px;
+  //margin-left: 90px;
   color: #000;
   font-size: 13px;
   margin-top: 26px;
@@ -120,7 +159,7 @@ export default {
   height: 40px;
   background-color: #f7f7f7;
   border: 1px solid #ccc;
-  margin-left: 90px;
+  //margin-left: 90px;
   margin-top: 7px;
 }
 .ge2 {
@@ -129,7 +168,7 @@ export default {
   background-color: #f7f7f7;
   border: 1px solid #ccc;
   border-top: hidden;
-  margin-left: 90px;
+  //margin-left: 90px;
 }
 
 .fir {
@@ -163,31 +202,15 @@ export default {
   border-radius: 3px;
   background-color: #2693d4;
 }
-// .liandong {
-//   margin-top: -42px;
-//   margin-left: 120px;
-//   position: absolute;
-//   select {
-//     float: left;
-//     font-size: 14px;
-//     line-height: 22px;
-//     height: 25px;
-//     padding: 0;
-//     width: 90px;
-//     height: 25px;
-//     margin-top: 10px;
-//     margin-left: 6px;
-//   }
-// }
 .adress{
   margin-left:130px;
   margin-top:-35px;
   position: absolute;
-  select{
-    border:1px solid #cdcdcd;
-    width:130px;
-    height:30px;
-    margin-right:10px;
+  select {
+    border: 1px solid #cdcdcd;
+    width: 130px;
+    height: 30px;
+    margin-right: 10px;
   }
 }
 .ge3 {
@@ -195,16 +218,16 @@ export default {
   height: 40px;
   background-color: #f7f7f7;
   border: 1px solid #ccc;
-  margin-left: 90px;
+  //margin-left: 90px;
   margin-top: 25px;
   text-align: left;
-  .forms{
+  .forms {
     display: inline-block;
-    width:100px;
+    width: 100px;
     height: 40px;
     // background-color: #2693d4;
-    border-radius:3px;
-    p{
+    border-radius: 3px;
+    p {
       font-size: 14px;
       line-height: 40px;
       position: relative;
@@ -212,22 +235,22 @@ export default {
       margin-top: -2px;
       text-align: center;
     }
-    span{
-      margin-left:40px;
+    span {
+      margin-left: 40px;
       display: block;
       border-bottom: 9px solid transparent;
       border-left: 9px solid transparent;
       border-top: 9px solid #2693d4;
       border-right: 9px solid transparent;
       position: absolute;
-      display:none;
+      display: none;
     }
   }
 }
-.ge3 .forms:hover{
+.ge3 .forms:hover {
   background-color: #2693d4;
 }
-.ge3 .forms:hover span{
+.ge3 .forms:hover span {
   display: block;
 }
 .bigges {
@@ -237,7 +260,7 @@ export default {
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   border-right: 1px solid #ccc;
-  margin-left: 90px;
+  //margin-left: 90px;
   .box {
     width: 570px;
     height: 250px;
@@ -245,78 +268,99 @@ export default {
     margin-left: 17px;
     margin-top: 12px;
     float: left;
-    .logoimg{
-      
-      // margin-left: -360px;
+    .logoimg{ 
       margin-top: 50px;
       float: left;
-      margin-left:30px;
-      img{
-        width:130px;
+      margin-left: 30px;
+      img {
+        width: 130px;
         height: 70px;
       }
     }
-    .jinpai{
+    .jinpai {
       margin-top: 70px;
       float: left;
-      margin-left: -230px;
+      margin-left: -200px;
       margin-top: 180px;
       position: relative;
-      img{
-        width:30px;
+      img {
+        width: 30px;
         height: 35px;
-        
+        margin-left: 20px;
       }
       p{
-        font-size: 14px;
+        font-size: 13px;
         margin-left: 155px;
         margin-top: -27px;
       }
     }
     p{
-      margin-top: 20px;
+      margin-top: 13px;
       margin-left: 230px;
-      font-size: 14px;
-      line-height:5px;
+      font-size: 13px;
+      line-height: 10px;
+      text-align: left;
     }
-    .type{
-      p{
-        height:40px;
-        line-height: 25px;
+    .xinyu{
+      margin-top: -17px;
+      
+      img{
+        margin-left: -110px;
+
       }
     }
-    .store{
-      width:100px;
+    .type{
+      display: flex;
+      margin-left: 220px;
+      flex-wrap: wrap;
+      position: absolute;
+      width:370px;
+      clear: both;
+      p {
+        font-size: 13px;
+        text-align: center;
+        width: 70px;
+        height: 25px;
+        color:#f6fafd;
+        margin-top: 15px;
+        line-height: 25px;
+        margin-left: 10px;
+        border-radius: 3px;
+        background-color: #2693d4;
+      }
+    }
+    .store {
+      width: 100px;
       height: 33px;
       background-color: #ff591b;
       margin-left: 230px;
-      margin-top: 25px;
       border-radius: 5px;
+      position: absolute;
+      margin-top: 100px;
       a{
         font-size: 13px;
-        color:#fff;
+        color: #fff;
         text-decoration: none;
         line-height: 31px;
       }
     }
   }
 }
-.lastbutton{
+.lastbutton {
   height: 35px;
   margin: 50px auto 130px;
-  a{
+  a {
     height: 35px;
-    border:1px solid #cccccc;
+    border: 1px solid #cccccc;
     background-color: #ffffff;
-    padding:10px 15px;
-    color:#000;
+    padding: 10px 15px;
+    color: #000;
     cursor: pointer;
   }
 }
-.lastbutton a:hover{
-  color:red;
+.lastbutton a:hover {
+  color: red;
 }
-
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
