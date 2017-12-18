@@ -173,12 +173,12 @@ export default {
 
     },
     praverpage(){ //上一页
-      // this.changepage+=1
+      // this.changepage-=1
       this.changepage<=0?this.changepage:this.changepage-=1
       getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
     },
     nexpage(){  //下一页
-      // this.changepage-=1
+      // this.changepage+=1
       this.changepage>=this.totle.allpage-1?this.changepage:this.changepage+=1;
       getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
     },
@@ -186,6 +186,7 @@ export default {
       this.changepage=index
       // this.showborder=index   //当前页数提示样式
       getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
+      console.log(this.changepage)
     },
     zonghe(){ //综合排序
       this.paixu=2

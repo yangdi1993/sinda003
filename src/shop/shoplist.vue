@@ -26,7 +26,7 @@
           <b>产品类型</b>
           <div class="leixing">
             <p>所有</p>
-            <p v-for="name in names" :key="name.id">{{name}}</p>
+            <p :class="{bluebg:name}"v-for="name in names" :key="name.id" @click="changebg">{{name}} </p>
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@ export default {
         }
       }
       that.names = names;
-      console.log(names);
+      // console.log(names);
     });
     this.ajax
       .post(
@@ -104,10 +104,10 @@ export default {
         //data=>{}
 
         var box = data.data.data;
-        console.log('box',box);
+        // console.log('box',box);
         for( var key in box){
           box[key].productTypes=box[key].productTypes.split(",");
-          console.log(box[key].productTypes);
+          // console.log(box[key].productTypes);
         }
         that.stores = box;
         });
@@ -137,6 +137,9 @@ export default {
     },
     cityChange() {
       this.areas = dist[this.city];
+    },
+    changebg(){
+      console.log(this.name)
     }
   }
 };
@@ -200,6 +203,10 @@ export default {
 }
 .leixing p:hover {
   border-radius: 3px;
+  background-color: #2693d4;
+  cursor: pointer;
+}
+.click{
   background-color: #2693d4;
 }
 .adress{
@@ -303,7 +310,6 @@ export default {
     }
     .xinyu{
       margin-top: -17px;
-      
       img{
         margin-left: -110px;
 
