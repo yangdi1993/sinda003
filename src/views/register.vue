@@ -32,7 +32,6 @@
           <span>{{codeErr}}</span>
         </li>
         <li class="android-wheel">
-          <!--<v-distpicker class="select" province="省" city="市" area="区" @selected="onSelected"></v-distpicker>-->
           <div class="adress">
             <select @change="proChange" v-model="province">
               <option value="0">省</option>
@@ -81,11 +80,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mapActions } from 'vuex';
+// 密码明码暗码图片切换
 const eye = [
   require('../images/login/invisible.png'),
   require('../images/login/visible.png'),
 ];
+// 引入三级联动数据
 import dist from '../images/districts';
+// 密码加密
 var md5 = require('md5');
 export default {
   name: 'HelloWorld',
@@ -224,6 +226,7 @@ export default {
     //地址验证
     proChange() {
       //  省
+      // console.log(code)
       this.citys = dist[this.province];
       this.city = "0";
       this.area = "0";

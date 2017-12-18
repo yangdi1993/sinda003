@@ -48,9 +48,9 @@
           <ul class="settings">
             <li class="photo">
               <p>当前头像：</p>
-              <el-upload class="avatar-uploader" action="/xinda-api/member/info" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+              <el-upload class="avatar-uploader" action="/xinda-api/member/update-info" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                 <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>  
               </el-upload>
               <a href="#" class="reminder">上传图片小于2MB</a>
             </li>
@@ -136,11 +136,16 @@ export default {
       this.status = data.data.status
       // console.log('status==',this.status);
     })
+
+    // if(localStorage.getItem('headImg')){
+    //   this.imageUrl = localStorage.getItem('headImg');
+    // }
+    
   },
   methods: {
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-      console.log("Success" + this.imageUrl)
+    handleAvatarSuccess(res, file,fileList) {
+      this.imageUrl = file.url;
+      console.log("Success" + this.imageUrl,file,res,fileList) 
     },
     beforeAvatarUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 2;
@@ -214,12 +219,11 @@ export default {
           this.addErr = '地址不能为空';
         }else if (this.username != '' &&emailReg.test(this.email)&& this.seleCode != '') {
           // 判断头像是否更换
-          // this.imageUrl.match('Successblob') ? this.imageUrl = this.imageUrl:this.imageUrl = head;
-          if(this.imageUrl.match('blob')){
-            this.imageUrl = this.imageUrl
-          }else{
-            this.imageUrl = 'blob:http://localhost:8080/ab209253-a503-45d1-9abc-5e90611db509';
-          }
+          // if(this.imageUrl.match('blob')){
+          //   this.imageUrl =head; 
+          // }else{
+          //   this.imageUrl = this.imageUrl;
+          // }
           console.log('this.imageUrl=',this.imageUrl)
           this.ajax.post('/xinda-api/member/update-info', this.qs.stringify({ headImg: this.imageUrl, name: this.username, gender: this.radio, email: this.email, regionId: this.seleCode })).then(data => {
             console.log(data.data)
@@ -232,11 +236,8 @@ export default {
               })
               this.word = true;
               this.message = '操作成功';
-              var head = {};
-              head.url = this.imageUrl;
-              sessionStorage.setItem(this.imageUrl,JSON.stringify(head))
-              this.imageUrl = head.url;
-              console.log(head)
+              console.log('save this.imageUrl',this.imageUrl);
+              localStorage.setItem('headImg',this.imageUrl)
             }else{
               this.word = false;
             }
