@@ -7,20 +7,20 @@
         </p>
       </div>
       <div class="content">
-        <div class="g-img"><img src="../images/paypage/u1182.png" alt=""></div>
+        <div class="g-img"><img :src="'http://115.182.107.203:8088/xinda/pic' + products.img" alt=""></div>
         <div class="main">
           <div>
-            <p class="name">代理记账（半年）</p>
+            <p class="name">{{providerProducts.serviceName}}</p>
           </div>
           <div>
-            <p class="mingxi">6个月小规模企业代理记账业务</p>
+            <p class="mingxi">{{providerProducts.serviceInfo}}</p>
           </div>
           <div class="rate">
             <p>市场价：
-              <span class="line-through ">￥900</span>
+              <span class="line-through ">￥{{products.marketPrice}}</span>
             </p>
             <p>价格：
-              <span class="price">￥800.00</span>元</p>
+              <span class="price">￥{{providerProducts.price}}</span>元</p>
           </div>
           <div class="types">类型：
             <div class="type type-fir">代理记账（半年）</div><br>
@@ -29,32 +29,43 @@
           </div>
           <div class="area">
             <p>地区：
-              <span class="place">北京-北京市-朝阳区</span>
+              <span class="place">{{}}</span>
             </p>
           </div>
           <div class="number">购买数量：
-            <input type="text" v-model="quantity" v-on:blur="counts">
+           <button>-</button><input type="text"><button>+</button>
           </div>
-          <div class="buy">立即购买</div>
-          <div class="add">加入购物车</div>
+          <div class="buy" v-on:click="buy()">立即购买</div>
+          <div class="add" v-on:click="add()">加入购物车</div>
         </div>
         <div class="service">
           <p class="fir">顶级服务商</p>
           <p class="sec">北京信达服务中心</p>
           <div class="consult">马上咨询</div>
           <div class="search">
-            <div>查看服务商</div>
+            <div>
+              <a href="#/inner/shophome">查看服务商</a>
+            </div>
           </div>
         </div>
+        <!-- <div class="advice">
+          <div class="ad-top">
+            <div>免费电话咨询</div>
+            <div>X</div>
+          </div>
+
+        </div> -->
       </div>
       <div class="bg-img"><img src="../images/paypage/u1225.png" alt=""></div>
       <div class="proservice">
         <div class="kuang">
-          <div class="touch fir">服务内容</div>
-          <div class="touch sec">商品评价</div>
+          <el-radio-group v-model="tabPosition" style="margin-bottom: 30px; margin-right:1000px;">
+            <el-radio-button label="top" v-on:click="changefir">服务列表</el-radio-button>
+            <el-radio-button label="" v-on:click="changesec">商品评价</el-radio-button>
+          </el-radio-group>
         </div>
-        <div class="serviceCon" style="display:none">服务内容： <br>1.整理原始票据 <br>2.记账 <br>3.装订凭证 <br>4.出报表 <br>5.月报、季度企业所得税、年度汇算清缴 <br>6.打印总帐、明晰账本 </div>
-        <div class="userRating">
+        <div class="serviceCon">服务内容： <br>1.整理原始票据 <br>2.记账 <br>3.装订凭证 <br>4.出报表 <br>5.月报、季度企业所得税、年度汇算清缴 <br>6.打印总帐、明晰账本 </div>
+        <div class="userRating" style="display:none">
           <div class="con">
             <p class="main-fir">
               <span>0%</span>好评</p>
@@ -88,9 +99,9 @@
               </thead>
               <tbody>
                 <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{{111}}</td>
+                  <td>{{111}}</td>
+                  <td>{{111}}</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -105,44 +116,80 @@
             </table>
           </div>
         </div>
-
       </div>
-
     </div>
     <router-view/>
   </div>
 </template>
 
+
 <script>
+import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 export default {
   name: "HelloWorld",
   data() {
     return {
       msg: "Welcome to Your Vue.js App",
       quantity: 1,
-      products:[]
+      products: {},
+      isA: true,
+      num1: 1,
+      tabPosition: "top",
+      providerProducts: {},
     };
   },
   methods: {
+    //购买数量
+    handleChange(value) {
+      console.log(value);
+    },
     counts: function() {
+      var Quantity = document.querySelector(".Quantity");
       if (/^\+?[1-9]\d*$/.test(this.quantity)) {
-        console.log(this);
+        //console.log(this);
         this.quantity = "";
       } else {
         this.quantity = this.quantity;
       }
+    },
+    changefir: function() {},
+    changesec: function() {},
+    buy: function() {
+      location.href = "#/inner/paypage";
     }
   },
+  //获取商品详情
   created() {
-    // console.log('created');
+    // var that = this;
+    // this.ajax
+    //   .post(
+    //     "/xinda-api/product/package/detail",
+    //     this.qs.stringify({
+    //     sId:'0cb85ec6b63b41fc8aa07133b6144ea3'
+    //     })
+    //   )
+    //   .then(data => {
+    //     var rData = data.data.data;
+    //     console.log(rData);
+    //     that.details = rData;
+    //   });
+
     var that = this;
     this.ajax
-      .post("http://115.182.107.203:8088/xinda/xinda-api/product/judge/grid").then(function(data) {
-        var rData = data.data.data;
-        console.log(rData);
-        that.products = rData;
+      .post(
+        "/xinda-api/product/package/detail",
+        this.qs.stringify({ sId: this.$route.query.id }) //this.$route.query.id
+      )
+      .then(function(data) {
+        that.products = data.data.data.product;
+        that.providerProducts=data.data.data.providerProduct;
+        console.log(that.products);
+        // console.log(this.$route.query.id);
       });
-  }
+  },
+  //加入购物车
+  add() {}
 };
 </script>
 
@@ -165,8 +212,12 @@ export default {
 }
 .content {
   margin-top: 20px;
+  height: 400px;
+  width: 1200px;
 }
 .g-img {
+  width: 525px;
+  height: 393px;
   img {
     width: 525px;
     height: 393px;
@@ -316,6 +367,10 @@ export default {
       margin-top: 23px;
       margin-left: 44px;
       cursor: pointer;
+      a {
+        text-decoration: none;
+        color: white;
+      }
     }
   }
 }
@@ -337,7 +392,7 @@ export default {
   height: 41px;
   border-bottom: 1px solid #ccc;
   background-color: #f7f7f7;
-  .fir {
+  .t-fir {
     //display: block;
     width: 135px;
     line-height: 41px;
@@ -345,10 +400,25 @@ export default {
     color: white;
     cursor: pointer;
   }
-  .sec {
+  .t-Fir {
     width: 135px;
     line-height: 41px;
     color: #636363;
+    cursor: pointer;
+  }
+  .t-sec {
+    width: 135px;
+    line-height: 41px;
+    color: #636363;
+    cursor: pointer;
+    margin-left: 135px;
+    margin-top: -41px;
+  }
+  .t-Sec {
+    width: 135px;
+    line-height: 41px;
+    background-color: #2693d4;
+    color: white;
     cursor: pointer;
     margin-left: 135px;
     margin-top: -41px;
@@ -359,61 +429,17 @@ export default {
   margin-left: 10px;
   line-height: 35px;
   color: #333;
-  height: 0;
-  width: 0;
+  height: 120px;
+  width: 790px;
 }
 .userRating {
   float: left;
   //line-height: 120px;
   // margin-left: -530px;
   // margin-top: 400px;
-  width: 1200px;
-  height: 90px;
+  width: 1200px; //1200
+  height: 790px; //790
 }
-.con {
-  float: left;
-  width: 1170px;
-  height: 90px;
-  .main-fir {
-    color: #169bd5;
-    font-size: 16px;
-    line-height: 80px;
-    width: 80px;
-    span {
-      font-size: 35px;
-    }
-  }
-  .main-sec {
-    margin-left: 80px;
-    margin-top: -85px;
-    color: #646464;
-    border-right: 1px solid #bcbcbc;
-    width: 800px;
-    height: 86px;
-    p {
-      line-height: 30px;
-    }
-    div {
-      width: 165px;
-      height: 20px;
-      background-color: #e4e4e4;
-      //display: block;
-      margin-left: 90px;
-      margin-top: -23px;
-    }
-  }
-  .main-thd {
-    margin-left: 900px;
-    width: 160px;
-    height: 86px;
-    margin-top: -85px;
-    color: #4b4b4b;
-    p {
-      line-height: 40px;
-    }
-  }
-}
-
 .list {
   //margin-left: 530px;
   float: left;
@@ -447,6 +473,51 @@ export default {
       display: flex;
       justify-content: space-around;
       line-height: 45px;
+    }
+  }
+}
+.con {
+  //float: left;
+  width: 1170px;
+  height: 90px;
+  .main-fir {
+    margin-left: 20px;
+    color: #169bd5;
+    font-size: 16px;
+    line-height: 80px;
+    width: 80px;
+    span {
+      font-size: 35px;
+    }
+  }
+  .main-sec {
+    margin-left: 80px;
+    margin-top: -85px;
+    color: #646464;
+    border-right: 1px solid #bcbcbc;
+    width: 800px;
+    height: 86px;
+    p {
+      line-height: 30px;
+      margin-right: 550px;
+    }
+    div {
+      width: 165px;
+      height: 20px;
+      background-color: #e4e4e4;
+      //display: block;
+      margin-left: 170px;
+      margin-top: -23px;
+    }
+  }
+  .main-thd {
+    margin-left: 900px;
+    width: 160px;
+    height: 86px;
+    margin-top: -85px;
+    color: #4b4b4b;
+    p {
+      line-height: 40px;
     }
   }
 }

@@ -50,8 +50,7 @@ import shophome from '@/shop/shophome'
 import join from '@/shop/join'
 // 会员中心-用户评价-去评价
 import goEvalu from '@/memberCenter/goEvalu'
-//省市区三级联动
-Vue.component('v-distpicker', Distpicker)
+
 
 
 //省市区三级联动

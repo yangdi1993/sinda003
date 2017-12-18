@@ -313,6 +313,7 @@ export default {
         this.pwErr = '密码不能为空';
       }
       // 判断注册条件
+
       else if (phoneReg.test(this.phoneVal)) {
         // 注册验证借口
         this.ajax.post('/xinda-api/register/valid-sms', this.qs.stringify({ cellphone: this.phoneVal, smsType: 1, validCode: 111111 })).then(data => {
