@@ -32,10 +32,10 @@
         </div>
       </div>
       <div class="ihead-bottom">
-        <router-link to="/inner/homepage" @mouseover.native="allProduce" @mouseout.native="produceOut" active-class="active">全部产品</router-link>
-        <router-link  to="/inner/list" active-class="active" @click="caishui">财税服务</router-link>
-        <router-link to="/inner/list"  active-class="active" @click="company">公司工商</router-link>
-        <router-link  to="/inner/join" active-class="active">加盟我们</router-link>
+        <router-link :to="{path:'/inner/homepage',query: { num:  1} }" @mouseover.native="allProduce" @mouseout.native="produceOut" active-class="active">全部产品</router-link>
+        <router-link :to="{path:'/inner/list1',query: { num:  1}}" active-class="active" @click.native="caishui">财税服务</router-link>
+        <router-link :to="{path:'/inner/list2',query: { num:  2}}"  active-class="active" @click.native="company">公司工商</router-link>
+        <router-link to="/inner/join" active-class="active">加盟我们</router-link>
         <router-link to="/inner/shoplist"  active-class="active">店铺</router-link>
         <transition name="fold">
           <div class="allProduce" v-show="produce" @mouseover="allProduce" @mouseout="produceOut">
@@ -46,10 +46,10 @@
                 <span class="knows-logo"></span>
                 <span class="social-logo"></span>
               </div>
-              <div class="row1" v-for="(product,index) in products" :key="product.id" @click="onechoose(index)">
+              <router-link :to="{path:'/inner/list'+index,query: { num:  index}}"  tag="a" class="row1" v-for="(product,index) in products" :key="product.id" @click="onechoose(index)">
                 <div class="first" >
                   <p>{{product.name}}</p>
-                  <span class="row2" v-for="(product,index) in product.itemList" :key="product.id">
+                  <span class="row2" v-for="(product) in product.itemList" :key="product.id">
                     <span>{{product.name}}</span>
                   </span>
                 </div>
@@ -63,7 +63,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </router-link>
             </div>
           </div>
         </transition>
@@ -86,6 +86,7 @@ export default {
       active:'active',
       products:[],
       nowcity:[],
+      number:1,
       // onechoose:1,  //列表页数据一级选择
     }
   },
@@ -120,10 +121,14 @@ export default {
     changeCity(){
     },
     caishui(){  //财税服务
-      sessionStorage.setItem('index',1)
+      this.number=1
+      sessionStorage.setItem('index',this.number)
+      // console.log(sessionStorage.getItem('index',this.number))
     },
     company(){  //公司工商
-      sessionStorage.setItem('index',2)
+      this.number=2
+      sessionStorage.setItem('index',this.number)
+      // console.log(sessionStorage.getItem('index',this.number))
     },
     onechoose(index){  //全部产品点击
       sessionStorage.setItem('index',index)

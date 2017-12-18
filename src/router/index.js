@@ -15,8 +15,16 @@ import register from '@/views/register'
 import forget from '@/views/forget'
 //主页
 import homepage from '@/homepage/homepage'
-//列表页
-import list from '@/homepage/list'
+//列表页,由全部产品 跳转
+// import list from '@/homepage/list'
+//列表页,由财税服务 跳转
+import list1 from '@/homepage/list'
+//列表页,由公司工商跳转 跳转
+import list2 from '@/homepage/list'
+//列表页,由公司工商跳转 跳转
+import list3 from '@/homepage/list'
+//列表页,由公司工商跳转 跳转
+import list4 from '@/homepage/list'
 
 //支付页面
 import paypage from '@/paypage/paypage'
@@ -77,11 +85,35 @@ export default new Router({
           name: 'homepage',
           component: homepage
         },
-        //列表页
+        // //列表页,由全部产品 跳转
+        // {
+        //   path: 'list',
+        //   name: 'list',
+        //   component: list
+        // },
+        //列表页,由财税服务 跳转
         {
-          path: 'list',
-          name: 'list',
-          component: list
+          path: 'list1',
+          name: 'list1',
+          component: list1
+        },
+        //列表页,由公司工商 跳转
+        {
+          path: 'list2',
+          name: 'list2',
+          component: list2
+        },
+        //列表页,由公司工商 跳转
+        {
+          path: 'list3',
+          name: 'list3',
+          component: list3
+        },
+        //列表页,由公司工商 跳转
+        {
+          path: 'list4',
+          name: 'list4',
+          component: list4
         },
         // 会员中心-我的订单
         {

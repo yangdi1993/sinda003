@@ -42,7 +42,7 @@
           <span>商品</span>
           <span>价格</span>
         </div>
-        <div class="menuinner" v-for="(listobj,key,index) in listobjsA.page" :key="listobj.providerName">
+        <div class="menuinner" v-for="(listobj,key,index) in listobjsA.page" :key="listobj.id">
           <span class="bgimg"><img :src="'http://115.182.107.203:8088/xinda/pic'+listobj.productImg" @error="errorimg()" alt=""></span>
           <div class="innertext">
             <p class="innertitle">{{listobj.providerName}}</p>
@@ -60,7 +60,7 @@
       </div>
       <div class="btnpage"> <!-- 翻页器 -->
         <button class="pravicepage" @click="praverpage">上一页</button>
-        <button :class="{bluebd:index==changepage}" v-for="(page,key,index) in pagecount.allshow" :key="page.id" class="pagenum" @click="choosepage(index)">{{page}}</button>
+        <button :class="{bluebd:index==changepage}" v-for="(page,index) in pagecount.allshow" :key="page.id" class="pagenum" @click="choosepage(index)">{{page}}</button>
         <button class="nextpage" @click="nexpage">下一页</button>
       </div>
     </div>
@@ -92,6 +92,7 @@ export default {
       url:'xinda-api/product/package/grid', //数据获取地址
       productId:'', //点击三级标题需要的
       productTypeCode:0,  //code值，点击二级标题需要的
+      // nowindex:sessionStorage.getItem('index'),
 
       provinces:dist[100000],
       citys:[],
@@ -100,6 +101,58 @@ export default {
       city:'0'
     }
   },
+  watch:{
+    $route:function(){
+      // var index=sessionStorage.getItem('index')
+      var index=this.$route.query.num
+      console.log(index)
+      var that = this;
+      var oneobj={}
+      var objs={};
+      var y=0
+      var x=0;
+      this.ajax.post('xinda-api/product/style/list').then(function(data){
+        var rData=data.data.data
+        // console.log(rData)
+        for(var i in rData){ //获取所有二级内容，并且合并到一个对象里
+          y=rData[i].showOrder
+          oneobj[y]=rData[i]
+        }
+        var n = oneobj[index].itemList// console.log(n)
+        that.objs=n
+        // console.log(oneobj)   //此时为{1：{}，2：{}，3：{}，4：{}}，已经排序
+        //n为此时应显示的二级内容
+        
+        for(var j in n){
+          objs[x]=n[j]
+          x++
+        }
+        // console.log(n)
+        // console.log(objs[0])
+        that.innerobjs=objs[0].itemList
+
+
+        that.url='xinda-api/product/package/grid' //定义数据地址
+        var numb=0
+        for(var i in n){
+          if(numb==0){
+            that.productTypeCode=n[i].code
+          }
+          numb++
+        }
+        that.productId=""
+        // that.productTypeCode=0
+        getData(that.listobjsA,0,3,2,that.url,that.totle,that.pagecount,that.productId,that.productTypeCode)
+      });
+      // this.url='xinda-api/product/package/grid' //定义数据地址
+      // getData(this.listobjsA,0,3,2,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
+    }
+  },
+  // computed:{
+  //   nowindex:function(){
+  //     return sessionStorage.getItem('index')
+  //   }
+  // },
   methods:{
     typeclasses(index,key){
       // console.log(this.objs[index].itemList)
@@ -154,9 +207,9 @@ export default {
     },
   },
   created(){
-      var index=sessionStorage.getItem('index')
-      console.log(index)  
-
+    // this.nowindex=sessionStorage.getItem('index')
+    // console.log('qqq',this.nowindex)
+    this.nowindex=this.$route.query.num
     var that = this;
     var oneobj={}
     var objs={};
@@ -169,21 +222,45 @@ export default {
         y=rData[i].showOrder
         oneobj[y]=rData[i]
       }
-      var n = oneobj[index].itemList// console.log(n)
+      var n = oneobj[that.nowindex].itemList// console.log(n)
       that.objs=n
       // console.log(oneobj)   //此时为{1：{}，2：{}，3：{}，4：{}}，已经排序
       //n为此时应显示的二级内容
-
+      
       for(var j in n){
         objs[x]=n[j]
         x++
       }
-      console.log(n)
-      console.log(objs[0])
+      // console.log(n)
+      // console.log(objs[0])
       that.innerobjs=objs[0].itemList
+      // console.log(n)
+
+
+      that.url='xinda-api/product/package/grid' //定义数据地址
+      var numb=0
+      for(var i in n){
+        if(numb==0){
+          that.productTypeCode=n[i].code
+        }
+        numb++
+      }
+      that.productId=""
+      // that.productTypeCode=0
+      getData(that.listobjsA,0,3,2,that.url,that.totle,that.pagecount,that.productId,that.productTypeCode)
     });
-    this.url='xinda-api/product/package/grid' //定义数据地址
-    getData(this.listobjsA,0,3,2,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
+    // this.url='xinda-api/product/package/grid' //定义数据地址
+    // // // var numb=0
+    // // // for(var i in n){
+    //     // if(numb==0){
+    //     //   that.productTypeCode=n[i].code
+    //     //   console.log(that.productTypeCode)
+    //     // }
+    //     // numb++
+    // // // }
+    // this.productId=""
+    // this.productTypeCode=0
+    // getData(this.listobjsA,0,3,2,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
   }
 }
 </script>
@@ -265,6 +342,8 @@ export default {
   }
 }
 .adress{  //三级联动
+margin: 0;
+position: relative;
   select{
     width: 170px;
     height: 30px;

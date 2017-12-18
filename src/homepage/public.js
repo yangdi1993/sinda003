@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 import qs from 'qs'
 
 export default function getData(listobjsA,changepage=0,much=3,sort=2,url,alltotle,allpagecount,productId,productTypeCode){
@@ -11,7 +10,7 @@ export default function getData(listobjsA,changepage=0,much=3,sort=2,url,alltotl
     axios.post(url,qs.stringify({
         start:changepage*3,
         limit:much,
-        productTypeCode: productTypeCode,
+        productTypeCode: productTypeCode, 
         productId:productId,
         sort:sort,
     })).then(function(data){
@@ -21,10 +20,9 @@ export default function getData(listobjsA,changepage=0,much=3,sort=2,url,alltotl
           pagecount[i]=i+1
         }
         alltotle.allpage=totle  //总页数
-        allpagecount.allshow=pagecount  //总页数对象z
+        allpagecount.allshow=pagecount  //总页数对象z{0:1,1:2,2:3....60:61}
         var rData=data.data.data
         // console.log(rData)
         listobjsA.page=rData   //数据
     })
-
 }
