@@ -29,7 +29,7 @@
         <div class="shophome-right2">
           <div class="rights"v-show="servicePro1">
             <div class="box"v-for="list in box" :key="list.id">
-              <p>{{list.serviceName}}</p>
+              <div class="serviceName"><p>{{list.serviceName}}</p></div>
               <img src="../images/shop/chang.gif" alt="">
               <div class="jianjie"><p>{{list.serviceInfo}}</p></div>
               <div class="xiaoliang"><p>销量：{{list.buyNum}}</p></div>
