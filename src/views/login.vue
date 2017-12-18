@@ -78,7 +78,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setNum', 'setName']),
+    ...mapActions([ 'setName']),
     //点击更换图片验证码
     buttonChange: function() {
       this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
@@ -174,9 +174,12 @@ export default {
             // this.ajax.post('/xinda-api/sso/login-info').then(data => {
             //   console.log(data.data.data)
             // })
+            // var that=this
+            // this.ajax.post('xinda-api/cart/cart-num').then(function(data){
+            //   that.setNum(data.data.data.cartNum)  //购物车物品数量
+            // })
             sessionStorage.setItem('userPhone', this.loginPhone)  //此处为登录状态信息，登陆后判断状态是否为登录
             location.replace('/#/inner/homepage')
-            this.setNum(0)  //购物车物品数量
             this.setName(this.loginPhone)
             this.$router.push({ path: '/inner/homepage' });
           } else {

@@ -43,9 +43,9 @@
           <span>价格</span>
         </div>
         <div class="menuinner" v-for="(listobj,key,index) in listobjsA.page" :key="listobj.id">
-          <span class="bgimg"><img :src="'http://115.182.107.203:8088/xinda/pic'+listobj.productImg" @error="errorimg()" alt=""></span>
+          <router-link :to="{path:'/inner/Detail',query:{id:listobj.id}}" class="bgimg"><img :src="'http://115.182.107.203:8088/xinda/pic'+listobj.productImg" @error="errorimg()" alt=""></router-link>
           <div class="innertext">
-            <p class="innertitle">{{listobj.providerName}}</p>
+            <router-link :to="{path:'/inner/Detail',query:{id:listobj.id}}" class="innertitle">{{listobj.providerName}}</router-link>
             <p class="innermore">{{listobj.serviceInfo}}</p>
             <p class="innermore"><span>{{listobj.serviceName}}</span><span>{{listobj.regionName}}</span></p>
           </div>
@@ -53,7 +53,7 @@
             <p>￥ {{listobj.marketPrice}}.00</p>
             <div>
               <a href="#/inner/paypage" class="buynow">立即购买</a>
-              <a href="javascript:void(0)">加入购物车</a>
+              <a href="javascript:void(0)" @click="addCart">加入购物车</a>
             </div>
           </div>
         </div>
@@ -157,6 +157,9 @@ export default {
   //   }
   // },
   methods:{
+    addCart(){  // 加入购物车
+      console.log((this.listobjsA.page)[0])
+    },
     typeclasses(index,key){
       // console.log(this.objs[index].itemList)
       this.innerobjs=this.objs[key].itemList
@@ -213,9 +216,28 @@ export default {
 
 
 
+<<<<<<< HEAD
      this.ajax.post('xinda-api/cart/list').then(function(data){
       console.log(data.data)
     })
+=======
+
+    this.ajax.post('xinda-api/cart/add',this.qs.stringify({
+      id:"df83301e5efe45ce8a94ac0d2816f043",
+		  num:11
+    })).then(function(data){
+      console.log(2,data.data)
+    })
+    this.ajax.post('xinda-api/cart/cart-num').then(function(data){
+      console.log(1,data.data.data.cartNum)
+    })
+    this.ajax.post('xinda-api/cart/list').then(function(data){
+      console.log(3,data.data)
+    })
+
+
+
+>>>>>>> bdde06aa78019f997762be431d50db8c82d15abb
     // this.nowindex=sessionStorage.getItem('index')
     // console.log('qqq',this.nowindex)
     this.nowindex=this.$route.query.num
@@ -438,6 +460,10 @@ position: relative;
       display: flex;
       align-content: space-between;
       flex-wrap: wrap;
+      a{
+        width: 100%;
+        text-decoration: none;
+      }
       p{
         width: 100%;
       }

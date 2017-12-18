@@ -73,6 +73,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 var btn=document.querySelector('.iheadbtn')
 // btn.onenter=function(){
   // console.log(123)
@@ -108,10 +110,16 @@ export default {
       var rData=data.data.data
       // console.log(rData);
       that.nowcity=rData;
+    });
+    var that=this
+    this.ajax.post('xinda-api/cart/cart-num').then(function(data){
+      that.setNum(data.data.data.cartNum)  //购物车物品数量
     })
   },
 
   methods:{
+    ...mapActions(['setNum','setName']),
+
     allProduce(){
       this.produce = true;
     },
