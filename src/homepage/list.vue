@@ -6,17 +6,31 @@
         <div class="typeclass">
           <p>服务分类</p>
           <div >
-            <span :class="{bluebg:index==showclass}" v-for="(obj,key,index) in objs" :key="obj.id" @click="typeclasses(index)">{{obj.name}}</span>
+            <span :class="{bluebg:index==showclass}" v-for="(obj,key,index) in objs" :key="obj.id" @click="typeclasses(index,key)">{{obj.name}}</span>
           </div>
         </div>
         <div class="typekind">
           <p>类型</p>
           <div>
-            <span :class="{bluebg:index==showkind}" v-for="(innerobj,key,index) in innerobjs" :key="innerobj.id" @click="typekinds(index)">{{innerobj.name}}</span>
+            <span :class="{bluebg:index==showkind}" v-for="(innerobj,key,index) in innerobjs" :key="innerobj.id" @click="typekinds(index,key)">{{innerobj.name}}</span>
           </div>
         </div>
         <div class="typearea">
           <p>服务区域</p>
+          <div class="adress">
+            <select  @change="proChange" v-model="province">
+              <option value="0">省</option>
+              <option :value="code" v-for="(province,code) in provinces" :key="province.code">{{province}}</option>
+            </select>
+            <select  @change="cityChange" v-model="city">
+              <option value="0">市</option>
+              <option :value="code" v-for="(city,code) in citys" :key="city.code">{{city}}</option>
+            </select>
+            <select>
+              <option value="0">区</option>
+              <option :value="code" v-for="(area,code) in areas" :key="area.code">{{area}}</option>
+            </select>
+          </div>
         </div>
       </div>
       <div class="listmenu">   <!-- 靠下的部分 -->
@@ -28,7 +42,7 @@
           <span>商品</span>
           <span>价格</span>
         </div>
-        <div class="menuinner" v-for="(listobj,key,index) in listobjsA.page" :key="listobj.providerName">
+        <div class="menuinner" v-for="(listobj,key,index) in listobjsA.page" :key="listobj.id">
           <span class="bgimg"><img :src="'http://115.182.107.203:8088/xinda/pic'+listobj.productImg" @error="errorimg()" alt=""></span>
           <div class="innertext">
             <p class="innertitle">{{listobj.providerName}}</p>
@@ -38,7 +52,7 @@
           <div class="innerpay">
             <p>￥ {{listobj.marketPrice}}.00</p>
             <div>
-              <a href="#/inner/Alipay" class="buynow">立即购买</a>
+              <a href="#/inner/paypage" class="buynow">立即购买</a>
               <a href="javascript:void(0)">加入购物车</a>
             </div>
           </div>
@@ -46,7 +60,7 @@
       </div>
       <div class="btnpage"> <!-- 翻页器 -->
         <button class="pravicepage" @click="praverpage">上一页</button>
-        <button :class="{bluebd:index==showborder}" v-for="(page,key,index) in pagecount.allshow" :key="page.id" class="pagenum" @click="choosepage(index)">{{page}}</button>
+        <button :class="{bluebd:index==changepage}" v-for="(page,index) in pagecount.allshow" :key="page.id" class="pagenum" @click="choosepage(index)">{{page}}</button>
         <button class="nextpage" @click="nexpage">下一页</button>
       </div>
     </div>
@@ -58,13 +72,14 @@
 
 <script>
 import getData from './public'
+import dist from '../images/districts'
 export default {
   data () {
     return {
       objs:[],
       innerobjs:[],
       showclass:0,
-      showkind:0,
+      showkind:-1,
       listobjs:[],
       listobjsA:{page:''},
       totle:{allpage:0},
@@ -72,18 +87,87 @@ export default {
       pagecount:{allshow:{}},  //总页数对象
       changepage:0,  //点击之后选择的页数
       paixu:2,  //排序方式
-      autopaixu:1,
+      autopaixu:1,  //点击排序的方式
       daosanjian:true,
+      url:'xinda-api/product/package/grid', //数据获取地址
+      productId:'', //点击三级标题需要的
+      productTypeCode:0,  //code值，点击二级标题需要的
+      // nowindex:sessionStorage.getItem('index'),
+
+      provinces:dist[100000],
+      citys:[],
+      areas:[],
+      province:'0',
+      city:'0'
     }
   },
+  watch:{
+    $route:function(){
+      // var index=sessionStorage.getItem('index')
+      var index=this.$route.query.num
+      console.log(index)
+      var that = this;
+      var oneobj={}
+      var objs={};
+      var y=0
+      var x=0;
+      this.ajax.post('xinda-api/product/style/list').then(function(data){
+        var rData=data.data.data
+        // console.log(rData)
+        for(var i in rData){ //获取所有二级内容，并且合并到一个对象里
+          y=rData[i].showOrder
+          oneobj[y]=rData[i]
+        }
+        var n = oneobj[index].itemList// console.log(n)
+        that.objs=n
+        // console.log(oneobj)   //此时为{1：{}，2：{}，3：{}，4：{}}，已经排序
+        //n为此时应显示的二级内容
+        
+        for(var j in n){
+          objs[x]=n[j]
+          x++
+        }
+        // console.log(n)
+        // console.log(objs[0])
+        that.innerobjs=objs[0].itemList
+
+
+        that.url='xinda-api/product/package/grid' //定义数据地址
+        var numb=0
+        for(var i in n){
+          if(numb==0){
+            that.productTypeCode=n[i].code
+          }
+          numb++
+        }
+        that.productId=""
+        // that.productTypeCode=0
+        getData(that.listobjsA,0,3,2,that.url,that.totle,that.pagecount,that.productId,that.productTypeCode)
+      });
+      // this.url='xinda-api/product/package/grid' //定义数据地址
+      // getData(this.listobjsA,0,3,2,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
+    }
+  },
+  // computed:{
+  //   nowindex:function(){
+  //     return sessionStorage.getItem('index')
+  //   }
+  // },
   methods:{
-    typeclasses(index){
+    typeclasses(index,key){
       // console.log(this.objs[index].itemList)
-      this.innerobjs=this.objs[index].itemList
+      this.innerobjs=this.objs[key].itemList
       this.showclass=index
+      this.showkind=-1
+      this.productTypeCode=this.objs[key].code
+      this.productId=''
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)      
     },
-    typekinds(index){
+    typekinds(index,key){
       this.showkind=index
+      this.productId=this.innerobjs[key].id
+      this.productTypeCode=0
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)      
     },
     errorimg(){ //图片路径错误时报错事件 
 
@@ -91,52 +175,92 @@ export default {
     praverpage(){ //上一页
       // this.changepage+=1
       this.changepage<=0?this.changepage:this.changepage-=1
-      getData(this.listobjsA,this.changepage,3,this.paixu,'xinda-api/product/package/grid',this.totle,this.pagecount)
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
     },
     nexpage(){  //下一页
       // this.changepage-=1
       this.changepage>=this.totle.allpage-1?this.changepage:this.changepage+=1;
-      getData(this.listobjsA,this.changepage,3,this.paixu,'xinda-api/product/package/grid',this.totle,this.pagecount)
-      console.log(this.totle.allpage)
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
     },
     choosepage(index){  //点击页数
       this.changepage=index
-      this.showborder=index
-      getData(this.listobjsA,this.changepage,3,this.paixu,'xinda-api/product/package/grid',this.totle,this.pagecount)
+      // this.showborder=index   //当前页数提示样式
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
     },
     zonghe(){ //综合排序
       this.paixu=2
       this.autopaixu=1
       this.daosanjian=true
-      getData(this.listobjsA,this.changepage,3,this.paixu,'xinda-api/product/package/grid',this.totle,this.pagecount)
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
     },
     upprice(){ //升价排序
       this.paixu=3
       this.autopaixu=2
       this.daosanjian=false
-      getData(this.listobjsA,this.changepage,3,this.paixu,'xinda-api/product/package/grid',this.totle,this.pagecount)
-    }
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
+    },
+    proChange(){
+      this.citys = dist[this.province];
+    },
+    cityChange(){
+      this.areas=dist[this.city];
+    },
   },
   created(){
+    // this.nowindex=sessionStorage.getItem('index')
+    // console.log('qqq',this.nowindex)
+    this.nowindex=this.$route.query.num
     var that = this;
+    var oneobj={}
     var objs={};
+    var y=0
     var x=0;
     this.ajax.post('xinda-api/product/style/list').then(function(data){
       var rData=data.data.data
-      // console.log(rData);
+      // console.log(rData)
       for(var i in rData){ //获取所有二级内容，并且合并到一个对象里
-        var n = rData[i].itemList
-        // console.log(n)
-        for(var j in n){
-          objs[x]=n[j]
-          x++
-        }
+        y=rData[i].showOrder
+        oneobj[y]=rData[i]
       }
-      that.objs=objs
+      var n = oneobj[that.nowindex].itemList// console.log(n)
+      that.objs=n
+      // console.log(oneobj)   //此时为{1：{}，2：{}，3：{}，4：{}}，已经排序
+      //n为此时应显示的二级内容
+      
+      for(var j in n){
+        objs[x]=n[j]
+        x++
+      }
+      // console.log(n)
+      // console.log(objs[0])
       that.innerobjs=objs[0].itemList
-    });
+      // console.log(n)
 
-    getData(this.listobjsA,0,3,2,'xinda-api/product/package/grid',this.totle,this.pagecount)
+
+      that.url='xinda-api/product/package/grid' //定义数据地址
+      var numb=0
+      for(var i in n){
+        if(numb==0){
+          that.productTypeCode=n[i].code
+        }
+        numb++
+      }
+      that.productId=""
+      // that.productTypeCode=0
+      getData(that.listobjsA,0,3,2,that.url,that.totle,that.pagecount,that.productId,that.productTypeCode)
+    });
+    // this.url='xinda-api/product/package/grid' //定义数据地址
+    // // // var numb=0
+    // // // for(var i in n){
+    //     // if(numb==0){
+    //     //   that.productTypeCode=n[i].code
+    //     //   console.log(that.productTypeCode)
+    //     // }
+    //     // numb++
+    // // // }
+    // this.productId=""
+    // this.productTypeCode=0
+    // getData(this.listobjsA,0,3,2,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
   }
 }
 </script>
@@ -147,10 +271,7 @@ export default {
   background: #2693d4;
   color: #fff;
 }
-.bluebd{
-  color: #2693d4;
-  border: 1px solid #2693d4;
-}
+
 .listbody{
   width: 1200px;
   margin: 0 auto;
@@ -218,6 +339,16 @@ export default {
         background: #2693d4;
       }
     }
+  }
+}
+.adress{  //三级联动
+margin: 0;
+position: relative;
+  select{
+    width: 170px;
+    height: 30px;
+    border: 1px solid #999;
+    margin-left: 20px;
   }
 }
 .listmenu{
@@ -356,6 +487,10 @@ export default {
   margin: 0 3px;
   background: #fff;
   cursor: pointer;
+  }
+  .bluebd{
+    color: #2693d4;
+    border: 1px solid #2693d4;
   }
 }
 .pravicepage{//下一页与上一页

@@ -74,6 +74,7 @@
 
 <script>
 import ihead from '../components/ihead';
+var md5 = require('md5');
 const eye = [
 require('../images/login/invisible.png'),
 require('../images/login/visible.png'),
@@ -195,7 +196,8 @@ export default {
       } else if (this.conPw == '') {
         this.verErr = '确认密码不能为空';
       } else if (newPwReg.test(this.newPw) && this.newPw == this.conPw) {
-        this.ajax.post('/xinda-api/sso/change-pwd', this.qs.stringify({ oldPwd: this.password, newPwd: this.newPw })).then(data => {
+        this.ajax.post('/xinda-api/sso/change-pwd', this.qs.stringify({ 
+          oldPwd: md5(this.password), newPwd: md5(this.newPw) })).then(data => {
           console.log(data.data)
           if (data.data.status == -999) {
             this.password = '';
@@ -203,7 +205,7 @@ export default {
             this.conPw = '';
             this.verErr = '未登录账号';
           } else if (data.data.status == -1) {
-            this.verErr = '旧密码错误';
+            this.oldErr = '旧密码错误';
           } else if (data.data.status == 1) {
             this.success = true;
             this.password = '';

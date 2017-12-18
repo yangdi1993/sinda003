@@ -32,10 +32,10 @@
         </div>
       </div>
       <div class="ihead-bottom">
-        <router-link to="/inner/homepage" @mouseover.native="allProduce" @mouseout.native="produceOut" active-class="active">全部产品</router-link>
-        <router-link  to="/inner/list" active-class="active">财税服务</router-link>
-        <router-link to="/inner/list"  active-class="active">公司工商</router-link>
-        <router-link  to="/inner/join" active-class="active">加盟我们</router-link>
+        <router-link :to="{path:'/inner/homepage',query: { num:  1} }" @mouseover.native="allProduce" @mouseout.native="produceOut" active-class="active">全部产品</router-link>
+        <router-link :to="{path:'/inner/list1',query: { num:  1}}" active-class="active" @click.native="caishui">财税服务</router-link>
+        <router-link :to="{path:'/inner/list2',query: { num:  2}}"  active-class="active" @click.native="company">公司工商</router-link>
+        <router-link to="/inner/join" active-class="active">加盟我们</router-link>
         <router-link to="/inner/shoplist"  active-class="active">店铺</router-link>
         <transition name="fold">
           <div class="allProduce" v-show="produce" @mouseover="allProduce" @mouseout="produceOut">
@@ -46,10 +46,10 @@
                 <span class="knows-logo"></span>
                 <span class="social-logo"></span>
               </div>
-              <div class="row1" v-for="product in products" :key="product.id">
-                <div class="first">
+              <router-link :to="{path:'/inner/list'+index,query: { num:  index}}"  tag="a" class="row1" v-for="(product,index) in products" :key="product.id" @click="onechoose(index)">
+                <div class="first" >
                   <p>{{product.name}}</p>
-                  <span class="row2" v-for="product in product.itemList" :key="product.id">
+                  <span class="row2" v-for="(product) in product.itemList" :key="product.id">
                     <span>{{product.name}}</span>
                   </span>
                 </div>
@@ -63,7 +63,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </router-link>
             </div>
           </div>
         </transition>
@@ -79,6 +79,17 @@ var btn=document.querySelector('.iheadbtn')
 // }
 export default {
   name: 'HelloWorld',
+  data () {
+    return {
+      msg: 'Welcome to Your Vue.js App',
+      produce:false,
+      active:'active',
+      products:[],
+      nowcity:[],
+      number:1,
+      // onechoose:1,  //列表页数据一级选择
+    }
+  },
   created(){
     // console.log('created');
     var that=this
@@ -99,15 +110,7 @@ export default {
       that.nowcity=rData;
     })
   },
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App',
-      produce:false,
-      active:'active',
-      products:[],
-      nowcity:[],
-    }
-  },
+
   methods:{
     allProduce(){
       this.produce = true;
@@ -116,9 +119,23 @@ export default {
       this.produce = false;
     },
     changeCity(){
-      console.log(123);
-      
-    }
+    },
+    caishui(){  //财税服务
+      this.number=1
+      sessionStorage.setItem('index',this.number)
+      // console.log(sessionStorage.getItem('index',this.number))
+    },
+    company(){  //公司工商
+      this.number=2
+      sessionStorage.setItem('index',this.number)
+      // console.log(sessionStorage.getItem('index',this.number))
+    },
+    onechoose(index){  //全部产品点击
+      sessionStorage.setItem('index',index)
+      this.$router.push('/inner/list')
+      this.produce = false;
+    },
+
   }
 }
 </script>
@@ -272,17 +289,23 @@ export default {
     height: 38px;
     text-align: left;
     position: relative;
-    a{
+    >a{
       font-size: 18px;
       color: #000;
       padding: 8px 0;
       font-family: '黑体';
       margin: 0 62px;
+      border-bottom: 3px solid #fff;
       text-decoration: none;
       line-height: 38px;
+      
       &.active{
-        color: #2693d4;border-bottom: 4px solid #2693d4
+        color: #2693d4;
+        border-bottom: 4px solid #2693d4
       }
+    }
+    a{
+      text-decoration: none;
     }
   }
 }
@@ -326,6 +349,7 @@ export default {
     .first{
       width: 160px;
       padding: 15px 0 15px 40px;
+      cursor: pointer;
     }
 
     .row2{
