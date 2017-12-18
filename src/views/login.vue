@@ -185,6 +185,7 @@ export default {
         this.lphoneErr = '手机号格式错误';
       }
       // 判断登录条件
+
       //判断手机号存在
       this.ajax.post('/xinda-api/sso/login', this.qs.stringify({ loginId: this.loginPhone, password: this.loginPw, imgCode: this.codeImage })).then(data => {
         console.log(data.data.msg, data.data.status)

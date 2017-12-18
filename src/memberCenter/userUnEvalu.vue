@@ -39,8 +39,8 @@
           </div>
           <!-- 评价表头 -->
           <div class="evaluHead">
-              <a href="#/userUnEvalu"><div class="unvalued">未评价</div></a>
-              <a href="#/userHavaEvalu"><div class="haveEvalu">已评价</div></a>
+              <a href="#/inner/userUnEvalu"><div class="unvalued">未评价</div></a>
+              <a href="#/inner/userHavaEvalu"><div class="haveEvalu">已评价</div></a>
               <span></span>
           </div>
           <!-- 评价插入-已评价 -->
@@ -55,7 +55,7 @@
                 <p class="buyTime">购买时间：{{evaOrder.name}}</p>
               </li>
               <li class="orderInsFo">
-                <a href="#/goEvalu"><input type="button" value="去评价" ></a> 
+                <a href="#/inner/goEvalu"><input type="button" value="去评价" ></a> 
               </li>
           </ul>
           <!-- 翻页 -->
@@ -193,11 +193,13 @@ export default {
      font-weight: bold;
      color: #3e9bd6;
      margin-left: 10px;
-     padding: 5px 27px;
+     padding: 7px 27px;
      border-bottom: 2px solid #3e9bd6;
    }
  }
-
+ .perBusTh{
+   background-color: #f7f7f7;
+ }
  .pageTurn{
   //  width: 300px;
    height: 36px;
