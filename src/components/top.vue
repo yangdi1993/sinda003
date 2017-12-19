@@ -18,7 +18,7 @@
           <span class="logo-order"></span>
           <a href="#/inner/myOrder"  style="color:#000;margin:0;" v-show="getName">我的订单</a>
         </a>
-        <a href="#/inner/homepage" class="facilitator">服务商入口</a>
+        <a href="#/inner/shoplist" class="facilitator">服务商入口</a>
       </div>
     </div>
   </div>
@@ -75,6 +75,8 @@ export default {
   width: 100%;
   height: 30px;
   font-family: '宋体';
+  position: fixed;
+  z-index: 20;
   .top-in{
     width: 1200px;
     height: 100%;

@@ -8,7 +8,7 @@ export default function getData(listobjsA,changepage=0,much=3,sort=2,url,alltotl
     //alltotle为应分的页数，即this.totle，必填；allpagecount为页数的对象，即this.pagecount，必填；
     var that=this
     axios.post(url,qs.stringify({
-        start:changepage*6,
+        start:changepage*number,
         limit:much,
         productTypeCode: productTypeCode, 
         productId:productId,
@@ -22,7 +22,6 @@ export default function getData(listobjsA,changepage=0,much=3,sort=2,url,alltotl
         alltotle.allpage=totle  //总页数
         allpagecount.allshow=pagecount  //总页数对象z{0:1,1:2,2:3....60:61}
         var rData=data.data.data
-        console.log(rData)
         listobjsA.page=rData   //数据
     })
 }
