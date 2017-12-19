@@ -15,6 +15,7 @@ export default function getData(listobjsA,changepage=0,much=3,sort=2,url,alltotl
         sort:sort,
     })).then(function(data){
         var totle=Math.ceil(data.data.totalCount/3)   //总页数
+        // console.log(data.data)
         var pagecount={}  //翻页器的对象
         for(var i=0;i<totle;i++){
           pagecount[i]=i+1
@@ -22,7 +23,6 @@ export default function getData(listobjsA,changepage=0,much=3,sort=2,url,alltotl
         alltotle.allpage=totle  //总页数
         allpagecount.allshow=pagecount  //总页数对象z{0:1,1:2,2:3....60:61}
         var rData=data.data.data
-        console.log(rData)
         listobjsA.page=rData   //数据
     })
 }

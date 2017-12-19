@@ -42,7 +42,7 @@
           <span>商品</span>
           <span>价格</span>
         </div>
-        <div class="menuinner" v-for="(listobj,key,index) in listobjsA.page" :key="listobj.id">
+        <div class="menuinner" v-for="(listobj,key) in listobjsA.page" :key="listobj.id">
           <router-link :to="{path:'/inner/Detail',query:{id:listobj.id}}" class="bgimg"><img :src="'http://115.182.107.203:8088/xinda/pic'+listobj.productImg" @error="errorimg()" alt=""></router-link>
           <div class="innertext">
             <router-link :to="{path:'/inner/Detail',query:{id:listobj.id}}" class="innertitle">{{listobj.providerName}}</router-link>
@@ -53,29 +53,47 @@
             <p>￥ {{listobj.marketPrice}}.00</p>
             <div>
               <a href="#/inner/paypage" class="buynow">立即购买</a>
-              <a href="javascript:void(0)" @click="addCart">加入购物车</a>
+              <a href="javascript:void(0)" @click="addCart(listobj.id)" >加入购物车</a>
             </div>
           </div>
         </div>
       </div>
       <div class="btnpage"> <!-- 翻页器 -->
-        <button class="pravicepage" @click="praverpage">上一页</button>
+        <button class="pravicepage" @click="praverpage">上一页</button>  
         <button :class="{bluebd:index==changepage}" v-for="(page,index) in pagecount.allshow" :key="page.id" class="pagenum" @click="choosepage(index)">{{page}}</button>
         <button class="nextpage" @click="nexpage">下一页</button>
       </div>
     </div>
     <div class="rightlist"> <!-- 右边带图的那几个 -->
-
+      <div class="rightlistinner">
+        <div class="listInnerLogo innerLogo1"></div>
+        <p>平台担保</p>
+      </div>
+      <div class="rightlistinner">
+        <div class="listInnerLogo innerLogo2"></div>
+        <p>平台担保</p>
+      </div>
+      <div class="rightlistinner">
+        <div class="listInnerLogo innerLogo3"></div>
+        <p>平台担保</p>
+      </div>
+      <div class="rightlistinner">
+        <div class="listInnerLogo innerLogo4"></div>
+        <p>平台担保</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 import getData from './public'
 import dist from '../images/districts'
 export default {
   data () {
     return {
+      
       objs:[],
       innerobjs:[],
       showclass:0,
@@ -93,6 +111,7 @@ export default {
       productId:'', //点击三级标题需要的
       productTypeCode:0,  //code值，点击二级标题需要的
       // nowindex:sessionStorage.getItem('index'),
+      
 
       provinces:dist[100000],
       citys:[],
@@ -105,7 +124,7 @@ export default {
     $route:function(){
       // var index=sessionStorage.getItem('index')
       var index=this.$route.query.num
-      console.log(index)
+      // console.log(index)
       var that = this;
       var oneobj={}
       var objs={};
@@ -148,14 +167,17 @@ export default {
       // getData(this.listobjsA,0,3,2,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
     }
   },
-  // computed:{
-  //   nowindex:function(){
-  //     return sessionStorage.getItem('index')
-  //   }
-  // },
   methods:{
-    addCart(){  // 加入购物车
-      console.log((this.listobjsA.page)[0])
+    ...mapActions(['setNum','setName']),
+    addCart(id){  // 加入购物车
+    this.ajax.post('xinda-api/cart/add',this.qs.stringify({
+      id:id,
+		  num:1
+    }))
+    var that=this
+    this.ajax.post('xinda-api/cart/cart-num').then(function(data){
+      that.setNum(data.data.data.cartNum)  //购物车物品数量,点击加入购物车后自动更新
+    })
     },
     typeclasses(index,key){
       // console.log(this.objs[index].itemList)
@@ -214,23 +236,29 @@ export default {
 
 
 
-    this.ajax.post('xinda-api/cart/add',this.qs.stringify({
-      id:"df83301e5efe45ce8a94ac0d2816f043",
-		  num:11
-    })).then(function(data){
-      console.log(2,data.data)
-    })
-    this.ajax.post('xinda-api/cart/cart-num').then(function(data){
-      console.log(1,data.data.data.cartNum)
-    })
+    // this.ajax.post('xinda-api/cart/add',this.qs.stringify({
+    //   id:"df83301e5efe45ce8a94ac0d2816f043",
+		//   num:11
+    // })).then(function(data){
+    //   console.log(2,data.data)
+    // })
+    // this.ajax.post('xinda-api/cart/cart-num').then(function(data){
+    //   console.log(1,data.data.data.cartNum)
+    // })
     this.ajax.post('xinda-api/cart/list').then(function(data){
-      console.log(3,data.data)
+      var alldata=data.data.data
+      console.log(3,data.data.data)
     })
+    // this.ajax.post('xinda-api/business-order/grid').then(function(data){
+    //   console.log(4,data.data)
+    // })
 
 
 
-    // this.nowindex=sessionStorage.getItem('index')
-    // console.log('qqq',this.nowindex)
+
+
+
+
     this.nowindex=this.$route.query.num
     var that = this;
     var oneobj={}
@@ -304,9 +332,41 @@ export default {
     width: 950px;
   }
   .rightlist{
-    width: 238px;
-    height: 700px;
-    margin-top: 46px;
+    width: 171px;
+    height: 650px;
+    padding: 0 29px;
+    margin-top: 44px;
+    border: 1px solid #ccc;
+    .rightlistinner{
+      width: 100%;
+      height: 145px;
+      border-bottom: 1px solid #ccc;
+      @url:url(../images/homepage/listLogo.png) 100% 100% no-repeat;
+      .listInnerLogo{
+        width: 94px;
+        height: 94px;
+        margin: 15px auto 30px;
+        border-radius: 50%;
+        background: #f9f9f9 @url;
+      }
+      .innerLogo1{
+        background-position: 10px 18px;
+      }
+      .innerLogo2{
+        background-position: 10px -80px;
+      }
+      .innerLogo3{
+        background-position: 10px -165px;
+      }
+      .innerLogo4{
+        background-position: 10px -257px;
+      }
+      p{
+        font-size: 17px;
+        color:#000;
+        font-weight: 700;
+      }
+    }
   }
 }
 .listtop{
