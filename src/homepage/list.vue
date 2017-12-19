@@ -42,7 +42,7 @@
           <span>商品</span>
           <span>价格</span>
         </div>
-        <div class="menuinner" v-for="(listobj,key) in listobjsA.page" :key="listobj.id">
+        <div class="menuinner" v-for="(listobj) in listobjsA.page" :key="listobj.id">
           <router-link :to="{path:'/inner/Detail',query:{id:listobj.id}}" class="bgimg"><img :src="'http://115.182.107.203:8088/xinda/pic'+listobj.productImg" @error="errorimg()" alt=""></router-link>
           <div class="innertext">
             <router-link :to="{path:'/inner/Detail',query:{id:listobj.id}}" class="innertitle">{{listobj.providerName}}</router-link>
@@ -151,6 +151,8 @@ export default {
         that.innerobjs=objs[0].itemList
 
 
+       
+
         that.url='xinda-api/product/package/grid' //定义数据地址
         var numb=0
         for(var i in n){
@@ -161,8 +163,9 @@ export default {
         }
         that.productId=""
         // that.productTypeCode=0
-        getData(that.listobjsA,0,3,2,that.url,that.totle,that.pagecount,that.productId,that.productTypeCode)
+        getData(that.listobjsA,0,3,2,that.url,that.totle,that.pagecount,that.productId,that.productTypeCode,3)
       });
+      
       // this.url='xinda-api/product/package/grid' //定义数据地址
       // getData(this.listobjsA,0,3,2,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
     }
@@ -186,43 +189,44 @@ export default {
       this.showkind=-1
       this.productTypeCode=this.objs[key].code
       this.productId=''
-      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)      
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode,3)      
     },
     typekinds(index,key){
       this.showkind=index
       this.productId=this.innerobjs[key].id
       this.productTypeCode=0
-      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)      
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode,3)      
     },
     errorimg(){ //图片路径错误时报错事件 
 
     },
     praverpage(){ //上一页
-      // this.changepage+=1
+      // this.changepage-=1
       this.changepage<=0?this.changepage:this.changepage-=1
-      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode,3)
     },
     nexpage(){  //下一页
-      // this.changepage-=1
+      // this.changepage+=1
       this.changepage>=this.totle.allpage-1?this.changepage:this.changepage+=1;
-      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode,3)
     },
     choosepage(index){  //点击页数
       this.changepage=index
       // this.showborder=index   //当前页数提示样式
-      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode,3)
+      console.log(this.changepage)
     },
     zonghe(){ //综合排序
       this.paixu=2
       this.autopaixu=1
       this.daosanjian=true
-      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode,3)
     },
     upprice(){ //升价排序
       this.paixu=3
       this.autopaixu=2
       this.daosanjian=false
-      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode,3)
     },
     proChange(){
       this.citys = dist[this.province];
@@ -236,22 +240,10 @@ export default {
 
 
 
-    // this.ajax.post('xinda-api/cart/add',this.qs.stringify({
-    //   id:"df83301e5efe45ce8a94ac0d2816f043",
-		//   num:11
-    // })).then(function(data){
-    //   console.log(2,data.data)
-    // })
-    // this.ajax.post('xinda-api/cart/cart-num').then(function(data){
-    //   console.log(1,data.data.data.cartNum)
-    // })
     this.ajax.post('xinda-api/cart/list').then(function(data){
       var alldata=data.data.data
       console.log(3,data.data.data)
     })
-    // this.ajax.post('xinda-api/business-order/grid').then(function(data){
-    //   console.log(4,data.data)
-    // })
 
 
 
@@ -297,7 +289,7 @@ export default {
       }
       that.productId=""
       // that.productTypeCode=0
-      getData(that.listobjsA,0,3,2,that.url,that.totle,that.pagecount,that.productId,that.productTypeCode)
+      getData(that.listobjsA,0,3,2,that.url,that.totle,that.pagecount,that.productId,that.productTypeCode,3)
     });
     // this.url='xinda-api/product/package/grid' //定义数据地址
     // // // var numb=0
