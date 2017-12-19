@@ -59,7 +59,7 @@
             <li>订单操作</li>
           </ul>
           <!-- 订单插入 -->
-          <div id='orderInsert' v-for="(item,idx) in rDataSh" :key="item.cardTypeName">
+          <div v-for="item in rDataSh" :key="item.id">
             <!-- 删除 弹出框 -->
               <div class="duihuakuang" v-show="isShow">
                 <div class="confirmIma">
@@ -98,7 +98,7 @@
           <!-- 翻页 -->
           <div class="pageTurn">
             <button class="prePage" @click="prePageBtn()">上一页</button>
-            <button class="pageNum" >{{""}}</button>
+            <button class="pageNum" v-for="(pageO,index) in pageOAll" :key="pageO.id" @click="cliPaNo(index)">{{pageO}}</button>
             <button class="nextPage" @click="nextPageBtn()">下一页</button>
             <div class="toPageDiv">共{{toPage}}页</div>
           </div>
@@ -118,7 +118,7 @@ import getData from '../homepage/public'
 export default {
   data(){
     return{
-      index:-1,
+      index:0,
       // 全部数据
       rData:[],
       // 当前页要显示的数据
@@ -129,13 +129,12 @@ export default {
       orSerInVal:"",
       // 搜索数据
       searchShow:true,
-      // // 接口数据全部
-      // rData:[],
-      // // 接口数据显示
-      // rDataSh:[],
+      // 订单编号
       businessNo:'',
+      // 共几页
       toPage:"",
-      indexPage:0
+      // 页数
+      pageOAll:[]
     }
   },
   created(){
@@ -156,21 +155,23 @@ export default {
         var second=now.getSeconds(); 
         // 新的时间格式
         var newTime= year+"年"+month+"月"+date+"日"+hour+":"+minute+":"+second;           
-        // 将对象里面的时间格式替换掉
+        // 将原对象里面的时间格式替换掉
         dataAll[i].createTime = newTime;
-        // 截取
-        that.rDataSh = dataAll.splice(that.indexPage,3);
-        // that.indexPage+=3;
-        // console.log(that.indexPage);
-        // that.rDataSh = 
+        //  改变格式后加到总数组
+        that.rData = dataAll;
+      }
+    //  第一页显示
+     for(var i=0;i<3;i++){
+        that.rDataSh.push(dataAll[i]);
      }
-      that.rDataSh = dataAll;
       // 总页数
       var totolPage = Math.ceil(dataAll.length/3);
       that.toPage = totolPage;
-      
+      // 页数判断
+      for(var i=0;i<totolPage;i++){
+        that.pageOAll.push(i+1);
+      }
     })
-
   },
   methods:{
     // 点击删除弹出框
@@ -190,6 +191,7 @@ export default {
     canCliseFun:function(index){
       this.isShow = false;
     },
+    
     // 订单搜索
     orderSeaBtn:function(){
       // 清空页面要渲染的数据
@@ -204,6 +206,87 @@ export default {
 
         }
       }  
+    },
+    
+    // 下一页
+    nextPageBtn(){
+      this.rDataSh=[];
+      console.log(this.index);
+        var aa = this.rData.length-(this.index+1)*3;
+        if(this.toPage<=this.index){
+          for(var i=(this.index)*3;i<(this.index)*3;i++){
+            this.rDataSh.push(this.rData[i]);
+            console.log('0000',this.rData[i]);
+          }
+          console.log(1212121);
+        }else{
+            if(aa==1){
+              for(var i=(this.index+1)*3;i<(this.index+1)*3+1;i++){
+                this.rDataSh.push(this.rData[i]);
+                console.log('0000',this.rData[i]);
+              }
+            }else if(aa==2){
+              for(var i=(this.index+1)*3;i<(this.index+1)*3+2;i++){
+                this.rDataSh.push(this.rData[i]);
+                console.log('0000',this.rData[i]);
+              }
+            }else if(aa==3){
+              for(var i=(this.index+1)*3;i<(this.index+1)+3;i++){
+                this.rDataSh.push(this.rData[i]);
+                console.log('0000',this.rData[i]);
+              }
+            }   
+        this.index += 1;
+        }
+    },
+    // 点击页
+    cliPaNo(index){
+      this.rDataSh=[];
+      var aa = this.rData.length-index*3;
+      if(this.toPage!=index+1){
+        for(var i=index*3;i<index*3+3;i++){
+          this.rDataSh.push(this.rData[i]);
+          console.log('0000',this.rData[i]);
+        }
+      }else{
+          if(aa==1){
+            for(var i=index*3;i<index*3+1;i++){
+              this.rDataSh.push(this.rData[i]);
+              console.log('0000',this.rData[i]);
+            }
+          }else if(aa==2){
+            for(var i=index*3;i<index*3+2;i++){
+              this.rDataSh.push(this.rData[i]);
+              console.log('0000',this.rData[i]);
+            }
+          }else if(aa==3){
+            for(var i=index*3;i<index*3+3;i++){
+              this.rDataSh.push(this.rData[i]);
+              console.log('0000',this.rData[i]);
+            }
+          }
+      }
+      this.index = index;
+      console.log(this.index);
+    // console.log(index);
+    //  console.log('this.rDataSh',this.rDataSh)
+    },
+    // 上一页
+    prePageBtn(){
+     this.rDataSh=[];
+      console.log(this.index);
+      if(this.index<=0){
+        console.log(111);
+        for(var i=0;i<3;i++){
+          this.rDataSh.push(this.rData[i]);
+        }
+      }else{
+        console.log(222);
+        for(var i=(this.index-1)*3;i<(this.index-1)*3+3;i++){
+          this.rDataSh.push(this.rData[i]);
+        }
+      }
+      this.index -= 1;
     }
   }
 }
@@ -474,13 +557,13 @@ export default {
      margin-right: 185px;
    }
  }
- .orderInsert{
-   width: 934px;
-   height: 356px;
-   margin-top: 12px;
-   background-color: pink;
-   position: relative;
- }
+//  .orderInsert{
+//    width: 934px;
+//    height: 356px;
+//    margin-top: 12px;
+//    background-color: pink;
+//    position: relative;
+//  }
  .pageTurn{
    height: 36px;
    margin-top: 37px;
@@ -498,6 +581,16 @@ export default {
      margin-right: 6px;
      outline: 0;
    }
+   .pageNum{
+     width: 30px;
+     height: 36px;
+     background-color: #fff;
+     border: 1px solid #cccccc;
+     float: left;
+     margin-left: 6px;
+     margin-right: 6px;
+     outline: 0;
+   }
    .nextPage{
      width: 68px;
      height: 36px;
@@ -510,9 +603,10 @@ export default {
    }
    .toPageDiv{
      width: 68px;
-     height: 36px;
+     height: 34px;
      background-color: #fff;
-     border: 1px solid #cccccc;
+     border: 1px solid #ccc;
+     color: #111;
      float: left;
      margin-left: 6px;
      margin-right: 6px;
