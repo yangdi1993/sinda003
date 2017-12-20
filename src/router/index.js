@@ -42,8 +42,6 @@ import accountSetting from '@/memberCenter/accountSetting'
 import changePw from '@/memberCenter/changePw'
 //店铺列表
 import shoplist from '@/shop/shoplist'
-//移动端店铺列表
-import moveshoplist from '@/shop/moveshoplist'
 //店铺首页
 import shophome from '@/shop/shophome'
 //加盟我们
@@ -131,12 +129,7 @@ export default new Router({
           name: 'join',
           component: join
         },
-        //移动店铺列表
-        {
-          path: 'moveshoplist',
-          name: 'moveshoplist',
-          component: moveshoplist
-        },
+  
         // 会员中心-用户评价-去评价
         {
           path:'goEvalu',
