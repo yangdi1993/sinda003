@@ -82,14 +82,17 @@
                     下单时间：{{item.createTime}}</th>
                 </tr>
                 <tr class="orderInTr">
-                  <td class="orderInTrTdO">{{item.name3}}</td>
-                  <td class="orderInTrTdTw">{{item.name4}}</td>
-                  <td class="orderInTrTdTh">{{item.name5}}</td>
+                  <td class="orderInTrTdO"></td>
+                  <td class="orderInTrTdTw">
+                    <p>信达北京服务中心</p>
+                    <p>代理记账（1）</p>
+                  </td>
+                  <td class="orderInTrTdTh">{{item.totalPrice}}</td>
                   <td class="orderInTrTdFo">{{item.status}}</td>
                   <td class="orderInTrTdFi">{{item.totalPrice}}</td>
                   <td class="orderInTrTdSi">{{item.name8}}</td>
                   <td class="orderInTrTdSe">
-                    <input type="button" value="付款">
+                    <a href="#/inner/paypage"><input type="button" value="付款"></a>
                     <p class="delOr" v-on:click="delOrder()">删除订单</p>
                   </td>
                 </tr>
@@ -197,8 +200,8 @@ export default {
       // 清空页面要渲染的数据
       this.rDataSh = [];
       for(var i=0;i<this.rData.length;i++){
-        var ordLiNa = this.rData[i].name;
-        if(ordLiNa==this.orSerInVal){
+        var ordLiNa = this.rData[i].businessNo;
+        if(ordLiNa==this.orSerInVal||this.orSerInVal==''){
           // 把符合条件的数据添加到[]里面
           this.rDataSh.push(this.rData[i]);
         }
@@ -655,12 +658,11 @@ export default {
     .orderInTrTdO{
       width: 70px;
       height: 68px;
-      background-color: royalblue;
+      background: url(../images/memCen.png) no-repeat -15px -260px;
     }
     .orderInTrTdTw{
       width: 238px;
       height: 68px;
-      background-color: red;
       font-size: 16px;
       color: #656565;
       text-align: left;
@@ -668,7 +670,6 @@ export default {
     .orderInTrTdTh{
       width: 129px;
       height: 68px;
-      background-color: greenyellow;
       font-size: 16px;
       color: #656565;
     }
