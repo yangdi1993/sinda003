@@ -214,14 +214,6 @@ export default {
   },
   created(){
 
-
-
-<<<<<<< HEAD
-     this.ajax.post('xinda-api/cart/list').then(function(data){
-      console.log(data.data)
-    })
-=======
-
     this.ajax.post('xinda-api/cart/add',this.qs.stringify({
       id:"df83301e5efe45ce8a94ac0d2816f043",
 		  num:11
@@ -234,10 +226,6 @@ export default {
     this.ajax.post('xinda-api/cart/list').then(function(data){
       console.log(3,data.data)
     })
-
-
-
->>>>>>> bdde06aa78019f997762be431d50db8c82d15abb
     // this.nowindex=sessionStorage.getItem('index')
     // console.log('qqq',this.nowindex)
     this.nowindex=this.$route.query.num
