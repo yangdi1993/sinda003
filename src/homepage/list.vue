@@ -110,7 +110,6 @@ export default {
       url:'xinda-api/product/package/grid', //数据获取地址
       productId:'', //点击三级标题需要的
       productTypeCode:0,  //code值，点击二级标题需要的
-      // nowindex:sessionStorage.getItem('index'),
       
 
       provinces:dist[100000],
@@ -146,13 +145,8 @@ export default {
           objs[x]=n[j]
           x++
         }
-        // console.log(n)
-        // console.log(objs[0])
         that.innerobjs=objs[0].itemList
-
-
-       
-
+      
         that.url='xinda-api/product/package/grid' //定义数据地址
         var numb=0
         for(var i in n){
@@ -165,9 +159,6 @@ export default {
         // that.productTypeCode=0
         getData(that.listobjsA,0,3,2,that.url,that.totle,that.pagecount,that.productId,that.productTypeCode,3)
       });
-      
-      // this.url='xinda-api/product/package/grid' //定义数据地址
-      // getData(this.listobjsA,0,3,2,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
     }
   },
   methods:{
@@ -182,19 +173,21 @@ export default {
       that.setNum(data.data.data.cartNum)  //购物车物品数量,点击加入购物车后自动更新
     })
     },
-    typeclasses(index,key){
+    typeclasses(index,key){   //服务分类的点击
       // console.log(this.objs[index].itemList)
       this.innerobjs=this.objs[key].itemList
       this.showclass=index
       this.showkind=-1
       this.productTypeCode=this.objs[key].code
       this.productId=''
+      this.changepage=0
       getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode,3)      
     },
-    typekinds(index,key){
+    typekinds(index,key){   //类型的点击
       this.showkind=index
       this.productId=this.innerobjs[key].id
       this.productTypeCode=0
+      this.changepage=0
       getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode,3)      
     },
     errorimg(){ //图片路径错误时报错事件 
@@ -236,21 +229,10 @@ export default {
     },
   },
   created(){
-
-
-
-
     this.ajax.post('xinda-api/cart/list').then(function(data){
       var alldata=data.data.data
       console.log(3,data.data.data)
     })
-
-
-
-
-
-
-
     this.nowindex=this.$route.query.num
     var that = this;
     var oneobj={}

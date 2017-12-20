@@ -15,12 +15,18 @@
         </div>
         <div class="iheadcenter">
           <div>
-            <a href="javascript:void(0)" class="iheadproduct">产品</a>
-            <a href="javascript:void(0)" class="iheadseverce">服务商</a>
+            <a :class="{inputchoose:!chance}" @click="pruducechoose" href="javascript:void(0)" class="iheadproduct">产品</a>
+            <a :class="{inputchoose:chance}" @click="servicechoose" href="javascript:void(0)" class="iheadseverce">服务商</a>
           </div>
           <form action="">
-            <input type="text" class="ihead-search" placeholder="搜索您需要的服务或服务商">
+            <input type="text" @input="produceinput" @blur="losesearch" v-show="chance" v-model="nowproinput" class="ihead-search" placeholder="搜索您需要的产品">
+            <input type="text" @input="serviceinput" @blur="losesearch" v-show="!chance" v-model="nowserinput" class="ihead-search" placeholder="搜索您需要的服务或服务商">
             <button class="iheadbtn"><span></span></button>
+            <div class="allsearch" v-show="search">
+              <span v-show="searchtip">没有搜索到此产品</span>
+              <p v-for="search in sosolobj" v-show="chance" @click="choosesearch(search.serviceName)" :key="search.id">{{search.serviceName}}</p>
+              <p v-for="search in sosolobjs" v-show="!chance" @click="choosesearch1(search.providerName)" :key="search.id">{{search.providerName}}</p>
+            </div>
           </form>
           <div>
             <p class="ihead-hotsvc">热门服务：<a href="javascript:void(0)">社保开户</a>&nbsp;<a href="javascript:void(0)">公司注册</a></p>
@@ -90,6 +96,14 @@ export default {
       nowcity:[],
       number:1,
       // onechoose:1,  //列表页数据一级选择
+
+      chance:true,  //搜索内容切换
+      nowproinput:'',   //产品搜索内容，v-modol传的
+      nowserinput:'',   //服务商搜索内容，v-modol传的
+      sosolobj:[],  //搜索结果的集合
+      sosolobjs:[],  //搜索结果的集合
+      searchtip:false,
+      search:true,
     }
   },
   created(){
@@ -114,11 +128,77 @@ export default {
     var that=this
     this.ajax.post('xinda-api/cart/cart-num').then(function(data){
       that.setNum(data.data.data.cartNum)  //购物车物品数量
-    })
+    });
+
   },
 
   methods:{
     ...mapActions(['setNum','setName']),
+
+    produceinput(){  //产品搜索框
+    var that=this
+    if(this.nowproinput){
+      this.ajax.post('xinda-api/product/package/search-grid',this.qs.stringify({
+        start:0,
+        // limit:100,
+        searchName:this.nowproinput,
+        sort:1,
+      })).then(function(data){  //搜索框获取接口
+        var alldata=data.data.data
+        that.sosolobj=alldata
+        console.log(alldata)
+        if(!alldata.length){
+          that.searchtip=true;
+        }else{
+          that.searchtip=false;
+        }
+      });
+    }
+      
+    },
+    serviceinput(){  //服务商搜索框
+      console.log(123)
+      if(this.nowserinput){
+        var that=this
+        this.ajax.post('xinda-api/provider/search-grid',this.qs.stringify({
+          start:0,
+          // limit:8,
+          searchName:this.nowserinput,
+          // sort:1,
+          // productTypeCode:7,
+          // regionId:'110105',
+        })).then(function(data){  //搜索框获取接口
+          var alldata=data.data.data 
+          that.sosolobjs=alldata
+          console.log(alldata,that.nowserinput)
+          // if(!alldata.length){
+          //   that.searchtip=true;
+          // }else{
+          //   that.searchtip=false;
+          // }
+        });
+      }
+    },
+    losesearch(){   //搜索框失去焦点
+      this.search=false
+    },
+    getsearch(){    //搜索框获得焦点 
+      this.search=true
+    },
+    pruducechoose(){    //搜索框上方产品选项
+      this.chance=true
+    },
+    servicechoose(){    //搜索框上方服务商选项
+      this.chance=false
+    },
+    choosesearch(serviceName){   //搜索结果点击
+      this.nowproinput=serviceName
+      this.search=false
+    },
+    choosesearch1(providerName){   //搜索结果点击
+      this.nowserinput=providerName
+      this.search=false
+    },
 
     allProduce(){
       this.produce = true;
@@ -234,13 +314,42 @@ export default {
         color: #222;
       }
       .iheadproduct{
-        color:#2693d4;
+        color:#000;
         padding-right: 10px;
         border-right: 1px solid #2693d4;
+      }
+      .inputchoose{
+        color: #2693d4;
       }
       form{
         display: flex;
         margin: 5px 0 ;
+        position: relative;
+        .allsearch{   //搜索弹出提示
+          width: 481px;
+          position: absolute;
+          background: #fff;
+          z-index: 15;
+          top: 40px;
+          left: 1px;
+          color: #666;
+          border-left: 1px solid #999;
+          border-right: 1px solid #999;
+          span{
+            padding-left: 15px;
+            border-bottom: 1px solid #ccc;
+          }
+          p{
+            height: 25px;
+            line-height: 25px;
+            border-bottom: 1px solid #ccc;
+            padding-left: 15px;
+            cursor: pointer;
+          }
+          p:hover{
+            color:#2693d4
+          }
+        }
       }
       .ihead-search{
         width: 465px;
