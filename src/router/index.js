@@ -19,9 +19,9 @@ import homepage from '@/homepage/homepage'
 import list1 from '@/homepage/list'
 //列表页,由公司工商跳转 跳转
 import list2 from '@/homepage/list'
-//列表页,由公司工商跳转 跳转
+//列表页,由全部产品知识产权 跳转
 import list3 from '@/homepage/list'
-//列表页,由公司工商跳转 跳转
+//列表页,由全部产品社保代理 跳转
 import list4 from '@/homepage/list'
 
 //支付页面
@@ -48,8 +48,6 @@ import accountSetting from '@/memberCenter/accountSetting'
 import changePw from '@/memberCenter/changePw'
 //店铺列表
 import shoplist from '@/shop/shoplist'
-//移动端店铺列表
-import moveshoplist from '@/shop/moveshoplist'
 //店铺首页
 import shophome from '@/shop/shophome'
 //加盟我们
@@ -98,13 +96,13 @@ export default new Router({
           name: 'list2',
           component: list2
         },
-        //列表页,由公司工商 跳转
+        //列表页,由全部产品知识产权 跳转
         {
           path: 'list3',
           name: 'list3',
           component: list3
         },
-        //列表页,由公司工商 跳转
+        //列表页,由全部产品社保代理 跳转
         {
           path: 'list4',
           name: 'list4',
@@ -159,12 +157,7 @@ export default new Router({
           name: 'join',
           component: join
         },
-        //移动店铺列表
-        {
-          path: 'moveshoplist',
-          name: 'moveshoplist',
-          component: moveshoplist
-        },
+  
         // 会员中心-用户评价-去评价
         {
           path:'goEvalu',
