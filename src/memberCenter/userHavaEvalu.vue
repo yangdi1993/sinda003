@@ -45,11 +45,11 @@
           </div>
           <!-- 评价插入-已评价 -->
            <ul class="orderInsert" v-for="evaOrder in evaOrderList" :key="evaOrder.cardTypeName">
-              <li class="orderInsO"></li>
+              <li class="orderInsO"><div></div></li>
               <li class="orderInsTw">
-                <p class="orderInsTwPO">111</p>
-                <p class="orderInsTwPTw">服务单号：{{evaOrder.name}}</p>
-                <p class="orderInsTwPTh">购买内容：{{evaOrder.name}}</p>
+                <p class="orderInsTwPO">信达北京服务中心</p>
+                <p class="orderInsTwPTw">服务单号：{{452245641}}</p>
+                <p class="orderInsTwPTh">购买内容：{{'代理记账'}}</p>
               </li>
               <li class="orderInsTh">
                 <p class="buyTime">购买时间：{{evaOrder.name}}</p>
@@ -61,7 +61,7 @@
           <!-- 翻页 -->
           <div class="pageTurn">
             <input type="button" class="prePage" value="上一页">
-            <div></div>
+            <div class="pageNow">1</div>
             <input type="button" class="nextPage" value="下一页">
           </div>
         </div>
@@ -76,7 +76,7 @@ import ihead from '../components/ihead'
 export default {
   data () {
     return{
-      evaOrderList: [{name:'first'},{name:'second'},{name:'third'}]
+      evaOrderList: [{name:'2017年12月20日 16:19:30'},{name:'2017年12月20日 16:19:30'},{name:'2017年12月20日 16:19:30'}]
     }
   },
 }
@@ -198,7 +198,17 @@ export default {
    font-size: 14px;
    color: #cccccc;
    line-height: 36px;
-   
+   .pageNow{
+    width: 30px;
+     height: 34px;
+     background-color: #fff;
+     border: 1px solid #cccccc;
+     float: left;
+     color: #222;
+     margin-left: 6px;
+     margin-right: 6px;
+     outline: 0;
+   }
    .prePage{
      width: 68px;
      height: 36px;
@@ -264,7 +274,14 @@ export default {
    .orderInsO{
      width: 116px;
      height: 135px;
-     background-color: pink;
+    //  background: url(../images/memCen.png) no-repeat -15px -260px;
+    div{
+      width: 70px;
+      height: 70px;
+      margin-top: 20px;
+      margin-left: 20px;
+      background: url(../images/memCen.png) no-repeat -15px -260px;
+    }
    }
    .orderInsTw{
      width: 155px;
@@ -273,7 +290,7 @@ export default {
        font-size: 16px;
        color: #000000;
        margin-top: 30px;
-       margin-left: -115px;
+      //  margin-left: -115px;
      }
      .orderInsTwPTw{
        font-size: 13px;
