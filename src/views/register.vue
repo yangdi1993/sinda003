@@ -373,7 +373,7 @@ li {
     background: #fff;
   }
   .r-header {
-    margin: 0 auto 52px;
+    margin: 0 auto 50px;
     background: #fff;
     display: flex;
     width: 1200px;
@@ -381,11 +381,11 @@ li {
     overflow: hidden;
     .r-logo {
       width: 174px;
-      height: 97px; // margin-left: 150px;
-      background: url(../images/login/login_logo.png) no-repeat 0 20px;
+      height: 100px; // margin-left: 150px;
+      background: url(../images/login/login_logo.png) no-repeat 0 35px;
     }
     p {
-      margin-top: 39px;
+      margin-top: 50px;
       padding-left: 26px;
       height: 30px;
       border-left: 1px solid #b4b4b4;

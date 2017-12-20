@@ -109,7 +109,7 @@ export default {
         }
         that.stores = box;
         that.disStores = box;
-        console.log(that.stores);
+        // console.log(that.stores);
       });
     // that.box=box;
   },
