@@ -25,28 +25,28 @@
         <div class="fir">
           <b>产品类型</b>
           <div class="leixing">
-            <p>所有</p>
-            <p :class="{bluebg:name}"v-for="name in names" :key="name.id" @click="changebg">{{name}} </p>
+            <p :class="{blue:show==true}" @click="changebgAll">所有</p>
+            <p :class="{blue:inner==name}" v-for="(name) in names" :key="name" @click="changebg(name)">{{name}}</p>
           </div>
         </div>
       </div>
       <div class="bigge">
         <div class="ge3">
-          <div class="forms">
-            <p> 综合排序</p>
+          <div class="forms":class="{blued:sort==1}">
+            <p @click="synthesize" > 综合排序</p>
             <span></span>
           </div>
-          <div class="forms">
-            <p> 价格↓↓</p>
+          <div class="forms" :class="{blued:sort==2}">
+            <p @click="price"> 价格↓↓</p>
             <span></span>
           </div>
-          <div class="forms">
-            <p> 接单数↑↑</p>
+          <div class="forms" :class="{blued:sort==3}">
+            <p @click="number"> 接单数↑↑</p>
             <span></span>
           </div>
         </div>
         <div class="bigges">
-          <div class="box" v-for="store in stores" :key="store.id">
+          <div class="box" v-for="store in disStores" :key="store.id">
             <span class="logoimg"><img :src="'http://115.182.107.203:8088/xinda/pic'+store.providerImg" alt=""></span>
             <span class="jinpai"><img src="../images/shop/jinpai.gif">
               <p>金牌服务商</p>
@@ -101,28 +101,33 @@ export default {
         })
       )
       .then(function(data) {
-        //data=>{}
-
         var box = data.data.data;
         // console.log('box',box);
-        for( var key in box){
-          box[key].productTypes=box[key].productTypes.split(",");
+        for (var key in box) {
+          box[key].productTypes = box[key].productTypes.split(",");
           // console.log(box[key].productTypes);
         }
         that.stores = box;
-        });
-        // that.box=box;
+        that.disStores = box;
+        console.log(that.stores);
+      });
+    // that.box=box;
   },
-  data(){
-    return{
-    names:[],
-    stores:[],
-    provinces:dist[100000],
-    citys:[],
-    areas:[],
-    province:'0',
-    city:'0',
-    }
+  data() {
+    return {
+      names: [],
+      stores: [],
+      disStores: [],
+      provinces: dist[100000],
+      citys: [],
+      areas: [],
+      province: "0",
+      city: "0",
+      index: "0",
+      inner: "",
+      show: true,
+      sort: 1
+    };
   },
   methods: {
     proChange() {
@@ -138,8 +143,71 @@ export default {
     cityChange() {
       this.areas = dist[this.city];
     },
-    changebg(){
-      console.log(this.name)
+    // 导航点击更换背景色
+    changebg(name) {
+      this.inner = name;
+      this.show = false;
+      var tempArr = [];
+      for (var key in this.stores) {
+        for (var i = 0; i < this.stores[key].productTypes.length; i++) {
+          var codeDes = this.stores[key].productTypes[i];
+          if (codeDes == this.inner) {
+            tempArr.push(this.stores[key]);
+            break;
+          }
+        }
+      }
+      this.disStores = tempArr;
+    },
+    changebgAll() {
+      this.show = true;
+      this.inner = "";
+      this.disStores = this.stores;
+    },
+    synthesize() {
+      this.sort = 1;
+      this.ajax
+        .post(
+          "/xinda-api/provider/grid",
+          this.qs.stringify({
+            start: 0,
+            limit: 6,
+            productTypeCode: 1,
+            regionId: 110102,
+            sort: 1
+          })
+        )
+        .then(function(data) {});
+    },
+    price() {
+      this.sort = 2;
+      this.ajax
+        .post(
+          "/xinda-api/provider/grid",
+          this.qs.stringify({
+            start: 0,
+            limit: 6,
+            productTypeCode: 1,
+            regionId: 110102,
+            sort: 1
+          })
+        )
+        .then(function(data) {});
+    },
+    number() {
+      this.sort = 3;
+      this.ajax
+        .post(
+          "/xinda-api/provider/grid",
+          this.qs.stringify({
+            start: 0,
+            limit: 6,
+            productTypeCode: 1,
+            regionId: 110102,
+            sort: 1
+          })
+        )
+        .then(function(data) {});
     }
   }
 };
@@ -206,12 +274,12 @@ export default {
   background-color: #2693d4;
   cursor: pointer;
 }
-.click{
+.blue {
   background-color: #2693d4;
 }
-.adress{
-  margin-left:130px;
-  margin-top:-35px;
+.adress {
+  margin-left: 130px;
+  margin-top: -35px;
   position: absolute;
   select {
     border: 1px solid #cdcdcd;
@@ -241,7 +309,9 @@ export default {
       margin-left: 10px;
       margin-top: -2px;
       text-align: center;
+      cursor: pointer;
     }
+
     span {
       margin-left: 40px;
       display: block;
@@ -252,6 +322,9 @@ export default {
       position: absolute;
       display: none;
     }
+  }
+  .blued {
+    background-color: #2693d4;
   }
 }
 .ge3 .forms:hover {
@@ -275,7 +348,7 @@ export default {
     margin-left: 17px;
     margin-top: 12px;
     float: left;
-    .logoimg{ 
+    .logoimg {
       margin-top: 50px;
       float: left;
       margin-left: 30px;
@@ -295,39 +368,38 @@ export default {
         height: 35px;
         margin-left: 20px;
       }
-      p{
+      p {
         font-size: 13px;
         margin-left: 155px;
         margin-top: -27px;
       }
     }
-    p{
+    p {
       margin-top: 13px;
       margin-left: 230px;
       font-size: 13px;
       line-height: 10px;
       text-align: left;
     }
-    .xinyu{
+    .xinyu {
       margin-top: -17px;
-      img{
+      img {
         margin-left: -110px;
-
       }
     }
-    .type{
+    .type {
       display: flex;
       margin-left: 220px;
       flex-wrap: wrap;
       position: absolute;
-      width:370px;
+      width: 370px;
       clear: both;
       p {
         font-size: 13px;
         text-align: center;
         width: 70px;
         height: 25px;
-        color:#f6fafd;
+        color: #f6fafd;
         margin-top: 15px;
         line-height: 25px;
         margin-left: 10px;
@@ -343,7 +415,7 @@ export default {
       border-radius: 5px;
       position: absolute;
       margin-top: 100px;
-      a{
+      a {
         font-size: 13px;
         color: #fff;
         text-decoration: none;
@@ -354,7 +426,7 @@ export default {
 }
 .lastbutton {
   height: 35px;
-  margin: 50px auto 130px;
+  margin: 20px auto 20px;
   a {
     height: 35px;
     border: 1px solid #cccccc;
@@ -362,10 +434,12 @@ export default {
     padding: 10px 15px;
     color: #000;
     cursor: pointer;
+    color: #2794d5;
+    border: 1px solid #2794d5;
   }
 }
 .lastbutton a:hover {
-  color: red;
+  color: #2794d5;
 }
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

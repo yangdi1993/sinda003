@@ -229,21 +229,10 @@ export default {
     },
   },
   created(){
-
-
-
-
     this.ajax.post('xinda-api/cart/list').then(function(data){
       var alldata=data.data.data
       console.log(3,data.data.data)
     })
-
-
-
-
-
-
-
     this.nowindex=this.$route.query.num
     var that = this;
     var oneobj={}

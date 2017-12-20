@@ -23,20 +23,18 @@
               <span class="price">￥{{providerProducts.price}}</span>元</p>
           </div>
           <div class="types">类型：
-            <div class="type type-fir">代理记账（半年）</div><br>
-            <div class="type type-sec">代理记账+取票+取银行回单（半年）</div><br>
-            <div class="type type-thd">小规模记账（一年）</div>
+            <div class="type">{{products.info}}</div>
           </div>
           <div class="area">
             <p>地区：
-              <span class="place">{{}}</span>
+              <span class="place">{{regionText}}</span>
             </p>
           </div>
           <div class="number">购买数量：
-           <button>-</button><input type="text"><button>+</button>
+            <button @click="min(num)">-</button><input type="text" v-model="num" @click="keyup(num)"><button @click="add(num)">+</button>
           </div>
           <div class="buy" v-on:click="buy()">立即购买</div>
-          <div class="add" v-on:click="add()">加入购物车</div>
+          <div class="add" v-on:click="addCart(providerProducts.id,num)">加入购物车</div>
         </div>
         <div class="service">
           <p class="fir">顶级服务商</p>
@@ -60,12 +58,12 @@
       <div class="proservice">
         <div class="kuang">
           <el-radio-group v-model="tabPosition" style="margin-bottom: 30px; margin-right:1000px;">
-            <el-radio-button label="top" v-on:click="changefir">服务列表</el-radio-button>
-            <el-radio-button label="" v-on:click="changesec">商品评价</el-radio-button>
+            <el-radio-button label="top" v-on:click="changefir()">服务列表</el-radio-button>
+            <el-radio-button label="" v-on:click="changesec()">商品评价</el-radio-button>
           </el-radio-group>
         </div>
-        <div class="serviceCon">服务内容： <br>1.整理原始票据 <br>2.记账 <br>3.装订凭证 <br>4.出报表 <br>5.月报、季度企业所得税、年度汇算清缴 <br>6.打印总帐、明晰账本 </div>
-        <div class="userRating" style="display:none">
+        <div class="serviceCon" v-show="serviceCon">服务内容： <br>1.整理原始票据 <br>2.记账 <br>3.装订凭证 <br>4.出报表 <br>5.月报、季度企业所得税、年度汇算清缴 <br>6.打印总帐、明晰账本 </div>
+        <div class="userRating" v-show="userRating">
           <div class="con">
             <p class="main-fir">
               <span>0%</span>好评</p>
@@ -137,13 +135,13 @@ export default {
       num1: 1,
       tabPosition: "top",
       providerProducts: {},
+      num: 1,
+      regionText:{},
+      serviceCon:true,
+      userRating:false
     };
   },
   methods: {
-    //购买数量
-    handleChange(value) {
-      console.log(value);
-    },
     counts: function() {
       var Quantity = document.querySelector(".Quantity");
       if (/^\+?[1-9]\d*$/.test(this.quantity)) {
@@ -153,28 +151,50 @@ export default {
         this.quantity = this.quantity;
       }
     },
-    changefir: function() {},
-    changesec: function() {},
+    keyup(){
+
+    },
+    min(num) {
+      if (num >= 1) {
+       
+      } else {
+        num = 1;
+      }
+    },
+    add(num) {
+      num -= -1;
+      console.log("+=", num);
+    },
+    changefir: function() {
+      this.serviceCon=true;
+      this.userRating=false;
+    },
+    changesec: function() {
+      this.serviceCon=false;
+      this.userRating=true;
+      console.log(111111111)
+    },
     buy: function() {
-      location.href = "#/inner/paypage";
+
+    },
+    //加入购物车
+    addCart(id,num) {
+      var that = this;
+      this.ajax
+        .post(
+          "/xinda-api/cart/add",
+          this.qs.stringify({
+            id: id,
+            num: 1,
+          })
+        )
+        .then(function(data) {
+          //console.log(data.data);
+        });
     }
   },
   //获取商品详情
   created() {
-    // var that = this;
-    // this.ajax
-    //   .post(
-    //     "/xinda-api/product/package/detail",
-    //     this.qs.stringify({
-    //     sId:'0cb85ec6b63b41fc8aa07133b6144ea3'
-    //     })
-    //   )
-    //   .then(data => {
-    //     var rData = data.data.data;
-    //     console.log(rData);
-    //     that.details = rData;
-    //   });
-
     var that = this;
     this.ajax
       .post(
@@ -183,13 +203,12 @@ export default {
       )
       .then(function(data) {
         that.products = data.data.data.product;
-        that.providerProducts=data.data.data.providerProduct;
-        console.log(that.products);
-        // console.log(this.$route.query.id);
+        that.providerProducts = data.data.data.providerProduct;
+        that.regionText=data.data.data.regionText;
+        console.log(data.data.data);
+        
       });
-  },
-  //加入购物车
-  add() {}
+  }
 };
 </script>
 
@@ -270,22 +289,9 @@ export default {
     display: inline-block;
     padding: 3px;
     margin-top: 10px;
-    cursor: pointer;
-  }
-  .type-fir {
     border: 1px solid #2693d4;
-
     color: #2693d4;
-  }
-  .type-sec {
-    border: 1px solid #e4e4e4;
-    color: #333;
-    margin-left: 55px;
-  }
-  .type-thd {
-    border: 1px solid #e4e4e4;
-    color: #333;
-    margin-left: 55px;
+    border-radius: 3px;
   }
 }
 .area {
@@ -335,6 +341,8 @@ export default {
   .fir {
     color: black;
     font-weight: bold;
+    width: 128px;
+    margin-left: 35px;
     font-size: 24px;
     margin-top: 23px;
     text-align: center;
@@ -429,8 +437,8 @@ export default {
   margin-left: 10px;
   line-height: 35px;
   color: #333;
-  height: 120px;
-  width: 790px;
+  height: 790px;
+  width: 1200px;
 }
 .userRating {
   float: left;
