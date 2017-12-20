@@ -59,7 +59,7 @@
             <li>订单操作</li>
           </ul>
           <!-- 订单插入 -->
-          <div id='orderInsert' v-for="(item,idx) in rDataSh" :key="item.cardTypeName">
+          <div v-for="item in rDataSh" :key="item.id">
             <!-- 删除 弹出框 -->
               <div class="duihuakuang" v-show="isShow">
                 <div class="confirmIma">
@@ -82,12 +82,10 @@
                     下单时间：{{item.createTime}}</th>
                 </tr>
                 <tr class="orderInTr">
-                  <td class="orderInTrTdO">
-                    {{item.name3}}
-                  </td>
+                  <td class="orderInTrTdO">{{item.name3}}</td>
                   <td class="orderInTrTdTw">{{item.name4}}</td>
                   <td class="orderInTrTdTh">{{item.name5}}</td>
-                  <td class="orderInTrTdFo">{{item.name6}}</td>
+                  <td class="orderInTrTdFo">{{item.status}}</td>
                   <td class="orderInTrTdFi">{{item.totalPrice}}</td>
                   <td class="orderInTrTdSi">{{item.name8}}</td>
                   <td class="orderInTrTdSe">
@@ -100,8 +98,9 @@
           <!-- 翻页 -->
           <div class="pageTurn">
             <button class="prePage" @click="prePageBtn()">上一页</button>
-            <button class="pageNum">{{page}}</button>
+            <button class="pageNum" v-for="(pageO,index) in pageOAll" :key="pageO.id" @click="cliPaNo(index)">{{pageO}}</button>
             <button class="nextPage" @click="nextPageBtn()">下一页</button>
+            <div class="toPageDiv">共{{toPage}}页</div>
           </div>
         </div>
       </div>
@@ -119,59 +118,59 @@ import getData from '../homepage/public'
 export default {
   data(){
     return{
-      index:-1,
+      index:0,
       // 全部数据
-      rData:[{name:'first'},{name:'second'},{name:'third'}],
+      rData:[],
       // 当前页要显示的数据
-      rDataSh:[{name:'first'},{name:'second'},{name:'third'}],
+      rDataSh:[],
       // 弹出框
       isShow:false,
       // 搜索
       orSerInVal:"",
       // 搜索数据
       searchShow:true,
-      // // 接口数据全部
-      // rData:[],
-      // // 接口数据显示
-      // rDataSh:[],
+      // 订单编号
+      businessNo:'',
+      // 共几页
+      toPage:"",
+      // 页数
+      pageOAll:[]
     }
   },
   created(){
-    // 接口获取订单数据
+    // 我的订单接口数据
     var that = this;
-    this.ajax.post('/xinda-api/business-order/grid',this.qs.stringfy({
-      businessNo:businessNo,
-      start:0,
-      limit:3,
-    })).then(function(data){
-      // 循环订单
-    for(var i=0;i<data.data.data.length;i++){
-      // 获取时间戳
-      var time = data.data[i].createTime;
-      // 转换为标准日期格式
-      var newTime = new Data(time);
-      // 年-月-日-时-分-秒
-      Y = newTime.getFullYear() + '-';
-      M = (newTime.getMonth()+1 < 10 ? '0'+(newTime.getMonth()+1) : newTime.getMonth()+1) + '-';
-      D = newTime.getDate() + ' ';
-      h = newTime.getHours() + ':';
-      m = newTime.getMinutes() + ':';
-      s = newTime.getSeconds();
-      var showTime = Y+M+D+h+m+s;
-      console.log(showTime); //显示标准时间
-      // 转变后的时间替换
-      time = showTime;
-    }
-    var rData1 = data.data.data;
-    that.rData = rData1;
-   
-
-    });
-
-
-
-    this.ajax.post('xinda-api/cart/list').then(function(data){
-      console.log(data.data)
+    this.ajax.post('xinda-api/business-order/grid').then(function(data){
+      var dataAll = data.data.data;
+      for(var i = 0;i<dataAll.length;i++){
+        // 获取创建时间
+        var dd = dataAll[i].createTime;
+        // 转换格式
+        var now = new Date(dd);
+        var year=now.getFullYear(); 
+        var month=now.getMonth()+1; 
+        var date=now.getDate(); 
+        var hour=now.getHours(); 
+        var minute=now.getMinutes(); 
+        var second=now.getSeconds(); 
+        // 新的时间格式
+        var newTime= year+"年"+month+"月"+date+"日"+hour+":"+minute+":"+second;           
+        // 将原对象里面的时间格式替换掉
+        dataAll[i].createTime = newTime;
+        //  改变格式后加到总数组
+        that.rData = dataAll;
+      }
+    //  第一页显示
+     for(var i=0;i<3;i++){
+        that.rDataSh.push(dataAll[i]);
+     }
+      // 总页数
+      var totolPage = Math.ceil(dataAll.length/3);
+      that.toPage = totolPage;
+      // 页数判断
+      for(var i=0;i<totolPage;i++){
+        that.pageOAll.push(i+1);
+      }
     })
   },
   methods:{
@@ -192,6 +191,7 @@ export default {
     canCliseFun:function(index){
       this.isShow = false;
     },
+    
     // 订单搜索
     orderSeaBtn:function(){
       // 清空页面要渲染的数据
@@ -206,6 +206,87 @@ export default {
 
         }
       }  
+    },
+    
+    // 下一页
+    nextPageBtn(){
+      this.rDataSh=[];
+      console.log(this.index);
+        var aa = this.rData.length-(this.index+1)*3;
+        if(this.toPage<=this.index){
+          for(var i=(this.index)*3;i<(this.index)*3;i++){
+            this.rDataSh.push(this.rData[i]);
+            console.log('0000',this.rData[i]);
+          }
+          console.log(1212121);
+        }else{
+            if(aa==1){
+              for(var i=(this.index+1)*3;i<(this.index+1)*3+1;i++){
+                this.rDataSh.push(this.rData[i]);
+                console.log('0000',this.rData[i]);
+              }
+            }else if(aa==2){
+              for(var i=(this.index+1)*3;i<(this.index+1)*3+2;i++){
+                this.rDataSh.push(this.rData[i]);
+                console.log('0000',this.rData[i]);
+              }
+            }else if(aa==3){
+              for(var i=(this.index+1)*3;i<(this.index+1)+3;i++){
+                this.rDataSh.push(this.rData[i]);
+                console.log('0000',this.rData[i]);
+              }
+            }   
+        this.index += 1;
+        }
+    },
+    // 点击页
+    cliPaNo(index){
+      this.rDataSh=[];
+      var aa = this.rData.length-index*3;
+      if(this.toPage!=index+1){
+        for(var i=index*3;i<index*3+3;i++){
+          this.rDataSh.push(this.rData[i]);
+          console.log('0000',this.rData[i]);
+        }
+      }else{
+          if(aa==1){
+            for(var i=index*3;i<index*3+1;i++){
+              this.rDataSh.push(this.rData[i]);
+              console.log('0000',this.rData[i]);
+            }
+          }else if(aa==2){
+            for(var i=index*3;i<index*3+2;i++){
+              this.rDataSh.push(this.rData[i]);
+              console.log('0000',this.rData[i]);
+            }
+          }else if(aa==3){
+            for(var i=index*3;i<index*3+3;i++){
+              this.rDataSh.push(this.rData[i]);
+              console.log('0000',this.rData[i]);
+            }
+          }
+      }
+      this.index = index;
+      console.log(this.index);
+    // console.log(index);
+    //  console.log('this.rDataSh',this.rDataSh)
+    },
+    // 上一页
+    prePageBtn(){
+     this.rDataSh=[];
+      console.log(this.index);
+      if(this.index<=0){
+        console.log(111);
+        for(var i=0;i<3;i++){
+          this.rDataSh.push(this.rData[i]);
+        }
+      }else{
+        console.log(222);
+        for(var i=(this.index-1)*3;i<(this.index-1)*3+3;i++){
+          this.rDataSh.push(this.rData[i]);
+        }
+      }
+      this.index -= 1;
     }
   }
 }
@@ -217,9 +298,9 @@ export default {
   width: 350px;
   height: 200px;
   background-color: #fff;
-  position: absolute;
-  top: 513px;
-  left: 655px;
+  position: fixed;
+  top: 190px;
+  left: 598px;
   border: 1px solid #3f3f3f;
   .confirmIma{
     width: 350px;
@@ -476,13 +557,13 @@ export default {
      margin-right: 185px;
    }
  }
- .orderInsert{
-   width: 934px;
-   height: 356px;
-   margin-top: 12px;
-   background-color: pink;
-   position: relative;
- }
+//  .orderInsert{
+//    width: 934px;
+//    height: 356px;
+//    margin-top: 12px;
+//    background-color: pink;
+//    position: relative;
+//  }
  .pageTurn{
    height: 36px;
    margin-top: 37px;
@@ -500,11 +581,32 @@ export default {
      margin-right: 6px;
      outline: 0;
    }
+   .pageNum{
+     width: 30px;
+     height: 36px;
+     background-color: #fff;
+     border: 1px solid #cccccc;
+     float: left;
+     margin-left: 6px;
+     margin-right: 6px;
+     outline: 0;
+   }
    .nextPage{
      width: 68px;
      height: 36px;
      background-color: #fff;
      border: 1px solid #cccccc;
+     float: left;
+     margin-left: 6px;
+     margin-right: 6px;
+     outline: 0;
+   }
+   .toPageDiv{
+     width: 68px;
+     height: 34px;
+     background-color: #fff;
+     border: 1px solid #ccc;
+     color: #111;
      float: left;
      margin-left: 6px;
      margin-right: 6px;
@@ -532,7 +634,7 @@ export default {
       color: #616161;
       margin-left: -10px;
       input{
-        margin-left: -160px;
+        margin-left: -50px;
         outline: 0;
       }
     }
@@ -543,7 +645,7 @@ export default {
       color: #616161;
       margin-left: -10px;
       span{
-        margin-left: -555px;
+        margin-left: -365px;
       }
     }
   }
@@ -559,7 +661,7 @@ export default {
       width: 238px;
       height: 68px;
       background-color: red;
-      font-size: 12px;
+      font-size: 16px;
       color: #656565;
       text-align: left;
     }
@@ -567,23 +669,23 @@ export default {
       width: 129px;
       height: 68px;
       background-color: greenyellow;
-      font-size: 12px;
+      font-size: 16px;
       color: #656565;
     }
     .orderInTrTdFo{
       width: 95px;
       height: 68px;
-      background-color: royalblue;
-      border-right: 1px solid #e8e8e8;
-      font-size: 12px;
+      font-size: 16px;
       color: #656565;
+      border-right: 1px solid #e8e8e8;
     }
     .orderInTrTdFi{
       width: 139px;
       height: 68px;
       border-right: 1px solid #e8e8e8;
       font-size: 12px;
-      color: #2393d5;
+      font-size: 16px;
+      color: #656565;
     }
     .orderInTrTdSi{
       width: 143px;

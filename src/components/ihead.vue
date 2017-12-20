@@ -156,6 +156,7 @@ export default {
   height: 150px;
   // background: pink;
   border-bottom: 1px solid #2693d4; 
+  padding-top: 30px;
   .ihead-in{
     width: 1200px;
     height: 100%;

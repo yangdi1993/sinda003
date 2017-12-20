@@ -33,12 +33,12 @@
           <tr class="goods">
             <td><img :src="'http://115.182.107.203:8088/xinda/pic'+ cart.providerImg" alt=""></td>
             <td>{{cart.serviceName}}</td>
-            <td>￥{{cart.unitPrice}}</td>
+            <td>￥{{cart.unitPrice}}.00</td>
             <td>
               <button @click="min(cart.serviceId,cart.buyNum)">-</button><input type="text" v-model="cart.buyNum">
               <button @click="add(cart.serviceId,cart.buyNum)">+</button>
             </td>
-            <td class="zjia">{{cart.totalPrice}}</td>
+            <td class="zjia">￥{{cart.totalPrice}}.00</td>
             <td class="dele">
               <div @click="dele(cart.serviceId)">删除</div>
             </td>
@@ -47,7 +47,7 @@
       </table>
       <div class="tomoney">
         <div class="total">金额总计：
-          <p class="">{{Total}}</p>
+          <p class="">￥{{Total}}.00</p>
         </div>
         <div class="continue" @click="continued()">继续购物</div>
         <div class="balance" @click="balance()">去结算</div>
@@ -69,7 +69,7 @@
             <p>销量：{{product.buyNum}}</p>
           </div>
           <div class="four">
-            <p>￥{{product.price}}</p>
+            <p>￥{{product.price}}.00</p>
           </div>
           <div class="fifth">
             <p>原价：￥{{product.marketPrice}}</p>
