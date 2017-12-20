@@ -9,7 +9,7 @@
       <div class="pay-head">
         <div>
           <p>全部商品
-            <span>(1)</span>
+            <span>({{carts.length}})</span>
           </p>
         </div>
       </div>
@@ -24,31 +24,33 @@
             <th>操作</th>
           </tr>
         </thead>
-        <tbody v-for="cart in carts":key="cart.id">
-          <p>店铺：
-            <span>{{cart.providerName}}</span>
-          </p>
-          <tr>
-            <td><img src="" alt="">哈哈哈哈</td>
+        <tbody v-for="cart in carts" :key="cart.id">
+          <tr class="shopname">
+            <p>店铺：
+              <span>{{cart.providerName}}</span>
+            </p>
+          </tr>
+          <tr class="goods">
+            <td><img :src="'http://115.182.107.203:8088/xinda/pic'+ cart.providerImg" alt=""></td>
             <td>{{cart.serviceName}}</td>
-            <td>￥{{cart.unitPrice}}</td>
+            <td>￥{{cart.unitPrice}}.00</td>
             <td>
-              <!-- <button>-</button><input type="text" value=1><button>+</button> -->
-              <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字" style="width:140px;"></el-input-number>
+              <button @click="min(cart.serviceId,cart.buyNum)">-</button><input type="text" v-model="cart.buyNum">
+              <button @click="add(cart.serviceId,cart.buyNum)">+</button>
             </td>
-            <td class="zjia">￥1200</td>
+            <td class="zjia">￥{{cart.totalPrice}}.00</td>
             <td class="dele">
-              <div>删除</div>
+              <div @click="dele(cart.serviceId)">删除</div>
             </td>
           </tr>
         </tbody>
       </table>
       <div class="tomoney">
         <div class="total">金额总计：
-          <p class="">￥800.00</p>
+          <p class="">￥{{Total}}.00</p>
         </div>
-        <div class="continue">继续购物</div>
-        <div class="balance">去结算</div>
+        <div class="continue" @click="continued()">继续购物</div>
+        <div class="balance" @click="balance()">去结算</div>
       </div>
       <div class="hotservice">
         <div>
@@ -64,15 +66,15 @@
             <p>{{product.serviceInfo}}</p>
           </div>
           <div class="thd">
-            <p>销量：</p>
+            <p>销量：{{product.buyNum}}</p>
           </div>
           <div class="four">
-            <p>￥{{product.marketPrice}}</p>
+            <p>￥{{product.price}}.00</p>
           </div>
           <div class="fifth">
-            <p>原价：￥250000</p>
+            <p>原价：￥{{product.marketPrice}}</p>
           </div>
-          <div class="check">查看详情>>></div>
+          <div class="check" @click="viewDetails(product.id)">查看详情>>></div>
         </div>
       </div>
     </div>
@@ -88,29 +90,100 @@ export default {
       msg: "Welcome to Your Vue.js App",
       num1: 1,
       products: [],
-      carts:[],
+      carts: [],
+      num: "",
+      Total: "",
+      id: ""
     };
   },
   methods: {
-    handleChange(num) {
-      console.log(num);
+    //获取购物车列表
+    gettingData() {
+      var that = this;
+      this.ajax.post("/xinda-api/cart/list").then(function(data) {
+        var proData = data.data.data;
+        that.carts = proData;
+        var Total = 0;
+        for (var i in that.carts) {
+          Total += that.carts[i].totalPrice;
+        }
+        that.Total = Total;
+        //console.log(that.carts);
+      });
+    },
+    //删除商品
+    dele(id) {
+      var that = this;
+      this.ajax
+        .post("/xinda-api/cart/del", this.qs.stringify({ id: id }))
+        .then(function(data) {
+          console.log(data.data);
+          that.gettingData();
+        });
+    },
+    //增加数量
+    add(id, buyNum) {
+      var that = this;
+      this.ajax
+        .post("/xinda-api/cart/add", this.qs.stringify({ id: id, num: 1 }))
+        .then(function(data) {
+          console.log(data.data);
+          that.gettingData();
+        });
+    },
+    //减少数量
+    min(id, buyNum) {
+      var that = this;
+      if (buyNum - 1 >= 1) {
+        this.ajax
+          .post("/xinda-api/cart/add", this.qs.stringify({ id: id, num: -1 }))
+          .then(function(data) {
+            console.log(data.data);
+            that.gettingData();
+          });
+      } else {
+        this.dele(id);
+        that.gettingData();
+      }
+    },
+    //结算
+    balance() {
+      var that = this;
+      this.ajax.post("/xinda-api/cart/submit").then(function(data) {
+        that.$router.push({
+          path: "/inner/paypage",
+          query: { id: data.data.data }
+        });
+      });
+    },
+    //继续购物
+    continued() {
+      this.$router.push({ path: "/inner/homepage" });
+    },
+    //查看详情
+    viewDetails: function(id) {
+      this.$router.push({ path: "/inner/Detail", query: { id: id } });
+      console.log(this.$route.query.id);
     }
   },
+
   created() {
+    // 热门服务
     var that = this;
-    this.ajax.post("/xinda-api/recommend/list").then(function(data) {
-      var rData = data.data.data.hq;
-      //console.log(rData);
-      that.products = rData;
-    });
-  },
-  created() {
-    var that = this;
-    this.ajax.post("/xinda-api/cart/list").then(function(data) {
-      var rData = data.data;
-      //console.log(rData);
-      that.carts = rData;
-    });
+    this.ajax
+      .post(
+        "/xinda-api/product/package/grid",
+        this.qs.stringify({
+          start: 0,
+          limit: 4
+        })
+      )
+      .then(function(data) {
+        var rData = data.data.data;
+        that.products = rData;
+        //console.log(that.products);
+      });
+    this.gettingData();
   }
 };
 </script>
@@ -118,7 +191,7 @@ export default {
 <style scoped lang="less">
 .pay-content {
   width: 1200px;
-  //height: 650px;
+  //height: 950px;
   background: white;
   margin: 0 auto;
   overflow: hidden;
@@ -164,8 +237,10 @@ tbody {
     color: #686868;
     margin-right: 1000px;
     line-height: 40px;
+    background-color: white;
+    width: 300px;
   }
-  tr {
+  .goods {
     background-color: #f7f7f7;
     line-height: 55px;
     width: 1200px;
@@ -173,6 +248,7 @@ tbody {
     color: #686868;
     display: flex;
     justify-content: space-around;
+    overflow: hidden;
     button {
       width: 18px;
       background-color: #bcbdbd;
@@ -183,6 +259,10 @@ tbody {
     }
     .dele {
       cursor: pointer;
+    }
+    img {
+      width: 40px;
+      height: 40px;
     }
   }
 }

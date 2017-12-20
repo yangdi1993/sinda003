@@ -15,36 +15,36 @@
       </div>
       <div class="order">
         <div class="count">
-          <p class="code">订单编号：
-            <span>S627282727272711</span>
-          </p>
-          <p class="time">创建时间：
+          <div class="code">订单编号：
+            <span>{{busOrder.businessNo}}</span>
+          </div>
+          <div class="time">创建时间：
             <span>2017-12-02&nbsp13:59:21</span>
-          </p>
-          <p class="money">订单金额：
-            <span class="jine">￥2000</span>元<br>
-            <a href="" class="dianji">
-              <span class="mingx">订单明细</span>
-              <div>
+          </div>
+          <div class="money">订单金额：
+            <span class="jine">￥{{busOrder.totalPrice}}.00元</span><br>
+            <div class="showDe" @click="showDe()">
+              <span class="mingx dianji">订单明细</span>
+              <div class="hhh">
                 <span class="sanjiao"></span>
               </div>
-            </a>
-          </p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="list" style="display:none">
+      <div class="list" v-for="serOrList in serOrLists" :key="serOrList.id" v-show="showDe">
         <ul>
           <li>服务名称：
-            <span class="fuwu">注册分公司</span>
+            <span class="fuwu">{{serOrList.serviceName}}</span>
           </li>
           <li>单价：
-            <span class="price">￥800元</span>
+            <span class="price">￥{{serOrList.unitPrice}}.00元</span>
           </li>
           <li>数量：
-            <span class="number">1</span>
+            <span class="number">{{serOrList.buyNum}}</span>
           </li>
           <li>服务总额：
-            <span class="amount">￥800元</span>
+            <span class="amount">￥{{serOrList.totalPrice}}.00元</span>
           </li>
         </ul>
       </div>
@@ -108,9 +108,9 @@
       </div>
       <div class="accounts">
         <p>金额总计
-          <span>￥800.00</span>
+          <span>￥{{busOrder.totalPrice}}.00</span>
         </p>
-        <div class="account">去结算</div>
+        <div class="account">立即支付</div>
       </div>
     </div>
     <router-view/>
@@ -122,8 +122,34 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      msg: "Welcome to Your Vue.js App"
+      msg: "Welcome to Your Vue.js App",
+      shopData: [],
+      busOrder: {},
+      serOrLists: [],
+      showDe: true,
     };
+  },
+  created() {
+    var that = this;
+    this.ajax
+      .post(
+        "/xinda-api/business-order/detail",
+        this.qs.stringify({
+          businessNo: this.$route.query.id
+        })
+      )
+      .then(function(data) {
+        var sData = data.data.data;
+        that.shopData = sData;
+        console.log(that.shopData);
+        that.busOrder = data.data.data.businessOrder;
+        that.serOrLists = data.data.data.serviceOrderList;
+      });
+  },
+  methods: {
+    showDe() {
+      //this.showDe = true;
+    }
   }
 };
 </script>
@@ -158,7 +184,7 @@ export default {
 }
 .order {
   margin-top: 36px;
-  width: 1200px;
+  width: 1198px;
   height: 75px;
   border: 1px solid #b6b6b6;
   background-color: #f7f7f7;
@@ -166,7 +192,7 @@ export default {
     color: #525252;
     font-size: 14px;
     margin-right: 1050px;
-    width: 200px;
+    width: 300px;
     line-height: 75px;
     span {
       color: #71afdd;
@@ -186,8 +212,14 @@ export default {
     width: 250px;
     margin-left: 980px;
     margin-top: -50px;
-    a {
-      text-decoration: none;
+    .showDe {
+      cursor: pointer;
+    }
+    .hhh {
+      width: 10px;
+      height: 10px;
+      margin-left: 90px;
+      margin-top: -25px;
     }
     .jine {
       color: #71afdd;
@@ -202,7 +234,7 @@ export default {
       border-right: 4px solid transparent;
       border-bottom: 5px solid #ff2323;
       margin-top: -50px;
-      margin-left: 5px;
+      margin-left: 65px;
     }
   }
 }
@@ -215,12 +247,14 @@ export default {
 .list {
   height: 75px;
   border-bottom: 1px solid #b6b6b6;
+  border-left: 1px solid #b6b6b6;
+  border-right: 1px solid #b6b6b6;
   background-color: #f7f7f7;
   ul {
     line-height: 75px;
     display: flex;
     list-style: none;
-    justify-content: space-between;
+    justify-content: space-around;
     color: #252525;
     .price {
       color: #50a2d9;
