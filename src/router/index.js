@@ -7,8 +7,6 @@ import server from '@/components/server'
 import outter from '@/components/outter'
 //登录后
 import inner from '@/components/inner'
-//省市区三级联动
-import Distpicker from 'v-distpicker'
 //views 登录、注册、修改密码
 import login from '@/views/login'
 import register from '@/views/register'
@@ -61,9 +59,6 @@ import goEvalu from '@/memberCenter/goEvalu'
 
 
 
-//省市区三级联动
-Vue.component('v-distpicker', Distpicker)
-
 Vue.use(Router)
 
 export default new Router({
@@ -71,7 +66,8 @@ export default new Router({
     {
       path: '/',
       name: 'HelloWorld',
-      component: HelloWorld
+      component: HelloWorld,
+      redirect:'inner/homepage',
     },
     {
       path: '/inner',
@@ -84,7 +80,7 @@ export default new Router({
           name: 'homepage',
           component: homepage
         },
-        // //列表页,由全部产品 跳转
+        //列表页,由全部产品 跳转
         // {
         //   path: 'list',
         //   name: 'list',
@@ -156,7 +152,7 @@ export default new Router({
           name: 'shophome',
           component: shophome
         },
-        
+
         //加盟我们
         {
           path: 'join',
@@ -240,6 +236,7 @@ export default new Router({
       name:'server',
       component:server,
     },
-    
+
   ]
 })
+
