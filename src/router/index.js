@@ -21,9 +21,9 @@ import homepage from '@/homepage/homepage'
 import list1 from '@/homepage/list'
 //列表页,由公司工商跳转 跳转
 import list2 from '@/homepage/list'
-//列表页,由公司工商跳转 跳转
+//列表页,由全部产品知识产权 跳转
 import list3 from '@/homepage/list'
-//列表页,由公司工商跳转 跳转
+//列表页,由全部产品社保代理 跳转
 import list4 from '@/homepage/list'
 
 //支付页面
@@ -102,13 +102,13 @@ export default new Router({
           name: 'list2',
           component: list2
         },
-        //列表页,由公司工商 跳转
+        //列表页,由全部产品知识产权 跳转
         {
           path: 'list3',
           name: 'list3',
           component: list3
         },
-        //列表页,由公司工商 跳转
+        //列表页,由全部产品社保代理 跳转
         {
           path: 'list4',
           name: 'list4',
