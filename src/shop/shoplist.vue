@@ -32,16 +32,16 @@
       </div>
       <div class="bigge">
         <div class="ge3">
-          <div class="forms">
-            <p> 综合排序</p>
+          <div class="forms":class="{blued:sort==1}">
+            <p @click="synthesize" > 综合排序</p>
             <span></span>
           </div>
-          <div class="forms">
-            <p> 价格↓↓</p>
+          <div class="forms" :class="{blued:sort==2}">
+            <p @click="price"> 价格↓↓</p>
             <span></span>
           </div>
-          <div class="forms">
-            <p> 接单数↑↑</p>
+          <div class="forms" :class="{blued:sort==3}">
+            <p @click="number"> 接单数↑↑</p>
             <span></span>
           </div>
         </div>
@@ -117,7 +117,7 @@ export default {
     return {
       names: [],
       stores: [],
-      disStores:[],
+      disStores: [],
       provinces: dist[100000],
       citys: [],
       areas: [],
@@ -126,6 +126,7 @@ export default {
       index: "0",
       inner: "",
       show: true,
+      sort: 1
     };
   },
   methods: {
@@ -144,18 +145,17 @@ export default {
     },
     // 导航点击更换背景色
     changebg(name) {
-      
       this.inner = name;
       this.show = false;
       var tempArr = [];
-      for(var key in this.stores){
-         for(var i = 0;i<this.stores[key].productTypes.length;i++){
-           var codeDes = this.stores[key].productTypes[i];
-            if(codeDes==this.inner){
-              tempArr.push(this.stores[key]);
-              break;
-            }
-         }
+      for (var key in this.stores) {
+        for (var i = 0; i < this.stores[key].productTypes.length; i++) {
+          var codeDes = this.stores[key].productTypes[i];
+          if (codeDes == this.inner) {
+            tempArr.push(this.stores[key]);
+            break;
+          }
+        }
       }
       this.disStores = tempArr;
     },
@@ -163,12 +163,52 @@ export default {
       this.show = true;
       this.inner = "";
       this.disStores = this.stores;
+    },
+    synthesize() {
+      this.sort = 1;
+      this.ajax
+        .post(
+          "/xinda-api/provider/grid",
+          this.qs.stringify({
+            start: 0,
+            limit: 6,
+            productTypeCode: 1,
+            regionId: 110102,
+            sort: 1
+          })
+        )
+        .then(function(data) {});
+    },
+    price() {
+      this.sort = 2;
+      this.ajax
+        .post(
+          "/xinda-api/provider/grid",
+          this.qs.stringify({
+            start: 0,
+            limit: 6,
+            productTypeCode: 1,
+            regionId: 110102,
+            sort: 1
+          })
+        )
+        .then(function(data) {});
+    },
+    number() {
+      this.sort = 3;
+      this.ajax
+        .post(
+          "/xinda-api/provider/grid",
+          this.qs.stringify({
+            start: 0,
+            limit: 6,
+            productTypeCode: 1,
+            regionId: 110102,
+            sort: 1
+          })
+        )
+        .then(function(data) {});
     }
-  },
-  computed:{
-    // dis:function(){
-     
-    // }
   }
 };
 </script>
@@ -269,7 +309,9 @@ export default {
       margin-left: 10px;
       margin-top: -2px;
       text-align: center;
+      cursor: pointer;
     }
+
     span {
       margin-left: 40px;
       display: block;
@@ -280,6 +322,9 @@ export default {
       position: absolute;
       display: none;
     }
+  }
+  .blued {
+    background-color: #2693d4;
   }
 }
 .ge3 .forms:hover {
