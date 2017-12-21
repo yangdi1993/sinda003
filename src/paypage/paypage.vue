@@ -19,11 +19,11 @@
             <span>{{busOrder.businessNo}}</span>
           </div>
           <div class="time">创建时间：
-            <span>2017-12-02&nbsp13:59:21</span>
+            <span>{{nowdate}}</span>
           </div>
           <div class="money">订单金额：
             <span class="jine">￥{{busOrder.totalPrice}}.00元</span><br>
-            <div class="showDe" @click="showDe()">
+            <div class="showDe" @click="!showDe">
               <span class="mingx dianji">订单明细</span>
               <div class="hhh">
                 <span class="sanjiao"></span>
@@ -34,17 +34,17 @@
       </div>
       <div class="list" v-for="serOrList in serOrLists" :key="serOrList.id" v-show="showDe">
         <ul>
-          <li>服务名称：
-            <span class="fuwu">{{serOrList.serviceName}}</span>
+          <li class="fuwu">服务名称：
+            <span>{{serOrList.serviceName}}</span>
           </li>
-          <li>单价：
-            <span class="price">￥{{serOrList.unitPrice}}.00元</span>
+          <li class="price">单价：
+            <span>￥{{serOrList.unitPrice}}.00元</span>
           </li>
-          <li>数量：
-            <span class="number">{{serOrList.buyNum}}</span>
+          <li class="number">数量：
+            <span>{{serOrList.buyNum}}</span>
           </li>
-          <li>服务总额：
-            <span class="amount">￥{{serOrList.totalPrice}}.00元</span>
+          <li class="amount">服务总额：
+            <span>￥{{serOrList.totalPrice}}.00元</span>
           </li>
         </ul>
       </div>
@@ -58,7 +58,7 @@
           <p>非网银支付</p>
         </div>
         <div class="fwy-con">
-          <div class="fwy1"><input type="radio" name="paylist" class="radioclass"></div>
+          <div class="fwy1"><input type="radio" v-model="check" value="yinlian" name="paylist" class="radioclass"></div>
           <div class="fwy2"></div>
         </div>
       </div>
@@ -67,14 +67,14 @@
           <p>平台支付</p>
         </div>
         <div class="pt-sec">
-          <div class="fir1"><input type="radio" name="paylist" class="radioclass"></div>
+          <div class="fir1"><input type="radio" v-model="check" value="weixin" name="paylist" class="radioclass"></div>
           <div class="fir2"></div>
           <div class="fir3">
             <p>微信支付</p>
           </div>
         </div>
         <div class="pt-thd">
-          <div class="fir1"><input type="radio" name="paylist" class="radioclass"></div>
+          <div class="fir1"><input type="radio" v-model="check" value="zhifubao" name="paylist" class="radioclass"></div>
           <div class="fir2"></div>
           <div class="fir3">
             <p>快捷支付</p>
@@ -87,7 +87,7 @@
           <p class="warn">因限额不能支付时，建议使用自助转账</p>
         </div>
         <div class="self-sec">
-          <div class="fir1"><input type="radio" name="paylist" class="radioclass"></div>
+          <div class="fir1"><input type="radio" v-model="check" value="zizhu" name="paylist" class="radioclass"></div>
           <div class="fir2"></div>
           <div class="fir3">
             <p>开户账号：
@@ -110,7 +110,40 @@
         <p>金额总计
           <span>￥{{busOrder.totalPrice}}.00</span>
         </p>
-        <div class="account">立即支付</div>
+        <div class="account" @click="paynow">立即支付</div>
+        <div class="paychoose" v-show="andshow==!check">
+          <a href="javascript:void(0)" @click="closezfb=true" target="blank">银联支付</a>
+          <a href="javascript:void(0)" @click="closewx=true">微信</a>
+          <a href="javascript:void(0)" @click="closezfb=true" target="blank">支付宝</a>
+        </div>
+      </div>
+      <div class="wxmengban" v-show="closewx">
+        <div class="wxpaytip">
+          <div class="wxpayhead">
+            <p>微信支付</p>
+            <span @click="closewx=false,andshow=false">×</span>
+          </div>
+          <div class="wxpayinner">
+            <div class="codeimg"><img src="../images/paypage/wxcode.png" alt=""></div>
+            <p class="saoyisao">请使用微信扫一扫 进行扫码支付</p>
+            <div class="payfinal"><a href="#/inner/payTrue">已完成支付</a><a href="#/inner/payFalse">支付遇到问题</a></div>
+            <p class="packagain" @click="closezfb=false,andshow=false">返回重新选择支付方式</p>
+          </div>
+        </div>
+      </div>
+      <div class="wxmengban" v-show="closezfb">
+        <div class="zfbpaytip">
+          <div class="wxpayhead">
+            <p>支付反馈</p>
+            <span @click="closezfb=false,andshow=false">×</span>
+          </div>
+          <div class="zfbpayinner">
+            <div class="payfinaltip">请您在新打开的页面上完成订单付款</div>
+            <p class="saoyisao">请使用微信扫一扫 进行扫码支付</p>
+            <div class="payfinal"><a href="#/inner/payTrue">已完成支付</a><a href="#/inner/payFalse">支付遇到问题</a></div>
+            <p class="packagain" @click="closezfb=false,andshow=false">返回重新选择支付方式</p>
+          </div>
+        </div>
       </div>
     </div>
     <router-view/>
@@ -126,10 +159,16 @@ export default {
       shopData: [],
       busOrder: {},
       serOrLists: [],
-      showDe: true,
+      showDe: false,
+      nowdate:'',   //时间
+      check:'',   //页面支付方式是否选择
+      andshow:false,  //支付弹出支付方式
+      closewx:false,  //微信支付页面弹出
+      closezfb:false,  //其他支付页面弹出
     };
   },
   created() {
+    console.log(this.check)
     var that = this;
     this.ajax
       .post(
@@ -141,23 +180,69 @@ export default {
       .then(function(data) {
         var sData = data.data.data;
         that.shopData = sData;
-        console.log(that.shopData);
+        // console.log(that.shopData);
         that.busOrder = data.data.data.businessOrder;
         that.serOrLists = data.data.data.serviceOrderList;
       });
+      //以下是杨迪补充的，时间部分
+      var date = new Date();
+      var Y = date.getFullYear() + '-';
+      var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+      var D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()) + ' ';
+      var h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()) + ':';
+      var m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes())  + ':';
+      var s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds())
+      // console.log(Y+M+D+h+m+s);
+      this.nowdate=Y+M+D+h+m+s  //时间
+      var that=this
+      this.ajax.post('xinda-api/service/judge/grid',this.qs.stringify({
+        start:0,
+        limit:6,
+        status:2,
+      })).then(function(data){
+        console.log(data.data)
+      })
+      this.ajax.post('xinda-api/business-order/grid').then(function(data){
+        console.log(123,data.data)
+      })
+      this.ajax.post('xinda-api/pay/weixin-pay',this.qs.stringify({
+            businessNo:this.busOrder.businessNo
+          })).then(function(data){
+            console.log(data.data,that.busOrder.businessNo)
+          })
   },
   methods: {
-    showDe() {
-      //this.showDe = true;
-    }
+    paynow(){
+      var that=this
+      console.log(this.check)
+      if(!this.check){  //页面没有选择支付方式时
+        this.andshow=true
+      }else{
+        if(this.check=='weixin'){
+          this.andshow=false
+          this.closewx=true
+          this.closezfb=false
+          this.ajax.post('xinda-api/pay/china-pay',this.qs.stringify({
+          businessNo:this.busOrder.businessNo
+          })).then(function(data){
+            console.log(data.data,that.busOrder.businessNo)
+          })
+        }else{
+          this.andshow=false
+          this.closewx=false
+          this.closezfb=true
+        }
+      }
+    },
   }
 };
 </script>
 
 <style scoped lang="less">
+*{padding: 0;margin: 0;border: 0;}
 .pay-content {
   width: 1200px;
-  height: 1155px;
+  height: 1000px;
   background: white;
   margin: 0 auto;
   overflow: hidden;
@@ -254,10 +339,20 @@ export default {
     line-height: 75px;
     display: flex;
     list-style: none;
-    justify-content: space-around;
+    // justify-content: space-around;
+    // float: left;
     color: #252525;
+    text-align: left;
+    .fuwu{
+      width: 400px;
+      margin-left: 45px;
+    }
     .price {
       color: #50a2d9;
+      width: 300px;
+    }
+    .number{
+      width: 250px;
     }
     .amount {
       color: #50a2d9;
@@ -416,6 +511,7 @@ export default {
 .accounts {
   float: right;
   margin-top: 90px;
+  position: relative;
   p {
     color: #686868;
     margin-right: 30px;
@@ -433,7 +529,153 @@ export default {
     line-height: 28px;
     color: #2693d4;
     cursor: pointer;
+    margin-top: 20px;
     margin-left: 30px;
+    
   }
 }
+.paychoose{
+  width: 78px;
+  height: 98px;
+  border: 1px solid #999;
+  border-radius: 6px;
+  background: #fff;
+  position: absolute;
+  left: 70px;
+  top: 65px;
+  a{
+    width: 50px;
+    height: 19px;
+    padding: 3px 8px;
+    display: block;
+    border: 1px solid #999;
+    border-radius: 5px;
+    background: #eee;
+    font-size: 12px;
+    color: #000;
+    text-decoration: none;
+    line-height: 19px;
+    margin: 4px auto;
+  }
+}
+.wxmengban{
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  position: fixed;
+  background: rgba(0,0,0,.2);
+  top: 0;
+  left:0;
+  z-index: 26;
+}
+.wxpaytip{
+  width: 334px;
+  height: 367px;
+  box-shadow: 3px 3px 10px 3px rgb(59, 56, 56);
+  display: flex;
+  flex-wrap: wrap;
+  margin: 100px auto;
+  z-index: 30;
+}
+.zfbpaytip{
+  width: 450px;
+  height: 270px;
+  box-shadow: 3px 3px 10px 3px rgb(59, 56, 56);
+  display: flex;
+  flex-wrap: wrap;
+  margin: 100px auto;
+  z-index: 30;
+}
+.wxpayhead{
+  width: 100%;
+  height: 40px;
+  background: #eee;
+  p{
+    width: 200px;
+    height: 100%;
+    font-size: 14px;
+    font-weight: 700;
+    color: #666;
+    line-height: 40px;
+    float: left;
+    text-align: left;
+    margin-left: 15px;
+  }
+  span{
+    width: 40px;
+    height: 100%;
+    display: block;
+    float: right;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 40px;
+    color: #666;
+    cursor: pointer;
+  }
+  span:hover{
+    background: red;
+    color: #fff;
+  }
+}
+
+.wxpayinner{
+  width: 250px;
+  height: 327px;
+  padding: 0 42px;
+  // margin: 0 auto;
+  background: #fff;
+  float: left;
+}
+.zfbpayinner{
+  width: 100%;
+  height: 230px;
+  padding: 0 42px;
+  // margin: 0 auto;
+  background: #fff;
+  float: left;
+  .payfinaltip{
+    font-size: 20px;
+    color: #000;
+    font-family: '黑体';
+    margin: 30px 0 20px;
+  }
+}
+.codeimg{
+    width: 180px;
+    height: 180px;
+    margin: 20px auto 0;
+    img{
+      width: 100%;
+    }
+  }
+  .saoyisao{
+    height: 25px;
+    font-size: 15px;
+    color: #666;
+    font-family: '黑体';
+    line-height: 25px;
+  }
+  .payfinal{
+    height: 30px;
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-around;
+    a{
+      height: 25px;
+      width: 110px;
+      font-size: 14px;
+      color: #2cd4d4;
+      line-height: 25px;
+      border-radius: 5px;
+      border: 1px solid #2cd4d4;
+      text-decoration: none;
+      // padding: 5px 20px ;
+    }
+  }
+  .packagain{
+    font-size: 10px;
+    margin-top: 20px;
+    color: #2cd4d4;
+    cursor: pointer;
+  }
 </style>
