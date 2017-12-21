@@ -11,7 +11,7 @@
       <div class="top-right">
         <a href="javascript:void(0)" class="top-cart">
           <span class="logo-cart"></span>
-          <a href="#/outter/login" style="color:#000;margin:0;" v-show="!getName">购物车<span class="number">{{getNum}}</span>件</a>
+          <a href="#/outter/login" style="color:#000;margin:0;" v-show="!getName">购物车<span class="number">0</span>件</a>
           <a href="#/inner/cart" style="color:#000;margin:0;" v-show="getName">购物车<span class="number">{{getNum}}</span>件</a>
         </a>
         <a href="#/inner/myOrder" class="top-order" v-show="getName">
