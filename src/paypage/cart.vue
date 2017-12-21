@@ -31,11 +31,11 @@
             </p>
           </tr>
           <tr class="goods">
-            <td><img :src="'http://115.182.107.203:8088/xinda/pic'+ cart.providerImg" alt=""></td>
-            <td>{{cart.serviceName}}</td>
-            <td>￥{{cart.unitPrice}}.00</td>
-            <td>
-              <button @click="min(cart.serviceId,cart.buyNum)">-</button><input type="text" v-model="cart.buyNum">
+            <td class="tdone"><img :src="'http://115.182.107.203:8088/xinda/pic'+ cart.providerImg" alt=""></td>
+            <td class="tdtwo">{{cart.serviceName}}</td> 
+            <td class="tdthree">￥{{cart.unitPrice}}.00</td>
+            <td class="tdfour">
+              <button @click="min(cart.serviceId,cart.buyNum)">-</button><input type="text" v-model="cart.buyNum" readonly="readonly">
               <button @click="add(cart.serviceId,cart.buyNum)">+</button>
             </td>
             <td class="zjia">￥{{cart.totalPrice}}.00</td>
@@ -152,7 +152,7 @@ export default {
       this.ajax.post("/xinda-api/cart/submit").then(function(data) {
         that.$router.push({
           path: "/inner/paypage",
-          query: { id: data.data.data }
+          query: { id: data.data.data },
         });
       });
     },
@@ -246,8 +246,8 @@ tbody {
     width: 1200px;
     //margin-left: 50px;
     color: #686868;
-    display: flex;
-    justify-content: space-around;
+    // display: flex;
+    // justify-content: space-around;
     overflow: hidden;
     button {
       width: 18px;
@@ -257,20 +257,44 @@ tbody {
       width: 33px;
       outline: none;
     }
-    .dele {
-      cursor: pointer;
-    }
+
     img {
       width: 40px;
       height: 40px;
     }
   }
 }
+.tdone{
+  width: 40px;
+  float: left;
+  margin-left: 65px;
+}
+.tdtwo{
+  width: 360px;
+  float: left;
+}
+.tdthree{
+  width: 100px;
+  float: left;
+}
+.tdfour{
+  width: 100px;
+  float: left;
+  margin-left: 100px;
+}
 .zjia {
   color: #71afdd;
+  float: left;
+  margin-left: 120px;
+}
+.dele {
+  cursor: pointer;
+  float: left;
+  margin-left: 155px;
 }
 .tomoney {
   margin-top: 25px;
+  float: left;
 }
 .total {
   font-size: 13px;

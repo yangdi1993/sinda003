@@ -32,7 +32,7 @@
       </div>
       <div class="bigge">
         <div class="ge3">
-          <div class="forms":class="{blued:sort==1}">
+          <div class="forms" :class="{blued:sort==1}">
             <p @click="synthesize" > 综合排序</p>
             <span></span>
           </div>
