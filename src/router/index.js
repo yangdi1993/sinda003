@@ -26,6 +26,8 @@ import list4 from '@/homepage/list'
 
 //支付页面
 import paypage from '@/paypage/paypage'
+//支付跳转页面
+import orderData from '@/paypage/orderData'
 //支付失败
 import payFalse from '@/paypage/payFalse'
 //支付成功
@@ -173,6 +175,12 @@ export default new Router({
           path:'paypage',
           name:'paypage',
           component:paypage
+        },
+        //支付跳转页面
+        {
+          path:'orderData',
+          name:'orderData',
+          component:orderData
         },
         //支付错误页面
         {

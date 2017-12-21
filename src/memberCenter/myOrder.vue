@@ -218,8 +218,8 @@ export default {
     conCloseFun:function(code){
       this.isShow = false;
       this.rDataSh.splice(this.index,1)
-        var that = this;
-        console.log(code);
+        // var that = this;
+        // console.log(code);
         // this.ajax.post('xinda-api/ business-order/del',this.qs.stringify({
         //   id:code,
         // })).then(function(data){
@@ -278,8 +278,8 @@ export default {
                 this.rDataSh.push(this.rData[i]);
               }
             }   
-        this.pageChange=this.index;
         this.index += 1;
+        this.pageChange=this.index;
         }
       }
       console.log(this.index)
@@ -287,7 +287,6 @@ export default {
     // 点击页
     cliPaNo(index){
       this.pageChange=index;
-      console.log(this.pageChange);
       this.rDataSh=[];
       this.nextDis=false;
       this.preDis = false;
@@ -296,7 +295,6 @@ export default {
         for(var i=index*3;i<index*3+3;i++){
           this.rDataSh.push(this.rData[i]);
         }
-          
       }else{
           if(aa==1){
             for(var i=index*3;i<index*3+1;i++){
@@ -331,9 +329,9 @@ export default {
           this.rDataSh.push(this.rData[i]);
         }
       }
-      this.pageChange=this.index-1;
-      }
+      this.pageChange=this.index;
       this.index -= 1;
+      }
     },
     // 付款
     toPay(){

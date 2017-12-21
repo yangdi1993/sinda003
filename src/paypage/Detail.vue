@@ -31,8 +31,7 @@
             </p>
           </div>
           <div class="number">购买数量：
-            <button @click="min(num)">-</button><input type="text" v-model="num" readonly="readonly">
-            <button @click="add(num)">+</button>
+            <button @click="min(num)">-</button><input type="text" v-model="num" readonly="readonly"><button @click="add(num)">+</button>
           </div>
           <div class="buy" v-on:click="buy(providerProducts.id,num)">立即购买</div>
           <div class="add" v-on:click="addCart(providerProducts.id,num)">加入购物车</div>
@@ -67,7 +66,7 @@
             </div>
             <div class="conSec"><input type="text" placeholder="请输入手机号码"></div>
             <div class="conThd"><input type="text" placeholder="请输入图形验证码">
-              <div class="code"><img src="../images/paypage/code.jpg" alt=""></div>
+              <div class="code"><img src="../images/paypage/code.png" alt=""></div>
             </div>
             <div class="conFor"><input type="text" placeholder="请输入验证码">
               <div>获取验证码</div>
@@ -121,8 +120,8 @@
             </div>
           </div>
           <div class="list">
-            <div class="lifir" @click="liFir()" :class="{blueded:fort==1}">全部评价（{{assesses.goodNum+assesses.midNum+assesses.badNum}}）</div>
-            <div class="lifec" @click="liSec()" :class="{blueded:fort==2}">好评（{{assesses.goodNum}}）</div>
+            <div class="lifir" @click="liFir()" :class="{blueded:fort==1}">全部评价（{{3}}）</div>
+            <div class="lifec" @click="liSec()" :class="{blueded:fort==2}">好评（{{3}}）</div>
             <div class="lithd" @click="liThd()" :class="{blueded:fort==3}">中评（{{assesses.midNum}}）</div>
             <div class="lifor" @click="liFor()" :class="{blueded:fort==4}">差评（{{assesses.badNum}}）</div>
           </div>
@@ -137,17 +136,47 @@
               </thead>
               <tbody>
                 <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>
+                    <div class="pingJia">服务很好服务很好服务很好</div>
+                  </td>
+                  <td>
+                    <div class="degree"><img src="../images/paypage/manyidu.png" alt=""></div>
+                  </td>
+                  <td>
+                    <div class="headImg"><img src="../images/paypage/touxiang.png" alt=""></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="pingJia">服务很好很负责，很满意</div>
+                  </td>
+                  <td>
+                    <div class="degree"><img src="../images/paypage/manyidu.png" alt=""></div>
+                  </td>
+                  <td>
+                    <div class="headImg"><img src="../images/paypage/touxiang.png" alt=""></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="pingJia">很满意，下次还选这家2333</div>
+                  </td>
+                  <td>
+                    <div class="degree"><img src="../images/paypage/manyidu.png" alt=""></div>
+                  </td>
+                  <td>
+                    <div class="headImg"><img src="../images/paypage/touxiang.png" alt=""></div>
+                  </td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <td>
-                    <!-- <button>上一页</button>
-                    <button>1</button>
-                    <button>下一页</button> -->
+                    <div class="paging">
+                      <button class="pravicepage" @click="praverpage">上一页</button>
+                      <button @click="choosepage(index)">1</button>
+                      <button class="nextpage" @click="nexpage">下一页</button>
+                    </div>
                   </td>
                 </tr>
               </tfoot>
@@ -165,6 +194,7 @@
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 import plugins from "../plugins";
+import getData from "../homepage/public";
 export default {
   name: "HelloWorld",
   data() {
@@ -184,7 +214,8 @@ export default {
       sort: 1,
       fort: 1,
       phadvice: false,
-      advicecon: false
+      advicecon: false,
+      pagecount: { allshow: {} }
     };
   },
   methods: {
@@ -209,27 +240,13 @@ export default {
     //商品评价
     chJudge: function() {
       this.sort = 2;
-      document.querySelector(".ch-service");
       this.serviceCon = false;
       this.userRating = true;
     },
     //全部评价
     liFir() {
       this.fort = 1;
-      this.ajax
-        .post(
-          "/xinda-api/product/judge/grid",
-          this.qs.stringify({
-            start: 0,
-            limit: 10,
-            serviceId: "efddc8a338944e998ff2a7142246362b",
-            type: 1
-          })
-        )
-        .then(function(data) {
-          var pData = data.data.data;
-          console.log(data.data.data);
-        });
+      
     },
     //好评
     liSec() {
@@ -260,7 +277,7 @@ export default {
     //关闭咨询
     Up() {
       this.phadvice = false;
-       this.advicecon = false;
+      this.advicecon = false;
     },
     //
     //加入购物车
@@ -275,8 +292,61 @@ export default {
           })
         )
         .then(function(data) {
-          //console.log(data.data);
+          location.reload();
         });
+    },
+    // 分页功能上一页
+    praverpage: function() {
+      this.changepage <= 0 ? this.changepage : (this.changepage -= 1);
+      getData(
+        this.lists,
+        this.changepage,
+        6,
+        2,
+        this.url,
+        this.totle,
+        this.pagecount,
+        this.productId,
+        this.productTypeCode,
+        6
+      );
+      //console.log(this.changepage);
+    },
+    // 下一页
+    nexpage: function() {
+      this.changepage >= this.totle.allpage - 1
+        ? this.changepage
+        : (this.changepage += 1);
+      getData(
+        this.lists,
+        this.changepage,
+        6,
+        2,
+        this.url,
+        this.totle,
+        this.pagecount,
+        this.productId,
+        this.productTypeCode,
+        6
+      );
+    },
+    // 页数
+    choosepage(index) {
+      //点击页数
+      this.changepage = index;
+      // this.showborder=index   //当前页数提示样式
+      getData(
+        this.lists,
+        this.changepage,
+        6,
+        2,
+        this.url,
+        this.totle,
+        this.pagecount,
+        this.productId,
+        this.productTypeCode,
+        6
+      );
     }
   },
   //获取商品详情
@@ -305,8 +375,20 @@ export default {
       .then(function(data) {
         var mData = data.data.data;
         that.assesses = mData;
-        console.log(that.assesses);
+        //console.log(that.assesses);
       });
+    getData(
+      this.lists,
+      this.changepage,
+      6,
+      2,
+      this.url,
+      this.totle,
+      this.pagecount,
+      this.productId,
+      this.productTypeCode,
+      6
+    );
   }
 };
 </script>
@@ -499,6 +581,7 @@ export default {
   height: 41px;
   border-bottom: 1px solid #ccc;
   background-color: #f7f7f7;
+  overflow: hidden;
   .ch-service {
     //display: block;
     width: 135px;
@@ -522,11 +605,11 @@ export default {
 }
 .serviceCon {
   text-align: left;
-  margin-left: 10px;
   line-height: 35px;
+  margin-left: 10px;
   color: #333;
   height: 790px;
-  width: 1200px;
+  width: 1190px;
 }
 .userRating {
   float: left;
@@ -562,15 +645,52 @@ export default {
 }
 
 .pingjia {
+  width: 1198px;
+  table {
+    width: 1198px;
+    display: block;
+  }
   thead {
+    display: block;
     tr {
-      width: 1200px;
+      width: 1198px;
       color: #333;
       border-bottom: 1px solid #bcbcbc;
       display: flex;
       justify-content: space-around;
       line-height: 45px;
     }
+  }
+  tbody {
+    display: block;
+    tr {
+      height: 140px;
+      width: 1198px;
+      .pingJia {
+        line-height: 140px;
+        color: #645c5f;
+        width: 500px;
+        height: 138px;
+      }
+      .degree {
+        width: 200px;
+        height: 138px;
+      }
+      .headImg {
+        width: 500px;
+        height: 138px;
+        img {
+          margin-top: 30px;
+          margin-left: 90px;
+        }
+      }
+    }
+  }
+  tfoot {
+    width: 1198px;
+    display: block;
+    margin-top: 10px;
+    margin-left: 525px;
   }
 }
 .con {
@@ -742,6 +862,26 @@ export default {
   .phconThd {
     color: #60bcc1;
     margin-top: 40px;
+  }
+}
+
+.paging {
+  margin: 20px 0;
+  button {
+    padding: 0 10px;
+    height: 34px;
+    font-size: 13px;
+    color: #aaa;
+    line-height: 34px;
+    text-align: center;
+    border: 1px solid #ccc;
+    margin: 0 3px;
+    background: #fff;
+    cursor: pointer;
+  }
+  .bluebd {
+    color: #2693d4;
+    border: 1px solid #2693d4;
   }
 }
 </style>

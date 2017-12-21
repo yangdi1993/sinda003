@@ -23,7 +23,7 @@
           </div>
           <div class="money">订单金额：
             <span class="jine">￥{{busOrder.totalPrice}}.00元</span><br>
-            <div class="showDe" @click="!showDe">
+            <div class="showDe" @click="showDe=!showDe">
               <span class="mingx dianji">订单明细</span>
               <div class="hhh">
                 <span class="sanjiao"></span>
@@ -109,12 +109,12 @@
       <div class="accounts">
         <p>金额总计
           <span>￥{{busOrder.totalPrice}}.00</span>
-        </p>
+        </p>  
         <div class="account" @click="paynow">立即支付</div>
-        <div class="paychoose" v-show="andshow==!check">
-          <a href="javascript:void(0)" @click="closezfb=true" target="blank">银联支付</a>
-          <a href="javascript:void(0)" @click="closewx=true">微信</a>
-          <a href="javascript:void(0)" @click="closezfb=true" target="blank">支付宝</a>
+        <div class="paychoose" v-show="!andshow==check">
+          <a href="javascript:void(0)" @click="yinlianzf" target="blank">银联支付</a>
+          <a href="javascript:void(0)" @click="weixinzf">微信</a>
+          <a href="javascript:void(0)" @click="zhifubaozf" target="blank">支付宝</a>
         </div>
       </div>
       <div class="wxmengban" v-show="closewx">
@@ -126,12 +126,12 @@
           <div class="wxpayinner">
             <div class="codeimg"><img src="../images/paypage/wxcode.png" alt=""></div>
             <p class="saoyisao">请使用微信扫一扫 进行扫码支付</p>
-            <div class="payfinal"><a href="#/inner/payTrue">已完成支付</a><a href="#/inner/payFalse">支付遇到问题</a></div>
+            <div class="payfinal"><a href="#/inner/payTrue"  @click="alreadypay">已完成支付</a><a href="#/inner/payFalse">支付遇到问题</a></div>
             <p class="packagain" @click="closezfb=false,andshow=false">返回重新选择支付方式</p>
           </div>
         </div>
       </div>
-      <div class="wxmengban" v-show="closezfb">
+      <div class="wxmengban" v-show="closezfb">   <!-- 支付宝 -->
         <div class="zfbpaytip">
           <div class="wxpayhead">
             <p>支付反馈</p>
@@ -140,7 +140,7 @@
           <div class="zfbpayinner">
             <div class="payfinaltip">请您在新打开的页面上完成订单付款</div>
             <p class="saoyisao">请使用微信扫一扫 进行扫码支付</p>
-            <div class="payfinal"><a href="#/inner/payTrue">已完成支付</a><a href="#/inner/payFalse">支付遇到问题</a></div>
+            <div class="payfinal"><a href="#/inner/payTrue" @click="alreadypay">已完成支付</a><a href="#/inner/payFalse">支付遇到问题</a></div>
             <p class="packagain" @click="closezfb=false,andshow=false">返回重新选择支付方式</p>
           </div>
         </div>
@@ -168,7 +168,6 @@ export default {
     };
   },
   created() {
-    console.log(this.check)
     var that = this;
     this.ajax
       .post(
@@ -194,27 +193,9 @@ export default {
       var s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds())
       // console.log(Y+M+D+h+m+s);
       this.nowdate=Y+M+D+h+m+s  //时间
-      var that=this
-      this.ajax.post('xinda-api/service/judge/grid',this.qs.stringify({
-        start:0,
-        limit:6,
-        status:2,
-      })).then(function(data){
-        console.log(data.data)
-      })
-      this.ajax.post('xinda-api/business-order/grid').then(function(data){
-        console.log(123,data.data)
-      })
-      this.ajax.post('xinda-api/pay/weixin-pay',this.qs.stringify({
-            businessNo:this.busOrder.businessNo
-          })).then(function(data){
-            console.log(data.data,that.busOrder.businessNo)
-          })
   },
   methods: {
     paynow(){
-      var that=this
-      console.log(this.check)
       if(!this.check){  //页面没有选择支付方式时
         this.andshow=true
       }else{
@@ -222,18 +203,75 @@ export default {
           this.andshow=false
           this.closewx=true
           this.closezfb=false
-          this.ajax.post('xinda-api/pay/china-pay',this.qs.stringify({
-          businessNo:this.busOrder.businessNo
+          //console.log(this.check,'微信')
+          this.ajax.post('xinda-api/pay/ weixin-pay',this.qs.stringify({
+            businessNo:this.busOrder.businessNo
           })).then(function(data){
-            console.log(data.data,that.busOrder.businessNo)
+            sessionStorage.setItem('orderdata',data.data)
+            window.open('#/inner/orderData')
           })
         }else{
           this.andshow=false
           this.closewx=false
           this.closezfb=true
+          
+          if(this.check=='yinlian'|'zizhu'){   //银联
+            //console.log(this.check,'银联',123)
+            this.ajax.post('xinda-api/pay/china-pay',this.qs.stringify({
+              businessNo:this.busOrder.businessNo
+            })).then(function(data){
+              sessionStorage.setItem('orderdata',data.data)
+              window.open('#/inner/orderData')
+            })
+          }else if(this.check=='zhifubao'){    //支付宝
+            //console.log(this.check,'支付宝')
+            this.ajax.post('xinda-api/pay/ali-pay',this.qs.stringify({
+              businessNo:this.busOrder.businessNo
+            })).then(function(data){
+              sessionStorage.setItem('orderdata',data.data)
+              window.open('#/inner/orderData')
+            })
+          }
         }
       }
     },
+    yinlianzf(){
+      this.closezfb=true
+      this.check='yinlian'
+      //console.log(this.check,'银联',123)
+      this.ajax.post('xinda-api/pay/china-pay',this.qs.stringify({
+        businessNo:this.busOrder.businessNo
+      })).then(function(data){
+        sessionStorage.setItem('orderdata',data.data)
+        window.open('#/inner/orderData')
+      })
+    },
+    weixinzf(){
+      this.closewx=true
+      this.check='weixin'
+      //console.log(this.check,'微信')
+      this.ajax.post('xinda-api/pay/ weixin-pay',this.qs.stringify({
+        businessNo:this.busOrder.businessNo
+      })).then(function(data){
+        sessionStorage.setItem('orderdata',data.data)
+        window.open('#/inner/orderData')
+      })
+    },
+    zhifubaozf(){
+      this.closezfb=true
+      this.check='zhifubao'
+      //console.log(this.check,'支付宝')
+      this.ajax.post('xinda-api/pay/ali-pay',this.qs.stringify({
+        businessNo:this.busOrder.businessNo
+      })).then(function(data){
+        sessionStorage.setItem('orderdata',data.data)
+        window.open('#/inner/orderData')
+      })
+    },
+    alreadypay(){   //点击支付成功
+      sessionStorage.setItem('busOrder',this.busOrder.businessNo)
+    },
+
   }
 };
 </script>
@@ -299,6 +337,7 @@ export default {
     margin-top: -50px;
     .showDe {
       cursor: pointer;
+      margin-top: 10px;
     }
     .hhh {
       width: 10px;
