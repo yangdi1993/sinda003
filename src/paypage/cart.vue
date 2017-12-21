@@ -32,11 +32,10 @@
           </tr>
           <tr class="goods">
             <td><img :src="'http://115.182.107.203:8088/xinda/pic'+ cart.providerImg" alt=""></td>
-            <td>{{cart.serviceName}}</td>
+            <td>{{cart.serviceName}}</td> 
             <td>￥{{cart.unitPrice}}.00</td>
             <td>
-              <button @click="min(cart.serviceId,cart.buyNum)">-</button><input type="text" v-model="cart.buyNum">
-              <button @click="add(cart.serviceId,cart.buyNum)">+</button>
+              <button @click="min(cart.serviceId,cart.buyNum)">-</button><input type="text" v-model="cart.buyNum"><button @click="add(cart.serviceId,cart.buyNum)">+</button>
             </td>
             <td class="zjia">￥{{cart.totalPrice}}.00</td>
             <td class="dele">
