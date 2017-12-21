@@ -54,7 +54,8 @@ import shophome from '@/shop/shophome'
 import join from '@/shop/join'
 // 会员中心-用户评价-去评价
 import goEvalu from '@/memberCenter/goEvalu'
-
+import weChat from  '@/weChat/weChat'
+import weChatdog from  '@/weChat/weChatdog'
 
 
 Vue.use(Router)
@@ -230,6 +231,25 @@ export default new Router({
       component:server,
     },
 
+
+
+    // 移动端路由
+    {//有公共组件（头尾）
+      path:'/weChat',
+      name:'weChat',
+      component:weChat,
+      children:[
+
+      ]
+    },
+    {//无公共组件
+      path:'/weChatdog',
+      name:'weChatdog',
+      component:weChatdog,
+      children:[
+        
+      ]
+    },
   ]
 })
 
