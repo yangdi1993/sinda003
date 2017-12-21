@@ -198,7 +198,7 @@ export default {
       } else if (newPwReg.test(this.newPw) && this.newPw == this.conPw) {
         this.ajax.post('/xinda-api/sso/change-pwd', this.qs.stringify({ 
           oldPwd: md5(this.password), newPwd: md5(this.newPw) })).then(data => {
-          console.log(data.data)
+          // console.log(data.data)
           if (data.data.status == -999) {
             this.password = '';
             this.newPw = '';

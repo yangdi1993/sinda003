@@ -20,8 +20,18 @@ export default {
     //   this.$router.push('/');
     // }
     //判断移动端还是pc端
-    var that = this;
-    function browserRedirect() {
+   
+    if(this.$route.path=='/inner/homepage'){
+      if(this.browserRedirect()){
+      this.$router.push('/weChat');
+      }else{
+        this.$router.push('/');
+      }
+    }
+    
+  },
+  methods:{
+    browserRedirect() {
       var sUserAgent = navigator.userAgent.toLowerCase();
       var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
       var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
@@ -33,28 +43,16 @@ export default {
       var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
       if (
         bIsIpad ||bIsIphoneOs ||bIsMidp ||bIsUc7 ||bIsUc ||bIsAndroid ||bIsCE ||bIsWM) {
-        // !(function (doc, win) {  //js控制自适应
-        //   var docEle = doc.documentElement,
-        //     evt = "onorientationchange" in window ? "orientationchange" : "resize",
-        //     fn = function () {
-        //       var width = docEle.clientWidth;
-        //       width && (docEle.style.fontSize = 100 * (width / 768) + "px");
-        //     };
 
-        //   win.addEventListener(evt, fn, false);
-        //   doc.addEventListener("DOMContentLoaded", fn, false);
-
-        // }(document, window));
-        that.$router.push("/weChat");
-        document.writeln("p");
+        return true;
+        // document.writeln("p");
       } else {
-        that.$router.push("/");
-        document.writeln("pc");
+       return false;
+        // document.writeln("pc");
       }
     }
+  }
 
-    browserRedirect();
-  },
   // components: { top, bottom }
 };
 </script>
