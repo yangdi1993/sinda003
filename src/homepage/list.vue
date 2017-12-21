@@ -271,7 +271,7 @@ export default {
         this.productTypeCode,
         3
       );
-      console.log(this.changepage);
+      // console.log(this.changepage);
     },
     zonghe() {
       //综合排序
@@ -324,7 +324,7 @@ export default {
   created() {
     this.ajax.post("xinda-api/cart/list").then(function(data) {
       var alldata = data.data.data;
-      console.log(3, data.data.data);
+      // console.log(3, data.data.data);
     });
     this.nowindex = this.$route.query.num;
     var that = this;
@@ -377,18 +377,6 @@ export default {
         3
       );
     });
-    // this.url='xinda-api/product/package/grid' //定义数据地址
-    // // // var numb=0
-    // // // for(var i in n){
-    //     // if(numb==0){
-    //     //   that.productTypeCode=n[i].code
-    //     //   console.log(that.productTypeCode)
-    //     // }
-    //     // numb++
-    // // // }
-    // this.productId=""
-    // this.productTypeCode=0
-    // getData(this.listobjsA,0,3,2,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
   }
 };
 </script>
