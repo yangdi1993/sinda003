@@ -53,7 +53,7 @@ export default {
       }
     }
 
-    // browserRedirect();
+    browserRedirect();
   },
   // components: { top, bottom }
 };

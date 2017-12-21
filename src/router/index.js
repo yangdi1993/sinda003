@@ -234,7 +234,7 @@ export default new Router({
 
 
     // 移动端路由
-    {
+    {//有公共组件（头尾）
       path:'/weChat',
       name:'weChat',
       component:weChat,
@@ -242,12 +242,12 @@ export default new Router({
 
       ]
     },
-    {
+    {//无公共组件
       path:'/weChatdog',
       name:'weChatdog',
       component:weChatdog,
       children:[
-
+        
       ]
     },
   ]
