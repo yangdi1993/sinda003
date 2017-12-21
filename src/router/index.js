@@ -56,8 +56,14 @@ import shophome from '@/shop/shophome'
 import join from '@/shop/join'
 // 会员中心-用户评价-去评价
 import goEvalu from '@/memberCenter/goEvalu'
-import weChat from  '@/weChat/weChat'
-import weChatdog from  '@/weChat/weChatdog'
+
+
+
+//手机端
+import weChat from  '@/weChat/components/weChat'
+import weChatdog from  '@/weChat/components/weChatdog'
+//首页
+import index from '@/weChat/index/index'
 //移动端店铺列表
 import storelist from  '@/weChat/store/storelist'
 //移动端店铺首页
@@ -78,6 +84,11 @@ export default new Router({
       name: 'inner',
       component: inner,
       children:[
+        {
+          path: 'index',
+          name: 'index',
+          component: index
+        },
         //主页
         {
           path: 'homepage',
@@ -250,6 +261,12 @@ export default new Router({
       name:'weChat',
       component:weChat,
       children:[
+        //首页
+        {
+          path: 'index',
+          name: 'index',
+          component: index
+        },
         //店铺首页
         {
           path: 'storehome',
