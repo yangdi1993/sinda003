@@ -58,7 +58,10 @@ import join from '@/shop/join'
 import goEvalu from '@/memberCenter/goEvalu'
 import weChat from  '@/weChat/weChat'
 import weChatdog from  '@/weChat/weChatdog'
-
+//移动端店铺列表
+import storelist from  '@/weChat/store/storelist'
+//移动端店铺首页
+import storehome from '@/weChat/store/storehome'
 
 Vue.use(Router)
 
@@ -247,7 +250,12 @@ export default new Router({
       name:'weChat',
       component:weChat,
       children:[
-
+        //店铺首页
+        {
+          path: 'storehome',
+          name: 'storehome',
+          component: storehome
+        },
       ]
     },
     {//无公共组件
@@ -255,7 +263,12 @@ export default new Router({
       name:'weChatdog',
       component:weChatdog,
       children:[
-        
+        //店铺列表
+        {
+          path: 'storelist',
+          name: 'storelist',
+          component: storelist
+        },
       ]
     },
   ]

@@ -240,27 +240,13 @@ export default {
     //商品评价
     chJudge: function() {
       this.sort = 2;
-      document.querySelector(".ch-service");
       this.serviceCon = false;
       this.userRating = true;
     },
     //全部评价
     liFir() {
       this.fort = 1;
-      this.ajax
-        .post(
-          "/xinda-api/product/judge/grid",
-          this.qs.stringify({
-            start: 0,
-            limit: 10,
-            serviceId: "efddc8a338944e998ff2a7142246362b",
-            type: 1
-          })
-        )
-        .then(function(data) {
-          var pData = data.data.data;
-          console.log(data.data.data);
-        });
+      
     },
     //好评
     liSec() {
@@ -324,7 +310,7 @@ export default {
         this.productTypeCode,
         6
       );
-      console.log(this.changepage);
+      //console.log(this.changepage);
     },
     // 下一页
     nexpage: function() {
@@ -389,7 +375,7 @@ export default {
       .then(function(data) {
         var mData = data.data.data;
         that.assesses = mData;
-        console.log(that.assesses);
+        //console.log(that.assesses);
       });
     getData(
       this.lists,

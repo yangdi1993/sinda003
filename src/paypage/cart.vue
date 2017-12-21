@@ -117,7 +117,7 @@ export default {
       this.ajax
         .post("/xinda-api/cart/del", this.qs.stringify({ id: id }))
         .then(function(data) {
-          console.log(data.data);
+          //console.log(data.data);
           that.gettingData();
         });
     },
@@ -127,7 +127,7 @@ export default {
       this.ajax
         .post("/xinda-api/cart/add", this.qs.stringify({ id: id, num: 1 }))
         .then(function(data) {
-          console.log(data.data);
+          //console.log(data.data);
           that.gettingData();
         });
     },
@@ -138,7 +138,7 @@ export default {
         this.ajax
           .post("/xinda-api/cart/add", this.qs.stringify({ id: id, num: -1 }))
           .then(function(data) {
-            console.log(data.data);
+            //console.log(data.data);
             that.gettingData();
           });
       } else {
@@ -163,7 +163,7 @@ export default {
     //查看详情
     viewDetails: function(id) {
       this.$router.push({ path: "/inner/Detail", query: { id: id } });
-      console.log(this.$route.query.id);
+      //console.log(this.$route.query.id);
     }
   },
 

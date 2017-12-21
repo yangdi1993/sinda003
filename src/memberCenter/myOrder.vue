@@ -115,7 +115,6 @@
 <script>
 // 引进头部和尾部
 // this.ajax.post("").then(data=>{
-//       console.log('');
 import ihead from '../components/ihead'
 import getData from '../homepage/public'
 export default {
@@ -153,24 +152,17 @@ export default {
     // 我的订单接口数据
     var that = this;
     this.ajax.post('xinda-api/service-order/grid').then(function(data){
-      // console.log(data);
       var dataAll = data.data.data;
-      console.log('dataAll==',dataAll);
       var dataObj = {};
       for(var i = 0;i<dataAll.length;i++){
         var businessNo = dataAll[i].businessNo;
-        // 
-        // console.log(dataAll[i].businessNo);
         if(!dataObj[businessNo]){
           dataObj[businessNo] = dataAll[i]
-          // console.log('222',dataObj[businessNo]);
           dataObj[businessNo].subItem = [];
         }
         dataObj[businessNo].subItem.push(dataAll[i]);
         // 合并订单号
        
-        // console.log('333',that.products[businessNo].subItem.length);
-        // console.log('333',that.products[businessNo]);
         // 获取创建时间
         var dd = dataAll[i].createTime;
         // 转换格式
@@ -189,7 +181,6 @@ export default {
       }
        that.rData = dataAll;
        that.products = dataObj;
-       console.log('that.products==',that.products);
     //  第一页显示
     var bb = dataAll.length<3?dataAll.length:3;
     for(var i=0;i<bb;i++){
@@ -208,7 +199,6 @@ export default {
     // 点击删除弹出框
     delOrder:function(code){
       this.isShow = true;
-      console.log(code);
     },
     // 点击X弹出框消失
     closeFun:function(){
@@ -282,7 +272,6 @@ export default {
         this.pageChange=this.index;
         }
       }
-      console.log(this.index)
     },
     // 点击页
     cliPaNo(index){
