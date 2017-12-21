@@ -31,36 +31,76 @@
             </p>
           </div>
           <div class="number">购买数量：
-            <button @click="min(num)">-</button><input type="text" v-model="num" @click="keyup(num)"><button @click="add(num)">+</button>
+            <button @click="min(num)">-</button><input type="text" v-model="num" readonly="readonly">
+            <button @click="add(num)">+</button>
           </div>
-          <div class="buy" v-on:click="buy()">立即购买</div>
+          <div class="buy" v-on:click="buy(providerProducts.id,num)">立即购买</div>
           <div class="add" v-on:click="addCart(providerProducts.id,num)">加入购物车</div>
         </div>
         <div class="service">
           <p class="fir">顶级服务商</p>
           <p class="sec">北京信达服务中心</p>
-          <div class="consult">马上咨询</div>
+          <div class="consult" @click="Consult()">马上咨询</div>
           <div class="search">
             <div>
               <a href="#/inner/shophome">查看服务商</a>
             </div>
           </div>
         </div>
-        <!-- <div class="advice">
-          <div class="ad-top">
-            <div>免费电话咨询</div>
-            <div>X</div>
-          </div>
+        <!-- 电话咨询 -->
+        <div class="phAdvice" v-show="phadvice">
+          <div class="phTop">
+            <div>
+              <p>免费电话咨询</p>
+              <p class="up" @click="Up()">X</p>
+            </div>
 
-        </div> -->
+          </div>
+          <div class="phCon">
+            <div class="conFir">
+              <el-steps :active="2" align-center>
+                <el-step title="输入手机号码"></el-step>
+                <el-step title="您接听来点"></el-step>
+                <el-step title="被叫方接听"></el-step>
+                <el-step title="咨询结束"></el-step>
+              </el-steps>
+            </div>
+            <div class="conSec"><input type="text" placeholder="请输入手机号码"></div>
+            <div class="conThd"><input type="text" placeholder="请输入图形验证码">
+              <div class="code"><img src="../images/paypage/code.jpg" alt=""></div>
+            </div>
+            <div class="conFor"><input type="text" placeholder="请输入验证码">
+              <div>获取验证码</div>
+            </div>
+            <div class="conFif" @click="startCon()">
+              <div>开始免费咨询</div>
+            </div>
+            <div class="conSix">
+              <p>本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用</p>
+            </div>
+          </div>
+        </div>
+        <!-- 咨询等候 -->
+        <div class="adviceCon" v-show="advicecon">
+          <div class="conTop">
+            <div>
+              <p>免费电话咨询</p>
+              <p class="up" @click="Up()">X</p>
+            </div>
+
+          </div>
+          <div class="phcon">
+            <p class="phconFir">本次电话咨询完全免费，我们将对您的号码严格保密，请放心使用</p>
+            <p class="phconSec">正在为您接通电话</p>
+            <p class="phconThd">请您注意接听电话</p>
+          </div>
+        </div>
       </div>
       <div class="bg-img"><img src="../images/paypage/u1225.png" alt=""></div>
       <div class="proservice">
         <div class="kuang">
-          <el-radio-group v-model="tabPosition" style="margin-bottom: 30px; margin-right:1000px;">
-            <el-radio-button label="top" v-on:click="changefir()">服务列表</el-radio-button>
-            <el-radio-button label="" v-on:click="changesec()">商品评价</el-radio-button>
-          </el-radio-group>
+          <div class="ch-service" :class="{blued:sort==1}" @click="chService()">服务内容</div>
+          <div class="ch-judge" :class="{blued:sort==2}" @click="chJudge()">商品评价</div>
         </div>
         <div class="serviceCon" v-show="serviceCon">服务内容： <br>1.整理原始票据 <br>2.记账 <br>3.装订凭证 <br>4.出报表 <br>5.月报、季度企业所得税、年度汇算清缴 <br>6.打印总帐、明晰账本 </div>
         <div class="userRating" v-show="userRating">
@@ -81,10 +121,10 @@
             </div>
           </div>
           <div class="list">
-            <div>全部评价（0）</div>
-            <div>好评（0）</div>
-            <div>中评（0）</div>
-            <div>差评（0）</div>
+            <div class="lifir" @click="liFir()" :class="{blueded:fort==1}">全部评价（{{assesses.goodNum+assesses.midNum+assesses.badNum}}）</div>
+            <div class="lifec" @click="liSec()" :class="{blueded:fort==2}">好评（{{assesses.goodNum}}）</div>
+            <div class="lithd" @click="liThd()" :class="{blueded:fort==3}">中评（{{assesses.midNum}}）</div>
+            <div class="lifor" @click="liFor()" :class="{blueded:fort==4}">差评（{{assesses.badNum}}）</div>
           </div>
           <div class="pingjia">
             <table>
@@ -97,9 +137,9 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>{{111}}</td>
-                  <td>{{111}}</td>
-                  <td>{{111}}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                 </tr>
               </tbody>
               <tfoot>
@@ -124,6 +164,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
+import plugins from "../plugins";
 export default {
   name: "HelloWorld",
   data() {
@@ -136,56 +177,101 @@ export default {
       tabPosition: "top",
       providerProducts: {},
       num: 1,
-      regionText:{},
-      serviceCon:true,
-      userRating:false
+      regionText: {},
+      serviceCon: true,
+      userRating: false,
+      assesses: "",
+      sort: 1,
+      fort: 1,
+      phadvice: false,
+      advicecon: false
     };
   },
   methods: {
-    counts: function() {
-      var Quantity = document.querySelector(".Quantity");
-      if (/^\+?[1-9]\d*$/.test(this.quantity)) {
-        //console.log(this);
-        this.quantity = "";
-      } else {
-        this.quantity = this.quantity;
-      }
-    },
-    keyup(){
-
-    },
+    //减少数量
     min(num) {
-      if (num >= 1) {
-       
+      if (num - 1 >= 1) {
+        this.num -= 1;
       } else {
         num = 1;
       }
     },
+    //增加数量
     add(num) {
-      num -= -1;
-      console.log("+=", num);
+      this.num += 1;
     },
-    changefir: function() {
-      this.serviceCon=true;
-      this.userRating=false;
+    //服务内容
+    chService: function() {
+      this.sort = 1;
+      this.serviceCon = true;
+      this.userRating = false;
     },
-    changesec: function() {
-      this.serviceCon=false;
-      this.userRating=true;
-      console.log(111111111)
+    //商品评价
+    chJudge: function() {
+      this.sort = 2;
+      document.querySelector(".ch-service");
+      this.serviceCon = false;
+      this.userRating = true;
     },
-    buy: function() {
-
+    //全部评价
+    liFir() {
+      this.fort = 1;
+      this.ajax
+        .post(
+          "/xinda-api/product/judge/grid",
+          this.qs.stringify({
+            start: 0,
+            limit: 10,
+            serviceId: "efddc8a338944e998ff2a7142246362b",
+            type: 1
+          })
+        )
+        .then(function(data) {
+          var pData = data.data.data;
+          console.log(data.data.data);
+        });
     },
+    //好评
+    liSec() {
+      this.fort = 2;
+    },
+    //中评
+    liThd() {
+      this.fort = 3;
+    },
+    //差评
+    liFor() {
+      this.fort = 4;
+    },
+    //立即购买
+    buy(id) {
+      var that = this;
+      plugins(id, that);
+    },
+    //咨询
+    Consult() {
+      this.phadvice = true;
+    },
+    //开始咨询
+    startCon() {
+      this.phadvice = false;
+      this.advicecon = true;
+    },
+    //关闭咨询
+    Up() {
+      this.phadvice = false;
+       this.advicecon = false;
+    },
+    //
     //加入购物车
-    addCart(id,num) {
+    addCart(id, num) {
       var that = this;
       this.ajax
         .post(
           "/xinda-api/cart/add",
           this.qs.stringify({
             id: id,
-            num: 1,
+            num: this.num
           })
         )
         .then(function(data) {
@@ -204,9 +290,22 @@ export default {
       .then(function(data) {
         that.products = data.data.data.product;
         that.providerProducts = data.data.data.providerProduct;
-        that.regionText=data.data.data.regionText;
-        console.log(data.data.data);
-        
+        that.regionText = data.data.data.regionText;
+        //console.log(data.data.data.providerProduct);
+        //console.log(data.data.data.product);
+      });
+    //获取评价详情
+
+    //获取评价数量
+    this.ajax
+      .post(
+        "/xinda-api/product/judge/detail",
+        this.qs.stringify({ serviceId: "efddc8a338944e998ff2a7142246362b" })
+      )
+      .then(function(data) {
+        var mData = data.data.data;
+        that.assesses = mData;
+        console.log(that.assesses);
       });
   }
 };
@@ -400,21 +499,15 @@ export default {
   height: 41px;
   border-bottom: 1px solid #ccc;
   background-color: #f7f7f7;
-  .t-fir {
+  .ch-service {
     //display: block;
     width: 135px;
     line-height: 41px;
-    background-color: #2693d4;
-    color: white;
-    cursor: pointer;
-  }
-  .t-Fir {
-    width: 135px;
-    line-height: 41px;
+    //background-color: #2693d4;
     color: #636363;
     cursor: pointer;
   }
-  .t-sec {
+  .ch-judge {
     width: 135px;
     line-height: 41px;
     color: #636363;
@@ -422,14 +515,9 @@ export default {
     margin-left: 135px;
     margin-top: -41px;
   }
-  .t-Sec {
-    width: 135px;
-    line-height: 41px;
+  .blued {
     background-color: #2693d4;
     color: white;
-    cursor: pointer;
-    margin-left: 135px;
-    margin-top: -41px;
   }
 }
 .serviceCon {
@@ -456,6 +544,10 @@ export default {
   background-color: #f2f2f2;
   border-top: 1px solid #bcbcbc;
   border-bottom: 1px solid #bcbcbc;
+  .blueded {
+    background-color: #2693d4;
+    color: white;
+  }
   div {
     float: left;
     line-height: 48px;
@@ -468,10 +560,7 @@ export default {
     cursor: pointer;
   }
 }
-.list > div:first-child {
-  background-color: #169bd5;
-  color: white;
-}
+
 .pingjia {
   thead {
     tr {
@@ -527,6 +616,132 @@ export default {
     p {
       line-height: 40px;
     }
+  }
+}
+.phAdvice {
+  background-color: white;
+  width: 645px;
+  height: 425px;
+  border: 1px solid #dddbdb;
+  position: absolute;
+  margin-left: 330px;
+  margin-top: 70px;
+}
+.phTop {
+  background-color: #f8f8f8;
+  div {
+    width: 600px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+  }
+  line-height: 45px;
+  color: #3d434e;
+  .up {
+    cursor: pointer;
+  }
+}
+.phCon {
+  .conFir {
+    height: 75px;
+    margin-top: 20px;
+  }
+  .conSec {
+    input {
+      border: 1px solid #707070;
+      outline: none;
+      width: 305px;
+      height: 35px;
+    }
+  }
+  .conThd {
+    margin-top: 20px;
+    input {
+      width: 190px;
+      height: 35px;
+      border: 1px solid #707070;
+      outline: none;
+      margin-right: 115px;
+    }
+    .code {
+      width: 105px;
+      margin-left: 370px;
+      margin-top: -35px;
+    }
+  }
+  .conFor {
+    margin-top: 20px;
+    input {
+      width: 190px;
+      height: 35px;
+      border: 1px solid #707070;
+      outline: none;
+      margin-right: 115px;
+    }
+    div {
+      width: 103px;
+      line-height: 33px;
+      border: 1px solid #d7d7d7;
+      border-radius: 3px;
+      background-color: #f5f4f4;
+      color: #746f6b;
+      cursor: pointer;
+      margin-left: 370px;
+      margin-top: -35px;
+    }
+  }
+  .conFif {
+    margin-top: 20px;
+    width: 305px;
+    line-height: 35px;
+    background-color: #4eb5ba;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-left: 170px;
+  }
+  .conSix {
+    color: #717171;
+    font-size: 12px;
+    margin-top: 20px;
+  }
+}
+.adviceCon {
+  width: 645px;
+  height: 425px;
+  border: 1px solid #dddbdb;
+  position: absolute;
+  background-color: white;
+  margin-left: 330px;
+  margin-top: 70px;
+}
+.conTop {
+  background-color: #f8f8f8;
+  div {
+    width: 600px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+  }
+  line-height: 45px;
+  color: #3d434e;
+  .up {
+    cursor: pointer;
+  }
+}
+.phcon {
+  font-size: 28px;
+  .phconFir {
+    color: #646464;
+    margin-top: 60px;
+  }
+  .phconSec {
+    color: #60bcc1;
+    margin-top: 40px;
+  }
+  .phconThd {
+    color: #60bcc1;
+    margin-top: 40px;
   }
 }
 </style>

@@ -23,7 +23,7 @@
           </div>
           <div class="money">订单金额：
             <span class="jine">￥{{busOrder.totalPrice}}.00元</span><br>
-            <div class="showDe" @click="showDe()">
+            <div class="showDe" @click="showde()">
               <span class="mingx dianji">订单明细</span>
               <div class="hhh">
                 <span class="sanjiao"></span>
@@ -126,7 +126,7 @@ export default {
       shopData: [],
       busOrder: {},
       serOrLists: [],
-      showDe: true,
+      showDe: false,
     };
   },
   created() {
@@ -147,8 +147,8 @@ export default {
       });
   },
   methods: {
-    showDe() {
-      //this.showDe = true;
+    showde() {
+      this.showDe = true;
     }
   }
 };
