@@ -1,14 +1,18 @@
 <template>
   <div class="inner">
+    <top></top>
     <ihead></ihead>
     <router-view/>
     <ifoot></ifoot>
+    <bottom/>
   </div>
 </template>
 
 <script>
 import ihead from './ihead'
 import ifoot from './ifoot'
+import top from "./top";
+import bottom from "./bottom";
 export default {
   name: 'HelloWorld',
   data () {
@@ -17,7 +21,7 @@ export default {
       parentMessage:'来自父级组件'
     }
   },
-  components:{ihead,ifoot}
+  components:{ihead,ifoot,top,bottom}
 }
 </script>
 
