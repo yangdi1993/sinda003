@@ -19,13 +19,13 @@
             <a :class="{inputchoose:chance}" @click="servicechoose" href="javascript:void(0)" class="iheadseverce">服务商</a>
           </div>
           <form action="">
-            <input type="text" @input="produceinput" @blur="losesearch" v-show="chance" v-model="nowproinput" class="ihead-search" placeholder="搜索您需要的产品">
-            <input type="text" @input="serviceinput" @blur="losesearch" v-show="!chance" v-model="nowserinput" class="ihead-search" placeholder="搜索您需要的服务或服务商">
+            <input type="text" @input="produceinput" v-show="chance" @blur="dispear" v-model="nowproinput" class="ihead-search" placeholder="搜索您需要的产品">
+            <input type="text" @input="serviceinput" v-show="!chance" @blur="dispear" v-model="nowserinput" class="ihead-search" placeholder="搜索您需要的服务或服务商">
             <button class="iheadbtn"><span></span></button>
-            <div class="allsearch" v-show="search">
+            <div class="allsearch" v-show="search" >
               <span v-show="searchtip">没有搜索到此产品</span>
-              <p v-for="search in sosolobj" v-show="chance" @click="choosesearch(search.serviceName)" :key="search.id">{{search.serviceName}}</p>
-              <p v-for="search in sosolobjs" v-show="!chance" @click="choosesearch1(search.providerName)" :key="search.id">{{search.providerName}}</p>
+              <p v-for="search in sosolobj" v-show="chance" @mousedown="choosesearch(search.serviceName)" :key="search.id">{{search.serviceName}}</p>
+              <p v-for="search in sosolobjs" v-show="!chance"  @mousedown="choosesearch1(search.providerName)" :key="search.id">{{search.providerName}}</p>
             </div>
           </form>
           <div>
@@ -136,28 +136,32 @@ export default {
     ...mapActions(['setNum','setName']),
 
     produceinput(){  //产品搜索框
-    var that=this
-    if(this.nowproinput){
-      this.ajax.post('xinda-api/product/package/search-grid',this.qs.stringify({
-        start:0,
-        // limit:100,
-        searchName:this.nowproinput,
-        sort:1,
-      })).then(function(data){  //搜索框获取接口
-        var alldata=data.data.data
-        that.sosolobj=alldata
-        console.log(alldata)
-        if(!alldata.length){
-          that.searchtip=true;
-        }else{
-          that.searchtip=false;
-        }
-      });
-    }
+      this.search=true
+      var that=this
+      if(this.nowproinput){
+        this.ajax.post('xinda-api/product/package/search-grid',this.qs.stringify({
+          start:0,
+          // limit:100,
+          searchName:this.nowproinput,
+          sort:1,
+        })).then(function(data){  //搜索框获取接口
+          var alldata=data.data.data
+          that.sosolobj=alldata
+          // console.log(alldata)
+          if(!alldata.length){
+            that.searchtip=true;
+          }else{
+            that.searchtip=false;
+          }
+        });
+      }else{
+        this.search=false
+      }
       
     },
     serviceinput(){  //服务商搜索框
-      console.log(123)
+      this.search=true
+      // console.log(123)
       if(this.nowserinput){
         var that=this
         this.ajax.post('xinda-api/provider/search-grid',this.qs.stringify({
@@ -170,18 +174,20 @@ export default {
         })).then(function(data){  //搜索框获取接口
           var alldata=data.data.data 
           that.sosolobjs=alldata
-          console.log(alldata,that.nowserinput)
-          // if(!alldata.length){
-          //   that.searchtip=true;
-          // }else{
-          //   that.searchtip=false;
-          // }
+          // console.log(alldata,that.nowserinput)
+          if(!alldata.length){
+            that.searchtip=true;
+          }else{
+            that.searchtip=false;
+          }
         });
+      }else{
+        this.search=false
       }
     },
-    losesearch(){   //搜索框失去焦点
-      this.search=false
-    },
+    // losesearch(){   //搜索框失去焦点
+    //   this.search=false
+    // },
     getsearch(){    //搜索框获得焦点 
       this.search=true
     },
@@ -199,6 +205,11 @@ export default {
       this.nowserinput=providerName
       this.search=false
     },
+    dispear(){
+      this.search=false
+    },
+
+
 
     allProduce(){
       this.produce = true;
