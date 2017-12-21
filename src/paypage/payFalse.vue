@@ -18,7 +18,7 @@
           <p class="sec">支付未成功，让我们再试一次吧！</p>
           <p class="thd">如有问题，请联系客服：<span>010-83421842</span></p>
         </div>
-        <div class="back">返回支付页</div>
+        <div class="back" @click="gotoback">返回支付页</div>
       </div>
     </div>
     <router-view/>
@@ -27,11 +27,14 @@
 
 <script>
 export default {
-  name: "HelloWorld",
   data() {
     return {
-      msg: "Welcome to Your Vue.js App"
     };
+  },
+  methods:{
+    gotoback(){
+      this.$router.go(-1)
+    }
   }
 };
 </script>
