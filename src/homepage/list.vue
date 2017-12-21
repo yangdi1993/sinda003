@@ -105,25 +105,23 @@ import dist from "../images/districts";
 import plugins from "../plugins";
 export default {
   data() {
-    return {
-      objs: [],
-      innerobjs: [],
-      showclass: 0,
-      showkind: -1,
-      listobjs: [],
-      listobjsA: { page: "" },
-      totle: { allpage: 0 },
-      showborder: 0,
-      pagecount: { allshow: {} }, //总页数对象
-      changepage: 0, //点击之后选择的页数
-      paixu: 2, //排序方式
-      autopaixu: 1, //点击排序的方式
-      daosanjian: true,
-      url: "xinda-api/product/package/grid", //数据获取地址
-      productId: "", //点击三级标题需要的
-      productTypeCode: 0, //code值，点击二级标题需要的
-      // nowindex:sessionStorage.getItem('index'),
-
+    return { 
+      objs:[],
+      innerobjs:[],
+      showclass:0,
+      showkind:-1,
+      listobjs:[],
+      listobjsA:{page:''},
+      totle:{allpage:0},
+      showborder:0,
+      pagecount:{allshow:{}},  //总页数对象
+      changepage:0,  //点击之后选择的页数
+      paixu:2,  //排序方式
+      autopaixu:1,  //点击排序的方式
+      daosanjian:true,
+      url:'xinda-api/product/package/grid', //数据获取地址
+      productId:'', //点击三级标题需要的
+      productTypeCode:0,  //code值，点击二级标题需要的
       provinces: dist[100000],
       citys: [],
       areas: [],
@@ -158,15 +156,13 @@ export default {
           objs[x] = n[j];
           x++;
         }
-        // console.log(n)
-        // console.log(objs[0])
-        that.innerobjs = objs[0].itemList;
-
-        that.url = "xinda-api/product/package/grid"; //定义数据地址
-        var numb = 0;
-        for (var i in n) {
-          if (numb == 0) {
-            that.productTypeCode = n[i].code;
+        that.innerobjs=objs[0].itemList
+      
+        that.url='xinda-api/product/package/grid' //定义数据地址
+        var numb=0
+        for(var i in n){
+          if(numb==0){
+            that.productTypeCode=n[i].code
           }
           numb++;
         }
@@ -185,9 +181,6 @@ export default {
           3
         );
       });
-
-      // this.url='xinda-api/product/package/grid' //定义数据地址
-      // getData(this.listobjsA,0,3,2,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode)
     }
   },
   methods: {
@@ -206,42 +199,22 @@ export default {
         that.setNum(data.data.data.cartNum); //购物车物品数量,点击加入购物车后自动更新
       });
     },
-    typeclasses(index, key) {
+    typeclasses(index,key){   //服务分类的点击
       // console.log(this.objs[index].itemList)
-      this.innerobjs = this.objs[key].itemList;
-      this.showclass = index;
-      this.showkind = -1;
-      this.productTypeCode = this.objs[key].code;
-      this.productId = "";
-      getData(
-        this.listobjsA,
-        this.changepage,
-        3,
-        this.paixu,
-        this.url,
-        this.totle,
-        this.pagecount,
-        this.productId,
-        this.productTypeCode,
-        3
-      );
+      this.innerobjs=this.objs[key].itemList
+      this.showclass=index
+      this.showkind=-1
+      this.productTypeCode=this.objs[key].code
+      this.productId=''
+      this.changepage=0
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode,3)      
     },
-    typekinds(index, key) {
-      this.showkind = index;
-      this.productId = this.innerobjs[key].id;
-      this.productTypeCode = 0;
-      getData(
-        this.listobjsA,
-        this.changepage,
-        3,
-        this.paixu,
-        this.url,
-        this.totle,
-        this.pagecount,
-        this.productId,
-        this.productTypeCode,
-        3
-      );
+    typekinds(index,key){   //类型的点击
+      this.showkind=index
+      this.productId=this.innerobjs[key].id
+      this.productTypeCode=0
+      this.changepage=0
+      getData(this.listobjsA,this.changepage,3,this.paixu,this.url,this.totle,this.pagecount,this.productId,this.productTypeCode,3)      
     },
     errorimg() {
       //图片路径错误时报错事件

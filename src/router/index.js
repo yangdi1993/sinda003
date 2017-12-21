@@ -7,8 +7,6 @@ import server from '@/components/server'
 import outter from '@/components/outter'
 //登录后
 import inner from '@/components/inner'
-//省市区三级联动
-import Distpicker from 'v-distpicker'
 //views 登录、注册、修改密码
 import login from '@/views/login'
 import register from '@/views/register'
@@ -21,9 +19,9 @@ import homepage from '@/homepage/homepage'
 import list1 from '@/homepage/list'
 //列表页,由公司工商跳转 跳转
 import list2 from '@/homepage/list'
-//列表页,由公司工商跳转 跳转
+//列表页,由全部产品知识产权 跳转
 import list3 from '@/homepage/list'
-//列表页,由公司工商跳转 跳转
+//列表页,由全部产品社保代理 跳转
 import list4 from '@/homepage/list'
 
 //支付页面
@@ -50,8 +48,6 @@ import accountSetting from '@/memberCenter/accountSetting'
 import changePw from '@/memberCenter/changePw'
 //店铺列表
 import shoplist from '@/shop/shoplist'
-//移动端店铺列表
-import moveshoplist from '@/shop/moveshoplist'
 //店铺首页
 import shophome from '@/shop/shophome'
 //加盟我们
@@ -61,9 +57,6 @@ import goEvalu from '@/memberCenter/goEvalu'
 
 
 
-//省市区三级联动
-Vue.component('v-distpicker', Distpicker)
-
 Vue.use(Router)
 
 export default new Router({
@@ -71,7 +64,8 @@ export default new Router({
     {
       path: '/',
       name: 'HelloWorld',
-      component: HelloWorld
+      component: HelloWorld,
+      redirect:'inner/homepage',
     },
     {
       path: '/inner',
@@ -84,7 +78,7 @@ export default new Router({
           name: 'homepage',
           component: homepage
         },
-        // //列表页,由全部产品 跳转
+        //列表页,由全部产品 跳转
         // {
         //   path: 'list',
         //   name: 'list',
@@ -102,13 +96,13 @@ export default new Router({
           name: 'list2',
           component: list2
         },
-        //列表页,由公司工商 跳转
+        //列表页,由全部产品知识产权 跳转
         {
           path: 'list3',
           name: 'list3',
           component: list3
         },
-        //列表页,由公司工商 跳转
+        //列表页,由全部产品社保代理 跳转
         {
           path: 'list4',
           name: 'list4',
@@ -156,19 +150,14 @@ export default new Router({
           name: 'shophome',
           component: shophome
         },
-        
+
         //加盟我们
         {
           path: 'join',
           name: 'join',
           component: join
         },
-        //移动店铺列表
-        {
-          path: 'moveshoplist',
-          name: 'moveshoplist',
-          component: moveshoplist
-        },
+  
         // 会员中心-用户评价-去评价
         {
           path:'goEvalu',
@@ -240,6 +229,7 @@ export default new Router({
       name:'server',
       component:server,
     },
-    
+
   ]
 })
+
