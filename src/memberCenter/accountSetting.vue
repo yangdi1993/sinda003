@@ -132,7 +132,7 @@ export default {
   created() {
     // 验证登录信息
     this.ajax.post('/xinda-api/sso/login-info').then(data => {
-      console.log(data.data.data)
+      // console.log(data.data)
       this.status = data.data.status
       // console.log('status==',this.status);
     })

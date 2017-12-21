@@ -67,7 +67,7 @@
                   <div class="close" @click="closeFun()">×</div>
                 </div>
                 <p class="confirm">确定删除该订单吗？</p>
-                <button class="confirmYes" @click="conCloseFun()">确定</button>
+                <button class="confirmYes" @click="conCloseFun(item.id)">确定</button>
                 <button class="confirmNo" @click="canCliseFun()">取消</button>
               </div>
               <!-- 订单插入 -->
@@ -82,24 +82,27 @@
                     下单时间：{{item.createTime}}</th>
                 </tr>
                 <tr class="orderInTr">
-                  <td class="orderInTrTdO">{{item.name3}}</td>
-                  <td class="orderInTrTdTw">{{item.name4}}</td>
-                  <td class="orderInTrTdTh">{{item.name5}}</td>
+                  <td class="orderInTrTdO"></td>
+                  <td class="orderInTrTdTw">
+                    <p>信达北京服务中心</p>
+                    <p>代理记账（1）</p>
+                  </td>
+                  <td class="orderInTrTdTh">{{item.totalPrice}}</td>
                   <td class="orderInTrTdFo">{{item.status}}</td>
                   <td class="orderInTrTdFi">{{item.totalPrice}}</td>
                   <td class="orderInTrTdSi">{{item.name8}}</td>
                   <td class="orderInTrTdSe">
-                    <input type="button" value="付款">
-                    <p class="delOr" v-on:click="delOrder()">删除订单</p>
+                    <a href="#/inner/paypage"><input type="button" @click="toPay()"  value="付款"></a>
+                    <p class="delOr" v-on:click="delOrder(item.id)">删除订单</p>
                   </td>
                 </tr>
               </table>  
           </div>
           <!-- 翻页 -->
           <div class="pageTurn">
-            <button class="prePage" @click="prePageBtn()">上一页</button>
+            <button class="prePage" @click="prePageBtn()" v-bind:disabled="preDis">上一页</button>
             <button class="pageNum" v-for="(pageO,index) in pageOAll" :key="pageO.id" @click="cliPaNo(index)">{{pageO}}</button>
-            <button class="nextPage" @click="nextPageBtn()">下一页</button>
+            <button class="nextPage" @click="nextPageBtn()" v-bind:disabled="nextDis">下一页</button>
             <div class="toPageDiv">共{{toPage}}页</div>
           </div>
         </div>
@@ -134,7 +137,13 @@ export default {
       // 共几页
       toPage:"",
       // 页数
-      pageOAll:[]
+      pageOAll:[],
+      // 上一页
+      preDis:false,
+      // 下一页
+      nextDis:false,
+      // 要删除的订单号
+     
     }
   },
   created(){
@@ -161,9 +170,10 @@ export default {
         that.rData = dataAll;
       }
     //  第一页显示
-     for(var i=0;i<3;i++){
-        that.rDataSh.push(dataAll[i]);
-     }
+    var bb = dataAll.length<3?dataAll.length:3;
+    for(var i=0;i<bb;i++){
+      that.rDataSh.push(dataAll[i]);
+    }
       // 总页数
       var totolPage = Math.ceil(dataAll.length/3);
       that.toPage = totolPage;
@@ -175,17 +185,27 @@ export default {
   },
   methods:{
     // 点击删除弹出框
-    delOrder:function(index){
+    delOrder:function(code){
       this.isShow = true;
+      console.log('111',code)
     },
     // 点击X弹出框消失
     closeFun:function(){
       this.isShow = false;
     },
     // 点击确定
-    conCloseFun:function(index){
+    conCloseFun:function(code){
       this.isShow = false;
-      this.rDataSh.splice(index,1)
+      console.log(code);
+      // this.rDataSh.splice(this.index,1)
+        // var that = this;
+        this.ajax.post('xinda-api/ business-order/del',this.qs.stringify({
+          id:code,
+        })).then(function(data){
+          console.log(data.data.data)
+          
+        })
+
     },
     // 点击取消
     canCliseFun:function(index){
@@ -197,8 +217,8 @@ export default {
       // 清空页面要渲染的数据
       this.rDataSh = [];
       for(var i=0;i<this.rData.length;i++){
-        var ordLiNa = this.rData[i].name;
-        if(ordLiNa==this.orSerInVal){
+        var ordLiNa = this.rData[i].businessNo;
+        if(ordLiNa==this.orSerInVal||this.orSerInVal==''){
           // 把符合条件的数据添加到[]里面
           this.rDataSh.push(this.rData[i]);
         }
@@ -210,83 +230,98 @@ export default {
     
     // 下一页
     nextPageBtn(){
-      this.rDataSh=[];
-      console.log(this.index);
+      this.preDis = false;
+      // 最后一页按钮不可点击
+      if(this.toPage==this.index+1||this.toPage==0){
+        this.nextDis=true;
+        // console.log(111);
+      }else{
+        // console.log(222);
+        this.rDataSh=[];
         var aa = this.rData.length-(this.index+1)*3;
-        if(this.toPage<=this.index){
-          for(var i=(this.index)*3;i<(this.index)*3;i++){
+        var nn = this.toPage-(this.index+1)
+        if(nn>1){
+          for(var i=(this.index+1)*3;i<(this.index+1)*3+3;i++){
             this.rDataSh.push(this.rData[i]);
-            console.log('0000',this.rData[i]);
           }
-          console.log(1212121);
+          this.index += 1;
+          // console.log(333);
         }else{
+          // console.log(444);
             if(aa==1){
               for(var i=(this.index+1)*3;i<(this.index+1)*3+1;i++){
                 this.rDataSh.push(this.rData[i]);
-                console.log('0000',this.rData[i]);
               }
             }else if(aa==2){
               for(var i=(this.index+1)*3;i<(this.index+1)*3+2;i++){
                 this.rDataSh.push(this.rData[i]);
-                console.log('0000',this.rData[i]);
               }
             }else if(aa==3){
               for(var i=(this.index+1)*3;i<(this.index+1)+3;i++){
                 this.rDataSh.push(this.rData[i]);
-                console.log('0000',this.rData[i]);
               }
             }   
         this.index += 1;
         }
+      }
+      console.log(this.index)
     },
     // 点击页
     cliPaNo(index){
       this.rDataSh=[];
+      this.nextDis=false;
+      this.preDis = false;
       var aa = this.rData.length-index*3;
       if(this.toPage!=index+1){
         for(var i=index*3;i<index*3+3;i++){
           this.rDataSh.push(this.rData[i]);
-          console.log('0000',this.rData[i]);
         }
       }else{
           if(aa==1){
             for(var i=index*3;i<index*3+1;i++){
               this.rDataSh.push(this.rData[i]);
-              console.log('0000',this.rData[i]);
             }
           }else if(aa==2){
             for(var i=index*3;i<index*3+2;i++){
               this.rDataSh.push(this.rData[i]);
-              console.log('0000',this.rData[i]);
             }
           }else if(aa==3){
             for(var i=index*3;i<index*3+3;i++){
               this.rDataSh.push(this.rData[i]);
-              console.log('0000',this.rData[i]);
             }
           }
       }
       this.index = index;
-      console.log(this.index);
-    // console.log(index);
-    //  console.log('this.rDataSh',this.rDataSh)
     },
     // 上一页
     prePageBtn(){
-     this.rDataSh=[];
-      console.log(this.index);
+      // 第一页按钮不可点击
+      this.nextDis=false;
+      if(this.index==0){
+        this.preDis = true;
+      }else{
+        this.rDataSh=[];
       if(this.index<=0){
-        console.log(111);
         for(var i=0;i<3;i++){
           this.rDataSh.push(this.rData[i]);
         }
       }else{
-        console.log(222);
         for(var i=(this.index-1)*3;i<(this.index-1)*3+3;i++){
           this.rDataSh.push(this.rData[i]);
         }
       }
       this.index -= 1;
+      }
+    },
+    // 付款
+    toPay(){
+      var that = this;
+      this.ajax.post("xinda-api/business-order/grid").then(function(data) {
+        that.$router.push({
+          path: "/inner/paypage",
+          query: { id: data.data.data.businessNo }
+        });
+      });    
     }
   }
 }
@@ -655,12 +690,11 @@ export default {
     .orderInTrTdO{
       width: 70px;
       height: 68px;
-      background-color: royalblue;
+      background: url(../images/memCen.png) no-repeat -15px -260px;
     }
     .orderInTrTdTw{
       width: 238px;
       height: 68px;
-      background-color: red;
       font-size: 16px;
       color: #656565;
       text-align: left;
@@ -668,7 +702,6 @@ export default {
     .orderInTrTdTh{
       width: 129px;
       height: 68px;
-      background-color: greenyellow;
       font-size: 16px;
       color: #656565;
     }
