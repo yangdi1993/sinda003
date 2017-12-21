@@ -36,23 +36,22 @@ Vue.config.dectools = false
 
 
 //未登录状态禁止部分界面访问
-const blackList = ['/inner/cart','/inner/payFalse','/inner/payTrue','/inner/Alipay','/inner/paypage','/inner/myOrder', '/inner/userUnEvalu', '/inner/goEvalu', '/inner/userHavaEvalu', '/inner/accountSetting', '/inner/changePw']
-// const blackList = ['/inner/cart','/inner/myOrder', '/inner/accountSetting', '/inner/changePw']
-router.beforeEach((to, from, next) => {
-  for (var i = 0; i < blackList.length; i++) {
-    if (to.path == blackList[i]) { //检测需要登录地址
-      //判断当前有没有登录
-      //如果没有登录则跳转到登录页
-      axios.post('/xinda-api/sso/login-info').then(data=>{
-        if (data.data.status == 0) { //没有登录
-          next('/outter/login');
-        }
-      })
-      break;
-    }
-    next();
-  }
-});
+// const blackList = ['/inner/cart','/inner/payFalse','/inner/payTrue','/inner/Alipay','/inner/paypage','/inner/myOrder', '/inner/userUnEvalu', '/inner/goEvalu', '/inner/userHavaEvalu', '/inner/accountSetting', '/inner/changePw']
+// router.beforeEach((to, from, next) => {
+//   for (var i = 0; i < blackList.length; i++) {
+//     if (to.path == blackList[i]) { //检测需要登录地址
+//       //判断当前有没有登录
+//       //如果没有登录则跳转到登录页
+//       axios.post('/xinda-api/sso/login-info').then(data=>{
+//         if (data.data.status == 0) { //没有登录
+//           next('/outter/login');
+//         }
+//       })
+//       break;
+//     }
+//     next();
+//   }
+// });
 new Vue({
   el: '#app',
   router,
