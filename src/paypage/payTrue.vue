@@ -15,7 +15,7 @@
         <div><img src="../images/paypage/u3186.jpg" alt=""></div>
         <div class="warn">
           <p class="fir">支付成功！</p>
-          <p class="sec">我们将尽快确认您的（订单号：<span class="codes">S163637282821</span>）付款信息。</p>
+          <p class="sec">我们将尽快确认您的（订单号：<span class="codes">{{order}}</span>）付款信息。</p>
           <p class="thd">如有问题，请联系客服：<span>010-83421842</span></p>
         </div>
       </div>
@@ -29,8 +29,11 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      msg: "Welcome to Your Vue.js App"
+      order:''
     };
+  },
+  created(){  
+    this.order=sessionStorage.getItem('busOrder')   //获取订单号
   }
 };
 </script>
