@@ -48,7 +48,7 @@ export default {
         that.$router.push("/weChat");
         document.writeln("p");
       } else {
-        that.$router.push("/");
+        //that.$router.push("/");
         document.writeln("pc");
       }
     }

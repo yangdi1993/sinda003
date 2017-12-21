@@ -3,7 +3,7 @@ import qs from 'qs'
 
 
 export default function purchase(id, that) {
-  console.log(that)
+  //console.log(that)
   axios.post("/xinda-api/cart/add", qs.stringify({
       id: id,
       num: that.num,
