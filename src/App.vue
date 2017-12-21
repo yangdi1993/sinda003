@@ -47,8 +47,19 @@ export default {
         return true;
         // document.writeln("p");
       } else {
+<<<<<<< HEAD
        return false;
         // document.writeln("pc");
+=======
+<<<<<<< HEAD
+       return false;
+        // document.writeln("pc");
+        // that.$router.push("/");
+=======
+        // that.$router.push("/");
+        document.writeln("pc");
+>>>>>>> 94d34cf5303cb26ac8bb6879047a24f389af1477
+>>>>>>> 78a1dc9ed655df239de02de7fceeb33790110abd
       }
     }
   }
