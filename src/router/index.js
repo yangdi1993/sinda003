@@ -68,6 +68,10 @@ import index from '@/weChat/index/index'
 import storelist from  '@/weChat/store/storelist'
 //移动端店铺首页
 import storehome from '@/weChat/store/storehome'
+//移动端商品详情
+import comDetail from '@/weChat/comDetail/comDetail'
+
+
 
 Vue.use(Router)
 
@@ -286,6 +290,11 @@ export default new Router({
           name: 'storelist',
           component: storelist
         },
+        {
+          path: 'comDetail',
+          name: 'comDetail',
+          component: comDetail
+        }
       ]
     },
   ]
