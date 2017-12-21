@@ -48,7 +48,6 @@ export default {
         // document.writeln("p");
       } else {
        return false;
-        // that.$router.push("/");
         // document.writeln("pc");
       }
     }

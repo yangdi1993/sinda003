@@ -56,8 +56,14 @@ import shophome from '@/shop/shophome'
 import join from '@/shop/join'
 // 会员中心-用户评价-去评价
 import goEvalu from '@/memberCenter/goEvalu'
-import weChat from  '@/weChat/weChat'
-import weChatdog from  '@/weChat/weChatdog'
+
+
+
+//手机端
+import weChat from  '@/weChat/components/weChat'
+import weChatdog from  '@/weChat/components/weChatdog'
+//首页
+import index from '@/weChat/index/index'
 //移动端店铺列表
 import storelist from  '@/weChat/store/storelist'
 //移动端店铺首页
@@ -65,6 +71,16 @@ import storehome from '@/weChat/store/storehome'
 
 //登录页面
 import wlogin from '@/weChat/mine/wlogin'
+//注册页面
+import wRegister from '@/weChat/mine/wRegister'
+//忘记密码页面
+import wForget from '@/weChat/mine/wForget'
+//未注册页面
+import wNotReg from '@/weChat/mine/wNotReg'
+//账户设置页面
+import wSet from '@/weChat/mine/wSet'
+//已登录页面
+import wYetLogin from '@/weChat/mine/wYetLogin'
 
 Vue.use(Router)
 
@@ -81,6 +97,11 @@ export default new Router({
       name: 'inner',
       component: inner,
       children:[
+        {
+          path: 'index',
+          name: 'index',
+          component: index
+        },
         //主页
         {
           path: 'homepage',
@@ -253,6 +274,12 @@ export default new Router({
       name:'weChat',
       component:weChat,
       children:[
+        //首页
+        {
+          path: 'index',
+          name: 'index',
+          component: index
+        },
         //店铺首页
         {
           path: 'storehome',
@@ -277,6 +304,36 @@ export default new Router({
           path: 'wlogin',
           name: 'wlogin',
           component: wlogin
+        },
+        //注册页面
+        {
+          path: 'wRegister',
+          name: 'wRegister',
+          component: wRegister
+        },
+        //忘记密码页面
+        {
+          path: 'wForget',
+          name: 'wForget',
+          component: wForget
+        },
+        //未注册页面
+        {
+          path: 'wNotReg',
+          name: 'wNotReg',
+          component: wNotReg
+        },
+        //账户设置页面
+        {
+          path: 'wSet',
+          name: 'wSet',
+          component: wSet
+        },
+        //已登录页面
+        {
+          path: 'wYetLogin',
+          name: 'wYetLogin',
+          component: wYetLogin
         },
       ]
     },
