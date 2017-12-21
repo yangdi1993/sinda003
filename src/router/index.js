@@ -63,6 +63,9 @@ import storelist from  '@/weChat/store/storelist'
 //移动端店铺首页
 import storehome from '@/weChat/store/storehome'
 
+//登录页面
+import wlogin from '@/weChat/mine/wlogin'
+
 Vue.use(Router)
 
 export default new Router({
@@ -268,6 +271,12 @@ export default new Router({
           path: 'storelist',
           name: 'storelist',
           component: storelist
+        },
+        //登录页面
+        {
+          path: 'wlogin',
+          name: 'wlogin',
+          component: wlogin
         },
       ]
     },

@@ -47,13 +47,9 @@ export default {
         return true;
         // document.writeln("p");
       } else {
-<<<<<<< HEAD
        return false;
-        // document.writeln("pc");
-=======
         // that.$router.push("/");
-        document.writeln("pc");
->>>>>>> a57e5fa0e7bebd2a1c13bdbbd98f6480882d32bc
+        // document.writeln("pc");
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    微信页面
+    微信页面外
     <!-- <div class="row" v-for="product in products" :key="product.id">
       {{product.serviceName}}
     </div> -->
