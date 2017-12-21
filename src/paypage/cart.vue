@@ -35,7 +35,7 @@
             <td>{{cart.serviceName}}</td>
             <td>￥{{cart.unitPrice}}.00</td>
             <td>
-              <button @click="min(cart.serviceId,cart.buyNum)">-</button><input type="text" v-model="cart.buyNum">
+              <button @click="min(cart.serviceId,cart.buyNum)">-</button><input type="text" v-model="cart.buyNum" readonly="readonly">
               <button @click="add(cart.serviceId,cart.buyNum)">+</button>
             </td>
             <td class="zjia">￥{{cart.totalPrice}}.00</td>
@@ -152,7 +152,7 @@ export default {
       this.ajax.post("/xinda-api/cart/submit").then(function(data) {
         that.$router.push({
           path: "/inner/paypage",
-          query: { id: data.data.data }
+          query: { id: data.data.data },
         });
       });
     },
