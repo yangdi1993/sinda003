@@ -203,7 +203,7 @@ export default {
           this.andshow=false
           this.closewx=true
           this.closezfb=false
-          console.log(this.check,'微信')
+          //console.log(this.check,'微信')
           this.ajax.post('xinda-api/pay/ weixin-pay',this.qs.stringify({
             businessNo:this.busOrder.businessNo
           })).then(function(data){
@@ -216,7 +216,7 @@ export default {
           this.closezfb=true
           
           if(this.check=='yinlian'|'zizhu'){   //银联
-            console.log(this.check,'银联',123)
+            //console.log(this.check,'银联',123)
             this.ajax.post('xinda-api/pay/china-pay',this.qs.stringify({
               businessNo:this.busOrder.businessNo
             })).then(function(data){
@@ -224,7 +224,7 @@ export default {
               window.open('#/inner/orderData')
             })
           }else if(this.check=='zhifubao'){    //支付宝
-            console.log(this.check,'支付宝')
+            //console.log(this.check,'支付宝')
             this.ajax.post('xinda-api/pay/ali-pay',this.qs.stringify({
               businessNo:this.busOrder.businessNo
             })).then(function(data){
@@ -238,7 +238,7 @@ export default {
     yinlianzf(){
       this.closezfb=true
       this.check='yinlian'
-      console.log(this.check,'银联',123)
+      //console.log(this.check,'银联',123)
       this.ajax.post('xinda-api/pay/china-pay',this.qs.stringify({
         businessNo:this.busOrder.businessNo
       })).then(function(data){
@@ -249,7 +249,7 @@ export default {
     weixinzf(){
       this.closewx=true
       this.check='weixin'
-      console.log(this.check,'微信')
+      //console.log(this.check,'微信')
       this.ajax.post('xinda-api/pay/ weixin-pay',this.qs.stringify({
         businessNo:this.busOrder.businessNo
       })).then(function(data){
@@ -260,7 +260,7 @@ export default {
     zhifubaozf(){
       this.closezfb=true
       this.check='zhifubao'
-      console.log(this.check,'支付宝')
+      //console.log(this.check,'支付宝')
       this.ajax.post('xinda-api/pay/ali-pay',this.qs.stringify({
         businessNo:this.busOrder.businessNo
       })).then(function(data){
