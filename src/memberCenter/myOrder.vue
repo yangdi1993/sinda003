@@ -40,7 +40,7 @@
           <!-- 搜索行 -->
           <div class="orderSearch">
             <p>订单号：</p>
-            <input type="text" class="orSerIn" v-model="orSerInVal" placeholder="请输入订单号搜索">
+            <input :class="{warnRed:colo==1}" v-on:focus="redBlur()" type="text" class="orSerIn" v-model="orSerInVal" placeholder="请输入订单号搜索">
             <input type="button" class="orSerBut" value="搜索" @click="orderSeaBtn()">
           </div>
           <!-- 时间行 -->
@@ -144,8 +144,8 @@ export default {
       preDis:false,
       // 下一页
       nextDis:false,
-      // 要删除的订单号
-     
+      //  搜索为空变色
+      colo:0
     }
   },
   created(){
@@ -155,12 +155,12 @@ export default {
       var dataAll = data.data.data;
       var dataObj = {};
       for(var i = 0;i<dataAll.length;i++){
-        var businessNo = dataAll[i].businessNo;
-        if(!dataObj[businessNo]){
-          dataObj[businessNo] = dataAll[i]
-          dataObj[businessNo].subItem = [];
-        }
-        dataObj[businessNo].subItem.push(dataAll[i]);
+        // var businessNo = dataAll[i].businessNo;
+        // if(!dataObj[businessNo]){
+        //   dataObj[businessNo] = dataAll[i]
+        //   dataObj[businessNo].subItem = [];
+        // }
+        // dataObj[businessNo].subItem.push(dataAll[i]);
         // 合并订单号
        
         // 获取创建时间
@@ -180,7 +180,8 @@ export default {
         //  改变格式后加到总数组
       }
        that.rData = dataAll;
-       that.products = dataObj;
+      //  console.log(that.rData);
+      //  that.products = dataObj;
     //  第一页显示
     var bb = dataAll.length<3?dataAll.length:3;
     for(var i=0;i<bb;i++){
@@ -225,19 +226,27 @@ export default {
     // 订单搜索
     orderSeaBtn:function(){
       // 清空页面要渲染的数据
-      this.rDataSh = [];
-      for(var i=0;i<this.rData.length;i++){
-        var ordLiNa = this.rData[i].businessNo;
-        if(ordLiNa==this.orSerInVal||this.orSerInVal==''){
-          // 把符合条件的数据添加到[]里面
-          this.rDataSh.push(this.rData[i]);
-        }
-        else{
+      if(this.orSerInVal==''){
+        // this.orSerInVal
+        this.colo=1;
+      }else{
+        this.rDataSh =[];
+        for(var i=0;i<this.rData.length;i++){
+          var ordLiNa = this.rData[i].businessNo;
+          if(ordLiNa==this.orSerInVal||this.orSerInVal==''){
+            // 把符合条件的数据添加到[]里面
+            this.rDataSh.push(this.rData[i]);
+          }
+          else{
 
-        }
+          }
+        } 
       }  
     },
-    
+    // 搜索框失去颜色
+    redBlur(){
+      this.colo=0
+    },
     // 下一页
     nextPageBtn(){
       this.preDis = false;
@@ -532,6 +541,9 @@ export default {
       outline: 0;
       float: left;
       border: 1px solid #b0b0b0;
+    }
+    .warnRed::-webkit-input-placeholder{
+      color: red;
     }
     // 搜索按钮
     .orSerBut{
