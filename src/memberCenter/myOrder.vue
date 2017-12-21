@@ -101,7 +101,7 @@
           <!-- 翻页 -->
           <div class="pageTurn">
             <button class="prePage" @click="prePageBtn()" v-bind:disabled="preDis">上一页</button>
-            <button class="pageNum" v-for="(pageO,index) in pageOAll" :key="pageO.id" @click="cliPaNo(index)">{{pageO}}</button>
+            <button :class="{blued:index==pageChange}" class="pageNum" v-for="(pageO,index) in pageOAll" :key="pageO.id" @click="cliPaNo(index)">{{pageO}}</button>
             <button class="nextPage" @click="nextPageBtn()" v-bind:disabled="nextDis">下一页</button>
             <div class="toPageDiv">共{{toPage}}页</div>
           </div>
@@ -121,6 +121,9 @@ import getData from '../homepage/public'
 export default {
   data(){
     return{
+      // 当前页改变颜色
+      pageChange:-1,
+      // 当前页
       index:0,
       // 全部数据
       rData:[],
@@ -230,6 +233,7 @@ export default {
     
     // 下一页
     nextPageBtn(){
+      
       this.preDis = false;
       // 最后一页按钮不可点击
       if(this.toPage==this.index+1||this.toPage==0){
@@ -262,12 +266,14 @@ export default {
               }
             }   
         this.index += 1;
+        
         }
       }
       console.log(this.index)
     },
     // 点击页
     cliPaNo(index){
+      this.pageChange=index;
       this.rDataSh=[];
       this.nextDis=false;
       this.preDis = false;
@@ -615,6 +621,7 @@ export default {
      margin-left: 370px;
      margin-right: 6px;
      outline: 0;
+     cursor: pointer;
    }
    .pageNum{
      width: 30px;
@@ -625,6 +632,14 @@ export default {
      margin-left: 6px;
      margin-right: 6px;
      outline: 0;
+     cursor: pointer;
+   }
+  //  翻页点击改变颜色
+   .blued{
+     color: blue;
+     border: 1px solid blue;
+     box-shadow: 0 0 0.5px 0.5px blue;
+     
    }
    .nextPage{
      width: 68px;
@@ -635,6 +650,7 @@ export default {
      margin-left: 6px;
      margin-right: 6px;
      outline: 0;
+     cursor: pointer;
    }
    .toPageDiv{
      width: 68px;
@@ -646,6 +662,7 @@ export default {
      margin-left: 6px;
      margin-right: 6px;
      outline: 0;
+     
    }
  }
 // 翻页 
