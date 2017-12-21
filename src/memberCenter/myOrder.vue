@@ -81,14 +81,14 @@
                     <span></span>
                     下单时间：{{item.createTime}}</th>
                 </tr>
-                <tr class="orderInTr">
+                <tr class="orderInTr" >
                   <td class="orderInTrTdO"></td>
                   <td class="orderInTrTdTw">
-                    <p>信达北京服务中心</p>
-                    <p>代理记账（1）</p>
+                    <p>{{item.providerName}}</p>
+                    <p>{{item.serviceName}}</p>
                   </td>
-                  <td class="orderInTrTdTh">{{item.totalPrice}}</td>
-                  <td class="orderInTrTdFo">{{item.status}}</td>
+                  <td class="orderInTrTdTh">{{item.unitPrice}}</td>
+                  <td class="orderInTrTdFo">{{item.buyNum}}</td>
                   <td class="orderInTrTdFi">{{item.totalPrice}}</td>
                   <td class="orderInTrTdSi">{{item.name8}}</td>
                   <td class="orderInTrTdSe">
@@ -152,9 +152,25 @@ export default {
   created(){
     // 我的订单接口数据
     var that = this;
-    this.ajax.post('xinda-api/business-order/grid').then(function(data){
+    this.ajax.post('xinda-api/service-order/grid').then(function(data){
+      // console.log(data);
       var dataAll = data.data.data;
+      console.log('dataAll==',dataAll);
+      var dataObj = {};
       for(var i = 0;i<dataAll.length;i++){
+        var businessNo = dataAll[i].businessNo;
+        // 
+        // console.log(dataAll[i].businessNo);
+        if(!dataObj[businessNo]){
+          dataObj[businessNo] = dataAll[i]
+          // console.log('222',dataObj[businessNo]);
+          dataObj[businessNo].subItem = [];
+        }
+        dataObj[businessNo].subItem.push(dataAll[i]);
+        // 合并订单号
+       
+        // console.log('333',that.products[businessNo].subItem.length);
+        // console.log('333',that.products[businessNo]);
         // 获取创建时间
         var dd = dataAll[i].createTime;
         // 转换格式
@@ -170,8 +186,10 @@ export default {
         // 将原对象里面的时间格式替换掉
         dataAll[i].createTime = newTime;
         //  改变格式后加到总数组
-        that.rData = dataAll;
       }
+       that.rData = dataAll;
+       that.products = dataObj;
+       console.log('that.products==',that.products);
     //  第一页显示
     var bb = dataAll.length<3?dataAll.length:3;
     for(var i=0;i<bb;i++){
@@ -190,7 +208,7 @@ export default {
     // 点击删除弹出框
     delOrder:function(code){
       this.isShow = true;
-      console.log('111',code)
+      console.log(code);
     },
     // 点击X弹出框消失
     closeFun:function(){
@@ -199,15 +217,14 @@ export default {
     // 点击确定
     conCloseFun:function(code){
       this.isShow = false;
-      console.log(code);
-      // this.rDataSh.splice(this.index,1)
+      this.rDataSh.splice(this.index,1)
         // var that = this;
-        this.ajax.post('xinda-api/ business-order/del',this.qs.stringify({
-          id:code,
-        })).then(function(data){
-          console.log(data.data.data)
-          
-        })
+        // console.log(code);
+        // this.ajax.post('xinda-api/ business-order/del',this.qs.stringify({
+        //   id:code,
+        // })).then(function(data){
+        //   console.log(data.data.data)
+        // })
 
     },
     // 点击取消
@@ -233,14 +250,11 @@ export default {
     
     // 下一页
     nextPageBtn(){
-      
       this.preDis = false;
       // 最后一页按钮不可点击
       if(this.toPage==this.index+1||this.toPage==0){
         this.nextDis=true;
-        // console.log(111);
       }else{
-        // console.log(222);
         this.rDataSh=[];
         var aa = this.rData.length-(this.index+1)*3;
         var nn = this.toPage-(this.index+1)
@@ -249,9 +263,8 @@ export default {
             this.rDataSh.push(this.rData[i]);
           }
           this.index += 1;
-          // console.log(333);
+          this.pageChange=this.index;
         }else{
-          // console.log(444);
             if(aa==1){
               for(var i=(this.index+1)*3;i<(this.index+1)*3+1;i++){
                 this.rDataSh.push(this.rData[i]);
@@ -266,7 +279,7 @@ export default {
               }
             }   
         this.index += 1;
-        
+        this.pageChange=this.index;
         }
       }
       console.log(this.index)
@@ -296,8 +309,7 @@ export default {
               this.rDataSh.push(this.rData[i]);
             }
           }
-      }
-      this.index = index;
+      }      
     },
     // 上一页
     prePageBtn(){
@@ -305,6 +317,7 @@ export default {
       this.nextDis=false;
       if(this.index==0){
         this.preDis = true;
+        this.pageChange=this.index;
       }else{
         this.rDataSh=[];
       if(this.index<=0){
@@ -316,6 +329,7 @@ export default {
           this.rDataSh.push(this.rData[i]);
         }
       }
+      this.pageChange=this.index;
       this.index -= 1;
       }
     },
@@ -611,14 +625,14 @@ export default {
    font-size: 14px;
    color: #cccccc;
    line-height: 36px;
-   
+   display: inline-block;
+   text-align: center;
    .prePage{
      width: 68px;
      height: 36px;
      background-color: #fff;
      border: 1px solid #cccccc;
      float: left;
-     margin-left: 370px;
      margin-right: 6px;
      outline: 0;
      cursor: pointer;
@@ -662,7 +676,6 @@ export default {
      margin-left: 6px;
      margin-right: 6px;
      outline: 0;
-     
    }
  }
 // 翻页 
