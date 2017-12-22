@@ -68,6 +68,10 @@ import index from '@/weChat/index/index'
 import storelist from  '@/weChat/store/storelist'
 //移动端店铺首页
 import storehome from '@/weChat/store/storehome'
+//移动端商品详情
+import comDetail from '@/weChat/comDetail/comDetail'
+
+
 
 //登录页面
 import wlogin from '@/weChat/mine/wlogin'
@@ -299,6 +303,7 @@ export default new Router({
           name: 'storelist',
           component: storelist
         },
+<<<<<<< HEAD
         //登录页面
         {
           path: 'wlogin',
@@ -335,6 +340,13 @@ export default new Router({
           name: 'wYetLogin',
           component: wYetLogin
         },
+=======
+        {
+          path: 'comDetail',
+          name: 'comDetail',
+          component: comDetail
+        }
+>>>>>>> 3598bcce058462f565ef6e016ae3a50cb553b627
       ]
     },
   ]
