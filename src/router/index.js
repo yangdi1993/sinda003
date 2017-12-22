@@ -68,6 +68,23 @@ import index from '@/weChat/index/index'
 import storelist from  '@/weChat/store/storelist'
 //移动端店铺首页
 import storehome from '@/weChat/store/storehome'
+//移动端商品详情
+import comDetail from '@/weChat/comDetail/comDetail'
+
+
+
+//登录页面
+import wlogin from '@/weChat/mine/wlogin'
+//注册页面
+import wRegister from '@/weChat/mine/wRegister'
+//忘记密码页面
+import wForget from '@/weChat/mine/wForget'
+//未注册页面
+import wNotReg from '@/weChat/mine/wNotReg'
+//账户设置页面
+import wSet from '@/weChat/mine/wSet'
+//已登录页面
+import wYetLogin from '@/weChat/mine/wYetLogin'
 
 Vue.use(Router)
 
@@ -286,6 +303,50 @@ export default new Router({
           name: 'storelist',
           component: storelist
         },
+<<<<<<< HEAD
+        //登录页面
+        {
+          path: 'wlogin',
+          name: 'wlogin',
+          component: wlogin
+        },
+        //注册页面
+        {
+          path: 'wRegister',
+          name: 'wRegister',
+          component: wRegister
+        },
+        //忘记密码页面
+        {
+          path: 'wForget',
+          name: 'wForget',
+          component: wForget
+        },
+        //未注册页面
+        {
+          path: 'wNotReg',
+          name: 'wNotReg',
+          component: wNotReg
+        },
+        //账户设置页面
+        {
+          path: 'wSet',
+          name: 'wSet',
+          component: wSet
+        },
+        //已登录页面
+        {
+          path: 'wYetLogin',
+          name: 'wYetLogin',
+          component: wYetLogin
+        },
+=======
+        {
+          path: 'comDetail',
+          name: 'comDetail',
+          component: comDetail
+        }
+>>>>>>> 3598bcce058462f565ef6e016ae3a50cb553b627
       ]
     },
   ]

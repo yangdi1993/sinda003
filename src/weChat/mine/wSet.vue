@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    登录界面页面
+    账户设置
   </div>
 </template>
 

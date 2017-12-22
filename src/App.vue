@@ -47,8 +47,15 @@ export default {
         return true;
         // document.writeln("p");
       } else {
+
+       return false;
+        // document.writeln("pc");
+
+       return false;
+        // document.writeln("pc");
         // that.$router.push("/");
-        document.writeln("pc");
+
+        // that.$router.push("/");
       }
     }
   }
