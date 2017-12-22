@@ -303,7 +303,6 @@ export default new Router({
           name: 'storelist',
           component: storelist
         },
-<<<<<<< HEAD
         //登录页面
         {
           path: 'wlogin',
@@ -340,13 +339,11 @@ export default new Router({
           name: 'wYetLogin',
           component: wYetLogin
         },
-=======
         {
           path: 'comDetail',
           name: 'comDetail',
           component: comDetail
         }
->>>>>>> 3598bcce058462f565ef6e016ae3a50cb553b627
       ]
     },
   ]

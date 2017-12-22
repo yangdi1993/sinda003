@@ -1,16 +1,32 @@
 <template>
   <div id="app">
-     <!--<img src="./assets/logo.png"> -->
-    <!-- <top></top> -->
     <router-view/>
-    <!-- <bottom/> -->
   </div>
 </template>
 
 
 <script>
-// import top from "./components/top";
-// import bottom from "./components/bottom";
+if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  // window.location.href = "#/";
+  (function(doc, win) {
+    var docEl = doc.documentElement,
+      resizeEvt =
+        "orientationchange" in window ? "orientationchange" : "resize",
+      recalc = function() {
+        var clientWidth = docEl.clientWidth;
+        if (!clientWidth) return;
+        if (clientWidth >= 750) {
+        //   docEl.style.fontSize = "100px";
+        // } else {
+          docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
+        }
+      };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener("DOMContentLoaded", recalc, false);
+  })(document, window);
+}
 export default {
   name: "app",
   created() {
@@ -41,23 +57,14 @@ export default {
       var bIsAndroid = sUserAgent.match(/android/i) == "android";
       var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
       var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
-      if (
-        bIsIpad ||bIsIphoneOs ||bIsMidp ||bIsUc7 ||bIsUc ||bIsAndroid ||bIsCE ||bIsWM) {
-
+      if (bIsIpad ||bIsIphoneOs ||bIsMidp ||bIsUc7 ||bIsUc ||bIsAndroid ||bIsCE ||bIsWM) {
         return true;
-        // document.writeln("p");
+        
       } else {
-
        return false;
-        // document.writeln("pc");
-
-       return false;
-        // document.writeln("pc");
-        // that.$router.push("/");
-
-        // that.$router.push("/");
       }
     }
+
   }
 
   // components: { top, bottom }
