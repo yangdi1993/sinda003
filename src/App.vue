@@ -15,11 +15,11 @@ if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
       recalc = function() {
         var clientWidth = docEl.clientWidth;
         if (!clientWidth) return;
-        if (clientWidth >= 750) {
+        // if (clientWidth >= 750) {
         //   docEl.style.fontSize = "100px";
         // } else {
           docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
-        }
+        // }
       };
 
     if (!doc.addEventListener) return;
@@ -62,13 +62,6 @@ export default {
         
       } else {
        return false;
-<<<<<<< HEAD
-        // document.writeln("pc");
-       return false;
-        // document.writeln("pc");
-        // that.$router.push("/");
-=======
->>>>>>> 4ba30918a63f23633dbef8c78516d64464024b56
       }
     }
 
