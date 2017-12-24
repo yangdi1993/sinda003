@@ -116,7 +116,6 @@
 // 引进头部和尾部
 // this.ajax.post("").then(data=>{
 import ihead from '../components/ihead'
-import getData from '../homepage/public'
 export default {
   data(){
     return{
