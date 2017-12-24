@@ -35,6 +35,13 @@ Vue.config.dectools = false
 /* eslint-disable no-new */
 
 
+export default function getrem(){
+  var screenWidth=window.screen.width
+  var rem=screenWidth/750
+  return rem
+}
+
+
 //未登录状态禁止部分界面访问
 const blackList = ['/inner/cart','/inner/payFalse','/inner/payTrue','/inner/Alipay','/inner/paypage','/inner/myOrder', '/inner/userUnEvalu', '/inner/goEvalu', '/inner/userHavaEvalu', '/inner/accountSetting', '/inner/changePw']
 router.beforeEach((to, from, next) => {
