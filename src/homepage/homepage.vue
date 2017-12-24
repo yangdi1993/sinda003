@@ -244,7 +244,7 @@ export default {
           j++;
         }
       });
-
+      
     var objs = {};
     objs[0] = { title: "资质认证", inner: "服务商100%实名认证", class: "objsOne" };
     objs[1] = { title: "资质认证", inner: "服务商100%实名认证", class: "objsTwo" };
@@ -416,6 +416,7 @@ export default {
       padding-top: 80px;
       display: inline-block;
       margin: 0 15px;
+      cursor: pointer;
     }
     .cellLogo {
       height: 45px;

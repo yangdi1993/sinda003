@@ -72,6 +72,9 @@ import storelist from  '@/weChat/store/storelist'
 import storehome from '@/weChat/store/storehome'
 //移动端商品详情
 import wDetail from '@/weChat/paypage/wDetail'
+
+import shopTro from '@/weChat/shopTro/shopTro'
+
 //登录页面
 import wlogin from '@/weChat/mine/wlogin'
 //注册页面
@@ -291,6 +294,12 @@ export default new Router({
           name: 'storehome',
           component: storehome
         },
+        // 购物车页面
+        {
+          path: 'shopTro',
+          name: 'shopTro',
+          component: shopTro
+        }
       ]
     },
     {//无公共组件
