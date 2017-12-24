@@ -101,11 +101,6 @@ export default new Router({
       name: 'inner',
       component: inner,
       children:[
-        {
-          path: 'index',
-          name: 'index',
-          component: index
-        },
         //主页
         {
           path: 'homepage',

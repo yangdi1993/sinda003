@@ -5,26 +5,25 @@
 </template>
 
 <script>
-import getrem from '../../main'
 export default {
   created(){
-    console.log(getrem())
-    this.rem=getrem()
-  },
+    
+  }, 
   data () {
     return {
-      rem:1,
+      
     }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped lang="less">
 .test{
-  width: 1rem;
-  height: 1rem;
-  font-size: .2rem;
+  width: 7.5rem;
+  height: 8.8rem;
+  font-size: .1rem;
+  background: rgb(241, 6, 6);
 }
 li {
   list-style: none;

@@ -1,8 +1,11 @@
 <template>
   <div>
-    微信页面,有公共底部
-
-    <router-view/>
+    <div class="bottom">
+      <router-link to="javascript:void(0)">
+        <span></span>
+        <p>首页</p>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -22,6 +25,18 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
+<style scoped lang="less">
+.bottom{
+  width: 7.16rem;
+  height: .88rem;
+  padding: 0 .16rem;
+  font-size: .1rem;
+  background: rgb(158, 84, 84);
+  position: fixed;
+  bottom: 0;
+  a{
+    width: .99rem;
+    padding: 0 .4rem;
+  }
+}
 </style>
