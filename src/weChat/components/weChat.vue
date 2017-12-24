@@ -1,5 +1,9 @@
 <template>
   <div>
+<<<<<<< HEAD
+    微信页面,有公共底部
+   <router-view/>
+=======
     <div class="bottom">
       <router-link to="/weChat/index" active-class="indexstyleON" class="indexstyle">
         <div></div>
@@ -19,6 +23,7 @@
       </router-link>
     </div>
   <router-view/>
+>>>>>>> cd2ac5a11cdd44870191fe94d3011823f9daa136
   </div>
 </template>
 
@@ -66,6 +71,8 @@ export default {
     }
   }
 }
+<<<<<<< HEAD
+=======
 .indexstyle{div{background: url('../images/index/btmhomeG.png') no-repeat;}color: #999;}
 .indexstyleON{div{background: url('../images/index/btmhomeB.png') no-repeat;}color: #2693d4}
 .shopstyle{div{background: url('../images/index/btmlistG.png') no-repeat;}color: #999;}
@@ -74,4 +81,5 @@ export default {
 .cartstyleON{div{background: url('../images/index/blueCart.png') no-repeat;}color: #2693d4}
 .minestyle{div{background: url('../images/index/btmmine.png') no-repeat;}color: #999;}
 .minestyleON{div{background: url('../images/index/blueMine.png') no-repeat;}color: #2693d4}
+>>>>>>> cd2ac5a11cdd44870191fe94d3011823f9daa136
 </style>
