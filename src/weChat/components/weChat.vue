@@ -1,30 +1,22 @@
 <template>
   <div>
     <div class="bottom">
-      <a href="javascript:void(0)" v-show="!clickon" @click="clickon=true,clickon1=false">
-        <img src="../images/index/btmhomeG.png">
+      <router-link to="/weChat/index" active-class="indexstyleON" class="indexstyle">
+        <div></div>
         <span>首页</span>
-      </a>
-      <a href="javascript:void(0)" v-show="clickon" style="color:#2693d4">
-        <img src="../images/index/btmhomeB.png">
-        <span>首页</span>
-      </a>
-      <a href="javascript:void(0)" v-show="!clickon1" @click="clickon1=true,clickon=false">
-        <img src="../images/index/btmlistG.png">
+      </router-link>
+      <router-link to="/weChat/storelist" active-class="shopstyleON" class="shopstyle">
+        <div></div>
         <span>店铺</span>
-      </a>
-      <a href="javascript:void(0)" v-show="clickon1" style="color:#2693d4"> 
-        <img src="../images/index/btmlistB.png">
-        <span>店铺</span>
-      </a>
-      <a href="javascript:void(0)" @click="clickon=false,clickon1=false">
-        <img src="../images/index/btmcart.png">
+      </router-link>
+      <router-link to="/weChat/shopTro" active-class="cartstyleON" class="cartstyle">
+        <div></div>
         <span>购物车</span>
-      </a>
-      <a href="javascript:void(0)" @click="clickon=false,clickon1=false">
-        <img src="../images/index/btmmine.png">
+      </router-link>
+      <router-link to="/weChatdog/wYetLogin" active-class="minestyleON" class="minestyle">
+        <div></div>
         <span>我的</span>
-      </a>
+      </router-link>
     </div>
   <router-view/>
   </div>
@@ -37,8 +29,7 @@ export default {
   },
   data() {
     return {
-      clickon:true,
-      clickon1:false,
+
     };
   },
   methods:{
@@ -50,7 +41,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .bottom{
-  width: 7.18rem;
+  width: 7.14rem;
   height: .88rem;
   padding: 0 .16rem;
   display: flex;
@@ -58,19 +49,29 @@ export default {
   position: fixed;
   bottom: 0;
   background: #fff;
+  z-index: 100;
   a{
     width: .99rem;
     height: 100%;
     margin: 0 .4rem;
     text-decoration: none;
     font-size: .22rem;
-    color: #999;
-    img{
+    
+    div{
       width: .4rem;
       height: .4rem;
-      display: block;
-      margin: .06rem auto;
+      margin: 0.06rem auto;
+      background-size: contain;
+      background-position: .01rem 0;
     }
   }
 }
+.indexstyle{div{background: url('../images/index/btmhomeG.png') no-repeat;}color: #999;}
+.indexstyleON{div{background: url('../images/index/btmhomeB.png') no-repeat;}color: #2693d4}
+.shopstyle{div{background: url('../images/index/btmlistG.png') no-repeat;}color: #999;}
+.shopstyleON{div{background: url('../images/index/btmlistB.png') no-repeat;}color: #2693d4}
+.cartstyle{div{background: url('../images/index/btmcart.png') no-repeat;}color: #999;}
+.cartstyleON{div{background: url('../images/index/blueCart.png') no-repeat;}color: #2693d4}
+.minestyle{div{background: url('../images/index/btmmine.png') no-repeat;}color: #999;}
+.minestyleON{div{background: url('../images/index/blueMine.png') no-repeat;}color: #2693d4}
 </style>
