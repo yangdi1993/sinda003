@@ -283,10 +283,18 @@ export default new Router({
           name: 'index',
           component: index
         },
+<<<<<<< HEAD
+        //店铺列表
+        {
+          path: 'storelist',
+          name: 'storelist',
+          component: storelist
+=======
         {
           path: 'Wlist',
           name: 'Wlist',
           component: Wlist
+>>>>>>> cd2ac5a11cdd44870191fe94d3011823f9daa136
         },
         //店铺首页
         {
@@ -307,18 +315,6 @@ export default new Router({
       name:'weChatdog',
       component:weChatdog,
       children:[
-        //店铺列表
-        {
-          path: 'storelist',
-          name: 'storelist',
-          component: storelist
-        },
-        //商品详情
-        {
-          path: 'wDetail',
-          name: 'wDetail',
-          component: wDetail
-        },
         //登录页面
         {
           path: 'wlogin',
