@@ -440,6 +440,7 @@ li {
           height: 36px;
           border-radius: 3px;
           border: 1px solid #cbcbcb;
+          background: #fff;
           outline: 0;
         }
         span {
