@@ -43,17 +43,15 @@ export default {
               docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
             }
           };
-      });
-    }
 
-    if (!doc.addEventListener) {
-      return;
-      win.addEventListener(resizeEvt, recalc, false);
-      doc.addEventListener("DOMContentLoaded", recalc, false);
-      document, window;
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener("DOMContentLoaded", recalc, false);
+      })(document, window);
     } else {
       // window.location.href = "#/m.sinda";
     }
+
   },
   methods: {
     browserRedirect() {
