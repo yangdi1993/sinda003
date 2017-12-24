@@ -64,12 +64,27 @@ import weChat from  '@/weChat/components/weChat'
 import weChatdog from  '@/weChat/components/weChatdog'
 //首页
 import index from '@/weChat/index/index'
+//列表页
+import Wlist from '@/weChat/index/list'
 //移动端店铺列表
 import storelist from  '@/weChat/store/storelist'
 //移动端店铺首页
 import storehome from '@/weChat/store/storehome'
 //移动端商品详情
 import wDetail from '@/weChat/paypage/wDetail'
+//登录页面
+import wlogin from '@/weChat/mine/wlogin'
+//注册页面
+import wRegister from '@/weChat/mine/wRegister'
+//忘记密码页面
+import wForget from '@/weChat/mine/wForget'
+//未注册页面
+import wNotReg from '@/weChat/mine/wNotReg'
+//账户设置页面
+import wSet from '@/weChat/mine/wSet'
+//已登录页面
+import wYetLogin from '@/weChat/mine/wYetLogin'
+
 
 
 Vue.use(Router)
@@ -87,11 +102,6 @@ export default new Router({
       name: 'inner',
       component: inner,
       children:[
-        {
-          path: 'index',
-          name: 'index',
-          component: index
-        },
         //主页
         {
           path: 'homepage',
@@ -270,6 +280,11 @@ export default new Router({
           name: 'index',
           component: index
         },
+        {
+          path: 'Wlist',
+          name: 'Wlist',
+          component: Wlist
+        },
         //店铺首页
         {
           path: 'storehome',
@@ -288,6 +303,48 @@ export default new Router({
           path: 'storelist',
           name: 'storelist',
           component: storelist
+        },
+        //商品详情
+        {
+          path: 'wDetail',
+          name: 'wDetail',
+          component: wDetail
+        },
+        //登录页面
+        {
+          path: 'wlogin',
+          name: 'wlogin',
+          component: wlogin
+        },
+        //注册页面
+        {
+          path: 'wRegister',
+          name: 'wRegister',
+          component: wRegister
+        },
+        //忘记密码页面
+        {
+          path: 'wForget',
+          name: 'wForget',
+          component: wForget
+        },
+        //未注册页面
+        {
+          path: 'wNotReg',
+          name: 'wNotReg',
+          component: wNotReg
+        },
+        //账户设置页面
+        {
+          path: 'wSet',
+          name: 'wSet',
+          component: wSet
+        },
+        //已登录页面
+        {
+          path: 'wYetLogin',
+          name: 'wYetLogin',
+          component: wYetLogin
         },
         //商品详情
         {

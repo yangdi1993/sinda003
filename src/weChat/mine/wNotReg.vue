@@ -1,6 +1,6 @@
 <template>
-  <div class="cartwhole">
-    <div></div>
+  <div class="hello">
+    未注册
   </div>
 </template>
 
@@ -8,22 +8,18 @@
 export default {
   name: 'HelloWorld',
   created(){
-
+  
   },
   data () {
     return {
-
+      msg: 'Welcome to Your Vue.js App',
+      products:[]
     }
-  },
-  methods:{
-
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.hello{
-  padding: 50px;
-}
+
 </style>

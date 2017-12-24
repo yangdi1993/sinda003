@@ -23,16 +23,35 @@ import ElementUI from 'element-ui'
 Vue.use(ElementUI);
 
 
+//mint ui
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
+import { MessageBox } from 'mint-ui';
+// import { Button, Cell } from 'mint-ui'
+// // Vue.component(Button.name, Button)
+// Vue.use(Button)
+import { Swipe, SwipeItem } from 'mint-ui';
+
+Vue.component(Swipe.name, Swipe);
+Vue.component(SwipeItem.name, SwipeItem);
+
 //elementui
-import Elementui from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-Vue.use(Elementui)
+// import Elementui from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css'
+// Vue.use(Elementui)
 
 Vue.prototype.ajax = axios
 Vue.prototype.qs = qs
 Vue.config.productionTip = false
 Vue.config.dectools = false
 /* eslint-disable no-new */
+
+
+export default function getrem(){
+  var screenWidth=window.screen.width
+  var rem=screenWidth/750
+  return rem
+}
 
 
 //未登录状态禁止部分界面访问

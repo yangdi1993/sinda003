@@ -31,8 +31,7 @@
             </p>
           </div>
           <div class="number">购买数量：
-            <button @click="min(num)">-</button><input type="text" v-model="num" readonly="readonly">
-            <button @click="add(num)">+</button>
+            <button @click="min(num)">-</button><input type="text" v-model="num" readonly="readonly"><button @click="add(num)">+</button>
           </div>
           <div class="buy" v-on:click="buy(providerProducts.id,num)">立即购买</div>
           <div class="add" v-on:click="addCart(providerProducts.id,num)">加入购物车</div>
@@ -102,7 +101,7 @@
           <div class="ch-service" :class="{blued:sort==1}" @click="chService()">服务内容</div>
           <div class="ch-judge" :class="{blued:sort==2}" @click="chJudge()">商品评价</div>
         </div>
-        <div class="serviceCon" v-show="serviceCon">服务内容： <br>1.整理原始票据 <br>2.记账 <br>3.装订凭证 <br>4.出报表 <br>5.月报、季度企业所得税、年度汇算清缴 <br>6.打印总帐、明晰账本 </div>
+        <div class="serviceCon" v-show="serviceCon" v-html="providerProducts.serviceContent"></div>
         <div class="userRating" v-show="userRating">
           <div class="con">
             <p class="main-fir">
@@ -285,7 +284,6 @@ export default {
           num: this.num
         })
       );
-       
       this.ajax.post("xinda-api/cart/cart-num").then(function(data) {
         that.setNum(data.data.data.cartNum); //购物车物品数量,点击加入购物车后自动更新
         location.reload();
