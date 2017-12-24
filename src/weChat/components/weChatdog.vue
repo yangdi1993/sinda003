@@ -1,11 +1,12 @@
 <template>
   <div class="hello">
-    微信页面，无公共底部
+    <!-- 微信页面，无公共底部 -->
     <router-view/>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'HelloWorld',
   created(){
@@ -22,6 +23,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .hello{
-  padding: 50px;
+  /* padding: 50px; */
 }
 </style>

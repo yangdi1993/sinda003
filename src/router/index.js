@@ -334,6 +334,7 @@ export default new Router({
           name: 'wYetLogin',
           component: wYetLogin
         },
+        // 商品详情页面
         {
           path: 'comDetail',
           name: 'comDetail',
