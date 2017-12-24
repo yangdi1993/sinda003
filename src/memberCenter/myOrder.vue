@@ -285,6 +285,7 @@ export default {
     // 点击页
     cliPaNo(index){
       this.pageChange=index;
+      console.log('this.pageChange==',this.pageChange);
       this.rDataSh=[];
       this.nextDis=false;
       this.preDis = false;
@@ -307,7 +308,7 @@ export default {
               this.rDataSh.push(this.rData[i]);
             }
           }
-      }      
+      } 
     },
     // 上一页
     prePageBtn(){
@@ -327,8 +328,8 @@ export default {
           this.rDataSh.push(this.rData[i]);
         }
       }
-      this.pageChange=this.index;
       this.index -= 1;
+      this.pageChange=this.index;
       }
     },
     // 付款
