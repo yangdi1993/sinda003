@@ -64,12 +64,14 @@ import weChat from  '@/weChat/components/weChat'
 import weChatdog from  '@/weChat/components/weChatdog'
 //首页
 import index from '@/weChat/index/index'
+//列表页
+import Wlist from '@/weChat/index/list'
 //移动端店铺列表
 import storelist from  '@/weChat/store/storelist'
 //移动端店铺首页
 import storehome from '@/weChat/store/storehome'
 //移动端商品详情
-import comDetail from '@/weChat/comDetail/comDetail'
+import shopTro from '@/weChat/shopTro/shopTro'
 
 
 
@@ -101,11 +103,6 @@ export default new Router({
       name: 'inner',
       component: inner,
       children:[
-        {
-          path: 'index',
-          name: 'index',
-          component: index
-        },
         //主页
         {
           path: 'homepage',
@@ -284,11 +281,18 @@ export default new Router({
           name: 'index',
           component: index
         },
+<<<<<<< HEAD
         //店铺列表
         {
           path: 'storelist',
           name: 'storelist',
           component: storelist
+=======
+        {
+          path: 'Wlist',
+          name: 'Wlist',
+          component: Wlist
+>>>>>>> cd2ac5a11cdd44870191fe94d3011823f9daa136
         },
         //店铺首页
         {
@@ -296,6 +300,12 @@ export default new Router({
           name: 'storehome',
           component: storehome
         },
+        // 购物车页面
+        {
+          path: 'shopTro',
+          name: 'shopTro',
+          component: shopTro
+        }
       ]
     },
     {//无公共组件
@@ -340,11 +350,7 @@ export default new Router({
           name: 'wYetLogin',
           component: wYetLogin
         },
-        {
-          path: 'comDetail',
-          name: 'comDetail',
-          component: comDetail
-        }
+        
       ]
     },
   ]

@@ -126,7 +126,7 @@ export default {
       this.limgErr = '\u2736';
       if (this.codeImage != '') {
         this.imgUrl = this.imgUrl + '?t' + new Date().getTime();
-        this.codeImage == ''
+        this.codeImage = ''
       }
     },
     // 登录按钮
