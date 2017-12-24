@@ -284,6 +284,12 @@ export default new Router({
           name: 'index',
           component: index
         },
+        //店铺列表
+        {
+          path: 'storelist',
+          name: 'storelist',
+          component: storelist
+        },
         //店铺首页
         {
           path: 'storehome',
@@ -297,12 +303,7 @@ export default new Router({
       name:'weChatdog',
       component:weChatdog,
       children:[
-        //店铺列表
-        {
-          path: 'storelist',
-          name: 'storelist',
-          component: storelist
-        },
+        
         //登录页面
         {
           path: 'wlogin',

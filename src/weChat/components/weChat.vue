@@ -1,8 +1,7 @@
 <template>
   <div>
     微信页面,有公共底部
-    <div class="bobo">ooooooooo</div>
-    <router-view/>
+   <router-view/>
   </div>
 </template>
 
@@ -26,8 +25,4 @@ export default {
     font-size: 100px;
   }
 }
-  .bobo {
-    width: 3rem;
-    height: 3rem;
-  }
 </style>

@@ -439,6 +439,7 @@ export default {
 .lastbutton a:hover {
   color: #2794d5;
 }
+
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
