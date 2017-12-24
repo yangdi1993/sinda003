@@ -64,6 +64,8 @@ import weChat from  '@/weChat/components/weChat'
 import weChatdog from  '@/weChat/components/weChatdog'
 //首页
 import index from '@/weChat/index/index'
+//列表页
+import Wlist from '@/weChat/index/list'
 //移动端店铺列表
 import storelist from  '@/weChat/store/storelist'
 //移动端店铺首页
@@ -278,6 +280,11 @@ export default new Router({
           path: 'index',
           name: 'index',
           component: index
+        },
+        {
+          path: 'Wlist',
+          name: 'Wlist',
+          component: Wlist
         },
         //店铺首页
         {
