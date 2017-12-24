@@ -136,16 +136,12 @@ export default {
       this.status = data.data.status
       // console.log('status==',this.status);
     })
-
-    // if(localStorage.getItem('headImg')){
-    //   this.imageUrl = localStorage.getItem('headImg');
-    // }
     
   },
   methods: {
     handleAvatarSuccess(res, file,fileList) {
       this.imageUrl = file.url;
-      console.log("Success" + this.imageUrl,file,res,fileList) 
+      // console.log("Success" + this.imageUrl,file,res,fileList) 
     },
     beforeAvatarUpload(file) {
       const isLt2M = file.size / 1024 / 1024 < 2;
@@ -224,15 +220,15 @@ export default {
           // }else{
           //   this.imageUrl = this.imageUrl;
           // }
-          console.log('this.imageUrl=',this.imageUrl)
+          // console.log('this.imageUrl=',this.imageUrl)
           this.ajax.post('/xinda-api/member/update-info', this.qs.stringify({ headImg: this.imageUrl, name: this.username, gender: this.radio, email: this.email, regionId: this.seleCode })).then(data => {
-            console.log(data.data)
+            // console.log(data.data)
             if(data.data.status == -1){
               this.word = true;
               this.message = '系统开小差了，我们正紧急修复中!';
             }else if(data.data.status == 1){
               this.ajax.post('/xinda-api/member/info').then(data=>{
-                console.log(data.data.data)
+                // console.log(data.data.data)
               })
               this.word = true;
               this.message = '操作成功';

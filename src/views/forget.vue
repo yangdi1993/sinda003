@@ -223,7 +223,7 @@ export default {
           // 图片验证码匹配
           this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ 
             cellphone: this.forgetPhone, smsType: 1, imgCode: this.fImg })).then(data => {
-            console.log(data.data.msg, data.data.status);
+            // console.log(data.data.msg, data.data.status);
             if (data.data.status == 1) {
               this.fiErr = '\u2736';
               //设置点击按钮不可用
@@ -274,7 +274,7 @@ export default {
       }
       this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/findpas', this.qs.stringify({ 
         cellphone: this.forgetPhone, smsType: 1, validCode: 111111, password: md5(this.fNew) })).then(data => {
-        console.log(data.data.status, data.data.msg);
+        // console.log(data.data.status, data.data.msg);
         if (data.data.status == 1 && newPwReg.test(this.fNew) && this.fNew == this.fPw) {
           // 修改成功提示
           // 手机提示

@@ -263,7 +263,7 @@ export default {
             // 图片验证码匹配
             this.ajax.post('/xinda-api/register/sendsms', this.qs.stringify({ 
               cellphone: this.phoneVal, smsType: 1, imgCode: this.codeImgVal })).then(data => {
-              console.log(data.data);
+              // console.log(data.data);
               if (data.data.status == 1) {
                 this.imgErr = '\u2736';
                 this.dis = true;

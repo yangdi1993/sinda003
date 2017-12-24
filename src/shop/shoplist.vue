@@ -85,7 +85,7 @@ export default {
         // console.log(ser);
         for (var vice in name) {
           names.push(name[vice].name);
-          // conaole.log(name)
+          // console.log(name)
         }
       }
       that.names = names;
@@ -276,6 +276,7 @@ export default {
 }
 .blue {
   background-color: #2693d4;
+  border-radius: 3px;
 }
 .adress {
   margin-left: 130px;
@@ -293,14 +294,12 @@ export default {
   height: 40px;
   background-color: #f7f7f7;
   border: 1px solid #ccc;
-  //margin-left: 90px;
   margin-top: 25px;
   text-align: left;
   .forms {
     display: inline-block;
     width: 100px;
     height: 40px;
-    // background-color: #2693d4;
     border-radius: 3px;
     p {
       font-size: 14px;
@@ -311,7 +310,6 @@ export default {
       text-align: center;
       cursor: pointer;
     }
-
     span {
       margin-left: 40px;
       display: block;
