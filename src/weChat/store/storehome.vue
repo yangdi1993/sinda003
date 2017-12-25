@@ -138,7 +138,7 @@ export default {
   margin-left: 0.24rem;
   text-align: left;
   display: block;
-  // overflow: hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
   text-decoration: none;
   p {
