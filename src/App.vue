@@ -39,7 +39,7 @@ export default {
 
     if (this.$route.path == "/inner/homepage") {
       if (this.browserRedirect()) {
-        this.$router.push("/weChat");
+        this.$router.push("/weChat/index");
         (function(doc, win) {
           var docEl = doc.documentElement,
             resizeEvt =
@@ -90,6 +90,7 @@ export default {
         bIsWM
       ) {
         return true;
+
       } else {
         return false;
       }

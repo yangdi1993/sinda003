@@ -1,9 +1,5 @@
 <template>
   <div class="yetLogin">
-    <div  class="title">
-      <img  @click="back"src="../images/login/back.png" alt="">
-      <p class="title">已登录</p>
-    </div>
     <div class="head">
       <img src="../images/login/girl.jpg" alt="">
     </div>
@@ -34,9 +30,6 @@ export default {
     };
   },
   methods: {
-    back: function() {
-      history.go(-1);
-    },
     quit() {
       sessionStorage.clear();
       location.href = "#/weChatdog/wLogin";
@@ -54,25 +47,9 @@ export default {
 }
 .yetLogin {
   overflow: hidden;
-  // margin-right: 0.3rem;
+  margin-top: 1rem;
   width: 7.5rem;
   height: 12.6rem;
-  .title {
-    display: flex;
-    width: 7.5rem;
-    height: 0.77rem;
-    line-height: 0.77rem;
-    background: #e5e5e5;
-    p {
-      margin-left: 3.08rem;
-      font-size: 0.28rem;
-    }
-    img {
-      margin: 0.23rem 0.21rem;
-      width: 0.15rem;
-      height: 0.28rem;
-    }
-  }
   .head {
     margin: 2.23rem 0 1.53rem 2.8rem;
     width: 1.64rem;
