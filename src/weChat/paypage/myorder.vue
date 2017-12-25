@@ -12,7 +12,7 @@
         <p class="status">等待买家付款</p>
       </div>
       <div class="sec">
-        <div class="Img"><img src="../images/paypage/user.jpg" alt=""></div>
+        <div class="Img"><img :src="'http://115.182.107.203:8088/xinda/pic'+ cart.providerImg" alt=""></div>
         <div class="orDetail">
           <p class="sername">{{item.serviceName}}</p>
           <p class="ortime">下单时间：{{item.createTime}}</p>
@@ -53,8 +53,9 @@ export default {
   name: "HelloWorld",
   created() {
     var that = this;
-    this.ajax.post("xinda-api/service-order/grid").then(function(data) {
-      var dataAll = data.data.data;
+    this.ajax.post("/xinda-api/cart/list").then(function(data) {
+      var dataAll = data;
+      console.log(dataAll);
       var dataObj = {};
       for (var i = 0; i < dataAll.length; i++) {
         // 获取创建时间
@@ -85,14 +86,13 @@ export default {
         //  改变格式后加到总数组
       }
       that.rData = dataAll;
-      console.log(that.rData);
     });
   },
   data() {
     return {
       promt: false,
       dataAll: [],
-      rData: []
+      rData: [],
     };
   },
   methods: {
