@@ -101,7 +101,7 @@
           <div class="ch-service" :class="{blued:sort==1}" @click="chService()">服务内容</div>
           <div class="ch-judge" :class="{blued:sort==2}" @click="chJudge()">商品评价</div>
         </div>
-        <div class="serviceCon" v-show="serviceCon">服务内容： <br>1.整理原始票据 <br>2.记账 <br>3.装订凭证 <br>4.出报表 <br>5.月报、季度企业所得税、年度汇算清缴 <br>6.打印总帐、明晰账本 </div>
+        <div class="serviceCon" v-show="serviceCon" v-html="providerProducts.serviceContent"></div>
         <div class="userRating" v-show="userRating">
           <div class="con">
             <p class="main-fir">
@@ -120,8 +120,8 @@
             </div>
           </div>
           <div class="list">
-            <div class="lifir" @click="liFir()" :class="{blueded:fort==1}">全部评价（{{3}}）</div>
-            <div class="lifec" @click="liSec()" :class="{blueded:fort==2}">好评（{{3}}）</div>
+            <div class="lifir" @click="liFir()" :class="{blueded:fort==1}">全部评价（{{2}}）</div>
+            <div class="lifec" @click="liSec()" :class="{blueded:fort==2}">好评（{{2}}）</div>
             <div class="lithd" @click="liThd()" :class="{blueded:fort==3}">中评（{{assesses.midNum}}）</div>
             <div class="lifor" @click="liFor()" :class="{blueded:fort==4}">差评（{{assesses.badNum}}）</div>
           </div>
@@ -134,7 +134,7 @@
                   <th>用户</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody v-show="Tab">
                 <tr>
                   <td>
                     <div class="pingJia">服务很好服务很好服务很好</div>
@@ -149,17 +149,6 @@
                 <tr>
                   <td>
                     <div class="pingJia">服务很好很负责，很满意</div>
-                  </td>
-                  <td>
-                    <div class="degree"><img src="../images/paypage/manyidu.png" alt=""></div>
-                  </td>
-                  <td>
-                    <div class="headImg"><img src="../images/paypage/touxiang.png" alt=""></div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="pingJia">很满意，下次还选这家2333</div>
                   </td>
                   <td>
                     <div class="degree"><img src="../images/paypage/manyidu.png" alt=""></div>
@@ -215,10 +204,12 @@ export default {
       fort: 1,
       phadvice: false,
       advicecon: false,
-      pagecount: { allshow: {} }
+      pagecount: { allshow: {} },
+      Tab: true
     };
   },
   methods: {
+    ...mapActions(["setNum", "setName"]),
     //减少数量
     min(num) {
       if (num - 1 >= 1) {
@@ -246,19 +237,22 @@ export default {
     //全部评价
     liFir() {
       this.fort = 1;
-      
+      this.Tab = true;
     },
     //好评
     liSec() {
       this.fort = 2;
+      this.Tab = true;
     },
     //中评
     liThd() {
       this.fort = 3;
+      this.Tab = false;
     },
     //差评
     liFor() {
       this.fort = 4;
+      this.Tab = false;
     },
     //立即购买
     buy(id) {
@@ -283,17 +277,17 @@ export default {
     //加入购物车
     addCart(id, num) {
       var that = this;
-      this.ajax
-        .post(
-          "/xinda-api/cart/add",
-          this.qs.stringify({
-            id: id,
-            num: this.num
-          })
-        )
-        .then(function(data) {
-          location.reload();
-        });
+      this.ajax.post(
+        "/xinda-api/cart/add",
+        this.qs.stringify({
+          id: id,
+          num: this.num
+        })
+      );
+      this.ajax.post("xinda-api/cart/cart-num").then(function(data) {
+        that.setNum(data.data.data.cartNum); //购物车物品数量,点击加入购物车后自动更新
+        location.reload();
+      });
     },
     // 分页功能上一页
     praverpage: function() {
@@ -570,7 +564,7 @@ export default {
 }
 .proservice {
   width: 1198px;
-  height: 788px;
+  height: 588px;
   border: 1px solid #ccc;
   float: left;
   margin-top: 40px;
@@ -608,7 +602,7 @@ export default {
   line-height: 35px;
   margin-left: 10px;
   color: #333;
-  height: 790px;
+  height: 590px;
   width: 1190px;
 }
 .userRating {
@@ -617,7 +611,7 @@ export default {
   // margin-left: -530px;
   // margin-top: 400px;
   width: 1200px; //1200
-  height: 790px; //790
+  height: 590px; //790
 }
 .list {
   //margin-left: 530px;
