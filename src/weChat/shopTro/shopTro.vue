@@ -156,7 +156,6 @@ export default {
     border-right: 1px solid #ccc;
     img{
       width: 1.4rem;
-      height: 1.10;
     }
   }
   .comDetTe{
