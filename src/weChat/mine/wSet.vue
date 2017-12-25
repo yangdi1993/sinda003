@@ -153,7 +153,7 @@ export default {
       history.go(-1)
     },
     setBut:function(){
-      // setShow
+      // this.setShow = !this.setShow;
     },
     pwBut:function(){
 

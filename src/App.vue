@@ -36,17 +36,40 @@ export default {
     //   this.$router.push('/');
     // }
     //判断移动端还是pc端
-   
-    if(this.$route.path=='/inner/homepage'){
-      if(this.browserRedirect()){
-      this.$router.push('/weChat');
-      }else{
-        this.$router.push('/');
+
+    if (this.$route.path == "/inner/homepage") {
+      if (this.browserRedirect()) {
+        this.$router.push("/weChat");
+      } else {
+        this.$router.push("/");
       }
     }
-    
+    if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+      // window.location.href = "#/";
+      (function(doc, win) {
+        var docEl = doc.documentElement,
+          resizeEvt =
+            "orientationchange" in window ? "orientationchange" : "resize",
+          recalc = function() {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if (clientWidth >= 750) {
+              docEl.style.fontSize = "100px";
+            } else {
+              docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
+            }
+          };
+
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener("DOMContentLoaded", recalc, false);
+      })(document, window);
+    } else {
+      // window.location.href = "#/m.sinda";
+    }
+
   },
-  methods:{
+  methods: {
     browserRedirect() {
       var sUserAgent = navigator.userAgent.toLowerCase();
       var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
@@ -66,8 +89,6 @@ export default {
     }
 
   }
-
-  // components: { top, bottom }
 };
 </script>
 

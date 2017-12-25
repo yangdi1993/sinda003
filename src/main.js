@@ -62,7 +62,6 @@ router.beforeEach((to, from, next) => {
       //判断当前有没有登录
       //如果没有登录则跳转到登录页
       axios.post('/xinda-api/sso/login-info').then(data=>{
-        // console.log('data.data',data.data)
         if (data.data.status == 0) { //没有登录
           next('/outter/login');
         }else{
