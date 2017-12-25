@@ -44,12 +44,17 @@ export default {
       // 数据
       menCen:[],
       idx:0,
+      // 总数
       Totle:0,
-      toPriNum:0
+      toPriNum:0,
+      // 购物车为空
     }
   },
   created(){
+    // 数据获取
     this.gettingData();
+    // 购物车为零
+    // this.judge();
   },
   methods:{
     //初始数据获取 
@@ -111,7 +116,8 @@ export default {
       setTimeout(() => {
         instance.close();
       }, 2000);
-    }
+    },
+    // 购物车为空
   }
 }
 </script>
@@ -120,6 +126,7 @@ export default {
   .title{
     width: 7.5rem;
     height: 0.8rem;
+    margin-top: 1rem;
     .titleTe{
       font-size: 0.29rem;
       color: #666666;
