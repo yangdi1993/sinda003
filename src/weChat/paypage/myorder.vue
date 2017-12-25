@@ -1,45 +1,48 @@
 <template>
   <div class="orderWhole">
     <div class="head">
-      <div class="back"></div>
+      <div class="back" @click="back()"></div>
       <div class="ord">
         <p>我的订单</p>
       </div>
     </div>
-    <div class="orderCon">
+    <div class="orderCon" v-for="item in rData" :key="item.id">
       <div class="fir">
-        <p class="ornum">订单号：S13131312121312</p>
+        <p class="ornum">订单号：{{item.businessNo}}</p>
         <p class="status">等待买家付款</p>
       </div>
       <div class="sec">
-        <div class="Img"><img src="" alt=""></div>
+        <div class="Img"><img src="../images/paypage/user.jpg" alt=""></div>
         <div class="orDetail">
-          <p class="sername">新公司注册</p>
-          <p class="ortime">下单时间：2017-12-25 12:22:22</p>
+          <p class="sername">{{item.serviceName}}</p>
+          <p class="ortime">下单时间：{{item.createTime}}</p>
           <p class="toprice">
-            <span class="price">￥1200</span>元
-            <span>x1</span>
+            <span class="price">￥{{item.unitPrice}}</span>元
+            <span>x{{item.buyNum}}</span>
           </p>
         </div>
 
       </div>
       <div class="thd">
         <div class="Total">合计：
-          <span>￥1200</span>
+          <span>￥{{item.totalPrice}}</span>
         </div>
-        <div class="dele">删除订单</div>
+        <div class="dele" @click="dele()">删除订单</div>
         <div class="payment" @click="toPay()">
           <div>付款</div>
         </div>
       </div>
     </div>
     <!-- 删除订单提示框 -->
-    <div class="prombox">
-      <div class="btop"><p class="xinxi">信息</p><p class="up">X</p></div>
-      <div>确认删除订单吗？</div>
-      <div>
-        <div>确认</div>
-        <div>取消</div>
+    <div class="prombox" v-show="promt">
+      <div class="btop">
+        <p class="xinxi">信息</p>
+        <p class="up" @click="cancel()">X</p>
+      </div>
+      <div class="bcon">确认删除订单吗？</div>
+      <div class="bbtm">
+        <div class="confirm" @click="confirm(item.id)">确认</div>
+        <div class="cancel" @click="cancel()">取消</div>
       </div>
     </div>
   </div>
@@ -48,14 +51,70 @@
 <script>
 export default {
   name: "HelloWorld",
-  created() {},
+  created() {
+    var that = this;
+    this.ajax.post("xinda-api/service-order/grid").then(function(data) {
+      var dataAll = data.data.data;
+      var dataObj = {};
+      for (var i = 0; i < dataAll.length; i++) {
+        // 获取创建时间
+        var dd = dataAll[i].createTime;
+        // 转换格式
+        var now = new Date(dd);
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var date = now.getDate();
+        var hour = now.getHours();
+        var minute = now.getMinutes();
+        var second = now.getSeconds();
+        // 新的时间格式
+        var newTime =
+          year +
+          "年" +
+          month +
+          "月" +
+          date +
+          "日" +
+          hour +
+          ":" +
+          minute +
+          ":" +
+          second;
+        // 将原对象里面的时间格式替换掉
+        dataAll[i].createTime = newTime;
+        //  改变格式后加到总数组
+      }
+      that.rData = dataAll;
+      console.log(that.rData);
+    });
+  },
   data() {
-    return {};
+    return {
+      promt: false,
+      dataAll: [],
+      rData: []
+    };
   },
   methods: {
     //去付款
-    toPay() {}
-    //删除订单
+    toPay() {},
+    //删除订单-弹出提示框
+    dele() {
+      this.promt = true;
+    },
+    //取消删除
+    cancel() {
+      this.promt = false;
+    },
+    //确认删除
+    confirm() {
+      this.promt = false;
+      this.rData.splice(this.index, 1);
+    },
+    //返回上一级
+    back() {
+      history.go(-1);
+    }
   }
 };
 </script>
@@ -177,26 +236,50 @@ export default {
     }
   }
 }
-.prombox{
+.prombox {
   width: 70%;
-  height: 3.0rem;
+  height: 3rem;
   border: 0.01rem solid #e5e5e5;
   background-color: white;
   position: absolute;
-  
-  .btop{
+  left: 15%;
+  .btop {
     height: 0.7rem;
     background-color: #e5e5e5;
     font-size: 0.36rem;
-    .xinxi{
+    .xinxi {
       float: left;
       line-height: 0.7rem;
       margin-left: 0.25rem;
     }
-    .up{
+    .up {
       line-height: 0.7rem;
       float: right;
-      margin-right: 0.2rem;
+      margin-right: 0.25rem;
+    }
+  }
+  .bcon {
+    font-size: 0.4rem;
+    line-height: 1.4rem;
+    font-size: 0.36rem;
+  }
+  .bbtm {
+    height: 0.7rem;
+    font-size: 0.32rem;
+    .confirm {
+      float: left;
+      width: 1rem;
+      line-height: 0.42rem;
+      background-color: #2693d4;
+      color: white;
+      margin-left: 1.2rem;
+    }
+    .cancel {
+      float: right;
+      width: 1rem;
+      line-height: 0.42rem;
+      background-color: #e5e5e5;
+      margin-right: 1.2rem;
     }
   }
 }
