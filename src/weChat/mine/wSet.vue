@@ -25,8 +25,8 @@
       </li>
       <li class="gender">
         <p>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</p>
-        <el-radio v-model="radio" label="1" class="male" checked>男</el-radio>
-        <el-radio v-model="radio" label="2" class="female">女</el-radio>
+        <el-radio v-model="radio" label="1" checked id="male">男</el-radio>
+        <el-radio v-model="radio" label="2" id="female">女</el-radio>
       </li>
       <li class="email">
         <p>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱：</p>
@@ -153,10 +153,10 @@ export default {
       history.go(-1)
     },
     setBut:function(){
-      // this.setShow = !this.setShow;
+      this.setShow = !this.setShow;
     },
     pwBut:function(){
-
+ this.pwShow = !this.pwShow;
     },
     handleAvatarSuccess(res, file, fileList) {
       this.imageUrl = file.url;
@@ -495,13 +495,14 @@ export default {
       }
     }
     .gender {
-      span {
-        color: red;
+      #male{
+        margin-right: 0.5rem;
         font-size: 0.28rem;
       }
-      input {
-        width: 0.5rem;
+      #female{
+        font-size: 0.28rem;
       }
+
     }
     .email {
       input::-webkit-input-placeholder {
@@ -528,6 +529,7 @@ export default {
       color: #2693d4;
       background: #fff;
       outline: 0;
+      font-size: 0.28rem;
     }
   }
   .changePw{
@@ -577,6 +579,7 @@ export default {
       color: #2693d4;
       background: #fff;
       outline: 0;
+      font-size: 0.28rem;
     }
   }
 }

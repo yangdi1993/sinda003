@@ -130,13 +130,14 @@ export default {
 .toplogo{
   height: .72rem;
   width: 100%;
-  font-size: 28px;
+  font-size: .28rem;
   color: #373737;
   font-weight: 700;
   display: flex;
   justify-content: center;
   align-items: center;
   img{
+    width: .52rem;
     margin-right: 10px;
   }
 }
@@ -162,6 +163,9 @@ export default {
       height: 1.1rem;
       display: block;
       border-radius: .2rem;
+      img{
+        width: 1.1rem;
+      }
     }
     p{
       font-size: .22rem;
@@ -274,6 +278,7 @@ export default {
     align-items: center;
     margin-right: .2rem;
     img{
+      width: 1rem;
       margin: 0 auto;
     }
   }
