@@ -71,9 +71,9 @@ import storelist from  '@/weChat/store/storelist'
 //移动端店铺首页
 import storehome from '@/weChat/store/storehome'
 //移动端商品详情
+import wDetail from '@/weChat/paypage/wDetail'
+
 import shopTro from '@/weChat/shopTro/shopTro'
-
-
 
 //登录页面
 import wlogin from '@/weChat/mine/wlogin'
@@ -87,6 +87,8 @@ import wNotReg from '@/weChat/mine/wNotReg'
 import wSet from '@/weChat/mine/wSet'
 //已登录页面
 import wYetLogin from '@/weChat/mine/wYetLogin'
+
+
 
 Vue.use(Router)
 
@@ -281,6 +283,13 @@ export default new Router({
           name: 'index',
           component: index
         },
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+        //店铺列表
+>>>>>>> df67d9cfb14899324f1961f6ee4ee631ab243bb6
+>>>>>>> d43b1a120ac88669bb43307d3bb273767929b5de
         {
           path: 'Wlist',
           name: 'Wlist',
@@ -305,7 +314,6 @@ export default new Router({
       name:'weChatdog',
       component:weChatdog,
       children:[
-        
         //登录页面
         {
           path: 'wlogin',
@@ -342,7 +350,12 @@ export default new Router({
           name: 'wYetLogin',
           component: wYetLogin
         },
-        
+        //商品详情
+        {
+          path: 'wDetail',
+          name: 'wDetail',
+          component: wDetail
+        },
       ]
     },
   ]
