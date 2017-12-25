@@ -12,31 +12,31 @@
       <mt-swipe-item><img src="../../images/homepage/3.jpg" alt=""></mt-swipe-item>
     </mt-swipe>
     <div class="cellchoose">
-      <div class="caishui">
+      <div class="caishui" @click="ToStorelist()">
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/caishui.png" alt=""></a>
         <p>财税服务</p>
       </div>
-      <div class="company">
+      <div class="company" @click="ToList()">
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/company.png" alt=""></a>
         <p>开公司</p>
       </div>
-      <div class="biangeng">
+      <div class="biangeng" @click="ToList()">
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/biangeng.png" alt=""></a>
         <p>公司变更</p>
       </div>
-      <div class="grsb">
+      <div class="grsb" @click="ToList()">
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/grsb.png" alt=""></a>
         <p>个人社保</p>
       </div>
-      <div class="gssb">
+      <div class="gssb" @click="ToList()">
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/gssb.png" alt=""></a>
         <p>公司社保</p>
       </div>
-      <div class="knowledge">
+      <div class="knowledge" @click="ToStorelist()">
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/knowledge.png" alt=""></a>
         <p>知识产权</p>
       </div>
-      <div class="allpro">
+      <div class="allpro" @click="ToStorelist()">
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/allpro.png" alt=""></a>
         <p>全部服务</p>
       </div>
@@ -117,6 +117,18 @@ export default {
   methods:{
     test(){
        MessageBox.alert('nihao', 'hello');
+    },
+    //查看商品详情
+     ToDetail(id) {
+      this.$router.push({ path: "/weChatdog/wDetail", query: { id: id } });
+    },
+    //店铺列表
+    ToStorelist(){
+      this.$router.push({ path: "/weChat/storelist"});
+    },
+    //服务列表
+    ToList(){
+       this.$router.push({ path: "/weChat/list"});
     }
   }
 }

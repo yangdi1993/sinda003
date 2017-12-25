@@ -4,18 +4,18 @@
       <img src="../images/login/girl.jpg" alt="">
     </div>
     <ul>
-      <li class="indent">
+      <a href="#/weChatdog/myorder"><li class="indent">
         <div><img src="../images/login/menu.png" alt=""></div>
-        <a href="#/weChatdog/"><p>我的订单</p> </a>
+        <p>我的订单</p> 
         <div><img src="../images/login/go.png" alt=""></div>
-      </li>
-      <li class="account">
+      </li></a>
+      <a href="#/weChatdog/wSet"><li class="account">
         <div><img src="../images/login/settings.png" alt=""></div>
-        <a href="#/weChatdog/wSet"><p>账户设置</p></a>
+        <p>账户设置</p>
         <div><img src="../images/login/go.png" alt=""></div>
-      </li>
+      </li></a>
     </ul>
-    <button class="quit">退出登录</button>
+    <button class="quit" @click="quit">退出登录</button>
   </div>
 </template>
 
@@ -28,6 +28,12 @@ export default {
       msg: "Welcome to Your Vue.js App",
       products: []
     };
+  },
+  methods: {
+    quit() {
+      sessionStorage.clear();
+      location.href='#/weChatdog/wLogin';
+    }
   }
 };
 </script>
@@ -40,8 +46,9 @@ export default {
   border: 0;
 }
 .yetLogin {
-  margin-right: 0.3rem;
-  width: 2.72rem;
+  overflow: hidden;
+  // margin-right: 0.3rem;
+  width: 7.5rem;
   height: 13.34rem;
 
   .head {
@@ -54,40 +61,41 @@ export default {
       border-radius: 50%;
     }
   }
-  li {
-    display: flex;
-    margin: 0 0 0.35rem 0.66rem;
-    width: 6.13rem;
-    height: 0.76rem;
-    font-size: .28rem;
-    background:  #e9e9e9;
+  a {
+    text-decoration: none;
     color: #9b9b9b;
-    a{
-      text-decoration: none;
+    li {
+      display: flex;
+      margin: 0 0 0.35rem 0.66rem;
+      width: 6.13rem;
+      height: 0.76rem;
+      font-size: 0.28rem;
+      background: #e9e9e9;
       color: #9b9b9b;
+
       p {
-        margin-left:.4rem;
+        margin-left: 0.4rem;
         text-align: left;
         width: 4.3rem;
         line-height: 0.76rem;
         padding-left: 0.19rem;
       }
     }
-    div{
+    div {
       margin: 0.17rem 0 0 0.17rem;
       width: 0.39rem;
       height: 0.39rem;
-      img{
+      img {
         width: 100%;
         height: 100%;
       }
     }
   }
-  .quit{
+  .quit {
     margin: 1.26rem 0 0 0.66rem;
     width: 6.13rem;
     height: 0.76rem;
-    font-size: .28rem;
+    font-size: 0.28rem;
     background: #2693d4;
     color: #fff;
   }
