@@ -58,7 +58,7 @@ export default {
       this.ajax.post('xinda-api/cart/list').then(function(data){
         var dataAll = data.data.data;
         that.menCen = dataAll;
-        console.log(that.menCen);
+        that.Totle = 0;
         for( var i in that.menCen){
           that.Totle += that.menCen[i].totalPrice;
         }
@@ -93,21 +93,16 @@ export default {
       }else{
         this.dele(id);
       }
-      
     },
     // 删除按钮
     dele(id){
-      var that = this;
-      this.ajax.post('xinda-api/cart/del',this.qs.stringify({id : id})).then(function(data){
-        MessageBox({
-          title: '提示',
-          message: '确定执行此操作?',
-          showCancelButton: true,
+      MessageBox.confirm('确定删除该产品吗?').then(action => {
+        var that = this;
+        this.ajax.post('xinda-api/cart/del',this.qs.stringify({id : id})).then(function(data){
+          if(data.data.status === 1){
+            that.gettingData();
+          } 
         });
-        if(that.showCancelButton==true){
-          that.gettingData();
-        }
-        
       })
     },
     // 去结算
@@ -132,6 +127,7 @@ export default {
       line-height: 0.8rem;
       text-align: left;
       margin-left: 0.25rem;
+      
       a{
         color: #fc4145;
       }
@@ -220,8 +216,8 @@ export default {
       margin-top: 0.65rem;
       margin-left: 0.8rem;
       button{
-        width: 0.245rem;
-        height: 0.26rem;
+        width: 0.25rem;
+        height: 0.25rem;
         float: left;
       }
       input{
