@@ -5,7 +5,7 @@
       <p class="number">销量</p>
     </div>
     <div class='back' v-for='product in products' :key="product.data">
-      <router-link :to="{path:'/m.sinda/details',query:{id:product.id}}" @click='ccc'>
+      <router-link :to="{path:'/weChat/storehome',query:{id:product.id}}" @click='ccc'>
       <div class='content'>
         <div class='img'>
           <div class='imgs'>
@@ -54,6 +54,7 @@ export default {
       .then(data => {
         var data = data.data.data;
         that.products = data;
+
         sessionStorage.setItem(this.index, JSON.stringify(str));
     });
   }
