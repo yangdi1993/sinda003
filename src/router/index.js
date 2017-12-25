@@ -283,13 +283,9 @@ export default new Router({
           name: 'index',
           component: index
         },
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
+
         //店铺列表
->>>>>>> df67d9cfb14899324f1961f6ee4ee631ab243bb6
->>>>>>> d43b1a120ac88669bb43307d3bb273767929b5de
+
         {
           path: 'Wlist',
           name: 'Wlist',
