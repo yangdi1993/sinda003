@@ -194,7 +194,7 @@ export default {
         )
         .then(function(data) {
           that.$router.push({
-            path: "/weChatdog/cart"
+            path: "/weChat/shopTro"
           });
         });
     }
