@@ -155,8 +155,8 @@ export default {
     float: left;
     border-right: 1px solid #ccc;
     img{
-      width: 1.4rem;
-      height: 1.10;
+      width: 1.2rem;
+      height: 0.8rem;
     }
   }
   .comDetTe{
