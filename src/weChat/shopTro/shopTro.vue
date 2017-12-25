@@ -15,7 +15,7 @@
           <a class="purQua">购买数量：</a>
            <div class="numChan">
             <button class="numChanRed" @click="numChanRedBtn(item.serviceId,item.buyNum)">-</button>
-            <input type="text" v-model="item.buyNum">
+            <input type="text" v-model="item.buyNum" readonly="readonly">
             <button class="numChanAdd" @click="numChanAddBtn(item.serviceId,item.buyNum)">+</button>
           </div>
          <a class="address">地区：{{'北京市-朝阳区'}}</a>
@@ -49,26 +49,30 @@ export default {
     }
   },
   created(){
-    var that = this;
-    this.ajax.post('xinda-api/cart/list').then(function(data){
-      var dataAll = data.data.data;
-      that.menCen = dataAll;
-      console.log(that.menCen);
-      for( var i in that.menCen){
-        that.Totle += that.menCen[i].totalPrice;
-      }
-      that.Totle = that.Totle;
-      that.toPriNum = dataAll.length;
-    })
+    this.gettingData();
   },
   methods:{
+    //初始数据获取 
+    gettingData(){
+      var that = this;
+      this.ajax.post('xinda-api/cart/list').then(function(data){
+        var dataAll = data.data.data;
+        that.menCen = dataAll;
+        that.Totle = 0;
+        for( var i in that.menCen){
+          that.Totle += that.menCen[i].totalPrice;
+        }
+        that.Totle = that.Totle;
+        that.toPriNum = dataAll.length;
+      })
+    },
     // 增加按钮
     numChanAddBtn(id,buyNum){
-       var thst=this;
+       var that=this;
        this.ajax.post('/xinda-api/cart/add',this.qs.stringify({id:id,num:1})).then(function(data){
          if (data.data.status === 1) {
             // 如果成功增加订单 刷新当前页面
-            location.reload();
+            that.gettingData();
         } else {
             console.log("系统正在开小差中，请稍后重试");
         }
@@ -81,7 +85,7 @@ export default {
         this.ajax.post('/xinda-api/cart/add',this.qs.stringify({id:id,num:-1})).then(function(data){
           if (data.data.status === 1) {
             // 如果成功减少订单 刷新当前页面
-            location.reload();
+            that.gettingData();
           } else {
             console.log("系统正在开小差中，请稍后重试");
           }
@@ -89,28 +93,20 @@ export default {
       }else{
         this.dele(id);
       }
-      
     },
     // 删除按钮
     dele(id){
-      var that = this;
-      this.ajax.post('xinda-api/cart/del',this.qs.stringify({id : id})).then(function(data){
-        MessageBox({
-          title: '提示',
-          message: '确定执行此操作?',
-          showCancelButton: true,
+      MessageBox.confirm('确定删除该产品吗?').then(action => {
+        var that = this;
+        this.ajax.post('xinda-api/cart/del',this.qs.stringify({id : id})).then(function(data){
+          if(data.data.status === 1){
+            that.gettingData();
+          } 
         });
-        if (data.data.status === 1) {
-            // 如果成功删除订单 刷新当前页面
-            location.reload();
-        } else {
-            console.log("系统正在开小差中，请稍后重试");
-        }
       })
     },
     // 去结算
     setAccGoBtn(){
-      // Toast('');
       let instance = Toast('目前仅支持微信支付，请在微信浏览器中打开');
       setTimeout(() => {
         instance.close();
@@ -130,6 +126,7 @@ export default {
       line-height: 0.8rem;
       text-align: left;
       margin-left: 0.25rem;
+      
       a{
         color: #fc4145;
       }
@@ -159,90 +156,78 @@ export default {
     border-right: 1px solid #ccc;
     img{
       width: 1.4rem;
-      height: 1.10;
     }
   }
   .comDetTe{
     float: left;
     width: 4.89rem;
     height: 1.21rem;
-    margin-left: 0.09rem;
+    margin-left: 0.29rem;
     margin-top: 0.17rem;
     position: relative;
     .comDetPro{
-      font-size: 0.19rem;
+      font-size: 0.22rem;
       float: left;
       color: #333333;
-      margin-top: 0.06rem;
+      margin-left: 0.06rem;
       font-weight: bold;
     }
     .comDetDel{
       width: 1.34rem;
-      height: 0.34rem;
+      height: 0.4rem;
       border: 1px solid #1356ff;
       border-radius: 0.06rem;
-      line-height: 0.34rem;
+      line-height: 0.4rem;
       font-size: 0.17rem;
       color: #1356ff;
       position: absolute;
-      left: 4rem;
-      // float: left;
+      left: 3.5rem;
       top: 0.1rem;
       cursor: pointer;
     }
     .conPrice{
-      // float: left;
-      font-size: 0.17rem;
+      font-size: 0.25rem;
       color: #fb4145;
-      // text-align: left;
       font-weight: bold;
       position: absolute;
-      top: 0.4rem;
+      top: 0.32rem;
       left: 0;
     }
     .purQua{
-      font-size: 0.13rem;
+      font-size: 0.2rem;
       color: #666666;
-      // float: left;
-      // text-align: left;
-      // margin-top: 0.63rem;
-      // margin-left: -3.78rem;
       position: absolute;
       top: 0.7rem;
-      left: 0rem;
+      left: 0.06rem;
     }
     .numChan{
-      width: 0.9rem;
-      height: 0.25rem;
+      width: 1.5rem;
+      height: 0.45rem;
       border: 1px solid #ccc;
-      margin-top: 0.65rem;
-      margin-left: 0.8rem;
+      margin-top: 0.55rem;
+      margin-left: 1.2rem;
       button{
-        width: 0.245rem;
-        height: 0.26rem;
+        width: 0.45rem;
+        height: 0.45rem;
         float: left;
+        font-size: 0.4rem;
+        line-height: 0.4rem;
       }
       input{
         float: left;
-        width: 0.4rem;
+        width: 0.6rem;
         height: 0.25rem;
         text-align: center;
-      }
-      .numChanAdd{
-        
-      }
-      .numChanRed{
-
+        padding-top: 0.1rem;
+        font-size: 0.25rem;
       }
     }
     .address{
-      font-size: 0.14rem;
+      font-size: 0.2rem;
       color: #666666;
-      // float: left;
-      // text-align: left;
       position: absolute;
-      top: 1rem;
-      left: 0;
+      top: 1.1rem;
+      left: 0.06rem;
     }
   }
   .comDetUl{
@@ -255,6 +240,7 @@ export default {
   text-align: right;
   margin-right: 0.5rem;
   margin-top: 0.1rem;
+  margin-bottom: 3rem;
   a{
     font-size: 0.25rem;
     color: #fe2423;
@@ -263,7 +249,7 @@ export default {
 .setAcc{
   width: 7.5rem;
   height: 1.11rem;
-  bottom: 0.8rem;
+  bottom: 0.868rem;
   position: fixed;
   .setAccLe{
     width: 4.90rem;
@@ -286,7 +272,6 @@ export default {
     font-size: 0.29rem;
     color: #fff;
     line-height: 1.11rem;
-
   }
 }
 </style>
