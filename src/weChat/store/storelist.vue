@@ -1,11 +1,11 @@
 <template>
   <div class="hello">
     <div class="listhead">
-      <p class="paixu" @click='aaa(1)'>默认排序</p>
-      <p class="number"@click='aaa(2)'>销量</p>
+      <p class="paixu">默认排序</p>
+      <p class="number">销量</p>
     </div>
     <div class='back' v-for='product in products' :key="product.data">
-      <router-link :to="{path:'/m.sinda/details',query:{id:product.id}}" @click='ccc'>
+      <router-link :to="{path:'/weChat/storehome',query:{id:product.id}}" @click='ccc'>
       <div class='content'>
         <div class='img'>
           <div class='imgs'>
@@ -14,17 +14,11 @@
           <div class='deta'>
             <p>{{product.serviceName}}</p><br>
             <span class='area'>{{product.regionName}}</span><br>
-            <div class="number">累计服务客户数量 : <span>{{product.price}}  </span> 好评率 : <span>100%</span></div>
+            <div class="num">累计服务客户数量 : <span>{{product.price}}  </span> 好评率 : <span>100%</span></div>
           </div>
         </div>
       </div>
       </router-link>
-    </div>
-    <div class='bottom'>
-      <div class='sort'>
-        <button @click='previous'>上一页</button>
-        <button @click='next'>下一页</button>
-      </div>
     </div>
   </div>
 </template>
@@ -44,127 +38,25 @@ export default {
     ccc:function(){
       this.$router.query.id;
     },
-    aaa: function(number) {
-      //sort背景颜色
-      this.number = number;
-      if (this.number == 2) {
-        if (this.num == 0) {
-          this.index = 0;
-          this.index = this.index + 1;
-          this.sort = 2;
-          this.sum();
-          this.num = 1;
-        } else {
-          this.index = 0;
-          this.index = this.index + 2;
-          this.sort = 3;
-          this.sum();
-          this.num = 0;
-        }
-      } else {
-        this.index = 0;
-        this.num = 0;
-        this.index = this.index;
-        this.sort = "";
-        this.sum();
-      }
-    },
-    next: function() {
-      //下一页
-      this.index = this.index + 3;
-      this.sum();
-    },
-    previous: function() {
-      //上一页
-      if (this.index != 0) {
-        this.index = this.index - 3;
-        this.sum();
-      } else {
-        this.index = 0;
-      }
-    },
-    sum() {
-      //封装调用函数
-      if (sessionStorage.getItem(this.index) != null) {
-        this.products = JSON.parse(sessionStorage.getItem(this.index))[
-          this.index
-        ];
-      } else {
-        if (this.index % 3 == 0) {
-          var that = this;
-          var str = {};
-          this.ajax
-            .post(
-              //列表商品
-              "/xinda-api/product/package/grid",
-              this.qs.stringify({
-                start: this.index,
-                limit: 3,
-                productTypeCode: "0",
-                productId: "8a82f52b674543e298d2e5f685946e6e",
-                sort: this.sort
-              })
-            )
-            .then(data => {
-              var data = data.data.data;
-              that.products = data;
-              if (!str[this.index]) {
-                str[this.index] = data;
-              }
-              sessionStorage.setItem(this.index, JSON.stringify(str));
-            });
-        } else if (this.index % 3 == 1) {
-          var that = this;
-          var str = {};
-          this.ajax
-            .post(
-              //列表商品
-              "/xinda-api/product/package/grid",
-              this.qs.stringify({
-                start: this.index - 1,
-                limit: 3,
-                productTypeCode: "0",
-                productId: "8a82f52b674543e298d2e5f685946e6e",
-                sort: this.sort
-              })
-            )
-            .then(data => {
-              var data = data.data.data;
-              that.products = data;
-              if (!str[this.index]) {
-                str[this.index] = data;
-              }
-              sessionStorage.setItem(this.index, JSON.stringify(str));
-            });
-        } else if (this.index % 3 == 2) {
-          var that = this;
-          var str = {};
-          this.ajax
-            .post(
-              //列表商品
-              "/xinda-api/product/package/grid",
-              this.qs.stringify({
-                start: this.index - 2,
-                limit: 3,
-                productTypeCode: "0",
-                productId: "8a82f52b674543e298d2e5f685946e6e",
-                sort: this.sort
-              })
-            )
-            .then(data => {
-              var data = data.data.data;
-              that.products = data;
-              if (!str[this.index]) {
-                str[this.index] = data;
-              }
-              sessionStorage.setItem(this.index, JSON.stringify(str));
-            });
-        }
-      }
-    }
+    
   },
   created() {
-    this.sum();
+    var that = this;
+    var str = {};
+    this.ajax
+      .post( "/xinda-api/product/package/grid",
+        this.qs.stringify({
+          limit: 6,
+          productTypeCode: "0",
+          productId: "8a82f52b674543e298d2e5f685946e6e",
+          sort: this.sort
+        }))
+      .then(data => {
+        var data = data.data.data;
+        that.products = data;
+
+        sessionStorage.setItem(this.index, JSON.stringify(str));
+    });
   }
 };
 </script>
@@ -175,6 +67,9 @@ export default {
   margin: 0;
   padding: 0;
   border: 0;
+}
+.hello{
+  margin-bottom: 0.9rem;
 }
 .listhead{
   width:3.6rem;
@@ -197,12 +92,15 @@ export default {
   }
 }
 .paixu{
+  background-color:  #2693d4;
+  color:#fff;
   border-right:1px solid #2693d4;
 }
 .listhead p:hover{
   background-color: #2693d4;
   color:#fff;
 }
+
 .listbox{
   width:100%;
   height: 2.15rem;
@@ -266,7 +164,7 @@ button {
     font-size:0.23rem;
     color:#000;
   }
-  .number{
+  .num{
     margin-top:0.3rem;
     font-size:0.23rem;
     span{
@@ -282,16 +180,5 @@ button {
   
   }
 }
-.bottom {
-  button{
-    width:1.5rem;
-    height:0.6rem;
-    border:0.01rem solid #cecccc;
-    background-color: #fff;
-    color:#cecccc;
-  }
-}
-.bottom button:hover{
-  border:0.01rem solid #2693d4;
-}
+
 </style>

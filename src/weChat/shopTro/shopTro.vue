@@ -49,26 +49,30 @@ export default {
     }
   },
   created(){
-    var that = this;
-    this.ajax.post('xinda-api/cart/list').then(function(data){
-      var dataAll = data.data.data;
-      that.menCen = dataAll;
-      console.log(that.menCen);
-      for( var i in that.menCen){
-        that.Totle += that.menCen[i].totalPrice;
-      }
-      that.Totle = that.Totle;
-      that.toPriNum = dataAll.length;
-    })
+    this.gettingData();
   },
   methods:{
+    //初始数据获取 
+    gettingData(){
+      var that = this;
+      this.ajax.post('xinda-api/cart/list').then(function(data){
+        var dataAll = data.data.data;
+        that.menCen = dataAll;
+        console.log(that.menCen);
+        for( var i in that.menCen){
+          that.Totle += that.menCen[i].totalPrice;
+        }
+        that.Totle = that.Totle;
+        that.toPriNum = dataAll.length;
+      })
+    },
     // 增加按钮
     numChanAddBtn(id,buyNum){
-       var thst=this;
+       var that=this;
        this.ajax.post('/xinda-api/cart/add',this.qs.stringify({id:id,num:1})).then(function(data){
          if (data.data.status === 1) {
             // 如果成功增加订单 刷新当前页面
-            location.reload();
+            that.gettingData();
         } else {
             console.log("系统正在开小差中，请稍后重试");
         }
@@ -81,7 +85,7 @@ export default {
         this.ajax.post('/xinda-api/cart/add',this.qs.stringify({id:id,num:-1})).then(function(data){
           if (data.data.status === 1) {
             // 如果成功减少订单 刷新当前页面
-            location.reload();
+            that.gettingData();
           } else {
             console.log("系统正在开小差中，请稍后重试");
           }
@@ -100,12 +104,10 @@ export default {
           message: '确定执行此操作?',
           showCancelButton: true,
         });
-        if (data.data.status === 1) {
-            // 如果成功删除订单 刷新当前页面
-            location.reload();
-        } else {
-            console.log("系统正在开小差中，请稍后重试");
+        if(that.showCancelButton==true){
+          that.gettingData();
         }
+        
       })
     },
     // 去结算
@@ -255,6 +257,7 @@ export default {
   text-align: right;
   margin-right: 0.5rem;
   margin-top: 0.1rem;
+  margin-bottom: 3rem;
   a{
     font-size: 0.25rem;
     color: #fe2423;
@@ -263,7 +266,7 @@ export default {
 .setAcc{
   width: 7.5rem;
   height: 1.11rem;
-  bottom: 0.8rem;
+  bottom: 0.868rem;
   position: fixed;
   .setAccLe{
     width: 4.90rem;
@@ -286,7 +289,7 @@ export default {
     font-size: 0.29rem;
     color: #fff;
     line-height: 1.11rem;
-
+    // border-radius: 0.09rem;
   }
 }
 </style>

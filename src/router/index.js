@@ -66,6 +66,8 @@ import weChatdog from  '@/weChat/components/weChatdog'
 import index from '@/weChat/index/index'
 //列表页
 import Wlist from '@/weChat/index/list'
+//分类
+import allkinds from '@/weChat/index/allkinds'
 //移动端店铺列表
 import storelist from  '@/weChat/store/storelist'
 //移动端店铺首页
@@ -285,18 +287,17 @@ export default new Router({
           name: 'index',
           component: index
         },
+<<<<<<< HEAD
+=======
+
+>>>>>>> e4cf4565a581f7805dccf0460fe7b4025f02902c
         //店铺列表
         {
           path: 'storelist',
           name: 'storelist',
           component: storelist
         },
-        //店铺列表
-        {
-          path: 'Wlist',
-          name: 'Wlist',
-          component: Wlist
-        },
+       
         //店铺首页
         {
           path: 'storehome',
@@ -357,6 +358,18 @@ export default new Router({
           path: 'wDetail',
           name: 'wDetail',
           component: wDetail
+        },
+         //列表
+         {
+          path: 'Wlist',
+          name: 'Wlist',
+          component: Wlist
+        },
+         //分类
+         {
+          path: 'allkinds',
+          name: 'allkinds',
+          component: allkinds
         },
         //我的订单
         {
