@@ -285,13 +285,22 @@ export default new Router({
           name: 'index',
           component: index
         },
+<<<<<<< HEAD
+
         //店铺列表
+
+=======
+        //店铺列表
+<<<<<<< HEAD
+=======
         {
           path: 'storelist',
           name: 'storelist',
           component: storelist
         },
         //店铺列表
+>>>>>>> a05a9a6c1ff9cee5fcfb5469ee03d0fd08d3ef6e
+>>>>>>> 67b3e750e762e6692abd2e8843b1352852606e16
         {
           path: 'Wlist',
           name: 'Wlist',
