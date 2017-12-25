@@ -45,8 +45,9 @@ export default {
   border: 0;
 }
 .notReg {
-  margin-right: 0.3rem;
-  width: 2.72rem;
+  // margin-right: 0.3rem;
+  overflow: hidden;
+  width: 7.5rem;
   height: 13.34rem;
   .top {
     .head {

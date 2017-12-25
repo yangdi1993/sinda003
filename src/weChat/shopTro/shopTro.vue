@@ -2,23 +2,23 @@
   <div class="hello">
     <!-- 表头 -->
     <div class="title">
-      <p class="titleTe">购物车内共有 <a>{{2}}</a> 件商品</p>
+      <p class="titleTe">购物车内共有 <a>{{menCen.length}}</a> 件商品</p>
     </div>
     <div class="comDetDiv" v-for="(item,idx) in menCen" :key="item.id">
-      <p class="comDetName">{{'北京金萍无敌律师事务所'}}</p>
+      <p class="comDetName">{{item.providerName}}</p>
       <ul class="comDetUl">
-        <li class="comDetImg"></li>
+        <li class="comDetImg"><img :src="'http://115.182.107.203:8088/xinda/pic'+item.providerImg" alt=""></li>
         <li class="comDetTe">
-          <a class="comDetPro">{{'商标驳回复审'}}</a>
-          <p class="comDetDel">删除订单</p>
-          <a class="conPrice">￥{{'800.00'}}</a>
+          <a class="comDetPro">{{item.serviceName}}</a>
+          <p class="comDetDel" @click="dele(item.serviceId)">删除订单</p>
+          <a class="conPrice">￥{{item.unitPrice}}.00</a>
           <a class="purQua">购买数量：</a>
-          <div class="numChan">
+           <div class="numChan">
             <button class="numChanRed" @click="numChanRedBtn(idx)">-</button>
-            <input type="text" v-model="numVal">
-            <button class="numChanAdd" @click="numChanAddBtn(idx)">+</button>
+            <input type="text" v-model="item.buyNum">
+            <button class="numChanAdd" @click="numChanAddBtn(item.serviceId,item.buyNum)">+</button>
           </div>
-          <a class="address">地区：{{'北京市-朝阳区'}}</a>
+         <a class="address">地区：{{'北京市-朝阳区'}}</a>
           </li>
       </ul>
     </div>
@@ -42,23 +42,43 @@ export default {
     this.ajax.post('xinda-api/cart/list').then(function(data){
       var dataAll = data.data.data;
       that.menCen = dataAll;
-      console.log(that.menCen);
+      // console.log(that.menCen);
+      // console.log(dataAll[0].providerImg);
     })
   },
   methods:{
     // 增加按钮
-    numChanAddBtn(idx){
-        this.numVal+=1;
-      console.log(idx);
-      // this.numVal=this.numVal;
+    numChanAddBtn(id,buyNum){
+       var thst=this;
+       this.ajax.post('/xinda-api/cart/add',this.qs.stringify({id:id,num:1})).then(function(data){
+
+       })
     },
-    numChanRedBtn(){
-      if(this.numVal==1){
-        this.numVal=1
+    // 减少按钮
+    numChanRedBtn(id,buyNum){
+      var that = this;
+      if(buyNum-1>0){
+        this.ajax.post('',this.qs.stringify({id:id,num:-1})).then(function(data){
+          console.log(111)
+        })
       }else{
-        this.numVal-=1;
+        this.dele(id);
       }
-    }
+      
+    },
+    // 删除按钮
+    dele(id){
+      var that = this;
+      this.ajax.post('xinda-api/cart/del',this.qs.stringify({id : id})).then(function(data){
+        if (data.data.status === 1) {
+            // 如果成功删除订单 刷新当前页面
+            this.$router.go(0);
+        } else {
+            console.log("系统正在开小差中，请稍后重试");
+        }
+
+      })
+    },
   }
 }
 </script>
@@ -67,7 +87,6 @@ export default {
   .title{
     width: 7.5rem;
     height: 0.8rem;
-    background-color: yellow;
     .titleTe{
       font-size: 0.29rem;
       color: #666666;
@@ -97,10 +116,14 @@ export default {
   .comDetImg{
     width: 1.58rem;
     height: 1.21rem;
-    border: 1px solid red;
     margin-top: 0.17rem;
     margin-left: 0.13rem;
     float: left;
+    border-right: 1px solid #ccc;
+    img{
+      width: 1.4rem;
+      height: 1.10;
+    }
   }
   .comDetTe{
     float: left;
@@ -108,7 +131,7 @@ export default {
     height: 1.21rem;
     margin-left: 0.09rem;
     margin-top: 0.17rem;
-    border: 1px solid red;
+    position: relative;
     .comDetPro{
       font-size: 0.19rem;
       float: left;
@@ -119,36 +142,41 @@ export default {
     .comDetDel{
       font-size: 0.17rem;
       color: #1356ff;
-      margin-left: 1.96rem;
-      float: left;
-      margin-top: 0.1rem;
+      position: absolute;
+      left: 4rem;
+      // float: left;
+      top: 0.1rem;
       cursor: pointer;
     }
     .conPrice{
-      float: left;
+      // float: left;
       font-size: 0.17rem;
       color: #fb4145;
-      margin-top: 0.33rem;
-      margin-left: -3.8rem;
-      text-align: left;
+      // text-align: left;
       font-weight: bold;
+      position: absolute;
+      top: 0.4rem;
+      left: 0;
     }
     .purQua{
       font-size: 0.13rem;
       color: #666666;
-      float: left;
-      text-align: left;
-      margin-top: 0.63rem;
-      margin-left: -3.78rem;
+      // float: left;
+      // text-align: left;
+      // margin-top: 0.63rem;
+      // margin-left: -3.78rem;
+      position: absolute;
+      top: 0.7rem;
+      left: 0rem;
     }
     .numChan{
       width: 0.9rem;
       height: 0.25rem;
       border: 1px solid #ccc;
-      margin-top: 0.6rem;
+      margin-top: 0.65rem;
       margin-left: 0.8rem;
       button{
-        width: 0.25rem;
+        width: 0.245rem;
         height: 0.26rem;
         float: left;
       }
@@ -156,9 +184,10 @@ export default {
         float: left;
         width: 0.4rem;
         height: 0.25rem;
+        text-align: center;
       }
       .numChanAdd{
-
+        
       }
       .numChanRed{
 
@@ -167,10 +196,11 @@ export default {
     .address{
       font-size: 0.14rem;
       color: #666666;
-      float: left;
-      text-align: left;
-      margin-top: 0.1rem;
-      margin-left: 0;
+      // float: left;
+      // text-align: left;
+      position: absolute;
+      top: 1rem;
+      left: 0;
     }
   }
   .comDetUl{
