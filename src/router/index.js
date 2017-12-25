@@ -285,6 +285,12 @@ export default new Router({
         },
         //店铺列表
         {
+          path: 'storelist',
+          name: 'storelist',
+          component: storelist
+        },
+        //店铺列表
+        {
           path: 'Wlist',
           name: 'Wlist',
           component: Wlist
