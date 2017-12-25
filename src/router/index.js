@@ -72,6 +72,8 @@ import storelist from  '@/weChat/store/storelist'
 import storehome from '@/weChat/store/storehome'
 //移动端商品详情
 import wDetail from '@/weChat/paypage/wDetail'
+//我的订单
+import myorder from '@/weChat/paypage/myorder'
 
 import shopTro from '@/weChat/shopTro/shopTro'
 
@@ -283,6 +285,12 @@ export default new Router({
           name: 'index',
           component: index
         },
+<<<<<<< HEAD
+=======
+
+        //店铺列表
+
+>>>>>>> 07127a2695f0bf9ab341b6d3acac6fde452cdca7
         //店铺列表
         {
           path: 'storelist',
@@ -356,6 +364,12 @@ export default new Router({
           name: 'wDetail',
           component: wDetail
         },
+        //我的订单
+        {
+          path: 'myorder',
+          name: 'myorder',
+          component: myorder
+        }
       ]
     },
   ]

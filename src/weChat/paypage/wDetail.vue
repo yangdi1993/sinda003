@@ -29,7 +29,7 @@
           </p><br>
           <p>{{providerRegionText}}</p><br>
           <p>累计服务客户次数：{{providerBusinesses.serviceNum}}</p>
-          <div class="toshop">进入店铺</div>
+          <div class="toshop" @click="ToShop(providers.id)">进入店铺</div>
         </div>
       </div>
       <div class="shopbottom">
@@ -120,7 +120,7 @@ export default {
     this.ajax
       .post(
         "/xinda-api/product/package/detail",
-        this.qs.stringify({ sId: "0cb85ec6b63b41fc8aa07133b6144ea3" }) //this.$route.query.id
+        this.qs.stringify({ sId: this.$route.query.id }) //this.$route.query.id
       )
       .then(function(data) {
         that.products = data.data.data.product;
@@ -130,7 +130,7 @@ export default {
         that.providerRegionText = data.data.data.providerRegionText;
         that.providerBusinesses = data.data.data.providerBusiness;
         //console.log(data.data.data.providerProduct);
-        //console.log(data.data.data);
+        console.log(data.data.data);
       });
     //店铺详情
   },
@@ -194,9 +194,13 @@ export default {
         )
         .then(function(data) {
           that.$router.push({
-            path: "/weChatdog/cart"
+            path: "/weChat/shopTro"
           });
         });
+    },
+    //查看店铺详情
+    ToShop(id){
+       this.$router.push({ path: "/weChat/storehome",query:{id:id}});
     }
   }
 };
@@ -246,16 +250,17 @@ export default {
   background-color: rgba(19, 18, 18, 0.5);
   bottom: 1.5rem;
   .sFir {
+    width: 70%;
     font-size: 0.28rem;
     color: white;
     margin-right: 4.5rem;
-    line-height: 0.7rem;
+    line-height: 0.55rem;
   }
   .sSec {
     font-size: 0.24rem;
-    width: 4rem;
+    width: 100%;
     color: white;
-    margin-right: 4.55rem;
+    margin-right: 4.5rem;
   }
 }
 .shop {
@@ -299,7 +304,7 @@ export default {
         text-align: center;
         background-color: #ff591b;
         width: 1.02rem;
-        height: 0.32rem;
+        line-height: 0.32rem;
         border-radius: 0.03rem;
         color: white;
         font-size: 0.14rem;
@@ -529,7 +534,7 @@ export default {
   border: 0.01rem solid #dddbdb;
   position: fixed;
   left: 5%;
-  bottom: 25%;
+  bottom: 20%;
   position: absolute;
 }
 .conTop {
