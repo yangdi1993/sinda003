@@ -285,6 +285,7 @@ export default new Router({
           name: 'index',
           component: index
         },
+
         //店铺列表
         {
           path: 'storelist',
@@ -292,7 +293,6 @@ export default new Router({
           component: storelist
         },
         //店铺列表
-
         {
           path: 'Wlist',
           name: 'Wlist',

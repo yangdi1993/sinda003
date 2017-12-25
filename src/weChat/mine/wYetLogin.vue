@@ -4,7 +4,7 @@
       <img src="../images/login/girl.jpg" alt="">
     </div>
     <ul>
-      <a href="#/weChatdog/myOrder"><li class="indent">
+      <a href="#/weChatdog/myorder"><li class="indent">
         <div><img src="../images/login/menu.png" alt=""></div>
         <p>我的订单</p> 
         <div><img src="../images/login/go.png" alt=""></div>
@@ -46,8 +46,9 @@ export default {
   border: 0;
 }
 .yetLogin {
-  margin-right: 0.3rem;
-  width: 2.72rem;
+  overflow: hidden;
+  // margin-right: 0.3rem;
+  width: 7.5rem;
   height: 13.34rem;
 
   .head {
