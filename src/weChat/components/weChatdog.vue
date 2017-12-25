@@ -32,7 +32,7 @@ export default {
 <style scoped lang="less">
 .top{
   width: 100%;
-  height: .6rem;
+  height: .9rem;
   background: #fff;
   position: fixed;
   top: 0;
@@ -42,9 +42,9 @@ export default {
   span{
     float: left;
     height: 100%;
-    line-height: .6rem;
+    line-height: .9rem;
     font-size: .5rem;
-    margin-left: .2rem;
+    margin-left: .3rem;
   }
 }
 </style>
