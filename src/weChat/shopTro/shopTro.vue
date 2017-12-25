@@ -155,8 +155,7 @@ export default {
     float: left;
     border-right: 1px solid #ccc;
     img{
-      width: 1.2rem;
-      height: 0.8rem;
+      width: 1.4rem;
     }
   }
   .comDetTe{
@@ -196,7 +195,7 @@ export default {
     }
     .purQua{
       font-size: 0.2rem;
-      color: #666666;
+      color: #000;
       position: absolute;
       top: 0.7rem;
       left: 0.06rem;
@@ -225,7 +224,7 @@ export default {
     }
     .address{
       font-size: 0.2rem;
-      color: #666666;
+      color: #000;
       position: absolute;
       top: 1.1rem;
       left: 0.06rem;
