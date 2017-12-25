@@ -195,7 +195,7 @@ export default {
     }
     .purQua{
       font-size: 0.2rem;
-      color: #000;
+      color: #666666;
       position: absolute;
       top: 0.7rem;
       left: 0.06rem;
@@ -224,7 +224,7 @@ export default {
     }
     .address{
       font-size: 0.2rem;
-      color: #000;
+      color: #666666;
       position: absolute;
       top: 1.1rem;
       left: 0.06rem;
