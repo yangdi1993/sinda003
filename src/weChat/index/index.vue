@@ -275,7 +275,7 @@ export default {
 }
 .innerCell{
   width: 7.15rem;
-    height: 1.66rem;
+  height: 1.66rem;
   // height: 100%;
   padding: .21rem 0;
   margin: 0 auto;

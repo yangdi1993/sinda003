@@ -106,8 +106,8 @@
         <p class="phconThd">请您注意接听电话</p>
       </div>
     </div>
-    <!-- 提示购买成功 -->
-    <div class="buytrue" v-show="buySuccess">购买成功</div>
+    <!-- 提示加入购物车成功 -->
+    <div class="buytrue" v-show="buySuccess">加入成功</div>
   </div>
 </template>
 

@@ -14,7 +14,7 @@
           <a class="conPrice">￥{{item.unitPrice}}.00</a>
           <a class="purQua">购买数量：</a>
            <div class="numChan">
-            <button class="numChanRed" @click="numChanRedBtn(idx)">-</button>
+            <button class="numChanRed" @click="numChanRedBtn(item.serviceId,item.buyNum)">-</button>
             <input type="text" v-model="item.buyNum">
             <button class="numChanAdd" @click="numChanAddBtn(item.serviceId,item.buyNum)">+</button>
           </div>
@@ -22,11 +22,20 @@
           </li>
       </ul>
     </div>
+    <p class="totolPrice">
+      共<a>{{toPriNum}}</a>件商品&nbsp;&nbsp;&nbsp;&nbsp;小计：<a>￥{{Totle}}.00</a>
+    </p>
+    <div class="setAcc">
+      <div class="setAccLe">合计：<a>￥{{Totle}}.00</a></div>
+      <button class="setAccGo" @click="setAccGoBtn">去结算</button>
+    </div>
   </div>
 </template>
 
 <script>
 import weChat from '../components/weChat';
+import { Toast } from 'mint-ui';
+import { MessageBox } from 'mint-ui';
 export default {
   data () {
     return {
@@ -34,32 +43,52 @@ export default {
       numVal:1,
       // 数据
       menCen:[],
-      idx:0
+      idx:0,
+      Totle:0,
+      toPriNum:0
     }
   },
   created(){
-    var that = this;
-    this.ajax.post('xinda-api/cart/list').then(function(data){
-      var dataAll = data.data.data;
-      that.menCen = dataAll;
-      // console.log(that.menCen);
-      // console.log(dataAll[0].providerImg);
-    })
+    this.gettingData();
   },
   methods:{
+    //初始数据获取 
+    gettingData(){
+      var that = this;
+      this.ajax.post('xinda-api/cart/list').then(function(data){
+        var dataAll = data.data.data;
+        that.menCen = dataAll;
+        console.log(that.menCen);
+        for( var i in that.menCen){
+          that.Totle += that.menCen[i].totalPrice;
+        }
+        that.Totle = that.Totle;
+        that.toPriNum = dataAll.length;
+      })
+    },
     // 增加按钮
     numChanAddBtn(id,buyNum){
-       var thst=this;
+       var that=this;
        this.ajax.post('/xinda-api/cart/add',this.qs.stringify({id:id,num:1})).then(function(data){
-
+         if (data.data.status === 1) {
+            // 如果成功增加订单 刷新当前页面
+            that.gettingData();
+        } else {
+            console.log("系统正在开小差中，请稍后重试");
+        }
        })
     },
     // 减少按钮
     numChanRedBtn(id,buyNum){
       var that = this;
       if(buyNum-1>0){
-        this.ajax.post('',this.qs.stringify({id:id,num:-1})).then(function(data){
-          console.log(111)
+        this.ajax.post('/xinda-api/cart/add',this.qs.stringify({id:id,num:-1})).then(function(data){
+          if (data.data.status === 1) {
+            // 如果成功减少订单 刷新当前页面
+            that.gettingData();
+          } else {
+            console.log("系统正在开小差中，请稍后重试");
+          }
         })
       }else{
         this.dele(id);
@@ -70,15 +99,25 @@ export default {
     dele(id){
       var that = this;
       this.ajax.post('xinda-api/cart/del',this.qs.stringify({id : id})).then(function(data){
-        if (data.data.status === 1) {
-            // 如果成功删除订单 刷新当前页面
-            this.$router.go(0);
-        } else {
-            console.log("系统正在开小差中，请稍后重试");
+        MessageBox({
+          title: '提示',
+          message: '确定执行此操作?',
+          showCancelButton: true,
+        });
+        if(that.showCancelButton==true){
+          that.gettingData();
         }
-
+        
       })
     },
+    // 去结算
+    setAccGoBtn(){
+      // Toast('');
+      let instance = Toast('目前仅支持微信支付，请在微信浏览器中打开');
+      setTimeout(() => {
+        instance.close();
+      }, 2000);
+    }
   }
 }
 </script>
@@ -140,6 +179,11 @@ export default {
       font-weight: bold;
     }
     .comDetDel{
+      width: 1.34rem;
+      height: 0.34rem;
+      border: 1px solid #1356ff;
+      border-radius: 0.06rem;
+      line-height: 0.34rem;
       font-size: 0.17rem;
       color: #1356ff;
       position: absolute;
@@ -206,4 +250,46 @@ export default {
   .comDetUl{
     list-style: none;
   }
+  // 总计
+.totolPrice{
+  font-size: 0.23rem;
+  color: #4c4c4c;
+  text-align: right;
+  margin-right: 0.5rem;
+  margin-top: 0.1rem;
+  margin-bottom: 3rem;
+  a{
+    font-size: 0.25rem;
+    color: #fe2423;
+  }
+}
+.setAcc{
+  width: 7.5rem;
+  height: 1.11rem;
+  bottom: 0.868rem;
+  position: fixed;
+  .setAccLe{
+    width: 4.90rem;
+    height: 1.11rem;
+    background-color: #e5e5e5;
+    float: left;
+    font-size: 0.29rem;
+    color: #4d4d4d;
+    line-height: 1.11rem;
+    a{
+      color: #fb2d2d;
+      font-weight: bold;
+    }
+  }
+  .setAccGo{
+    width: 2.6rem;
+    height: 1.11rem;
+    background-color: #fb2d2d;
+    float: left;
+    font-size: 0.29rem;
+    color: #fff;
+    line-height: 1.11rem;
+    // border-radius: 0.09rem;
+  }
+}
 </style>

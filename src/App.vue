@@ -40,13 +40,7 @@ export default {
     if (this.$route.path == "/inner/homepage") {
       if (this.browserRedirect()) {
         this.$router.push("/weChat");
-      } else {
-        this.$router.push("/");
-      }
-    }
-    if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-      // window.location.href = "#/";
-      (function(doc, win) {
+        (function(doc, win) {
         var docEl = doc.documentElement,
           resizeEvt =
             "orientationchange" in window ? "orientationchange" : "resize",
@@ -64,6 +58,13 @@ export default {
         win.addEventListener(resizeEvt, recalc, false);
         doc.addEventListener("DOMContentLoaded", recalc, false);
       })(document, window);
+      } else {
+        this.$router.push("/");
+      }
+    }
+    if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+      // window.location.href = "#/";
+      
     } else {
       // window.location.href = "#/m.sinda";
     }
