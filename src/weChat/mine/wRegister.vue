@@ -1,9 +1,5 @@
 <template>
 <div class="register">
-  <div  class="title">
-    <img @click="back"src="../images/login/back.png" alt="">
-    <p class="title">注册</p>
-  </div>
 
   <ul class="r-operate">
     <p class="msg" >{{message}}</p>
@@ -87,9 +83,6 @@ export default {
     };
   },
   methods: {
-    back:function(){
-      history.go(-1)
-    },
     //手机号只能输入数字
     phoneKeyup: function() {
       this.phoneVal = this.phoneVal.replace(/\D/g, "");
@@ -354,23 +347,8 @@ export default {
   padding: 0;
   border: 0;
 }
-.title {
-  display: flex;
-  width: 7.5rem;
-  height: 0.77rem;
-  line-height: 0.77rem;
-  background: #e5e5e5;
-  p {
-    margin-left: 3.08rem;
-    font-size: 0.28rem;
-  }
-  img {
-    margin: 0.23rem 0.21rem;
-    width: 0.15rem;
-    height: 0.28rem;
-  }
-}
 .r-operate {
+    margin-top: 1rem;
   .msg {
     margin: 0.07rem auto -0.5rem;
     font-size: 0.28rem;

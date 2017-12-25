@@ -36,7 +36,7 @@
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/knowledge.png" alt=""></a>
         <p>知识产权</p>
       </div>
-      <div class="allpro" @click="ToStorelist()">
+      <div class="allpro" @click="$router.push('/weChatdog/allkinds')">
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/allpro.png" alt=""></a>
         <p>全部服务</p>
       </div>
@@ -128,7 +128,7 @@ export default {
     },
     //服务列表
     ToList(){
-       this.$router.push({ path: "/weChat/list"});
+       this.$router.push({ path: "/weChatdog/Wlist"});
     }
   }
 }
@@ -137,7 +137,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .index{
-  margin-bottom: .9rem;
+  margin: 1rem 0 .9rem;
 }
 .toplogo{
   height: .72rem;

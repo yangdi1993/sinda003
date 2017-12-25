@@ -18,7 +18,7 @@ if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
         // if (clientWidth >= 750) {
         //   docEl.style.fontSize = "100px";
         // } else {
-          docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
+        docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
         // }
       };
 
@@ -39,36 +39,34 @@ export default {
 
     if (this.$route.path == "/inner/homepage") {
       if (this.browserRedirect()) {
-        this.$router.push("/weChat");
+        this.$router.push("/weChat/index");
         (function(doc, win) {
-        var docEl = doc.documentElement,
-          resizeEvt =
-            "orientationchange" in window ? "orientationchange" : "resize",
-          recalc = function() {
-            var clientWidth = docEl.clientWidth;
-            if (!clientWidth) return;
-            if (clientWidth >= 750) {
-              docEl.style.fontSize = "100px";
-            } else {
-              docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
-            }
-          };
+          var docEl = doc.documentElement,
+            resizeEvt =
+              "orientationchange" in window ? "orientationchange" : "resize",
+            recalc = function() {
+              var clientWidth = docEl.clientWidth;
+              if (!clientWidth) return;
+              if (clientWidth >= 750) {
+                docEl.style.fontSize = "100px";
+              } else {
+                docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
+              }
+            };
 
-        if (!doc.addEventListener) return;
-        win.addEventListener(resizeEvt, recalc, false);
-        doc.addEventListener("DOMContentLoaded", recalc, false);
-      })(document, window);
+          if (!doc.addEventListener) return;
+          win.addEventListener(resizeEvt, recalc, false);
+          doc.addEventListener("DOMContentLoaded", recalc, false);
+        })(document, window);
       } else {
         this.$router.push("/");
       }
     }
     if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
       // window.location.href = "#/";
-      
     } else {
       // window.location.href = "#/m.sinda";
     }
-
   },
   methods: {
     browserRedirect() {
@@ -81,14 +79,22 @@ export default {
       var bIsAndroid = sUserAgent.match(/android/i) == "android";
       var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
       var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
-      if (bIsIpad ||bIsIphoneOs ||bIsMidp ||bIsUc7 ||bIsUc ||bIsAndroid ||bIsCE ||bIsWM) {
+      if (
+        bIsIpad ||
+        bIsIphoneOs ||
+        bIsMidp ||
+        bIsUc7 ||
+        bIsUc ||
+        bIsAndroid ||
+        bIsCE ||
+        bIsWM
+      ) {
         return true;
-        
+
       } else {
-       return false;
+        return false;
       }
     }
-
   }
 };
 </script>

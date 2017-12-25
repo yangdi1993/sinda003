@@ -32,7 +32,7 @@ export default {
   methods: {
     quit() {
       sessionStorage.clear();
-      location.href='#/weChatdog/wLogin';
+      location.href = "#/weChatdog/wLogin";
     }
   }
 };
@@ -47,12 +47,11 @@ export default {
 }
 .yetLogin {
   overflow: hidden;
-  // margin-right: 0.3rem;
+  margin-top: 1rem;
   width: 7.5rem;
-  height: 13.34rem;
-
+  height: 12.6rem;
   .head {
-    margin: 3rem 0 1.53rem 2.8rem;
+    margin: 2.23rem 0 1.53rem 2.8rem;
     width: 1.64rem;
     height: 1.64rem;
     img {
@@ -92,7 +91,7 @@ export default {
     }
   }
   .quit {
-    margin: 1.26rem 0 0 0.66rem;
+    margin: 1.26rem 0 0 0;
     width: 6.13rem;
     height: 0.76rem;
     font-size: 0.28rem;
