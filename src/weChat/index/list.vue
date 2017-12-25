@@ -45,7 +45,7 @@ export default {
   created(){
     this.ajax.post("xinda-api/cart/list").then(function(data) {
       var alldata = data.data.data;
-      console.log(3, data.data.data);
+      // console.log(3, data.data.data);
     });
     this.nowindex = 2
     var that = this;
@@ -55,7 +55,7 @@ export default {
     var x = 0;
     this.ajax.post("xinda-api/product/style/list").then(function(data) {
       var rData = data.data.data;
-      console.log(rData)
+      // console.log(rData)
       for (var i in rData) {
         //获取所有二级内容，并且合并到一个对象里
         y = rData[i].showOrder;
@@ -63,7 +63,7 @@ export default {
       }
       var n = oneobj[that.nowindex].itemList; // console.log(n)
       that.objs = n;
-      console.log(oneobj)   //此时为{1：{}，2：{}，3：{}，4：{}}，已经排序
+      // console.log(oneobj)   //此时为{1：{}，2：{}，3：{}，4：{}}，已经排序
       //n为此时应显示的二级内容
 
       for (var j in n) {
@@ -76,14 +76,15 @@ export default {
       // console.log(n)
 
       that.url = "xinda-api/product/package/grid"; //定义数据地址
-      var numb = 0;
-      for (var i in n) {
-        if (numb == 0) {
-          that.productTypeCode = n[i].code;
-        }
-        numb++;
-      }
-      that.productId = "";
+      // var numb = 0;
+      // for (var i in n) {
+      //   if (numb == 0) {
+      //     that.productTypeCode = n[i].code;
+      //   }
+      //   numb++;
+      // }
+      that.productId = that.$route.query.id;
+      console.log(that.$route.query.id)
       that.productTypeCode=0
       getData(
         that.listobjsA,
@@ -96,7 +97,7 @@ export default {
         that.productId,
         that.productTypeCode,
         3
-      );
+      )
     });
   }, 
   
@@ -148,8 +149,9 @@ export default {
   color: #fff;
 }
 .list{
+  margin-top: .7rem;
   width: 100%;
-  height: 20rem;
+  // height: 20rem;
   font-size: .2rem;
 }
 .listmenu {

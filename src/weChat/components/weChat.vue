@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="top">
+      <span @click="goback">＜</span>
+    </div>
     <div class="bottom">
       <router-link to="/weChat/index" active-class="indexstyleON" class="indexstyle">
         <div></div>
@@ -25,7 +28,7 @@
 <script>
 export default {
   created() {
-
+    
   },
   data() {
     return {
@@ -33,13 +36,32 @@ export default {
     };
   },
   methods:{
-
+    goback(){
+      history.go(-1)
+    }
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+.top{
+  width: 100%;
+  height: .6rem;
+  background: #fff;
+  position: fixed;
+  top: 0;
+  text-align: left;
+  z-index: 100;
+  box-shadow: 1px 1px 23px 1px rgb(160, 159, 159);
+  span{
+    float: left;
+    height: 100%;
+    line-height: .6rem;
+    font-size: .5rem;
+    margin-left: .2rem;
+  }
+}
 .bottom{
   width: 7.14rem;
   height: .88rem;

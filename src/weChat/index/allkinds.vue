@@ -9,7 +9,7 @@
 
     
     <div class="typeclass">
-      <div class="secondstl" :class="{bluebg:index==showclass}" v-for="(obj) in objs" :key="obj.id">
+      <div class="secondstl" :class="{bluebg:index==showclass}" v-for="(obj,index) in objs" :key="obj.id">
         <p>{{obj.name}}</p>
         <div class="typekind" :class="{bluebg:index==showkind}" v-for="(innerobj,key,index) in obj.itemList" :key="innerobj.id" @click="typekinds(index,key)">
           <p>{{innerobj.name}}<span>></span></p>
@@ -28,7 +28,7 @@ export default {
       rdata:[],
       objs:[],
       innerobjs:[],
-      nowindex:3,
+      nowindex:1,
       firshow:0,
       showclass:0,
       showkind:-1,
@@ -39,7 +39,7 @@ export default {
   created(){
     this.ajax.post("xinda-api/cart/list").then(function(data) {
       var alldata = data.data.data;
-      console.log(3, data.data.data);
+      // console.log(3, data.data.data);
     });
     var that = this;
     var oneobj = {};
@@ -48,7 +48,7 @@ export default {
     var x = 0;
     this.ajax.post("xinda-api/product/style/list").then(function(data) {
       var rData = data.data.data;
-      console.log(rData)
+      // console.log(rData)
       for (var i in rData) {
         //获取所有二级内容，并且合并到一个对象里
         y = rData[i].showOrder;
@@ -57,7 +57,7 @@ export default {
       that.rdata=rData
       var n = oneobj[that.nowindex].itemList; // console.log(n)
       that.objs = n;
-      // console.log(oneobj)   //此时为{1：{}，2：{}，3：{}，4：{}}，已经排序
+      console.log(oneobj)   //此时为{1：{}，2：{}，3：{}，4：{}}，已经排序
       //n为此时应显示的二级内容
 
       // for (var j in n) {
@@ -72,7 +72,8 @@ export default {
   },
   methods:{
     typekinds(index,key){
-
+      this.$router.push({path:'/weChatdog/Wlist', query: { id: key }})
+      console.log(key)
     },
     firstclick(index){
       this.nowindex=index+1
@@ -87,7 +88,7 @@ export default {
       var x = 0;
       this.ajax.post("xinda-api/product/style/list").then(function(data) {
         var rData = data.data.data;
-        console.log(rData)
+        // console.log(rData)
         for (var i in rData) {
           //获取所有二级内容，并且合并到一个对象里
           y = rData[i].showOrder;
