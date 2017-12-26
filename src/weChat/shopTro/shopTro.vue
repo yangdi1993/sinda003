@@ -147,7 +147,7 @@ export default {
         that.$router.push({
           path: "/weChatdog/myorder",
           query: { id: data.data.data }
-        });
+        });  
         console.log(data.data.data);
       });
     }
