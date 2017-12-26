@@ -93,7 +93,7 @@
                   <td class="orderInTrTdSi">{{item.name8}}</td>
                   <td class="orderInTrTdSe">
                     <a href="#/inner/paypage"><input type="button" @click="toPay()"  value="付款"></a>
-                    <p class="delOr" @click="delOrder(item.providerId)">删除订单</p>
+                    <p class="delOr" @click="delOrder(item.serviceId)">删除订单</p>
                   </td>
                 </tr>
               </table>  
@@ -152,10 +152,14 @@ export default {
   },
   created(){
     // 我的订单接口数据
-    var that = this;
-    this.ajax.post('xinda-api/service-order/grid').then(function(data){
+    this.gettingData()
+  },
+  methods:{
+    gettingData(){
+      var that = this;
+    this.ajax.post('xinda-api/cart/list').then(function(data){
       var dataAll = data.data.data;
-      console.log(dataAll);
+      console.log(dataAll.createTime);
       // var dataObj = {};
       for(var i = 0;i<dataAll.length;i++){
         // var businessNo = dataAll[i].businessNo;
@@ -177,9 +181,10 @@ export default {
         var minute=now.getMinutes(); 
         var second=now.getSeconds(); 
         // 新的时间格式
-        var newTime= year+"年"+month+"月"+date+"日"+hour+":"+minute+":"+second;           
+        var newTime= year+"年"+month+"月"+date+"日"+hour+":"+minute+":"+second;   
+        console.log(newTime);        
         // 将原对象里面的时间格式替换掉
-        dataAll[i].createTime = newTime;
+        // dataAll[i].createTime = newTime;
         //  改变格式后加到总数组
       }
        that.rData = dataAll;
@@ -198,8 +203,7 @@ export default {
         that.pageOAll.push(i+1);
       }
     })
-  },
-  methods:{
+    },
     // 点击删除弹出框
     // delOrder:function(code){
     //   this.isShow = true;
@@ -209,7 +213,7 @@ export default {
     //   this.isShow = false;
     // },
     // 删除
-    delOrder(providerId){
+    delOrder(id){
       // this.isShow = false;
       // this.rDataSh.splice(this.index,1)
 
@@ -223,7 +227,7 @@ export default {
 
         MessageBox.confirm('确定删除该产品吗?').then(action => {
         var that = this;
-        this.ajax.post('xinda-api/ business-order/del',this.qs.stringify({id : providerId})).then(function(data){
+        this.ajax.post('xinda-api/cart/del',this.qs.stringify({id : id})).then(function(data){
           if(data.data.status === 1){
             that.gettingData();
           } else{
