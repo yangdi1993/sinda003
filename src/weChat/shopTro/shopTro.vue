@@ -109,15 +109,32 @@ export default {
     dele(id) {
       MessageBox.confirm("确定删除该产品吗?").then(action => {
         var that = this;
+        this.ajax.post('xinda-api/cart/del',this.qs.stringify({id : id})).then(function(data){
+          if(data.data.status === 1){
+            that.gettingData();
+          } else{
+            
+          }
+        });
+      },cancel=>{
+        
+      })
+    },
+    // 去结算
+    setAccGoBtn(){
+    //   let instance = Toast('目前仅支持微信支付，请在微信浏览器中打开');
+    //   setTimeout(() => {
+    //     instance.close();
+    //   }, 2000);
+    // },
+
         this.ajax
           .post("xinda-api/cart/del", this.qs.stringify({ id: id }))
           .then(function(data) {
             if (data.data.status === 1) {
               that.gettingData();
-            } else {
             }
           });
-      });
     },
     // 去结算
     setAccGoBtn() {
@@ -129,7 +146,6 @@ export default {
       this.ajax.post("/xinda-api/cart/submit").then(function(data) {
         that.$router.push({
           path: "/weChatdog/myorder",
-          query: { id: data.data.data }
         });  
         console.log(data.data.data);
       });

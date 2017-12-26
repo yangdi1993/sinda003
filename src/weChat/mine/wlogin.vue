@@ -151,7 +151,6 @@ export default {
               var loginUser = {};
               loginUser.username = this.loginPhone;
               loginUser.password = this.loginPw;
-
               sessionStorage.setItem("userPhone", this.loginPhone); //此处为登录状态信息，登陆后判断状态是否为登录
               location.replace("/#/inner/homepage");
               this.setName(this.loginPhone);
