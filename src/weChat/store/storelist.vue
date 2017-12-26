@@ -89,15 +89,17 @@ export default {
     var that = this;
     var str = {};
     this.ajax
-      .post( "/xinda-api/product/package/grid",
+      .post( "/xinda-api/provider/grid",
         this.qs.stringify({
-          limit: 6,
-          productTypeCode: "0",
-          productId: "8a82f52b674543e298d2e5f685946e6e",
-          sort: this.sort
+          start: 0,
+            limit: 6,
+            productTypeCode: 1,
+            regionId: 110102,
+            sort: this.sort
         }))
       .then(data => {
         var data = data.data.data;
+        console.log(data);
         that.products = data;
         sessionStorage.setItem(this.index, JSON.stringify(str));
     });
