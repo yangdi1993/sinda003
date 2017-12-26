@@ -22,7 +22,9 @@
 <script>
 export default {
   name: "HelloWorld",
-  created() {},
+  created() {
+    this.setTitle('已登录')
+  },
   data() {
     return {
       msg: "Welcome to Your Vue.js App",
@@ -30,6 +32,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['setTitle']),
     quit() {
       sessionStorage.clear();
       location.href = "#/weChatdog/wLogin";
