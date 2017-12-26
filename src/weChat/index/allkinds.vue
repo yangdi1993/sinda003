@@ -22,6 +22,7 @@
 
 <script>
 import getData from "../../homepage/public";
+import { mapActions } from "vuex";
 export default {
   data () {
     return {
@@ -37,6 +38,8 @@ export default {
     }
   },
   created(){
+    this.setTitle('产品分类')
+
     this.ajax.post("xinda-api/cart/list").then(function(data) {
       var alldata = data.data.data;
       // console.log(3, data.data.data);
@@ -71,6 +74,7 @@ export default {
     })
   },
   methods:{
+    ...mapActions(['setTitle']),
     typekinds(index,key){
       this.$router.push({path:'/weChatdog/Wlist', query: { id: key }})
       console.log(key)

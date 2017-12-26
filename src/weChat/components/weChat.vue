@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="top">
-      <span @click="goback" class="goback"><span></span>返回</span>
+      <span @click="goback" class="goback"><span></span><p>返回</p></span>
+      <div class="title"><p>{{getTitle}}</p></div>
+      <div class="wlogo"><img src="../../images/homepage/errorimg.png" alt="" @click="$router.push({path:'/weChat/index'})"></div>
     </div>
     <div class="bottom">
       <router-link to="/weChat/index" active-class="indexstyleON" class="indexstyle">
@@ -16,7 +18,7 @@
         <div></div>
         <span>购物车</span>
       </router-link>
-      <router-link to="/weChatdog/wYetLogin" active-class="minestyleON" class="minestyle">
+      <router-link to="/weChatdog/wYetLogin" @click.native="tologin" active-class="minestyleON" class="minestyle">
         <div></div>
         <span>我的</span>
       </router-link>
@@ -26,6 +28,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
   created() {
     
@@ -38,8 +41,19 @@ export default {
   methods:{
     goback(){
       history.go(-1)
+    },
+    tologin(){
+      var user=sessionStorage.getItem('userPhone')
+      if(user){
+        this.$router.push({path:'/weChatdog/wYetLogin'})
+      }else{
+        this.$router.push({path:'/weChatdog/wlogin'})
+      }
     }
-  }
+  },
+  computed:{
+    ...mapGetters(['getTitle'])
+  },
 };
 </script>
 
@@ -52,20 +66,51 @@ export default {
   position: fixed;
   top: 0;
   text-align: left;
+  justify-content: space-between;
   z-index: 100;
   box-shadow: 1px 1px 23px 1px rgb(160, 159, 159);
+  display: flex;
   .goback{
-    font-size: .4rem;
     height: .7rem;
+    width: 1.5rem;
+    font-size: .4rem;
+    font-family: '楷体';
+    margin-top: .1rem;
     line-height: .9rem;
-    display: block;
+    display: flex;
+    align-items: center;
     span{
-      
+      width: .3rem;
+      height: .3rem;
+      display: block;
+      border-left: 3px solid #666;
+      border-bottom: 3px solid #666;
+      transform: rotate(45deg);
       float: left;
-      height: 100%;
       line-height: .9rem;
       font-size: .2rem;
       margin-left: .3rem;
+    }
+  }
+  .title{
+    text-align: center;
+    font-size: .4rem;
+    width: 4.3rem;
+    height: 100%;
+    p{
+      line-height: .9rem;
+      color:#2693d4;
+      font-family: '宋体';
+    }
+  }
+  .wlogo{
+    width: 1.2rem;
+    height: 100%;
+    margin-left: .2rem;
+    img{
+      width: .5rem;
+      display: block;
+      margin: .2rem auto;
     }
   }
 }
