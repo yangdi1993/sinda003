@@ -4,13 +4,18 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import server from '@/components/server'
 //未登录时界面
-import outter from '@/components/outter'
+// import outter from '@/components/outter'
+const outter = r => require.ensure([], () => r(require('@/components/outter')))
 //登录后
-import inner from '@/components/inner'
+// import inner from '@/components/inner'
+const inner = r => require.ensure([], () => r(require('@/components/inner')))
 //views 登录、注册、修改密码
-import login from '@/views/login'
-import register from '@/views/register'
-import forget from '@/views/forget'
+// import login from '@/views/login'
+const login = r => require.ensure([], () => r(require('@/views/login')))
+// import register from '@/views/register'
+const register = r => require.ensure([], () => r(require('@/views/register')))
+// import forget from '@/views/forget'
+const forget = r => require.ensure([], () => r(require('@/views/forget')))
 //主页
 import homepage from '@/homepage/homepage'
 //列表页,由全部产品 跳转
@@ -60,37 +65,69 @@ import goEvalu from '@/memberCenter/goEvalu'
 
 
 //手机端
-import weChat from  '@/weChat/components/weChat'
-import weChatdog from  '@/weChat/components/weChatdog'
+// import weChat from  '@/weChat/components/weChat'
+// const weChat = r => require.ensure([], () => r(require('@/weChat/components/weChat')))
+const weChat = () => import('@/weChat/components/weChat')
+// import weChatdog from  '@/weChat/components/weChatdog'
+const weChatdog = () => import('@/weChat/components/weChatdog')
+// const weChatdog = r => require.ensure([], () => r(require('@/weChat/components/weChatdog')))
 //首页
-import index from '@/weChat/index/index'
+// import index from '@/weChat/index/index'
+// const index = r => require.ensure([], () => r(require('@/weChat/index/index')))
+const index = () => import('@/weChat/index/index')
 //列表页
-import Wlist from '@/weChat/index/list'
+// import Wlist from '@/weChat/index/list'
+// const Wlist = r => require.ensure([], () => r(require('@/weChat/index/list')))
+const Wlist = () => import('@/weChat/index/list')
 //分类
-import allkinds from '@/weChat/index/allkinds'
+// import allkinds from '@/weChat/index/allkinds'
+// const allkinds = r => require.ensure([], () => r(require('@/weChat/index/allkinds')))
+const allkinds = () => import('@/weChat/index/allkinds')
 //移动端店铺列表
-import storelist from  '@/weChat/store/storelist'
+// import storelist from  '@/weChat/store/storelist'
+// const storelist = r => require.ensure([], () => r(require('@/weChat/store/storelist')))
+const storelist = () => import('@/weChat/store/storelist')
 //移动端店铺首页
-import storehome from '@/weChat/store/storehome'
+// import storehome from '@/weChat/store/storehome'
+// const storehome = r => require.ensure([], () => r(require('@/weChat/store/storelist')))
+const storehome = () => import('@/weChat/store/storelist')
 //移动端商品详情
-import wDetail from '@/weChat/paypage/wDetail'
+// import wDetail from '@/weChat/paypage/wDetail'
+// const wDetail = r => require.ensure([], () => r(require('@/weChat/paypage/wDetail')))
+const wDetail = () => import('@/weChat/paypage/wDetail')
 //我的订单
-import myorder from '@/weChat/paypage/myorder'
+// import myorder from '@/weChat/paypage/myorder'
+// const myorder = r => require.ensure([], () => r(require('@/weChat/paypage/myorder')))
+const myorder = () => import('@/weChat/paypage/myorder')
 
-import shopTro from '@/weChat/shopTro/shopTro'
+// import shopTro from '@/weChat/shopTro/shopTro'
+// const shopTro = r => require.ensure([], () => r(require('@/weChat/shopTro/shopTro')))
+const shopTro = () => import('@/weChat/shopTro/shopTro')
 
 //登录页面
-import wlogin from '@/weChat/mine/wlogin'
+// import wlogin from '@/weChat/mine/wlogin'
+// const wlogin = r => require.ensure([], () => r(require('@/weChat/mine/wlogin')))
+const wlogin = () => import('@/weChat/mine/wlogin')
 //注册页面
-import wRegister from '@/weChat/mine/wRegister'
+// import wRegister from '@/weChat/mine/wRegister'
+// const wRegister = r => require.ensure([], () => r(require('@/weChat/mine/wRegister')))
+const wRegister = () => import('@/weChat/mine/wRegister')
 //忘记密码页面
-import wForget from '@/weChat/mine/wForget'
+// import wForget from '@/weChat/mine/wForget'
+// const wForget = r => require.ensure([], () => r(require('@/weChat/mine/wForget')))
+const wForget = () => import('@/weChat/mine/wForget')
 //未注册页面
-import wNotReg from '@/weChat/mine/wNotReg'
+// import wNotReg from '@/weChat/mine/wNotReg'
+// const wNotReg = r => require.ensure([], () => r(require('@/weChat/mine/wNotReg')))
+const wNotReg = () => import('@/weChat/mine/wNotReg')
 //账户设置页面
-import wSet from '@/weChat/mine/wSet'
+// import wSet from '@/weChat/mine/wSet'
+// const wSet = r => require.ensure([], () => r(require('@/weChat/mine/wSet')))
+const wSet = () => import('@/weChat/mine/wSet')
 //已登录页面
-import wYetLogin from '@/weChat/mine/wYetLogin'
+// import wYetLogin from '@/weChat/mine/wYetLogin'
+// const wYetLogin = r => require.ensure([], () => r(require('@/weChat/mine/wYetLogin')))
+const wYetLogin = () => import('@/weChat/mine/wYetLogin')
 
 
 
@@ -293,6 +330,7 @@ export default new Router({
           name: 'storelist',
           component: storelist
         },
+       
         //店铺首页
         {
           path: 'storehome',
