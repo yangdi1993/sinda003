@@ -44,7 +44,7 @@ export default {
         }))
       .then(data => {
         var data = data.data.data;
-        console.log(data);
+        // console.log(data);
         that.products = data;
         sessionStorage.setItem(this.index, JSON.stringify(str));
     });
