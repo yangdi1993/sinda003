@@ -93,7 +93,7 @@
                   <td class="orderInTrTdSi">{{item.name8}}</td>
                   <td class="orderInTrTdSe">
                     <a href="#/inner/paypage"><input type="button" @click="toPay()"  value="付款"></a>
-                    <p class="delOr" @click="delOrder(item.serviceId)">删除订单</p>
+                    <p class="delOr" @click="delOrder(item.providerId)">删除订单</p>
                   </td>
                 </tr>
               </table>  
@@ -152,22 +152,19 @@ export default {
   },
   created(){
     // 我的订单接口数据
-    this.gettingData()
-  },
-  methods:{
-    gettingData(){
-      var that = this;
-    this.ajax.post('xinda-api/cart/list').then(function(data){
+    var that = this;
+    this.ajax.post('xinda-api/service-order/grid').then(function(data){
       var dataAll = data.data.data;
-      console.log(dataAll.createTime);
-      // var dataObj = {};
+      console.log(dataAll);
+      var dataObj = {};
       for(var i = 0;i<dataAll.length;i++){
-        // var businessNo = dataAll[i].businessNo;
-        // if(!dataObj[businessNo]){
-        //   dataObj[businessNo] = dataAll[i]
-        //   dataObj[businessNo].subItem = [];
-        // }
-        // dataObj[businessNo].subItem.push(dataAll[i]);
+        var businessNo = dataAll[i].businessNo;
+        if(!dataObj[businessNo]){
+          dataObj[businessNo] = dataAll[i]
+          dataObj[businessNo].subItem = [];
+        }
+        dataObj[businessNo].subItem.push(dataAll[i]);
+        console.log(dataObj);
         // 合并订单号
        
         // 获取创建时间
@@ -181,10 +178,9 @@ export default {
         var minute=now.getMinutes(); 
         var second=now.getSeconds(); 
         // 新的时间格式
-        var newTime= year+"年"+month+"月"+date+"日"+hour+":"+minute+":"+second;   
-        console.log(newTime);        
+        var newTime= year+"年"+month+"月"+date+"日"+hour+":"+minute+":"+second;           
         // 将原对象里面的时间格式替换掉
-        // dataAll[i].createTime = newTime;
+        dataAll[i].createTime = newTime;
         //  改变格式后加到总数组
       }
        that.rData = dataAll;
@@ -203,7 +199,8 @@ export default {
         that.pageOAll.push(i+1);
       }
     })
-    },
+  },
+  methods:{
     // 点击删除弹出框
     // delOrder:function(code){
     //   this.isShow = true;
@@ -213,7 +210,7 @@ export default {
     //   this.isShow = false;
     // },
     // 删除
-    delOrder(id){
+    delOrder(providerId){
       // this.isShow = false;
       // this.rDataSh.splice(this.index,1)
 
@@ -227,7 +224,7 @@ export default {
 
         MessageBox.confirm('确定删除该产品吗?').then(action => {
         var that = this;
-        this.ajax.post('xinda-api/cart/del',this.qs.stringify({id : id})).then(function(data){
+        this.ajax.post('xinda-api/ business-order/del',this.qs.stringify({id : providerId})).then(function(data){
           if(data.data.status === 1){
             that.gettingData();
           } else{
