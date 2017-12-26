@@ -61,7 +61,7 @@
           <!-- 订单插入 -->
           <div v-for="item in rDataSh" :key="item.id">
             <!-- 删除 弹出框 -->
-              <div class="duihuakuang" v-show="isShow">
+              <!-- <div class="duihuakuang" v-show="isShow">
                 <div class="confirmIma">
                   <p>信息</p>
                   <div class="close" @click="closeFun()">×</div>
@@ -69,12 +69,12 @@
                 <p class="confirm">确定删除该订单吗？</p>
                 <button class="confirmYes" @click="conCloseFun(item.id)">确定</button>
                 <button class="confirmNo" @click="canCliseFun()">取消</button>
-              </div>
+              </div> -->
               <!-- 订单插入 -->
               <table class="orderInTa" id="myorderInTa" v-show="searchShow">
                 <tr class="orderInTh">
                   <th class="orderInThTdO" colspan="2">
-                    <input type="checkbox" v-model="businessNo">
+                    <input type="checkbox">
                     订单号：{{item.businessNo}}
                   </th>
                   <th class="orderInThTdTw" colspan="5">
@@ -93,7 +93,7 @@
                   <td class="orderInTrTdSi">{{item.name8}}</td>
                   <td class="orderInTrTdSe">
                     <a href="#/inner/paypage"><input type="button" @click="toPay()"  value="付款"></a>
-                    <p class="delOr" v-on:click="delOrder(item.id)">删除订单</p>
+                    <p class="delOr" @click="delOrder(item.providerId)">删除订单</p>
                   </td>
                 </tr>
               </table>  
@@ -115,7 +115,8 @@
 <script>
 // 引进头部和尾部
 // this.ajax.post("").then(data=>{
-import ihead from '../components/ihead'
+import ihead from '../components/ihead';
+import { MessageBox } from 'mint-ui';
 export default {
   data(){
     return{
@@ -144,7 +145,9 @@ export default {
       // 下一页
       nextDis:false,
       //  搜索为空变色
-      colo:0
+      colo:0,
+      // // 删除
+      // delOrder:''
     }
   },
   created(){
@@ -152,7 +155,8 @@ export default {
     var that = this;
     this.ajax.post('xinda-api/service-order/grid').then(function(data){
       var dataAll = data.data.data;
-      var dataObj = {};
+      console.log(dataAll);
+      // var dataObj = {};
       for(var i = 0;i<dataAll.length;i++){
         // var businessNo = dataAll[i].businessNo;
         // if(!dataObj[businessNo]){
@@ -197,17 +201,18 @@ export default {
   },
   methods:{
     // 点击删除弹出框
-    delOrder:function(code){
-      this.isShow = true;
-    },
+    // delOrder:function(code){
+    //   this.isShow = true;
+    // },
     // 点击X弹出框消失
-    closeFun:function(){
-      this.isShow = false;
-    },
-    // 点击确定
-    conCloseFun:function(code){
-      this.isShow = false;
-      this.rDataSh.splice(this.index,1)
+    // closeFun:function(){
+    //   this.isShow = false;
+    // },
+    // 删除
+    delOrder(providerId){
+      // this.isShow = false;
+      // this.rDataSh.splice(this.index,1)
+
         // var that = this;
         // console.log(code);
         // this.ajax.post('xinda-api/ business-order/del',this.qs.stringify({
@@ -216,11 +221,23 @@ export default {
         //   console.log(data.data.data)
         // })
 
+        MessageBox.confirm('确定删除该产品吗?').then(action => {
+        var that = this;
+        this.ajax.post('xinda-api/ business-order/del',this.qs.stringify({id : providerId})).then(function(data){
+          if(data.data.status === 1){
+            that.gettingData();
+          } else{
+            
+          }
+        });
+      },cancel=>{
+        
+      })
     },
     // 点击取消
-    canCliseFun:function(index){
-      this.isShow = false;
-    },
+    // canCliseFun:function(index){
+    //   this.isShow = false;
+    // },
     
     // 订单搜索
     orderSeaBtn:function(){
@@ -229,10 +246,12 @@ export default {
         // this.orSerInVal
         this.colo=1;
       }else{
+        console.log('111');
         this.rDataSh =[];
         for(var i=0;i<this.rData.length;i++){
           var ordLiNa = this.rData[i].businessNo;
-          if(ordLiNa==this.orSerInVal||this.orSerInVal==''){
+          console.log(ordLiNa);
+          if(ordLiNa==this.orSerInVal){
             // 把符合条件的数据添加到[]里面
             this.rDataSh.push(this.rData[i]);
           }
@@ -284,7 +303,6 @@ export default {
     // 点击页
     cliPaNo(index){
       this.pageChange=index;
-      console.log('this.pageChange==',this.pageChange);
       this.rDataSh=[];
       this.nextDis=false;
       this.preDis = false;

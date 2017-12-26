@@ -107,6 +107,8 @@ export default {
             
           }
         });
+      },cancel=>{
+        
       })
     },
     // 去结算
@@ -116,7 +118,7 @@ export default {
         instance.close();
       }, 2000);
     },
-    // 购物车为空
+
   }
 }
 </script>
