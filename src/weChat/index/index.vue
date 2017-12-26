@@ -91,13 +91,18 @@
 
 <script>
 import { MessageBox } from 'mint-ui';
+import { mapActions } from "vuex";
 export default {
   data () {
     return {
       objone:[],
     }
   },
+  computed:{
+    
+  },
   created(){
+    this.setTitle('信达电子商务系统')
     var that = this;
     this.ajax
       .post("http://115.182.107.203:8088/xinda/xinda-api/recommend/list")
@@ -115,9 +120,7 @@ export default {
   }, 
 
   methods:{
-    test(){
-       MessageBox.alert('nihao', 'hello');
-    },
+    ...mapActions(['setTitle']),
     //查看商品详情
      ToDetail(id) {
       this.$router.push({ path: "/weChatdog/wDetail", query: { id: id } });
@@ -128,7 +131,8 @@ export default {
     },
     //服务列表
     ToList(){
-       this.$router.push({ path: "/weChatdog/Wlist"});
+      this.$router.push({ path: "/weChatdog/Wlist"});
+       
     }
   }
 }
