@@ -82,7 +82,11 @@ export default {
       imgUrl: "/xinda-api/ajaxAuthcode"
     };
   },
+    created(){
+    this.setTitle('注册')
+  },
   methods: {
+    ...mapActions(['setTitle']),
     //手机号只能输入数字
     phoneKeyup: function() {
       this.phoneVal = this.phoneVal.replace(/\D/g, "");

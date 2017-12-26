@@ -36,7 +36,8 @@ export default {
     //   this.$router.push('/');
     // }
     //判断移动端还是pc端
-    if (this.$route.path == "/") {
+      console.log(this.$route.path)
+    if (this.$route.path == "/inner/homepage") {
       if (this.browserRedirect()) {
         this.$router.push("/weChat/index");
         (function(doc, win) {
@@ -58,7 +59,7 @@ export default {
           doc.addEventListener("DOMContentLoaded", recalc, false);
         })(document, window);
       } else {
-        this.$router.push("/");
+        this.$router.push("/inner/homepage");
       }
     }
   },
@@ -84,7 +85,6 @@ export default {
         bIsWM
       ) {
         return true;
-
       } else {
         return false;
       }

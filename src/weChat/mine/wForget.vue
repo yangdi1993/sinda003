@@ -69,7 +69,12 @@ export default {
       imgUrl: "/xinda-api/ajaxAuthcode"
     };
   },
+  created(){
+    this.setTitle('忘记密码')
+  },
   methods: {
+    
+...mapActions(['setTitle']),
     //点击更换图片验证码
     buttonChange: function() {
       this.imgUrl = this.imgUrl + "?t" + new Date().getTime();

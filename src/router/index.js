@@ -301,6 +301,7 @@ export default new Router({
         },
       ]
     },
+    
     {//登录、注册、修改密码
       path:'/outter',
       name:'outter',
