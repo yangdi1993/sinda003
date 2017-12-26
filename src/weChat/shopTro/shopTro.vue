@@ -106,7 +106,9 @@ export default {
         this.ajax.post('xinda-api/cart/del',this.qs.stringify({id : id})).then(function(data){
           if(data.data.status === 1){
             that.gettingData();
-          } 
+          } else{
+            
+          }
         });
       })
     },
