@@ -129,7 +129,6 @@ export default {
       this.ajax.post("/xinda-api/cart/submit").then(function(data) {
         that.$router.push({
           path: "/weChatdog/myorder",
-          query: { id: data.data.data }
         });  
         console.log(data.data.data);
       });
