@@ -47,21 +47,8 @@ export default {
       this.autopaixu = 1;
       this.sort=1;
       var that = this;
-      var str = {};
-      this.ajax
-        .post( "/xinda-api/product/package/grid",
-          this.qs.stringify({
-            start: 0,
-            limit: 6,
-            productTypeCode: 1,
-            regionId: 110102,
-            sort: this.sort
-          }))
-        .then(data => {
-          var data = data.data.data;
-          that.products = data;
-          sessionStorage.setItem(this.index, JSON.stringify(str));
-      });
+      this.ajax.post( "xinda-api/provider/grid").then(function(data) {
+        that.products = data.data.data;});
     },
     upprice() {
       //升价排序
@@ -69,34 +56,15 @@ export default {
       this.autopaixu = 2;
       this.sort=2;
       var that = this;
-      var str = {};
-      this.ajax
-        .post( "/xinda-api/product/package/grid",
-          this.qs.stringify({
-            start: 0,
-            limit: 6,
-            productTypeCode: 1,
-            regionId: 110102,
-            sort: this.sort
-          }))
-        .then(data => {
-          var data = data.data.data;
-          that.products = data;
-          sessionStorage.setItem(this.index, JSON.stringify(str));
-      });
+      this.ajax.post( "xinda-api/provider/grid").then(function(data) {
+        that.products = data.data.data;});
     },
   },
   created() {
     this.setTitle('店铺列表');
     var that = this;
-    var str = {};
-    this.ajax
-      .post( "xinda-api/provider/grid").then(function(data) {
-        var Data = data.data.data;
-        console.log(Data);
-        that.products = Data;
-        // sessionStorage.setItem(this.index, JSON.stringify(str));
-    });
+    this.ajax.post( "xinda-api/provider/grid").then(function(data) {
+        that.products = data.data.data;});
   }
 };
 </script>
