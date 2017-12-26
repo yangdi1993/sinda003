@@ -1,9 +1,9 @@
 <template>
   <div class="notReg">
-    <div  class="title">
+    <!-- <div  class="title">
       <img  @click="back"src="../images/login/back.png" alt="">
       <p class="title">未注册</p>
-    </div>
+    </div> -->
     <div class="top">
       <div class="head">
         <img src="../images/login/girl.jpg" alt="">
@@ -38,16 +38,14 @@ export default {
       products: []
     };
   },
-  methods:{
-    back: function() {
-      history.go(-1);
-    }
-
-  }
+  // methods:{
+    // back: function() {
+    //   history.go(-1);
+    // }
+  // }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 * {
   margin: 0;
@@ -55,26 +53,26 @@ export default {
   border: 0;
 }
 .notReg {
-  // margin-right: 0.3rem;
+  margin-top: 2rem;
   overflow: hidden;
   width: 7.5rem;
   height: 12.6rem;
-  .title {
-    display: flex;
-    width: 7.5rem;
-    height: 0.77rem;
-    line-height: 0.77rem;
-    background: #e5e5e5;
-    p {
-      margin-left: 3.08rem;
-      font-size: 0.28rem;
-    }
-    img {
-      margin: 0.23rem 0.21rem;
-      width: 0.15rem;
-      height: 0.28rem;
-    }
-  }
+  // .title {
+  //   display: flex;
+  //   width: 7.5rem;
+  //   height: 0.77rem;
+  //   line-height: 0.77rem;
+  //   background: #e5e5e5;
+  //   p {
+  //     margin-left: 3.08rem;
+  //     font-size: 0.28rem;
+  //   }
+  //   img {
+  //     margin: 0.23rem 0.21rem;
+  //     width: 0.15rem;
+  //     height: 0.28rem;
+  //   }
+  // }
   .top {
     .head {
       margin: 1rem 0 0.66rem 3rem;

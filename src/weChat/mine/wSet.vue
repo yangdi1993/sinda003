@@ -1,10 +1,6 @@
 <template>
   <div class="set">
     <!-- 账户设置 -->
-    <div  class="title">
-      <img  @click="back"src="../images/login/back.png" alt="">
-      <p class="title">账户设置</p>
-    </div>
       <div class="sub">
         <span class="msg" >{{msgSet}}</span>
         <p @click="setBut">账户设置</p>
@@ -149,9 +145,6 @@ export default {
     });
   },
   methods: {
-    back:function(){
-      history.go(-1)
-    },
     setBut:function(){
       this.setShow = !this.setShow;
     },
@@ -390,6 +383,7 @@ export default {
 
 <style scoped lang="less">
 .set {
+    margin-top: 2rem;
   li {
     list-style: none;
   }
@@ -398,22 +392,6 @@ export default {
   }
   width: 7.5rem;
   height: 13.34rem;
-  .title {
-    display: flex;
-    width: 7.5rem;
-    height: 0.77rem;
-    line-height: 0.77rem;
-    background: #e5e5e5;
-    p {
-      margin-left: 2.8rem;
-      font-size: 0.28rem;
-    }
-    img {
-      margin: 0.23rem 0.21rem;
-      width: 0.15rem;
-      height: 0.28rem;
-    }
-  }
     .msg {
       float: right;
     margin: 0.25rem 3rem 0 0;

@@ -1,9 +1,5 @@
 <template>
   <div class="r-outter">
-    <div  class="title">
-      <img  @click="back"src="../images/login/back.png" alt="">
-      <p class="title">登录</p>
-    </div>
     <ul class="r-content">
       <p class="msg">{{message}}</p>
       <li class="phone">
@@ -55,9 +51,6 @@ export default {
  
   methods: {
     ...mapActions(["setName"]),
-    back:function(){
-      history.go(-1)
-    },
     //点击更换图片验证码
     buttonChange: function() {
       this.imgUrl = this.imgUrl + "?t" + new Date().getTime();
@@ -179,24 +172,9 @@ export default {
   border: 0;
 }
 .r-outter {
+   margin-top: 2rem;
   width: 7.5rem;
   height: 13.34rem;
-}
-.title {
-  display: flex;
-  width: 7.5rem;
-  height: 0.77rem;
-  line-height: 0.77rem;
-  background: #e5e5e5;
-  p {
-    margin-left: 3.08rem;
-    font-size: 0.28rem;
-  }
-  img {
-    margin: 0.23rem 0.21rem;
-    width: 0.15rem;
-    height: 0.28rem;
-  }
 }
 .msg {
     margin: 0.07rem auto -0.5rem;
