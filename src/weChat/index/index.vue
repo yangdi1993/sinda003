@@ -132,7 +132,6 @@ export default {
     //服务列表
     ToList(){
       this.$router.push({ path: "/weChatdog/Wlist"});
-       
     }
   }
 }
