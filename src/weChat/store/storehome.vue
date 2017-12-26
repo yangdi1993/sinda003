@@ -44,7 +44,7 @@ export default {
         }))
       .then(data => {
         var data = data.data.data;
-        console.log(data);
+        // console.log(data);
         that.products = data;
         sessionStorage.setItem(this.index, JSON.stringify(str));
     });
@@ -69,6 +69,7 @@ export default {
 }
 .storehome{
   margin-bottom: 0.9rem;
+  margin-top: 1rem;
   b{
     margin-top: 0.2rem;
     font-size:0.35rem;
