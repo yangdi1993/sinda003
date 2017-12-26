@@ -23,6 +23,7 @@
 
 <script>
 import getData from "../../homepage/public";
+import { mapActions } from "vuex";
 export default {
   data () {
     return {
@@ -43,6 +44,9 @@ export default {
     }
   },
   created(){
+    this.setTitle('列表页')
+
+
     this.ajax.post("xinda-api/cart/list").then(function(data) {
       var alldata = data.data.data;
       // console.log(3, data.data.data);
@@ -102,6 +106,8 @@ export default {
   }, 
   
   methods:{
+    ...mapActions(['setTitle']),
+
     zonghe() {
       //综合排序
       this.paixu = 2;

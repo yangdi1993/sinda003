@@ -91,9 +91,9 @@ const weChat = () => import('@/weChat/components/weChat')
 const weChatdog = () => import('@/weChat/components/weChatdog')
 // const weChatdog = r => require.ensure([], () => r(require('@/weChat/components/weChatdog')))
 //首页
-// import index from '@/weChat/index/index'
+import index from '@/weChat/index/index'
 // const index = r => require.ensure([], () => r(require('@/weChat/index/index')))
-const index = () => import('@/weChat/index/index')
+// const index = () => import('@/weChat/index/index')
 //列表页
 // import Wlist from '@/weChat/index/list'
 // const Wlist = r => require.ensure([], () => r(require('@/weChat/index/list')))
@@ -301,6 +301,7 @@ export default new Router({
         },
       ]
     },
+    
     {//登录、注册、修改密码
       path:'/outter',
       name:'outter',
