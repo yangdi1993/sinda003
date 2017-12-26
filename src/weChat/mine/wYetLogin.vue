@@ -47,7 +47,7 @@ export default {
 }
 .yetLogin {
   overflow: hidden;
-  margin-top: 1rem;
+  margin-top: 2rem;
   width: 7.5rem;
   height: 12.6rem;
   .head {
