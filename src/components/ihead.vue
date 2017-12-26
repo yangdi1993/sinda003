@@ -45,7 +45,7 @@
         <router-link to="/inner/shoplist"  active-class="active">店铺</router-link>
         <transition name="fold">
           <div class="allProduce" v-show="produce" @mouseover="allProduce" @mouseout="produceOut">
-            <div class="ihead-finance">
+            <div class="ihead-finance"  @click="produce=false">
               <div class="iheadLogo">
                 <span class="produce-logo"></span>
                 <span class="company-logo"></span>
@@ -97,6 +97,8 @@ export default {
       number:1,
       // onechoose:1,  //列表页数据一级选择
 
+
+
       chance:true,  //搜索内容切换
       nowproinput:'',   //产品搜索内容，v-modol传的
       nowserinput:'',   //服务商搜索内容，v-modol传的
@@ -142,12 +144,12 @@ export default {
         this.ajax.post('xinda-api/product/package/search-grid',this.qs.stringify({
           start:0,
           // limit:100,
-          searchName:this.nowproinput,
+          // searchName:this.nowproinput,
           sort:1,
         })).then(function(data){  //搜索框获取接口
           var alldata=data.data.data
           that.sosolobj=alldata
-          // console.log(alldata)
+          console.log(alldata)
           if(!alldata.length){
             that.searchtip=true;
           }else{
@@ -230,11 +232,11 @@ export default {
       // console.log(sessionStorage.getItem('index',this.number))
     },
     onechoose(index){  //全部产品点击
+      this.produce = false;
+      console.log(123)
       sessionStorage.setItem('index',index)
       this.$router.push('/inner/list')
-      this.produce = false;
     },
-
   }
 }
 </script>

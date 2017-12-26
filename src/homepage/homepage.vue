@@ -130,8 +130,8 @@
       <!-- 推荐的服务商 -->
       <div class="proCellTop">
         <p>
-          <a href="javascript:void(0)" class="servicers" @click="servicers">推荐服务</a>
-          <a href="javascript:void(0)" class="proservice" @click="proservice">推荐服务商</a>
+          <a href="javascript:void(0)" :class="{fontcolor:color}" class="servicers" @click="servicers">推荐服务</a>
+          <a href="javascript:void(0)" :class="{fontcolor:!color}" class="proservice" @click="proservice">推荐服务商</a>
         </p>
         <span class="lineSanjiao"></span>
       </div>
@@ -179,10 +179,12 @@ export default {
     servicers: function() {
       this.busInner = true;
       this.provider = false;
+      this.color=true
     },
     proservice: function() {
       this.busInner = false;
       this.provider = true;
+      this.color=false
     },
     //明星产品推荐跳列表页
     innercell() {
@@ -221,7 +223,8 @@ export default {
       objs: [],
       busInner: true,
       provider: false,
-      fleg: true
+      fleg: true,
+      color:true,
     };
   },
   created() {
@@ -371,13 +374,13 @@ export default {
   }
 }
 .youone {
-  transition: all 2s;
+  transition: all 1.5s;
   opacity: 1;
   // transform: rotateY(0deg);
   transform: translateY(0);
 }
 .youtwo {
-  transition: all 2s;
+  transition: all 1.5s;
   opacity: 1;
   transform: translateY(0);
   position: absolute;
@@ -607,6 +610,9 @@ export default {
 
 .service {
   .proGlobal;
+  .fontcolor{
+    color: #2693d4;
+  }
   // .servicers{
   //   color: #2693d4;
   // }
