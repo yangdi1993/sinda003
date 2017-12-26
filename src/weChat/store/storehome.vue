@@ -69,7 +69,7 @@ export default {
 }
 .storehome{
   margin-bottom: 0.9rem;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   b{
     margin-top: 0.2rem;
     font-size:0.35rem;
