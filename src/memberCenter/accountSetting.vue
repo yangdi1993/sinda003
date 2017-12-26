@@ -134,7 +134,7 @@ export default {
     this.ajax.post('/xinda-api/sso/login-info').then(data => {
       // console.log(data.data)
       this.status = data.data.status
-      // console.log('status==',this.status);
+      console.log('status==',this.status);
     })
     
   },
@@ -224,6 +224,7 @@ export default {
           this.ajax.post('/xinda-api/member/update-info', this.qs.stringify({ headImg: this.imageUrl, name: this.username, gender: this.radio, email: this.email, regionId: this.seleCode })).then(data => {
             // console.log(data.data)
             if(data.data.status == -1){
+              console.log(data.data.status)
               this.word = true;
               this.message = '系统开小差了，我们正紧急修复中!';
             }else if(data.data.status == 1){

@@ -348,7 +348,7 @@ export default {
   border: 0;
 }
 .r-operate {
-    margin-top: 1rem;
+    margin-top: 2rem;
   .msg {
     margin: 0.07rem auto -0.5rem;
     font-size: 0.28rem;

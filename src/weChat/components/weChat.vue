@@ -69,7 +69,7 @@ export default {
   display: flex;
   font-size: .1rem;
   position: fixed;
-  bottom: 0;
+  bottom: -.02rem;
   background: #fff;
   z-index: 100;
   a{

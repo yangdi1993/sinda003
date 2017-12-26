@@ -111,6 +111,7 @@ export default {
   height: 100%;
   background: #f3f4f5;
   display: flex;
+  
 }
 .firstleft{
   width: 2.22rem;
@@ -122,7 +123,7 @@ export default {
   background: #fff;
   position: fixed;
   left: 0;
-  top: 0;
+  top: 1rem;
   .firbg{
     background: #f3f4f5;
   }
@@ -138,6 +139,7 @@ export default {
 .typeclass{
   color: rgb(224, 41, 41);
   margin-left: .21rem;
+  margin-top: 1rem;
   .secondstl{
     margin-bottom: .12rem;
     width: 100%;

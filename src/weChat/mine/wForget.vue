@@ -294,7 +294,7 @@ export default {
   border: 0;
 }
 .r-outter {
-  margin-top: 1rem;
+  margin-top: 2rem;
   width: 7.5rem;
   height: 13.34rem;
 }

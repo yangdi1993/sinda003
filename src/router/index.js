@@ -293,7 +293,6 @@ export default new Router({
           name: 'storelist',
           component: storelist
         },
-       
         //店铺首页
         {
           path: 'storehome',
