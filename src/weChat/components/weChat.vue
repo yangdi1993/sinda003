@@ -60,6 +60,7 @@ export default {
     line-height: .9rem;
     display: block;
     span{
+      
       float: left;
       height: 100%;
       line-height: .9rem;
