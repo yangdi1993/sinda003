@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
    data() {
     return {
@@ -36,6 +37,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['setTitle']),
     ccc:function(){
       this.$router.query.id;
     },
@@ -83,6 +85,7 @@ export default {
     },
   },
   created() {
+    this.setTitle('店铺列表');
     var that = this;
     var str = {};
     this.ajax
