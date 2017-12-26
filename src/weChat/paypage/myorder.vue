@@ -14,7 +14,7 @@
       <div class="sec">
         <div class="Img"><img src="../images/paypage/dingdan.png" alt=""></div>
         <div class="orDetail">
-          <p class="sername">{{item.orderInfo}}</p>
+          <p class="sername">{{item.providerName}}</p>
           <p class="ortime">下单时间：{{nowdate}}</p>
           <p class="toprice">
             <span class="price">￥{{item.totalPrice}}</span>元
@@ -27,11 +27,12 @@
         <div class="Total">合计：
           <span>￥{{item.totalPrice}}</span>
         </div>
-        <div class="dele" @click="dele()">删除订单</div>
+        <div class="dele" @click="dele(item.id)">删除订单</div>
         <div class="payment" @click="toPay()">
           <div>付款</div>
         </div>
       </div>
+      <!-- 删除订单提示 -->
       <div class="prombox" v-show="promt">
         <div class="btop">
           <p class="xinxi">信息</p>
@@ -39,7 +40,7 @@
         </div>
         <div class="bcon">确认删除订单吗？</div>
         <div class="bbtm">
-          <div class="confirm" @click="confirm(item.businessNo)">确认</div>
+          <div class="confirm" @click="confirm(item.id)">确认</div>
           <div class="cancel" @click="cancel()">取消</div>
         </div>
       </div>
@@ -53,38 +54,7 @@ export default {
   name: "HelloWorld",
   created() {
     //获取订单详情
-    var that = this;
-    this.ajax
-      .post(
-        "/xinda-api/business-order/detail",
-        this.qs.stringify({
-          businessNo: this.$route.query.id
-        })
-      )
-      .then(function(data) {
-        var sData = data.data.data;
-        that.shopData = sData;
-        console.log(that.shopData);
-        that.busOrder = data.data.data.businessOrder;
-        that.serOrLists = data.data.data.serviceOrderList;
-        console.log(that.busOrder.businessNo);
-      });
-    var date = new Date();
-    var Y = date.getFullYear() + "-";
-    var M =
-      (date.getMonth() + 1 < 10
-        ? "0" + (date.getMonth() + 1)
-        : date.getMonth() + 1) + "-";
-    var D = (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
-    var h =
-      (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":";
-    var m =
-      (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
-      ":";
-    var s =
-      date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-    // console.log(Y+M+D+h+m+s);
-    this.nowdate = Y + M + D + h + m + s; //时间
+    this.gettingData();
   },
   data() {
     return {
@@ -95,6 +65,35 @@ export default {
     };
   },
   methods: {
+    //获取订单详情
+    gettingData() {
+      var that = this;
+      this.ajax.post("/xinda-api/service-order/grid").then(function(data) {
+        var sData = data.data.data;
+        that.shopData = sData;
+        console.log(that.shopData);
+        //that.busOrder = data.data.data.businessOrder;
+        //that.serOrLists = data.data.data.serviceOrderList;
+        //console.log(that.busOrder.businessNo);
+      });
+      var date = new Date();
+      var Y = date.getFullYear() + "-";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      var D =
+        (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
+      var h =
+        (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":";
+      var m =
+        (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
+        ":";
+      var s =
+        date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      // console.log(Y+M+D+h+m+s);
+      this.nowdate = Y + M + D + h + m + s; //时间
+    },
     //去付款
     toPay() {},
     //删除订单-弹出提示框
@@ -108,14 +107,17 @@ export default {
     //确认删除
     confirm(id) {
       this.promt = false;
-      var that = this;
-      this.ajax
-        .post("/xinda-api/business-order/del", this.qs.stringify({ id: id }))
-        .then(function(data) {
-          console.log(data.data.data);
-          //that.gettingData();
-          location.reload();
-        });
+      this.shopData.splice(this.index,1);
+      this.gettingData();
+      // var that = this;
+      // this.ajax
+      //   .post("/xinda-api/business-order/del", this.qs.stringify({ id: id }))
+      //   .then(function(data) {
+      //     console.log(data.data.data);
+      //     //that.gettingData();
+      //     //location.reload();
+      //     that.gettingData();
+      //   });
     },
     //返回上一级
     back() {
@@ -135,16 +137,16 @@ export default {
   background-color: #e5e5e5;
   width: 100%;
   position: fixed;
-  top: 0!important;
+  top: 0 !important;
   z-index: 10000;
   overflow: hidden;
   .back {
     width: 0.8rem;
-    height: 1.0rem;
+    height: 1rem;
     float: left;
   }
   .ord {
-    line-height: 1.0rem;
+    line-height: 1rem;
     color: #000;
     font-size: 0.29rem;
     margin-left: 1.8rem;
@@ -152,8 +154,9 @@ export default {
   }
 }
 .orderCon {
-  height: 4.35rem;
+  height: 3.75rem;
   background-color: #f8f8f8;
+  margin-top: 1.0rem;
 }
 .fir {
   font-size: 0.26rem;
@@ -163,7 +166,7 @@ export default {
     width: 60%;
     float: left;
     line-height: 0.73rem;
-    margin-left: -0.9rem;
+    //margin-left: -0.9rem;
   }
   .status {
     width: 25%;
