@@ -1,138 +1,204 @@
 <template>
-  <div class="orderWhole">
+  <div class="box">
+    <!-- 头部 -->
     <div class="head" style="">
       <div class="back" @click="back()"><img src="../images/paypage/back.png" alt=""></div>
       <div class="ord">
         <p>我的订单</p>
       </div>
     </div>
-    <div class="orderCon" v-for="item in shopData" :key="item.id">
-      <div class="fir">
-        <p class="ornum">订单号：{{item.businessNo}}</p>
-        <p class="status">等待买家付款</p>
-      </div>
-      <div class="sec">
-        <div class="Img"><img src="../images/paypage/dingdan.png" alt=""></div>
-        <div class="orDetail">
-          <p class="sername">{{item.providerName}}</p>
-          <p class="ortime">下单时间：{{nowdate}}</p>
-          <p class="toprice">
-            <span class="price">￥{{item.totalPrice}}</span>元
-            <span>x{{1}}</span>
-          </p>
+    <div class="aBody">
+      <div class="order" v-for="list in lists" :key="list.businessNo">
+        <div>
+          <p>订单号：{{list.businessNo}}</p>
+          <p>{{list.status}}</p>
         </div>
-
-      </div>
-      <div class="thd">
-        <div class="Total">合计：
-          <span>￥{{item.totalPrice}}</span>
+        <div v-for="serv in list.servitem" :key="serv.id" class="servbox">
+          <div>
+            <p>{{serv.providerName}}</p>
+          </div>
+          <div>
+            <div><img src="../images/paypage/company.png" alt="公司logo"></div>
+            <div>
+              <p>{{serv.serviceName}}</p>
+              <p>下单时间：{{serv.createTime}}</p>
+              <div>
+                <p>
+                  <span>￥{{serv.unitPrice}}</span>元</p>
+                <p>&#10005
+                  <span>{{serv.buyNum}}</span>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
+<<<<<<< HEAD
         <div class="dele" @click="dele(item.providerId)">删除订单</div>
         <div class="payment" @click="toPay()">
           <div>付款</div>
+=======
+        <div v-if="list.status=='等待买家付款'" class="waitpay">
+          <p>合计：
+            <span>￥{{list.totalPrice}}</span>
+          </p>
+          <p @click="dele(list.id)">删除订单</p>
+          <button @click="payfor(list.businessNo)">付款</button>
+>>>>>>> ae06c7fb68c39126e49ae3f2e1239a3038cdb677
         </div>
-      </div>
-      <!-- 删除订单提示 -->
-      <div class="prombox" v-show="promt">
+        <div v-if="list.status=='已付款'" class="payalready">
+          <p>合计：
+            <span>￥{{list.totalPrice}}</span>
+          </p>
+          <p>交易完成</p>
+        </div>
+        <!-- 提示框 -->
+         <div class="prombox" v-show="promt">
         <div class="btop">
           <p class="xinxi">信息</p>
           <p class="up" @click="cancel()">X</p>
         </div>
         <div class="bcon">确认删除订单吗？</div>
         <div class="bbtm">
+<<<<<<< HEAD
           <div class="confirm" @click="confirm(item.providerId)">确认</div>
+=======
+          <div class="confirm" @click="confirms(list.id)">确认</div>
+>>>>>>> ae06c7fb68c39126e49ae3f2e1239a3038cdb677
           <div class="cancel" @click="cancel()">取消</div>
         </div>
       </div>
+      </div>
+
     </div>
-    <!-- 删除订单提示框 -->
+
   </div>
 </template>
 
 <script>
+var moment = require("moment");
 export default {
-  name: "HelloWorld",
   created() {
-    //获取订单详情
-    this.gettingData();
+    // if(){
+    this.getData(0, 2);
+    // }
   },
+  components: {},
   data() {
     return {
-      promt: false,
-      dataAll: [],
-      rData: [],
-      shopData: []
+      lists: [], //v-for循环数据包
+      promt: false
     };
   },
   methods: {
-    //获取订单详情
-    gettingData() {
+    // 获取数据方法
+    getData(start, limit) {
       var that = this;
-      this.ajax.post("/xinda-api/service-order/grid").then(function(data) {
-        var sData = data.data.data;
-        that.shopData = sData;
-        console.log(that.shopData);
-        //that.busOrder = data.data.data.businessOrder;
-        //that.serOrLists = data.data.data.serviceOrderList;
-        //console.log(that.busOrder.businessNo);
-      });
-      var date = new Date();
-      var Y = date.getFullYear() + "-";
-      var M =
-        (date.getMonth() + 1 < 10
-          ? "0" + (date.getMonth() + 1)
-          : date.getMonth() + 1) + "-";
-      var D =
-        (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
-      var h =
-        (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":";
-      var m =
-        (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
-        ":";
-      var s =
-        date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-      // console.log(Y+M+D+h+m+s);
-      this.nowdate = Y + M + D + h + m + s; //时间
+      that.ajax
+        .post(
+          "/xinda-api/business-order/grid",
+          that.qs.stringify({
+            start: start,
+            limit: limit
+          })
+        )
+        .then(function(data) {
+          //console.log("origin==", data);
+          if (data.data.data && data.data.data.length) {
+            that.businessshow(data);
+          } else {
+            that.errorbox = true;
+            that.error = "无结果";
+          }
+        });
     },
+<<<<<<< HEAD
     //去付款
     toPay() {},
     //删除订单-弹出提示框
     dele(providerId) {
-      this.promt = true;
+=======
+    // 处理获取数据
+    businessshow(data) {
+      var data = data.data.data;
+      for (let i = 0; i < data.length; i++) {
+        // data[i].createTime=moment(data[i].createTime).format('YYYY-MM-DD hh:mm:ss');
+        data[i].servitem = [];
+        var orderN = data[i].businessNo;
+        //关于订单状态
+        if (data[i].status == 1) {
+          data[i].status = "等待买家付款";
+        } else if (data[i].status == 4) {
+          data[i].status = "已付款";
+        }
+        var that = this;
+        that.ajax
+          .post(
+            "/xinda-api/service-order/grid",
+            that.qs.stringify({
+              businessNo: orderN
+            })
+          )
+          .then(function(servdata) {
+            //console.log("servicedata==", servdata);
+            var servdata = servdata.data.data;
+            for (var key in servdata) {
+              // 关于订单时间
+              servdata[key].createTime = moment(
+                servdata[key].createTime
+              ).format("YYYY-MM-DD hh:mm:ss");
+              // 将服务订单信息添加到循环包里
+              data[i].servitem.push(servdata[key]);
+            }
+          });
+      }
+      this.lists = data;
     },
-    //取消删除
+    // 删除订单
+   
+    dele(id) {
+>>>>>>> ae06c7fb68c39126e49ae3f2e1239a3038cdb677
+      this.promt = true;
+      //console.log("123");
+    },
+    //取消
     cancel() {
       this.promt = false;
     },
     //确认删除
+<<<<<<< HEAD
     confirm(providerId) {
+=======
+    confirms(id) {
+>>>>>>> ae06c7fb68c39126e49ae3f2e1239a3038cdb677
       this.promt = false;
-      this.shopData.splice(this.index,1);
-      this.gettingData();
-      // var that = this;
-      // this.ajax
-      //   .post("/xinda-api/business-order/del", this.qs.stringify({ id: id }))
-      //   .then(function(data) {
-      //     console.log(data.data.data);
-      //     //that.gettingData();
-      //     //location.reload();
-      //     that.gettingData();
-      //   });
+      var that = this;
+      this.ajax
+        .post("/xinda-api/business-order/del", this.qs.stringify({ id: id }))
+        .then(function(data) {
+          //console.log(data.data.data);
+          //that.gettingData();
+          //location.reload();
+          //that.gettingData();
+          //console.log('23333333');
+          that.getData(0,2)
+        });
     },
-    //返回上一级
-    back() {
-      history.go(-1);
+    //付款
+    payfor(code) {
+      
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less">
-.orderWhole {
+<style lang="less" scoped>
+// 大盒子
+.box {
   width: 100%;
-  //margin-top: 1rem;
+  margin: 0 auto;
+  background: #f8f8f8;
 }
+// 顶部标签
 .head {
   background-color: #e5e5e5;
   width: 100%;
@@ -153,106 +219,182 @@ export default {
     width: 50%;
   }
 }
-.orderCon {
-  height: 3.75rem;
-  background-color: #f8f8f8;
-  margin-top: 1.0rem;
-}
-.fir {
-  font-size: 0.26rem;
-  height: 0.77rem;
-  background-color: white;
-  .ornum {
-    width: 60%;
-    float: left;
-    line-height: 0.73rem;
-    //margin-left: -0.9rem;
-  }
-  .status {
-    width: 25%;
-    float: right;
-    line-height: 0.73rem;
-  }
-}
-.sec {
-  height: 2.63rem;
-  .Img {
-    width: 2rem;
-    height: 2.18rem;
-    float: left;
-    margin-top: 0.45rem;
-    img {
-      width: 1.66rem;
-      height: 1.66rem;
-      border: 0.02rem solid #e3e3e3;
-    }
-  }
-  .orDetail {
-    margin-top: 0.45rem;
-    height: 2.18rem;
-    width: 5.5rem;
-    text-align: left;
-    float: left;
-    .sername {
-      font-size: 0.28rem;
-      width: 3.5rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .ortime {
-      font-size: 0.24rem;
-      margin-top: 0.18rem;
-    }
-    .toprice {
-      margin-top: 0.5rem;
-      font-size: 0.16rem;
-    }
-    .price {
-      font-size: 0.24rem;
-      color: #ff1515;
-      font-weight: bold;
-    }
-  }
-}
-.thd {
-  height: 0.73rem;
+// 订单部分
+.aBody {
+  font-size: 0.18rem;
+  margin-top: 1rem;
+  // height: 10rem;
   width: 100%;
-  background-color: white;
-  font-size: 0.24rem;
-  line-height: 0.73rem;
-  //float: left;
-  .Total {
-    float: left;
-    margin-left: 0.25rem;
-    span {
-      color: #fe0000;
+  background: #f8f8f8;
+  .order {
+    width: 100%;
+    margin-bottom: 0.28rem;
+    // 顶部订单号
+    > div:first-child {
+      width: 100%;
+      height: 0.72rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      p {
+        font-size: 0.22rem;
+      }
+      p:first-child {
+        margin-left: 0.16rem;
+        color: #a3a3a3;
+      }
+      p:last-child {
+        margin-right: 0.32rem;
+      }
     }
-  }
-  .dele {
-    float: left;
-    width: 1rem;
-    height: 0.73rem;
-    color: #fe0000;
-    margin-left: 2.5rem;
-    cursor: pointer;
-  }
-  .payment {
-    width: 1.22rem;
-    height: 0.73rem;
-    float: right;
-    margin-right: 0.3rem;
-    cursor: pointer;
-    div {
-      background-color: #2693d4;
-      width: 1.22rem;
-      line-height: 0.47rem;
-      margin-top: 0.15rem;
-      border-radius: 0.01rem;
-      color: white;
+    // 服务内容循环盒子
+    .servbox {
+      width: 100%;
+      height: 2.62rem;
+      background: #f8f8f8;
+      // 公司名称
+      > div:first-child {
+        width: 100%;
+        height: 0.46rem;
+        line-height: 0.46rem;
+        p {
+          margin-left: 0.16rem;
+          font-size: 0.2rem;
+        }
+      }
+      // 服务订单主体
+      > div:nth-child(2) {
+        width: 100%;
+        height: 2.17rem;
+        display: flex;
+        // 公司logo
+        > div:first-child {
+          width: 1.7rem;
+          height: 2.17rem;
+          margin: 0 0.15rem;
+          text-align: center;
+          img {
+            width: 1.7rem;
+            height: 1.7rem;
+          }
+        }
+        // 订单详情
+        > div:last-child {
+          width: 73%;
+          height: 2.17rem;
+          display: flex;
+          flex-direction: column;
+          // 服务内容
+          > p:first-child {
+            font-size: 0.28rem;
+            color: #000;
+          }
+          // 创建时间
+          > p:nth-child(2) {
+            font-size: 0.24rem;
+            margin-top: 0.16rem;
+          }
+          // 数量和单价
+          > div:last-child {
+            display: flex;
+            margin-top: 0.48rem;
+            // 单价
+            > p:first-child {
+              font-size: 0.15rem;
+              margin-right: 0.34rem;
+              > span {
+                font-size: 0.25rem;
+                color: #fe1614;
+                padding-right: 0.16rem;
+              }
+            }
+            // 数量
+            > p:last-child {
+              font-size: 0.13rem;
+              > span {
+                font-size: 0.25rem;
+                padding-left: 0.05rem;
+              }
+            }
+          }
+        }
+      }
+    }
+    // 等待买家付款的底部
+    .waitpay {
+      width: 100%;
+      height: 0.77rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      p {
+        font-size: 0.24rem;
+      }
+      // 合计
+      > p:first-child {
+        margin-left: 0.2rem;
+        span {
+          color: #fd6766;
+        }
+      }
+      // 删除订单
+      > p:nth-child(2) {
+        color: #fd6766;
+        margin-left: 1.2rem;
+      }
+      // 付款按钮
+      > button {
+        width: 1.23rem;
+        height: 0.48rem;
+        background: #2693d4;
+        color: #ebf4f9;
+        font-size: 0.24rem;
+        margin-right: 0.5rem;
+      }
+    }
+    // 已付款的底部
+    .payalready {
+      width: 100%;
+      height: 0.77rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      p {
+        font-size: 0.24rem;
+      }
+      // 合计
+      > p:first-child {
+        margin-left: 0.2rem;
+        span {
+          color: #fd6766;
+        }
+      }
+      // 交易完成
+      > p:last-child {
+        color: #5c5c5c;
+        margin-right: 0.49rem;
+      }
     }
   }
 }
+//错误提示框
+.errorbox {
+  width: 100%;
+  height: 0.6rem;
+  font-size: 0.2rem;
+  z-index: 4;
+  > div {
+    width: 3rem;
+    height: 0.6rem;
+    text-align: center;
+    line-height: 0.6rem;
+    margin: 0 auto;
+  }
+}
+
 .prombox {
   width: 70%;
   height: 3rem;
@@ -260,6 +402,7 @@ export default {
   background-color: white;
   position: absolute;
   left: 15%;
+  top: 20%;
   .btop {
     height: 0.7rem;
     background-color: #e5e5e5;

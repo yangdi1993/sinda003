@@ -5,6 +5,7 @@ export default new Vuex.Store({
   state:{ //状态集合
     num:0,
     name:'',
+    title:'信达电子商务系统'
   },
   mutations:{ //突变集合
     SET_NUM(state,num){
@@ -12,6 +13,9 @@ export default new Vuex.Store({
     },
     SET_NAME(state,name){
         state.name=name
+    },
+    SET_TITLE(state,title){
+        state.title=title
     }
   },
   actions:{ //操作集合
@@ -20,6 +24,9 @@ export default new Vuex.Store({
     },
     setName({commit},name){
         commit('SET_NAME',name)
+    },
+    setTitle({commit},title){
+        commit('SET_TITLE',title)
     }
   },
   getters:{ //显示集合
@@ -31,8 +38,8 @@ export default new Vuex.Store({
       }else{
         return sessionStorage.getItem('userPhone');
       }
-    }
-    
+    },
+    getTitle:state=>state.title
   }
 })
 
