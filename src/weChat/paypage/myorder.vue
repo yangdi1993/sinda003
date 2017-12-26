@@ -1,24 +1,24 @@
 <template>
   <div class="orderWhole">
-    <div class="head">
-      <div class="back" @click="back()"></div>
+    <div class="head" style="">
+      <div class="back" @click="back()"><img src="../images/paypage/back.png" alt=""></div>
       <div class="ord">
         <p>我的订单</p>
       </div>
     </div>
-    <div class="orderCon" v-for="item in rData" :key="item.id">
+    <div class="orderCon" v-for="item in shopData" :key="item.id">
       <div class="fir">
         <p class="ornum">订单号：{{item.businessNo}}</p>
         <p class="status">等待买家付款</p>
       </div>
       <div class="sec">
-        <div class="Img"><img :src="'http://115.182.107.203:8088/xinda/pic'+ cart.providerImg" alt=""></div>
+        <div class="Img"><img src="../images/paypage/dingdan.png" alt=""></div>
         <div class="orDetail">
-          <p class="sername">{{item.serviceName}}</p>
-          <p class="ortime">下单时间：{{item.createTime}}</p>
+          <p class="sername">{{item.orderInfo}}</p>
+          <p class="ortime">下单时间：{{nowdate}}</p>
           <p class="toprice">
-            <span class="price">￥{{item.unitPrice}}</span>元
-            <span>x{{item.buyNum}}</span>
+            <span class="price">￥{{item.totalPrice}}</span>元
+            <span>x{{1}}</span>
           </p>
         </div>
 
@@ -32,19 +32,19 @@
           <div>付款</div>
         </div>
       </div>
+      <div class="prombox" v-show="promt">
+        <div class="btop">
+          <p class="xinxi">信息</p>
+          <p class="up" @click="cancel()">X</p>
+        </div>
+        <div class="bcon">确认删除订单吗？</div>
+        <div class="bbtm">
+          <div class="confirm" @click="confirm(item.businessNo)">确认</div>
+          <div class="cancel" @click="cancel()">取消</div>
+        </div>
+      </div>
     </div>
     <!-- 删除订单提示框 -->
-    <div class="prombox" v-show="promt">
-      <div class="btop">
-        <p class="xinxi">信息</p>
-        <p class="up" @click="cancel()">X</p>
-      </div>
-      <div class="bcon">确认删除订单吗？</div>
-      <div class="bbtm">
-        <div class="confirm" @click="confirm(item.id)">确认</div>
-        <div class="cancel" @click="cancel()">取消</div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -52,47 +52,46 @@
 export default {
   name: "HelloWorld",
   created() {
+    //获取订单详情
     var that = this;
-    this.ajax.post("/xinda-api/cart/list").then(function(data) {
-      var dataAll = data;
-      console.log(dataAll);
-      var dataObj = {};
-      for (var i = 0; i < dataAll.length; i++) {
-        // 获取创建时间
-        var dd = dataAll[i].createTime;
-        // 转换格式
-        var now = new Date(dd);
-        var year = now.getFullYear();
-        var month = now.getMonth() + 1;
-        var date = now.getDate();
-        var hour = now.getHours();
-        var minute = now.getMinutes();
-        var second = now.getSeconds();
-        // 新的时间格式
-        var newTime =
-          year +
-          "年" +
-          month +
-          "月" +
-          date +
-          "日" +
-          hour +
-          ":" +
-          minute +
-          ":" +
-          second;
-        // 将原对象里面的时间格式替换掉
-        dataAll[i].createTime = newTime;
-        //  改变格式后加到总数组
-      }
-      that.rData = dataAll;
-    });
+    this.ajax
+      .post(
+        "/xinda-api/business-order/detail",
+        this.qs.stringify({
+          businessNo: this.$route.query.id
+        })
+      )
+      .then(function(data) {
+        var sData = data.data.data;
+        that.shopData = sData;
+        console.log(that.shopData);
+        that.busOrder = data.data.data.businessOrder;
+        that.serOrLists = data.data.data.serviceOrderList;
+        console.log(that.busOrder.businessNo);
+      });
+    var date = new Date();
+    var Y = date.getFullYear() + "-";
+    var M =
+      (date.getMonth() + 1 < 10
+        ? "0" + (date.getMonth() + 1)
+        : date.getMonth() + 1) + "-";
+    var D = (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
+    var h =
+      (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":";
+    var m =
+      (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
+      ":";
+    var s =
+      date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+    // console.log(Y+M+D+h+m+s);
+    this.nowdate = Y + M + D + h + m + s; //时间
   },
   data() {
     return {
       promt: false,
       dataAll: [],
       rData: [],
+      shopData: []
     };
   },
   methods: {
@@ -107,9 +106,16 @@ export default {
       this.promt = false;
     },
     //确认删除
-    confirm() {
+    confirm(id) {
       this.promt = false;
-      this.rData.splice(this.index, 1);
+      var that = this;
+      this.ajax
+        .post("/xinda-api/business-order/del", this.qs.stringify({ id: id }))
+        .then(function(data) {
+          console.log(data.data.data);
+          //that.gettingData();
+          location.reload();
+        });
     },
     //返回上一级
     back() {
@@ -123,18 +129,22 @@ export default {
 <style scoped lang="less">
 .orderWhole {
   width: 100%;
+  //margin-top: 1rem;
 }
 .head {
   background-color: #e5e5e5;
+  width: 100%;
+  position: fixed;
+  top: 0!important;
+  z-index: 10000;
+  overflow: hidden;
   .back {
-    background: url("../images/paypage/ssprites.png") no-repeat;
-    position: -13px -8px;
     width: 0.8rem;
-    height: 0.77rem;
+    height: 1.0rem;
     float: left;
   }
   .ord {
-    line-height: 0.77rem;
+    line-height: 1.0rem;
     color: #000;
     font-size: 0.29rem;
     margin-left: 1.8rem;
@@ -150,7 +160,7 @@ export default {
   height: 0.77rem;
   background-color: white;
   .ornum {
-    width: 50%;
+    width: 60%;
     float: left;
     line-height: 0.73rem;
     margin-left: -0.9rem;
@@ -182,6 +192,10 @@ export default {
     float: left;
     .sername {
       font-size: 0.28rem;
+      width: 3.5rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .ortime {
       font-size: 0.24rem;

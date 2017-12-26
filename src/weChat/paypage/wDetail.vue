@@ -214,6 +214,7 @@ export default {
 <style scoped lang="less">
 .detailWhole {
   width: 100%;
+  margin-top: 1.0rem;
 }
 .head {
   position: relative;
