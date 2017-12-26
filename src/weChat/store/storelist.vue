@@ -1,8 +1,8 @@
 <template>
-  <div class="hello">
+  <div class="storelist">
     <div class="listhead">
-      <p class="paixu">默认排序</p>
-      <p class="number">销量</p>
+      <p @click="zonghe" :class="{bluebg:1==autopaixu}">默认排序</p>
+      <p @click="upprice" :class="{bluebg:2==autopaixu}">销量</p>
     </div>
     <div class='back' v-for='product in products' :key="product.data">
       <router-link :to="{path:'/weChat/storehome',query:{id:product.id}}" @click='ccc'>
@@ -30,15 +30,57 @@ export default {
       products: [],
       index: 0,
       number: 1,
-      sort: "",
-      num: 0
+      sort: 1,
+      num: 0,
+      autopaixu:1,
     };
   },
   methods: {
     ccc:function(){
       this.$router.query.id;
     },
-    
+    zonghe() {
+      //综合排序
+      this.paixu = 2;
+      this.autopaixu = 1;
+      this.sort=1;
+      var that = this;
+      var str = {};
+      this.ajax
+        .post( "/xinda-api/product/package/grid",
+          this.qs.stringify({
+            limit: 6,
+            productTypeCode: "0",
+            productId: "8a82f52b674543e298d2e5f685946e6e",
+            sort: this.sort
+          }))
+        .then(data => {
+          var data = data.data.data;
+          that.products = data;
+          sessionStorage.setItem(this.index, JSON.stringify(str));
+      });
+    },
+    upprice() {
+      //升价排序
+      this.paixu = 3;
+      this.autopaixu = 2;
+      this.sort=2;
+      var that = this;
+      var str = {};
+      this.ajax
+        .post( "/xinda-api/product/package/grid",
+          this.qs.stringify({
+            limit: 6,
+            productTypeCode: "0",
+            productId: "8a82f52b674543e298d2e5f685946e6e",
+            sort: this.sort
+          }))
+        .then(data => {
+          var data = data.data.data;
+          that.products = data;
+          sessionStorage.setItem(this.index, JSON.stringify(str));
+      });
+    },
   },
   created() {
     var that = this;
@@ -54,7 +96,6 @@ export default {
       .then(data => {
         var data = data.data.data;
         that.products = data;
-
         sessionStorage.setItem(this.index, JSON.stringify(str));
     });
   }
@@ -68,8 +109,9 @@ export default {
   padding: 0;
   border: 0;
 }
-.hello{
+.storelist  {
   margin-bottom: 0.9rem;
+  margin-top: 1rem;
 }
 .listhead{
   width:3.6rem;
@@ -91,15 +133,15 @@ export default {
     text-decoration: none;
   }
 }
-.paixu{
+.bluebg{
   background-color:  #2693d4;
   color:#fff;
   border-right:1px solid #2693d4;
 }
-.listhead p:hover{
-  background-color: #2693d4;
-  color:#fff;
-}
+// .listhead p:hover{
+//   background-color: #2693d4;
+//   color:#fff;
+// }
 
 .listbox{
   width:100%;

@@ -154,6 +154,7 @@ export default {
           path: "/inner/paypage",
           query: { id: data.data.data },
         });
+        console.log(data.data.data)
       });
     },
     //继续购物

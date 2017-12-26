@@ -345,6 +345,8 @@ export default {
   },
   //获取商品详情
   created() {
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
     var that = this;
     this.ajax
       .post(

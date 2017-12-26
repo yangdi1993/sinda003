@@ -10,7 +10,7 @@
         <div class="heng"></div>
       </div>
       <div class='back' v-for='product in products' :key="product.data">
-        <router-link :to="{path:'/m.sinda/details',query:{id:product.id}}" >
+        <router-link :to="{path:'/weChatdog/wDetail',query:{id:product.id}}" >
         <div class='content'>
           <div class='img'>
             <div class='imgs'>
@@ -44,7 +44,7 @@ export default {
         }))
       .then(data => {
         var data = data.data.data;
-        console.log(data);
+        // console.log(data);
         that.products = data;
         sessionStorage.setItem(this.index, JSON.stringify(str));
     });
@@ -69,6 +69,7 @@ export default {
 }
 .storehome{
   margin-bottom: 0.9rem;
+  margin-top: 1rem;
   b{
     margin-top: 0.2rem;
     font-size:0.35rem;

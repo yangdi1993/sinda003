@@ -12,8 +12,12 @@
         </p>
       </div>
       <div class="sfu">
-        <p class="sFir">{{providerProducts.serviceName}}</p>
-        <p class="sSec">{{providerProducts.serviceInfo}}</p>
+        <div>
+          <p class="sFir">{{providerProducts.serviceName}}</p>
+        </div>
+        <div>
+          <p class="sSec">{{providerProducts.serviceInfo}}</p>
+        </div>
       </div>
     </div>
     <div class="shop">
@@ -106,8 +110,8 @@
         <p class="phconThd">请您注意接听电话</p>
       </div>
     </div>
-    <!-- 提示购买成功 -->
-    <div class="buytrue" v-show="buySuccess">购买成功</div>
+    <!-- 提示加入购物车成功 -->
+    <div class="buytrue" v-show="buySuccess">加入成功</div>
   </div>
 </template>
 
@@ -130,7 +134,7 @@ export default {
         that.providerRegionText = data.data.data.providerRegionText;
         that.providerBusinesses = data.data.data.providerBusiness;
         //console.log(data.data.data.providerProduct);
-        console.log(data.data.data);
+        //console.log(data.data.data);
       });
     //店铺详情
   },
@@ -199,8 +203,8 @@ export default {
         });
     },
     //查看店铺详情
-    ToShop(id){
-       this.$router.push({ path: "/weChat/storehome",query:{id:id}});
+    ToShop(id) {
+      this.$router.push({ path: "/weChat/storehome", query: { id: id } });
     }
   }
 };
@@ -210,6 +214,7 @@ export default {
 <style scoped lang="less">
 .detailWhole {
   width: 100%;
+  margin-top: 1.0rem;
 }
 .head {
   position: relative;
@@ -249,18 +254,22 @@ export default {
   height: 1.18rem;
   background-color: rgba(19, 18, 18, 0.5);
   bottom: 1.5rem;
-  .sFir {
-    width: 70%;
-    font-size: 0.28rem;
-    color: white;
-    margin-right: 4.5rem;
-    line-height: 0.55rem;
-  }
-  .sSec {
-    font-size: 0.24rem;
-    width: 100%;
-    color: white;
-    margin-right: 4.5rem;
+  div {
+    width: 95%;
+    text-align: left;
+    float: left;
+    margin-left: 0.5rem;
+    .sFir {
+      width: 95%;
+      font-size: 0.28rem;
+      color: white;
+      line-height: 0.55rem;
+    }
+    .sSec {
+      font-size: 0.24rem;
+      width: 95%;
+      color: white;
+    }
   }
 }
 .shop {
