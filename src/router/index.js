@@ -5,62 +5,81 @@ import HelloWorld from '@/components/HelloWorld'
 import server from '@/components/server'
 //未登录时界面
 // import outter from '@/components/outter'
-const outter = r => require.ensure([], () => r(require('@/components/outter')))
+const outter = () => import('@/components/outter')
 //登录后
 // import inner from '@/components/inner'
-const inner = r => require.ensure([], () => r(require('@/components/inner')))
+const inner = () => import('@/components/inner')
 //views 登录、注册、修改密码
 // import login from '@/views/login'
-const login = r => require.ensure([], () => r(require('@/views/login')))
+const login = () => import('@/views/login')
 // import register from '@/views/register'
-const register = r => require.ensure([], () => r(require('@/views/register')))
+const register = () => import('@/views/register')
 // import forget from '@/views/forget'
-const forget = r => require.ensure([], () => r(require('@/views/forget')))
+const forget = () => import('@/views/forget')
 //主页
-import homepage from '@/homepage/homepage'
-//列表页,由全部产品 跳转
-// import list from '@/homepage/list'
+// import homepage from '@/homepage/homepage'
+const homepage = () => import('@/homepage/homepage')
 //列表页,由财税服务 跳转
-import list1 from '@/homepage/list'
+// import list1 from '@/homepage/list'
+const list1 = () => import('@/homepage/list')
 //列表页,由公司工商跳转 跳转
-import list2 from '@/homepage/list'
+// import list2 from '@/homepage/list'
+const list2 = () => import('@/homepage/list')
 //列表页,由全部产品知识产权 跳转
-import list3 from '@/homepage/list'
+// import list3 from '@/homepage/list'
+const list3 = () => import('@/homepage/list')
 //列表页,由全部产品社保代理 跳转
-import list4 from '@/homepage/list'
+// import list4 from '@/homepage/list'
+const list4 = () => import('@/homepage/list')
 
 //支付页面
-import paypage from '@/paypage/paypage'
+// import paypage from '@/paypage/paypage'
+const paypage = () => import('@/paypage/paypage')
 //支付跳转页面
-import orderData from '@/paypage/orderData'
+// import orderData from '@/paypage/orderData'
+const orderData = () => import('@/paypage/orderData')
 //支付失败
-import payFalse from '@/paypage/payFalse'
+// import payFalse from '@/paypage/payFalse'
+const payFalse = () => import('@/paypage/payFalse')
 //支付成功
-import payTrue from '@/paypage/payTrue'
+// import payTrue from '@/paypage/payTrue'
+const payTrue = () => import('@/paypage/payTrue')
 //支付宝支付页面
-import Alipay from '@/paypage/Alipay'
+// import Alipay from '@/paypage/Alipay'
+const Alipay = () => import('@/paypage/Alipay')
 //购物车页面
-import cart from '@/paypage/cart'
+// import cart from '@/paypage/cart'
+const cart = () => import('@/paypage/cart')
 //商品详情页面
-import Detail from '@/paypage/Detail'
+// import Detail from '@/paypage/Detail'
+const Detail = () => import('@/paypage/Detail')
 // 会员中心-我的订单
-import myOrder from '@/memberCenter/myOrder'
+// import myOrder from '@/memberCenter/myOrder'
+const myOrder = () => import('@/memberCenter/myOrder')
 // 会员中心-用户评价-未评价
-import userUnEvalu from '@/memberCenter/userUnEvalu'
+// import userUnEvalu from '@/memberCenter/userUnEvalu'
+const userUnEvalu = () => import('@/memberCenter/userUnEvalu')
 // 会员中心-用户评价-已评价
-import userHavaEvalu from '@/memberCenter/userHavaEvalu'
+// import userHavaEvalu from '@/memberCenter/userHavaEvalu'
+const userHavaEvalu = () => import('@/memberCenter/userHavaEvalu')
 //会员中心-账户设置
-import accountSetting from '@/memberCenter/accountSetting'
+// import accountSetting from '@/memberCenter/accountSetting'
+const accountSetting = () => import('@/memberCenter/accountSetting')
 //会员中心-修改密码
-import changePw from '@/memberCenter/changePw'
+// import changePw from '@/memberCenter/changePw'
+const changePw = () => import('@/memberCenter/changePw')
 //店铺列表
-import shoplist from '@/shop/shoplist'
+// import shoplist from '@/shop/shoplist'
+const shoplist = () => import('@/shop/shoplist')
 //店铺首页
-import shophome from '@/shop/shophome'
+// import shophome from '@/shop/shophome'
+const shophome = () => import('@/shop/shophome')
 //加盟我们
-import join from '@/shop/join'
+// import join from '@/shop/join'
+const join = () => import('@/shop/join')
 // 会员中心-用户评价-去评价
-import goEvalu from '@/memberCenter/goEvalu'
+// import goEvalu from '@/memberCenter/goEvalu'
+const goEvalu = () => import('@/memberCenter/goEvalu')
 
 
 
@@ -90,7 +109,7 @@ const storelist = () => import('@/weChat/store/storelist')
 //移动端店铺首页
 // import storehome from '@/weChat/store/storehome'
 // const storehome = r => require.ensure([], () => r(require('@/weChat/store/storelist')))
-const storehome = () => import('@/weChat/store/storelist')
+const storehome = () => import('@/weChat/store/storehome')
 //移动端商品详情
 // import wDetail from '@/weChat/paypage/wDetail'
 // const wDetail = r => require.ensure([], () => r(require('@/weChat/paypage/wDetail')))

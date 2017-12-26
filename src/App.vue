@@ -36,8 +36,7 @@ export default {
     //   this.$router.push('/');
     // }
     //判断移动端还是pc端
-
-    if (this.$route.path == "/inner/homepage") {
+    if (this.$route.path == "/") {
       if (this.browserRedirect()) {
         this.$router.push("/weChat/index");
         (function(doc, win) {
@@ -61,11 +60,6 @@ export default {
       } else {
         this.$router.push("/");
       }
-    }
-    if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-      // window.location.href = "#/";
-    } else {
-      // window.location.href = "#/m.sinda";
     }
   },
   methods: {
