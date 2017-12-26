@@ -47,14 +47,11 @@ export default {
       // 总数
       Totle:0,
       toPriNum:0,
-      // 购物车为空
     }
   },
   created(){
     // 数据获取
     this.gettingData();
-    // 购物车为零
-    // this.judge();
   },
   methods:{
     //初始数据获取 
@@ -135,7 +132,6 @@ export default {
       line-height: 0.8rem;
       text-align: left;
       margin-left: 0.25rem;
-      
       a{
         color: #fc4145;
       }
