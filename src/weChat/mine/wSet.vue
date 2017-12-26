@@ -383,7 +383,7 @@ export default {
 
 <style scoped lang="less">
 .set {
-    margin-top: 1rem;
+    margin-top: 2rem;
   li {
     list-style: none;
   }
