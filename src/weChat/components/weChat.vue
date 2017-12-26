@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="top">
-      <span @click="goback">＜</span>
+      <span @click="goback" class="goback"><span></span>返回</span>
     </div>
     <div class="bottom">
       <router-link to="/weChat/index" active-class="indexstyleON" class="indexstyle">
@@ -54,12 +54,18 @@ export default {
   text-align: left;
   z-index: 100;
   box-shadow: 1px 1px 23px 1px rgb(160, 159, 159);
-  span{
-    float: left;
-    height: 100%;
+  .goback{
+    font-size: .4rem;
+    height: .7rem;
     line-height: .9rem;
-    font-size: .5rem;
-    margin-left: .3rem;
+    display: block;
+    span{
+      float: left;
+      height: 100%;
+      line-height: .9rem;
+      font-size: .2rem;
+      margin-left: .3rem;
+    }
   }
 }
 .bottom{
