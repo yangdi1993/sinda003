@@ -27,7 +27,7 @@
         <div class="Total">合计：
           <span>￥{{item.totalPrice}}</span>
         </div>
-        <div class="dele" @click="dele(item.id)">删除订单</div>
+        <div class="dele" @click="dele(item.providerId)">删除订单</div>
         <div class="payment" @click="toPay()">
           <div>付款</div>
         </div>
@@ -40,7 +40,7 @@
         </div>
         <div class="bcon">确认删除订单吗？</div>
         <div class="bbtm">
-          <div class="confirm" @click="confirm(item.id)">确认</div>
+          <div class="confirm" @click="confirm(item.providerId)">确认</div>
           <div class="cancel" @click="cancel()">取消</div>
         </div>
       </div>
@@ -97,7 +97,7 @@ export default {
     //去付款
     toPay() {},
     //删除订单-弹出提示框
-    dele() {
+    dele(providerId) {
       this.promt = true;
     },
     //取消删除
@@ -105,7 +105,7 @@ export default {
       this.promt = false;
     },
     //确认删除
-    confirm(id) {
+    confirm(providerId) {
       this.promt = false;
       this.shopData.splice(this.index,1);
       this.gettingData();
