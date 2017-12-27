@@ -7,14 +7,14 @@
     <div class='back' v-for='product in products' :key="product.data">
       <router-link :to="{path:'/weChat/storehome',query:{id:product.id}}" @click='ccc'>
       <div class='content'>
-        <div class='img'>
+        <div class='pic'>
           <div class='imgs'>
-            <img :src="('http://115.182.107.203:8088/xinda/pic'+product.productImg)" alt="">
+            <img :src="('http://115.182.107.203:8088/xinda/pic'+product.providerImg)" alt="">
           </div>
           <div class='deta'>
-            <p>{{product.serviceName}}</p><br>
+            <p>{{product.providerName}}</p><br>
             <span class='area'>{{product.regionName}}</span><br>
-            <div class="num">累计服务客户数量 : <span>{{product.price}}  </span> 好评率 : <span>100%</span></div>
+            <div class="num">累计服务客户数量 : <span>{{product.orderNum}}  </span> 好评率 : <span>100%</span></div>
           </div>
         </div>
       </div>
@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
    data() {
     return {
@@ -36,6 +37,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['setTitle']),
     ccc:function(){
       this.$router.query.id;
     },
@@ -45,20 +47,8 @@ export default {
       this.autopaixu = 1;
       this.sort=1;
       var that = this;
-      var str = {};
-      this.ajax
-        .post( "/xinda-api/product/package/grid",
-          this.qs.stringify({
-            limit: 6,
-            productTypeCode: "0",
-            productId: "8a82f52b674543e298d2e5f685946e6e",
-            sort: this.sort
-          }))
-        .then(data => {
-          var data = data.data.data;
-          that.products = data;
-          sessionStorage.setItem(this.index, JSON.stringify(str));
-      });
+      this.ajax.post( "xinda-api/provider/grid").then(function(data) {
+        that.products = data.data.data;});
     },
     upprice() {
       //升价排序
@@ -66,38 +56,15 @@ export default {
       this.autopaixu = 2;
       this.sort=2;
       var that = this;
-      var str = {};
-      this.ajax
-        .post( "/xinda-api/product/package/grid",
-          this.qs.stringify({
-            limit: 6,
-            productTypeCode: "0",
-            productId: "8a82f52b674543e298d2e5f685946e6e",
-            sort: this.sort
-          }))
-        .then(data => {
-          var data = data.data.data;
-          that.products = data;
-          sessionStorage.setItem(this.index, JSON.stringify(str));
-      });
+      this.ajax.post( "xinda-api/provider/grid").then(function(data) {
+        that.products = data.data.data;});
     },
   },
   created() {
+    this.setTitle('店铺列表');
     var that = this;
-    var str = {};
-    this.ajax
-      .post( "/xinda-api/product/package/grid",
-        this.qs.stringify({
-          limit: 6,
-          productTypeCode: "0",
-          productId: "8a82f52b674543e298d2e5f685946e6e",
-          sort: this.sort
-        }))
-      .then(data => {
-        var data = data.data.data;
-        that.products = data;
-        sessionStorage.setItem(this.index, JSON.stringify(str));
-    });
+    this.ajax.post( "xinda-api/provider/grid").then(function(data) {
+        that.products = data.data.data;});
   }
 };
 </script>
@@ -170,7 +137,7 @@ button {
   justify-content: center;
   align-items: center;
 }
-.img {
+.pic {
   display: flex;
   width: 100%;
   height: 1.7rem;
@@ -182,8 +149,7 @@ button {
   margin-left: 0.17rem;
   border:0.03rem solid #e3e3e3;
   img {
-    width: 100%;
-    height: 100%;
+    width: 1.2rem;
   }
 }
 .deta {

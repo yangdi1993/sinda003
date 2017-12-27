@@ -31,7 +31,9 @@ import { MessageBox } from 'mint-ui';
 // // Vue.component(Button.name, Button)
 // Vue.use(Button)
 import { Swipe, SwipeItem } from 'mint-ui';
+import { Loadmore } from 'mint-ui';
 
+Vue.component(Loadmore.name, Loadmore)
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
 

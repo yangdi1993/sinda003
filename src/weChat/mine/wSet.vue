@@ -137,6 +137,7 @@ export default {
     };
   },
   created() {
+    this.setTitle('账户设置')
     // 验证登录信息
     this.ajax.post("/xinda-api/sso/login-info").then(data => {
       // console.log(data.data)
@@ -145,6 +146,7 @@ export default {
     });
   },
   methods: {
+    ...mapActions(['setTitle']),
     setBut:function(){
       this.setShow = !this.setShow;
     },

@@ -1,12 +1,12 @@
 <template>
   <div class="box">
     <!-- 头部 -->
-    <div class="head" style="">
+    <!-- <div class="head" style="">
       <div class="back" @click="back()"><img src="../images/paypage/back.png" alt=""></div>
       <div class="ord">
         <p>我的订单</p>
       </div>
-    </div>
+    </div> -->
     <div class="aBody">
       <div class="order" v-for="list in lists" :key="list.businessNo">
         <div>
@@ -66,10 +66,12 @@
 
 <script>
 var moment = require("moment");
+import { mapActions } from "vuex";
 export default {
   created() {
+    this.setTitle('我的订单')
     // if(){
-    this.getData(0, 2);
+    this.getData(0, 100);
     // }
   },
   components: {},
@@ -80,6 +82,7 @@ export default {
     };
   },
   methods: {
+     ...mapActions(['setTitle']),
     // 获取数据方法
     getData(start, limit) {
       var that = this;
@@ -92,7 +95,7 @@ export default {
           })
         )
         .then(function(data) {
-          //console.log("origin==", data);
+          console.log("origin==", data);
           if (data.data.data && data.data.data.length) {
             that.businessshow(data);
           } else {
@@ -106,7 +109,7 @@ export default {
     businessshow(data) {
       var data = data.data.data;
       for (let i = 0; i < data.length; i++) {
-        // data[i].createTime=moment(data[i].createTime).format('YYYY-MM-DD hh:mm:ss');
+        data[i].createTime=moment(data[i].createTime).format('YYYY-MM-DD hh:mm:ss');
         data[i].servitem = [];
         var orderN = data[i].businessNo;
         //关于订单状态
@@ -124,7 +127,7 @@ export default {
             })
           )
           .then(function(servdata) {
-            //console.log("servicedata==", servdata);
+            console.log("servicedata==", servdata);
             var servdata = servdata.data.data;
             for (var key in servdata) {
               // 关于订单时间
@@ -139,7 +142,6 @@ export default {
       this.lists = data;
     },
     // 删除订单
-   
     dele(id) {
 
       this.promt = true;
@@ -157,7 +159,7 @@ export default {
       this.ajax
         .post("/xinda-api/business-order/del", this.qs.stringify({ id: id }))
         .then(function(data) {
-          //console.log(data.data.data);
+          console.log(data.data.data);
           //that.gettingData();
           //location.reload();
           //that.gettingData();
@@ -168,6 +170,10 @@ export default {
     //付款
     payfor(code) {
       
+    },
+    //返回上一级
+    back(){
+      history.go(-1);
     }
   }
 };
@@ -181,26 +187,26 @@ export default {
   background: #f8f8f8;
 }
 // 顶部标签
-.head {
-  background-color: #e5e5e5;
-  width: 100%;
-  position: fixed;
-  top: 0 !important;
-  z-index: 10000;
-  overflow: hidden;
-  .back {
-    width: 0.8rem;
-    height: 1rem;
-    float: left;
-  }
-  .ord {
-    line-height: 1rem;
-    color: #000;
-    font-size: 0.29rem;
-    margin-left: 1.8rem;
-    width: 50%;
-  }
-}
+// .head {
+//   background-color: #e5e5e5;
+//   width: 100%;
+//   position: fixed;
+//   top: 0 !important;
+//   z-index: 10000;
+//   overflow: hidden;
+//   .back {
+//     width: 0.8rem;
+//     height: 1rem;
+//     float: left;
+//   }
+//   .ord {
+//     line-height: 1rem;
+//     color: #000;
+//     font-size: 0.29rem;
+//     margin-left: 1.8rem;
+//     width: 50%;
+//   }
+// }
 // 订单部分
 .aBody {
   font-size: 0.18rem;
@@ -241,8 +247,9 @@ export default {
         height: 0.46rem;
         line-height: 0.46rem;
         p {
+          text-align: left;
           margin-left: 0.16rem;
-          font-size: 0.2rem;
+          font-size: 0.3rem;
         }
       }
       // 服务订单主体
@@ -271,11 +278,13 @@ export default {
           > p:first-child {
             font-size: 0.28rem;
             color: #000;
+            text-align: left;
           }
           // 创建时间
           > p:nth-child(2) {
             font-size: 0.24rem;
             margin-top: 0.16rem;
+            text-align: left;
           }
           // 数量和单价
           > div:last-child {
@@ -294,6 +303,7 @@ export default {
             // 数量
             > p:last-child {
               font-size: 0.13rem;
+              margin-top: 0.08rem;
               > span {
                 font-size: 0.25rem;
                 padding-left: 0.05rem;
