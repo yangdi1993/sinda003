@@ -40,7 +40,7 @@ export default {
   created(){
     this.setTitle('产品分类')
 
-    this.ajax.post("xinda-api/cart/list").then(function(data) {
+    this.ajax.post("/xinda-api/cart/list").then(function(data) {
       var alldata = data.data.data;
       // console.log(3, data.data.data);
     });
@@ -49,7 +49,7 @@ export default {
     var objs = {};
     var y = 0;
     var x = 0;
-    this.ajax.post("xinda-api/product/style/list").then(function(data) {
+    this.ajax.post("/xinda-api/product/style/list").then(function(data) {
       var rData = data.data.data;
       // console.log(rData)
       for (var i in rData) {
@@ -82,7 +82,7 @@ export default {
     firstclick(index){
       this.nowindex=index+1
       this.firshow=index
-      this.ajax.post("xinda-api/cart/list").then(function(data) {
+      this.ajax.post("/xinda-api/cart/list").then(function(data) {
       var alldata = data.data.data;
       });
       var that = this;
@@ -90,7 +90,7 @@ export default {
       var objs = {};
       var y = 0;
       var x = 0;
-      this.ajax.post("xinda-api/product/style/list").then(function(data) {
+      this.ajax.post("/xinda-api/product/style/list").then(function(data) {
         var rData = data.data.data;
         // console.log(rData)
         for (var i in rData) {

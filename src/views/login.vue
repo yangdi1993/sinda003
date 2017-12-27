@@ -179,7 +179,7 @@ export default {
             //   that.setNum(data.data.data.cartNum)  //购物车物品数量
             // })
             sessionStorage.setItem('userPhone', this.loginPhone)  //此处为登录状态信息，登陆后判断状态是否为登录
-            location.replace('/#/inner/homepage')
+            // location.replace('/#/inner/homepage')
             this.setName(this.loginPhone)
             this.$router.push({ path: '/inner/homepage' });
           } else {

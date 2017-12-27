@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div id="aaapp">
     <div class="memCenBg">
       <div class="memCenDiv">

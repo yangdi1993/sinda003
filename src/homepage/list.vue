@@ -119,7 +119,7 @@ export default {
       paixu:2,  //排序方式
       autopaixu:1,  //点击排序的方式
       daosanjian:true,
-      url:'xinda-api/product/package/grid', //数据获取地址
+      url:'/xinda-api/product/package/grid', //数据获取地址
       productId:'', //点击三级标题需要的
       productTypeCode:0,  //code值，点击二级标题需要的
       provinces: dist[100000],
@@ -140,14 +140,14 @@ export default {
     addCart(id) {
       // 加入购物车
       this.ajax.post(
-        "xinda-api/cart/add",
+        "/xinda-api/cart/add",
         this.qs.stringify({
           id: id,
           num: 1
         })
       );
       var that = this;
-      this.ajax.post("xinda-api/cart/cart-num").then(function(data) {
+      this.ajax.post("/xinda-api/cart/cart-num").then(function(data) {
         that.setNum(data.data.data.cartNum); //购物车物品数量,点击加入购物车后自动更新
       });
     },
@@ -279,7 +279,7 @@ export default {
       var objs = {};
       var y = 0;
       var x = 0;
-      that.ajax.post("xinda-api/product/style/list").then(function(data) {
+      that.ajax.post("/xinda-api/product/style/list").then(function(data) {
         var rData = data.data.data;
         // console.log(rData)
         for (var i in rData) {
@@ -298,7 +298,7 @@ export default {
         // console.log(n)
         // console.log(objs[0])
         that.innerobjs = objs[0].itemList;
-        that.url = "xinda-api/product/package/grid"; //定义数据地址
+        that.url = "/xinda-api/product/package/grid"; //定义数据地址
         if(sessionStorage.getItem('idkey')){    //s是从全部产品的弹出框点击后的
           that.productTypeCode=0
           that.productId = sessionStorage.getItem('idkey');

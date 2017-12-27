@@ -16,8 +16,8 @@ Vue.use(VueAwesomeSwiper)
 
 
 //输入验证插件
-import Validator from 'vue-validator'
-Vue.use(Validator)
+// import Validator from 'vue-validator'
+// Vue.use(Validator)
 // ElementUI组件
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -31,7 +31,9 @@ import {
   MessageBox
 } from 'mint-ui';
 //延迟加载
-import {Lazyload} from 'mint-ui';
+import {
+  Lazyload
+} from 'mint-ui';
 Vue.use(Lazyload);
 
 
@@ -58,7 +60,6 @@ Vue.config.dectools = false
 //未登录状态禁止部分界面访问
 const blackList = ['/inner/cart', '/inner/payFalse', '/inner/payTrue', '/inner/Alipay', '/inner/paypage', '/inner/myOrder', '/inner/userUnEvalu', '/inner/goEvalu', '/inner/userHavaEvalu', '/inner/accountSetting', '/inner/changePw']
 router.beforeEach((to, from, next) => {
-
   for (var i = 0; i < blackList.length; i++) {
     if (to.path == blackList[i]) { //检测需要登录地址
       //判断当前有没有登录
@@ -134,7 +135,7 @@ if (browserRedirect()) {
         // if (clientWidth >= 750) {
         //   docEl.style.fontSize = "100px";
         // } else {
-        //console.log('clientWidth==', clientWidth);
+        // console.log('clientWidth==',clientWidth);
         docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
         // }
       };
