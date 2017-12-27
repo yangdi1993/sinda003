@@ -22,7 +22,7 @@
             <input type="text" @input="produceinput" v-show="chance" @blur="dispear" v-model="nowproinput" class="ihead-search" placeholder="搜索您需要的产品">
             <input type="text" @input="serviceinput" v-show="!chance" @blur="dispear" v-model="nowserinput" class="ihead-search" placeholder="搜索您需要的服务或服务商">
             <button class="iheadbtn"><span></span></button>
-            <div class="allsearch" v-show="search" >
+            <div class="allsearch" v-show="search">
               <span v-show="searchtip">没有搜索到此产品</span>
               <p v-for="search in sosolobj" v-show="chance" @mousedown="choosesearch(search.serviceName)" :key="search.id">{{search.serviceName}}</p>
               <p v-for="search in sosolobjs" v-show="!chance"  @mousedown="choosesearch1(search.providerName)" :key="search.id">{{search.providerName}}</p>
@@ -52,7 +52,7 @@
                 <span class="knows-logo"></span>
                 <span class="social-logo"></span>
               </div>
-              <router-link :to="{path:'/inner/list'+index,query: { num:  index}}"  tag="a" class="row1" v-for="(product,index) in products" :key="product.id" @click="onechoose(index)">
+              <router-link :to="{path:'/inner/list'+index,query: { num:  index,routeid:routeId}}"  tag="a" class="row1" v-for="(product,index) in products" :key="product.id" @click="onechoose(index)">
                 <div class="first" >
                   <p>{{product.name}}</p>
                   <span class="row2" v-for="(product) in product.itemList" :key="product.id">
@@ -95,6 +95,7 @@ export default {
       products:[],
       nowcity:[],
       number:1,
+      routeId:'',
       // onechoose:1,  //列表页数据一级选择
 
 
@@ -138,6 +139,7 @@ export default {
     ...mapActions(['setNum','setName']),
     thirdrow(key,index){   //点击三级天跳转
       // console.log(key,index)
+      this.routeId=key
       sessionStorage.setItem('idkey',key)
       sessionStorage.setItem('idindex',index)
     },
@@ -151,12 +153,12 @@ export default {
         this.ajax.post('xinda-api/product/package/search-grid',this.qs.stringify({
           start:0,
           // limit:100,
-          // searchName:this.nowproinput,
+          searchName:this.nowproinput,
           sort:1,
         })).then(function(data){  //搜索框获取接口
           var alldata=data.data.data
           that.sosolobj=alldata
-          console.log(alldata)
+          // console.log(alldata)
           if(!alldata.length){
             that.searchtip=true;
           }else{
@@ -240,7 +242,6 @@ export default {
     },
     onechoose(index){  //全部产品点击
       this.produce = false;
-      console.log(123)
       sessionStorage.setItem('index',index)
       this.$router.push('/inner/list')
     },
@@ -577,8 +578,11 @@ export default {
 .allProduce{
   transition: opacity 1;
 }
-.fold-enter-active, .fold-leave-active {
+.fold-enter-active{
     transition: opacity .5s;
+}
+.fold-leave-active {
+      transition: opacity .1s;
 }
 .fold-enter{
   opacity: 0;
