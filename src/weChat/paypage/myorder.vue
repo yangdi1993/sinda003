@@ -7,8 +7,8 @@
         <p>我的订单</p>
       </div>
     </div> -->
-    <div class="aBody">
-      <div class="order" v-for="list in lists" :key="list.businessNo">
+    <div class="aBody" v-for="list in lists" :key="list.businessNo">
+      <div class="order" v-lazy="list">
         <div>
           <p>订单号：{{list.businessNo}}</p>
           <p>{{list.status}}</p>
@@ -25,8 +25,8 @@
               <div>
                 <p>
                   <span>￥{{serv.unitPrice}}</span>元</p>
-                <p>&#10005
-                  <span>{{serv.buyNum}}</span>
+                <p>
+                  <span>x{{serv.buyNum}}</span>
                 </p>
               </div>
             </div>
@@ -46,17 +46,18 @@
           <p>交易完成</p>
         </div>
         <!-- 提示框 -->
-         <div class="prombox" v-show="promt">
-        <div class="btop">
-          <p class="xinxi">信息</p>
-          <p class="up" @click="cancel()">X</p>
+        <div class="prombox" v-show="promt">
+          <div class="btop">
+            <p class="xinxi">信息</p>
+            <p class="up" @click="cancel()">X</p>
+          </div>
+          <div class="bcon">确认删除订单吗？</div>
+          <div class="bbtm">
+            <div class="confirm" @click="confirms(list.id)">确认</div>
+            <div class="cancel" @click="cancel()">取消</div>
+          </div>
         </div>
-        <div class="bcon">确认删除订单吗？</div>
-        <div class="bbtm">
-          <div class="confirm" @click="confirms(list.id)">确认</div>
-          <div class="cancel" @click="cancel()">取消</div>
-        </div>
-      </div>
+
       </div>
 
     </div>
@@ -69,7 +70,7 @@ var moment = require("moment");
 import { mapActions } from "vuex";
 export default {
   created() {
-    this.setTitle('我的订单')
+    this.setTitle("我的订单");
     // if(){
     this.getData(0, 100);
     // }
@@ -82,7 +83,7 @@ export default {
     };
   },
   methods: {
-     ...mapActions(['setTitle']),
+    ...mapActions(["setTitle"]),
     // 获取数据方法
     getData(start, limit) {
       var that = this;
@@ -95,7 +96,7 @@ export default {
           })
         )
         .then(function(data) {
-          console.log("origin==", data);
+          //console.log("origin==", data);
           if (data.data.data && data.data.data.length) {
             that.businessshow(data);
           } else {
@@ -108,7 +109,9 @@ export default {
     businessshow(data) {
       var data = data.data.data;
       for (let i = 0; i < data.length; i++) {
-        data[i].createTime=moment(data[i].createTime).format('YYYY-MM-DD hh:mm:ss');
+        data[i].createTime = moment(data[i].createTime).format(
+          "YYYY-MM-DD hh:mm:ss"
+        );
         data[i].servitem = [];
         var orderN = data[i].businessNo;
         //关于订单状态
@@ -126,7 +129,7 @@ export default {
             })
           )
           .then(function(servdata) {
-            console.log("servicedata==", servdata);
+            //console.log("servicedata==", servdata);
             var servdata = servdata.data.data;
             for (var key in servdata) {
               // 关于订单时间
@@ -156,20 +159,18 @@ export default {
       this.ajax
         .post("/xinda-api/business-order/del", this.qs.stringify({ id: id }))
         .then(function(data) {
-          console.log(data.data.data);
+          //console.log(data.data.data);
           //that.gettingData();
           //location.reload();
           //that.gettingData();
           //console.log('23333333');
-          that.getData(0,2)
+          that.getData(0, 2);
         });
     },
     //付款
-    payfor(code) {
-      
-    },
+    payfor(code) {},
     //返回上一级
-    back(){
+    back() {
       history.go(-1);
     }
   }
@@ -431,5 +432,10 @@ export default {
       margin-right: 1.2rem;
     }
   }
+}
+div[lazy=loading] {
+  width: 100%;
+  height: 3.0rem;
+  margin: auto;
 }
 </style>
