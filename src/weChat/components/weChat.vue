@@ -113,6 +113,9 @@ export default {
       line-height: .9rem;
       color:#2693d4;
       font-family: '宋体';
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
     }
   }
   .wlogo{

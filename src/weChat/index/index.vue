@@ -7,9 +7,9 @@
       </div>
     </div>
     <mt-swipe :auto="2000" class="swipe">
-      <mt-swipe-item><img src="../../images/homepage/1.jpg" alt=""></mt-swipe-item>
-      <mt-swipe-item><img src="../../images/homepage/2.jpg" alt=""></mt-swipe-item>
-      <mt-swipe-item><img src="../../images/homepage/3.jpg" alt=""></mt-swipe-item>
+      <mt-swipe-item><img src="../../images/homepage/knowledge2.png" alt=""></mt-swipe-item>
+      <mt-swipe-item><img src="../../images/homepage/knowledge3.png" alt=""></mt-swipe-item>
+      <mt-swipe-item><img src="../../images/homepage/knowledge4.png" alt=""></mt-swipe-item>
     </mt-swipe>
     <div class="cellchoose">
       <div class="caishui" @click="ToList()">

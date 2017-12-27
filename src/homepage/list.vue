@@ -337,7 +337,6 @@ export default {
   },
   created() {
     this.creatlisten()
-    
   }
 };
 </script>
