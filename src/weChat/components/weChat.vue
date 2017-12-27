@@ -1,4 +1,5 @@
 <template>
+<mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
   <div>
     <div class="top">
       <span @click="goback" class="goback"><span></span><p>返回</p></span>
@@ -25,6 +26,7 @@
     </div>
   <router-view/>
   </div>
+  </mt-loadmore>
 </template>
 
 <script>
@@ -35,7 +37,7 @@ export default {
   },
   data() {
     return {
-
+      allLoaded:false,
     };
   },
   methods:{
@@ -49,6 +51,16 @@ export default {
       }else{
         this.$router.push({path:'/weChatdog/wlogin'})
       }
+    },
+    loadTop() {
+    // 加载更多数据
+      // this.$refs.loadmore.onTopLoaded();
+      location.reload()
+    },
+    loadBottom() {
+ // 加载更多数据
+      this.allLoaded = true;// 若数据已全部获取完毕
+      this.$refs.loadmore.onBottomLoaded();
     }
   },
   computed:{

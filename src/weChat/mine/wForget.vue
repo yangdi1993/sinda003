@@ -24,6 +24,7 @@
         <li class="pw">
           <input :type="pwType" placeholder="请再次输入密码" v-model="fPw" v-on:blur="fPwBlur" v-on:focus="fPwFocus">
           <img :src="verUrl" alt="" class="eye" @click="chVerType">
+          <a href="#/weChatdog/wLogin">返回登录</a>
         </li>
         <li class="modify">
           <button @click="modifyBut">确认修改</button>
@@ -301,7 +302,7 @@ export default {
 .r-outter {
   margin-top: 2rem;
   width: 7.5rem;
-  height: 13.34rem;
+  height: 10.34rem;
 }
 .msg {
   margin: 0.07rem auto -0.5rem;
@@ -352,6 +353,13 @@ li {
 .newPw,
 .pw {
   position: relative;
+  a{
+    position: absolute;
+    margin: 1rem 0 0 4.5rem;
+    color: #2693d4;
+    font-size: 0.28rem;
+    text-decoration: none;
+  }
 }
 .pw img,
 .newPw img {

@@ -31,6 +31,7 @@
     <li class="pw">
       <input :type="pwType" placeholder="请设置密码" v-model="pwVal" v-on:blur="codePwBlur" v-on:focus="codePwFocus">
       <img :src="regUrl" alt="" class="eye" @click="changeType">
+      <a href="#/weChatdog/wLogin">返回登录</a>
       <!-- <a href="javascript:void(0)">密码由6-16位数字和字母组成</a> -->
     </li>
     <li class="registerBut">
@@ -416,9 +417,16 @@ export default {
       width: 0.5rem;
       height: 0.25rem;
     }
+  a{
+    position: absolute;
+    margin: 1rem 0 0 4.5rem;
+    color: #2693d4;
+    font-size: 0.28rem;
+    text-decoration: none;
+  }
   }
   .registerBut button {
-    margin: 1.13rem 0 4.67rem 0;
+    margin: 1.13rem 0 2.5rem 0;
     width: 5.65rem;
     height: 0.73rem;
     background: #2693d4;

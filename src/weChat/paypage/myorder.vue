@@ -1,14 +1,14 @@
 <template>
   <div class="box">
     <!-- 头部 -->
-    <div class="head" style="">
+    <!-- <div class="head" style="">
       <div class="back" @click="back()"><img src="../images/paypage/back.png" alt=""></div>
       <div class="ord">
         <p>我的订单</p>
       </div>
-    </div>
-    <div class="aBody">
-      <div class="order" v-for="list in lists" :key="list.businessNo">
+    </div> -->
+    <div class="aBody" v-for="list in lists" :key="list.businessNo">
+      <div class="order" v-lazy="list">
         <div>
           <p>订单号：{{list.businessNo}}</p>
           <p>{{list.status}}</p>
@@ -25,8 +25,8 @@
               <div>
                 <p>
                   <span>￥{{serv.unitPrice}}</span>元</p>
-                <p>&#10005
-                  <span>{{serv.buyNum}}</span>
+                <p>
+                  <span>x{{serv.buyNum}}</span>
                 </p>
               </div>
             </div>
@@ -46,17 +46,18 @@
           <p>交易完成</p>
         </div>
         <!-- 提示框 -->
-         <div class="prombox" v-show="promt">
-        <div class="btop">
-          <p class="xinxi">信息</p>
-          <p class="up" @click="cancel()">X</p>
+        <div class="prombox" v-show="promt">
+          <div class="btop">
+            <p class="xinxi">信息</p>
+            <p class="up" @click="cancel()">X</p>
+          </div>
+          <div class="bcon">确认删除订单吗？</div>
+          <div class="bbtm">
+            <div class="confirm" @click="confirms(list.id)">确认</div>
+            <div class="cancel" @click="cancel()">取消</div>
+          </div>
         </div>
-        <div class="bcon">确认删除订单吗？</div>
-        <div class="bbtm">
-          <div class="confirm" @click="confirms(list.id)">确认</div>
-          <div class="cancel" @click="cancel()">取消</div>
-        </div>
-      </div>
+
       </div>
 
     </div>
@@ -66,10 +67,12 @@
 
 <script>
 var moment = require("moment");
+import { mapActions } from "vuex";
 export default {
   created() {
+    this.setTitle("我的订单");
     // if(){
-    this.getData(0, 2);
+    this.getData(0, 100);
     // }
   },
   components: {},
@@ -80,6 +83,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["setTitle"]),
     // 获取数据方法
     getData(start, limit) {
       var that = this;
@@ -101,11 +105,14 @@ export default {
           }
         });
     },
+
     // 处理获取数据
     businessshow(data) {
       var data = data.data.data;
       for (let i = 0; i < data.length; i++) {
-        // data[i].createTime=moment(data[i].createTime).format('YYYY-MM-DD hh:mm:ss');
+        data[i].createTime = moment(data[i].createTime).format(
+          "YYYY-MM-DD hh:mm:ss"
+        );
         data[i].servitem = [];
         var orderN = data[i].businessNo;
         //关于订单状态
@@ -138,8 +145,8 @@ export default {
       this.lists = data;
     },
     // 删除订单
-   
     dele(id) {
+
       this.promt = true;
       //console.log("123");
     },
@@ -148,6 +155,7 @@ export default {
       this.promt = false;
     },
     //确认删除
+
     confirms(id) {
       this.promt = false;
       var that = this;
@@ -159,12 +167,14 @@ export default {
           //location.reload();
           //that.gettingData();
           //console.log('23333333');
-          that.getData(0,2)
+          that.getData(0, 2);
         });
     },
     //付款
-    payfor(code) {
-      
+    payfor(code) {},
+    //返回上一级
+    back() {
+      history.go(-1);
     }
   }
 };
@@ -178,26 +188,26 @@ export default {
   background: #f8f8f8;
 }
 // 顶部标签
-.head {
-  background-color: #e5e5e5;
-  width: 100%;
-  position: fixed;
-  top: 0 !important;
-  z-index: 10000;
-  overflow: hidden;
-  .back {
-    width: 0.8rem;
-    height: 1rem;
-    float: left;
-  }
-  .ord {
-    line-height: 1rem;
-    color: #000;
-    font-size: 0.29rem;
-    margin-left: 1.8rem;
-    width: 50%;
-  }
-}
+// .head {
+//   background-color: #e5e5e5;
+//   width: 100%;
+//   position: fixed;
+//   top: 0 !important;
+//   z-index: 10000;
+//   overflow: hidden;
+//   .back {
+//     width: 0.8rem;
+//     height: 1rem;
+//     float: left;
+//   }
+//   .ord {
+//     line-height: 1rem;
+//     color: #000;
+//     font-size: 0.29rem;
+//     margin-left: 1.8rem;
+//     width: 50%;
+//   }
+// }
 // 订单部分
 .aBody {
   font-size: 0.18rem;
@@ -238,8 +248,9 @@ export default {
         height: 0.46rem;
         line-height: 0.46rem;
         p {
+          text-align: left;
           margin-left: 0.16rem;
-          font-size: 0.2rem;
+          font-size: 0.3rem;
         }
       }
       // 服务订单主体
@@ -268,11 +279,13 @@ export default {
           > p:first-child {
             font-size: 0.28rem;
             color: #000;
+            text-align: left;
           }
           // 创建时间
           > p:nth-child(2) {
             font-size: 0.24rem;
             margin-top: 0.16rem;
+            text-align: left;
           }
           // 数量和单价
           > div:last-child {
@@ -291,6 +304,7 @@ export default {
             // 数量
             > p:last-child {
               font-size: 0.13rem;
+              margin-top: 0.08rem;
               > span {
                 font-size: 0.25rem;
                 padding-left: 0.05rem;
@@ -421,5 +435,10 @@ export default {
       margin-right: 1.2rem;
     }
   }
+}
+div[lazy=loading] {
+  width: 100%;
+  height: 3.0rem;
+  margin: auto;
 }
 </style>

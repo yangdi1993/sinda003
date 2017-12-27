@@ -48,7 +48,6 @@
         <p>服务介绍</p>
       </div>
       <div class="sercon" v-html="providerProducts.serviceContent">
-
       </div>
     </div>
     <div class="pingjia">
@@ -116,9 +115,11 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "HelloWorld",
   created() {
+    this.setTitle('商品详情');
     var that = this;
     //商品详情,店铺详情
     this.ajax
@@ -153,6 +154,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['setTitle']),
     //联系商家
     Contact() {
       this.phadvice = true;
@@ -275,7 +277,7 @@ export default {
 .shop {
   margin-top: 0.24rem;
   border-bottom: 0.05rem solid #ebebeb;
-  height: 3.1rem;
+  height: 3.6rem;
   .shopTop {
     font-size: 0.28rem;
     color: #000;
@@ -288,18 +290,18 @@ export default {
 
   .shopCon {
     .Img {
-      width: 2.45rem;
-      height: 1.8rem;
+      width: 2.4rem;
+      height: 2.4rem;
       //background-color: #000;
       float: left;
       img {
         width: 1.5rem;
-        margin-top: 0.4rem;
+        margin-top: 0.6rem;
         height: 1rem;
       }
     }
     .shopcon {
-      font-size: 0.14rem;
+      font-size: 0.28rem;
       color: #676767;
       text-align: left;
       width: 5.05rem;
@@ -312,12 +314,12 @@ export default {
       .toshop {
         text-align: center;
         background-color: #ff591b;
-        width: 1.02rem;
-        line-height: 0.32rem;
+        width: 1.52rem;
+        line-height: 0.52rem;
         border-radius: 0.03rem;
         color: white;
-        font-size: 0.14rem;
-        margin-top: 0.15rem;
+        font-size: 0.24rem;
+        margin-top: 0.3rem;
         cursor: pointer;
       }
       img {
@@ -327,7 +329,7 @@ export default {
   }
 
   .shopbottom {
-    font-size: 0.14rem;
+    font-size: 0.2rem;
     margin-top: 0.2rem;
     margin-right: 5.8rem;
     color: #676767;
@@ -335,7 +337,7 @@ export default {
       float: left;
       height: 0.16rem;
       img {
-        height: 0.16rem;
+        height: 0.1rem;
       }
     }
     .bosec {

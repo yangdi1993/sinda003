@@ -12,7 +12,7 @@
       <mt-swipe-item><img src="../../images/homepage/3.jpg" alt=""></mt-swipe-item>
     </mt-swipe>
     <div class="cellchoose">
-      <div class="caishui" @click="ToStorelist()">
+      <div class="caishui" @click="ToList()">
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/caishui.png" alt=""></a>
         <p>财税服务</p>
       </div>
@@ -32,7 +32,7 @@
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/gssb.png" alt=""></a>
         <p>公司社保</p>
       </div>
-      <div class="knowledge" @click="ToStorelist()">
+      <div class="knowledge" @click="ToList()">
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/knowledge.png" alt=""></a>
         <p>知识产权</p>
       </div>
@@ -87,6 +87,7 @@
       <p>一站式交易中心</p>
     </div>
   </div>
+  
 </template>
 
 <script>
@@ -96,6 +97,7 @@ export default {
   data () {
     return {
       objone:[],
+      
     }
   },
   computed:{
@@ -104,19 +106,17 @@ export default {
   created(){
     this.setTitle('信达电子商务系统')
     var that = this;
-    this.ajax
-      .post("http://115.182.107.203:8088/xinda/xinda-api/recommend/list")
-      .then(function(data) {
-        var rData = data.data.data;
-        // console.log(rData);
-        var objone = {};
-        var j = 0;
-        for (var i in rData) {
-          //对获取到的数据进行深层获取，进行分别定义
-          j == 0 ? (that.objone = rData[i]) : j;
-          j++;
-        }
-      });
+    this.ajax.post("xinda-api/recommend/list").then(function(data) {
+      var rData = data.data.data;
+      // console.log(rData);
+      var objone = {};
+      var j = 0;
+      for (var i in rData) {
+        //对获取到的数据进行深层获取，进行分别定义
+        j == 0 ? (that.objone = rData[i]) : j;
+        j++;
+      }
+    });
   }, 
 
   methods:{
@@ -125,14 +125,9 @@ export default {
      ToDetail(id) {
       this.$router.push({ path: "/weChatdog/wDetail", query: { id: id } });
     },
-    //店铺列表
-    ToStorelist(){
-      this.$router.push({ path: "/weChat/storelist"});
-    },
     //服务列表
     ToList(){
       this.$router.push({ path: "/weChatdog/Wlist"});
-       
     }
   }
 }
