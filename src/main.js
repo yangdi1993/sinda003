@@ -20,19 +20,28 @@ import Validator from 'vue-validator'
 Vue.use(Validator)
 // ElementUI组件
 import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI);
 
 
 //mint ui
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
-import { MessageBox } from 'mint-ui';
+import {
+  MessageBox
+} from 'mint-ui';
 //延迟加载
-  import { Lazyload } from 'mint-ui';
-  Vue.use(Lazyload);
+import {Lazyload} from 'mint-ui';
+Vue.use(Lazyload);
 
-import { Swipe, SwipeItem } from 'mint-ui';
-import { Loadmore } from 'mint-ui';
+
+import {
+  Swipe,
+  SwipeItem
+} from 'mint-ui';
+import {
+  Loadmore
+} from 'mint-ui';
 
 Vue.component(Loadmore.name, Loadmore)
 Vue.component(Swipe.name, Swipe);
@@ -47,17 +56,17 @@ Vue.config.dectools = false
 
 
 //未登录状态禁止部分界面访问
-const blackList = ['/inner/cart','/inner/payFalse','/inner/payTrue','/inner/Alipay','/inner/paypage','/inner/myOrder', '/inner/userUnEvalu', '/inner/goEvalu', '/inner/userHavaEvalu', '/inner/accountSetting', '/inner/changePw']
+const blackList = ['/inner/cart', '/inner/payFalse', '/inner/payTrue', '/inner/Alipay', '/inner/paypage', '/inner/myOrder', '/inner/userUnEvalu', '/inner/goEvalu', '/inner/userHavaEvalu', '/inner/accountSetting', '/inner/changePw']
 router.beforeEach((to, from, next) => {
 
   for (var i = 0; i < blackList.length; i++) {
     if (to.path == blackList[i]) { //检测需要登录地址
       //判断当前有没有登录
       //如果没有登录则跳转到登录页
-      axios.post('/xinda-api/sso/login-info').then(data=>{
+      axios.post('/xinda-api/sso/login-info').then(data => {
         if (data.data.status == 0) { //没有登录
           next('/outter/login');
-        }else{
+        } else {
           next();
         }
       })
@@ -66,7 +75,7 @@ router.beforeEach((to, from, next) => {
     next();
   }
 
-  if (to.path == "/inner/homepage") {//判断要去手机端还是pc端
+  if (to.path == "/inner/homepage") { //判断要去手机端还是pc端
     if (browserRedirect()) {
       next("/weChat/index");
     } else {
@@ -114,19 +123,19 @@ function browserRedirect() {
   }
 }
 //如果是手机端，需要动态设置根元素的font-size属性
-if(browserRedirect()){
-  (function(doc, win) {
+if (browserRedirect()) {
+  (function (doc, win) {
     var docEl = doc.documentElement,
       resizeEvt =
-        "orientationchange" in window ? "orientationchange" : "resize",
-      recalc = function() {
+      "orientationchange" in window ? "orientationchange" : "resize",
+      recalc = function () {
         var clientWidth = docEl.clientWidth;
         if (!clientWidth) return;
         // if (clientWidth >= 750) {
         //   docEl.style.fontSize = "100px";
         // } else {
-          console.log('clientWidth==',clientWidth);
-          docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
+        console.log('clientWidth==', clientWidth);
+        docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
         // }
       };
     if (!doc.addEventListener) return;
