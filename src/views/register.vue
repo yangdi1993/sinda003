@@ -230,22 +230,21 @@ export default {
       this.citys = dist[this.province];
       this.city = "0";
       this.area = "0";
+      this.areas = [];
       if (this.province != "0") {
         this.citys = dist[this.province];
       } else {
         this.citys = [];
-        this.areas = [];
+        
       }
     },
     cityChange() {
       // 市
       this.areas = dist[this.city];
-      // console.log(this.city)
     },
     // 区
     areaChange() {
       this.seleCode = this.area;
-      // console.log(this.seleCode)
     },
 
 

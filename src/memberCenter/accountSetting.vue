@@ -134,13 +134,16 @@ export default {
     this.ajax.post('/xinda-api/sso/login-info').then(data => {
       // console.log(data.data)
       this.status = data.data.status
-      console.log('status==',this.status);
+    })
+    this.ajax.post('/xinda-api/member/update-info').then(data => {
+      console.log('修改接口==',data.data)
     })
     
   },
   methods: {
     handleAvatarSuccess(res, file,fileList) {
       this.imageUrl = file.url;
+      // this.imageUrl = URL.createObjectURL(file.raw);;
       // console.log("Success" + this.imageUrl,file,res,fileList) 
     },
     beforeAvatarUpload(file) {
@@ -214,17 +217,14 @@ export default {
           // 地址不为空
           this.addErr = '地址不能为空';
         }else if (this.username != '' &&emailReg.test(this.email)&& this.seleCode != '') {
-          // 判断头像是否更换
-          // if(this.imageUrl.match('blob')){
-          //   this.imageUrl =head; 
-          // }else{
-          //   this.imageUrl = this.imageUrl;
-          // }
-          // console.log('this.imageUrl=',this.imageUrl)
           this.ajax.post('/xinda-api/member/update-info', this.qs.stringify({ headImg: this.imageUrl, name: this.username, gender: this.radio, email: this.email, regionId: this.seleCode })).then(data => {
-            // console.log(data.data)
+            console.log(data.data)
             if(data.data.status == -1){
-              console.log(data.data.status)
+              console.log(this.imageUrl)
+              console.log(this.username)
+              console.log(this.radio)
+              console.log(this.email)
+              console.log(this.seleCode)
               this.word = true;
               this.message = '系统开小差了，我们正紧急修复中!';
             }else if(data.data.status == 1){
@@ -233,7 +233,7 @@ export default {
               })
               this.word = true;
               this.message = '操作成功';
-              console.log('save this.imageUrl',this.imageUrl);
+              // console.log('save this.imageUrl',this.imageUrl);
               localStorage.setItem('headImg',this.imageUrl)
             }else{
               this.word = false;
