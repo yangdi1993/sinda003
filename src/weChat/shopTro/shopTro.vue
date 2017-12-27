@@ -41,6 +41,7 @@
 import weChat from "../components/weChat";
 import { Toast } from "mint-ui";
 import { MessageBox } from "mint-ui";
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -57,8 +58,10 @@ export default {
   created() {
     // 数据获取
     this.gettingData();
+    this.setTitle('购物车');
   },
   methods: {
+    ...mapActions(['setTitle']),
     //初始数据获取
     gettingData() {
       var that = this;
@@ -127,7 +130,6 @@ export default {
         that.$router.push({
           path: "/weChatdog/myorder",
         });  
-        //console.log(data.data.data);
       });
     }
     // 购物车为空
@@ -136,6 +138,9 @@ export default {
 </script>
 
 <style scoped lang='less'>
+.hello{
+  min-height: 10rem;
+}
 .title {
   width: 7.5rem;
   height: 0.8rem;
