@@ -27,6 +27,9 @@ Vue.use(ElementUI);
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import { MessageBox } from 'mint-ui';
+//延迟加载
+  import { Lazyload } from 'mint-ui';
+  Vue.use(Lazyload);
 // import { Button, Cell } from 'mint-ui'
 // // Vue.component(Button.name, Button)
 // Vue.use(Button)

@@ -59,7 +59,7 @@
             <li>订单操作</li>
           </ul>
           <!-- 订单插入 -->
-          <div v-for="item in rDataSh" :key="item.id">
+          <div v-for="item in rData" :key="item.id">
             <!-- 删除 弹出框 -->
               <!-- <div class="duihuakuang" v-show="isShow">
                 <div class="confirmIma">
@@ -81,19 +81,19 @@
                     <span></span>
                     下单时间：{{item.createTime}}</th>
                 </tr>
-                <tr class="orderInTr" >
+                <tr class="orderInTr" v-for="list in item.servitem" :key="list.servitem">
                   <td class="orderInTrTdO"></td>
                   <td class="orderInTrTdTw">
-                    <p>{{item.providerName}}</p>
-                    <p>{{item.serviceName}}</p>
+                    <p>{{list.providerName}}</p>
+                    <p>{{list.serviceName}}</p>
                   </td>
-                  <td class="orderInTrTdTh">{{item.unitPrice}}</td>
-                  <td class="orderInTrTdFo">{{item.buyNum}}</td>
-                  <td class="orderInTrTdFi">{{item.totalPrice}}</td>
-                  <td class="orderInTrTdSi">{{item.name8}}</td>
+                  <td class="orderInTrTdTh">￥{{list.unitPrice}}.00</td>
+                  <td class="orderInTrTdFo">{{list.buyNum}}</td>
+                  <td class="orderInTrTdFi">￥{{list.totalPrice}}.00</td>
+                  <td class="orderInTrTdSi">{{item.status}}</td>
                   <td class="orderInTrTdSe">
-                    <a href="#/inner/paypage"><input type="button" @click="toPay()"  value="付款"></a>
-                    <p class="delOr" @click="delOrder(item.providerId)">删除订单</p>
+                    <a href="#/inner/paypage"><input type="button" @click="toPay(list.businessNo)"  value="付款"></a>
+                    <p class="delOr" @click="delOrder(item.id)">删除订单</p>
                   </td>
                 </tr>
               </table>  
@@ -115,6 +115,7 @@
 <script>
 // 引进头部和尾部
 // this.ajax.post("").then(data=>{
+  var moment = require('moment');
 import ihead from '../components/ihead';
 import { MessageBox } from 'mint-ui';
 export default {
@@ -148,82 +149,134 @@ export default {
       colo:0,
       // // 删除
       // delOrder:''
+      servitem:[],
     }
   },
   created(){
     // 我的订单接口数据
-    var that = this;
-    this.ajax.post('xinda-api/service-order/grid').then(function(data){
-      var dataAll = data.data.data;
-      console.log(dataAll);
-      // var dataObj = {};
-      for(var i = 0;i<dataAll.length;i++){
-        // var businessNo = dataAll[i].businessNo;
-        // if(!dataObj[businessNo]){
-        //   dataObj[businessNo] = dataAll[i]
-        //   dataObj[businessNo].subItem = [];
-        // }
-        // dataObj[businessNo].subItem.push(dataAll[i]);
-        // 合并订单号
+    // var that = this;
+    // this.ajax.post('xinda-api/service-order/grid').then(function(data){
+    //   var dataAll = data.data.data;
+    //   console.log(dataAll);
+    //   var dataObj = {};
+    //   for(var i = 0;i<dataAll.length;i++){
+    //     var businessNo = dataAll[i].businessNo;
+    //     if(!dataObj[businessNo]){
+    //       dataObj[businessNo] = dataAll[i]
+    //       dataObj[businessNo].subItem = [];
+    //     }
+    //     dataObj[businessNo].subItem.push(dataAll[i]);
+    //     that.subItem=dataObj[businessNo].subItem
+    //     console.log(that.subItem);
+    //     // 合并订单号
        
-        // 获取创建时间
-        var dd = dataAll[i].createTime;
-        // 转换格式
-        var now = new Date(dd);
-        var year=now.getFullYear(); 
-        var month=now.getMonth()+1; 
-        var date=now.getDate(); 
-        var hour=now.getHours(); 
-        var minute=now.getMinutes(); 
-        var second=now.getSeconds(); 
-        // 新的时间格式
-        var newTime= year+"年"+month+"月"+date+"日"+hour+":"+minute+":"+second;           
-        // 将原对象里面的时间格式替换掉
-        dataAll[i].createTime = newTime;
-        //  改变格式后加到总数组
-      }
-       that.rData = dataAll;
-      //  console.log(that.rData);
-      //  that.products = dataObj;
-    //  第一页显示
-    var bb = dataAll.length<3?dataAll.length:3;
-    for(var i=0;i<bb;i++){
-      that.rDataSh.push(dataAll[i]);
-    }
-      // 总页数
-      var totolPage = Math.ceil(dataAll.length/3);
-      that.toPage = totolPage;
-      // 页数判断
-      for(var i=0;i<totolPage;i++){
-        that.pageOAll.push(i+1);
-      }
-    })
+    //     // 获取创建时间
+    //     var dd = dataAll[i].createTime;
+    //     // 转换格式
+    //     var now = new Date(dd);
+    //     var year=now.getFullYear(); 
+    //     var month=now.getMonth()+1; 
+    //     var date=now.getDate(); 
+    //     var hour=now.getHours(); 
+    //     var minute=now.getMinutes(); 
+    //     var second=now.getSeconds(); 
+    //     // 新的时间格式
+    //     var newTime= year+"年"+month+"月"+date+"日"+hour+":"+minute+":"+second;           
+    //     // 将原对象里面的时间格式替换掉
+    //     dataAll[i].createTime = newTime;
+    //     //  改变格式后加到总数组
+    //   }
+    //    that.rData = dataAll;
+    //   //  console.log(that.rData);
+    //   //  that.products = dataObj;
+    // //  第一页显示
+    // var bb = dataAll.length<3?dataAll.length:3;
+    // for(var i=0;i<bb;i++){
+    //   that.rDataSh.push(dataAll[i]);
+    // }
+    //   // 总页数
+    //   var totolPage = Math.ceil(dataAll.length/3);
+    //   that.toPage = totolPage;
+    //   // 页数判断
+    //   for(var i=0;i<totolPage;i++){
+    //     that.pageOAll.push(i+1);
+    //   }
+    // })
+    this.getData();
   },
   methods:{
     // 点击删除弹出框
-    // delOrder:function(code){
+    // delOrder:function(){
     //   this.isShow = true;
     // },
     // 点击X弹出框消失
     // closeFun:function(){
     //   this.isShow = false;
     // },
+    // 
+    getData(start,limit){
+      var that=this;
+      that.ajax.post('/xinda-api/business-order/grid',that.qs.stringify({
+          start:start,
+          limit:limit,
+      })).then(function(data){
+        var dataAll = data.data.data
+        console.log(dataAll);
+        for( var key in dataAll){
+          dataAll[key].createTime=moment(dataAll[key].createTime).format('YYYY-MM-DD hh:mm:ss');
+        }
+          if(dataAll&&dataAll.length){
+              that.businessshow(data);
+          }else{
+              that.errorbox=true;
+              that.error='无结果';
+          }
+
+      })
+    },
+    // 处理获取数据
+    businessshow(data){
+      var data=data.data.data;
+      for(let i=0;i<data.length;i++){
+          data[i].servitem=[];
+          var orderN=data[i].businessNo;
+          //关于订单状态
+          if(data[i].status==1){
+              data[i].status='等待买家付款';
+          }else if(data[i].status==4){
+              data[i].status='已付款';
+          }
+          var that=this;
+          that.ajax.post('/xinda-api/service-order/grid',that.qs.stringify({
+              businessNo:orderN,
+          })).then(function(servdata){
+              // console.log('servicedata==',servdata);
+              var servdata=servdata.data.data;
+              for(var key in servdata){
+                  // 关于订单时间
+                 // 将服务订单信息添加到循环包里  
+                  data[i].servitem.push(servdata[key]);
+              }
+          })
+      }
+      this.rData=data;
+    },
+
     // 删除
-    delOrder(providerId){
+    conCloseFun(){
       // this.isShow = false;
       // this.rDataSh.splice(this.index,1)
 
         // var that = this;
-        // console.log(code);
         // this.ajax.post('xinda-api/ business-order/del',this.qs.stringify({
-        //   id:code,
+        //   id:id,
         // })).then(function(data){
         //   console.log(data.data.data)
         // })
 
         MessageBox.confirm('确定删除该产品吗?').then(action => {
         var that = this;
-        this.ajax.post('xinda-api/ business-order/del',this.qs.stringify({id : providerId})).then(function(data){
+        this.ajax.post('xinda-api/ business-order/del',this.qs.stringify({id : id})).then(function(data){
           if(data.data.status === 1){
             that.gettingData();
           } else{
@@ -233,7 +286,7 @@ export default {
       },cancel=>{
         
       })
-    },
+    }, 
     // 点击取消
     // canCliseFun:function(index){
     //   this.isShow = false;
@@ -740,6 +793,7 @@ export default {
       width: 70px;
       height: 68px;
       background: url(../images/memCen.png) no-repeat -15px -260px;
+      border-bottom: 1px solid #e8e8e8;
     }
     .orderInTrTdTw{
       width: 238px;
@@ -747,12 +801,14 @@ export default {
       font-size: 16px;
       color: #656565;
       text-align: left;
+      border-bottom: 1px solid #e8e8e8;
     }
     .orderInTrTdTh{
       width: 129px;
       height: 68px;
       font-size: 16px;
       color: #656565;
+      border-bottom: 1px solid #e8e8e8;
     }
     .orderInTrTdFo{
       width: 95px;
@@ -760,6 +816,7 @@ export default {
       font-size: 16px;
       color: #656565;
       border-right: 1px solid #e8e8e8;
+      border-bottom: 1px solid #e8e8e8;
     }
     .orderInTrTdFi{
       width: 139px;
@@ -767,14 +824,16 @@ export default {
       border-right: 1px solid #e8e8e8;
       font-size: 12px;
       font-size: 16px;
-      color: #656565;
+      color: #2793d3;
+      border-bottom: 1px solid #e8e8e8;
     }
     .orderInTrTdSi{
       width: 143px;
       height: 68px;
       border-right: 1px solid #e8e8e8;
-      font-size: 12px;
-      color: #2393d5;
+      font-size: 14px;
+      color: #2793d3;
+      border-bottom: 1px solid #e8e8e8;
     }
     .orderInTrTdSe{
       width: 118px;
