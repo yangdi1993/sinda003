@@ -29,20 +29,21 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "HelloWorld",
-  created() {},
+  created() {
+    this.setTitle('未注册')
+  },
   data() {
     return {
       msg: "Welcome to Your Vue.js App",
       products: []
     };
   },
-  // methods:{
-    // back: function() {
-    //   history.go(-1);
-    // }
-  // }
+  methods:{
+    ...mapActions(['setTitle']),
+  }
 };
 </script>
 

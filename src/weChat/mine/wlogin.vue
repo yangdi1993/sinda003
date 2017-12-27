@@ -48,8 +48,11 @@ export default {
       imgUrl: "/xinda-api/ajaxAuthcode"
     };
   },
- 
+   created(){
+    this.setTitle('登录')
+  },
   methods: {
+    ...mapActions(['setTitle']),
     ...mapActions(["setName"]),
     //点击更换图片验证码
     buttonChange: function() {

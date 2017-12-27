@@ -30,9 +30,11 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: 'HelloWorld',
   created(){
+    this.setTitle('店铺首页');
     var that = this;
     var str = {};
     this.ajax
@@ -56,6 +58,9 @@ export default {
       sort: "",
       num: 0
     }
+  },
+  methods:{
+    ...mapActions(['setTitle']),
   }
 }
 </script>
