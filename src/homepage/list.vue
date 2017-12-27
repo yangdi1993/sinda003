@@ -355,15 +355,25 @@ export default {
       // console.log(n)
 
       that.url = "xinda-api/product/package/grid"; //定义数据地址
-      var numb = 0;
-      for (var i in n) {
-        if (numb == 0) {
-          that.productTypeCode = n[i].code;
+      if(sessionStorage.getItem('idkey')){    //s是从全部产品的弹出框点击后的
+        that.productTypeCode=0
+        // console.log(sessionStorage.getItem('idkey'))
+        that.productId = sessionStorage.getItem('idkey');
+        that.showkind=sessionStorage.getItem('idindex')
+        that.showclass=sessionStorage.getItem('secondindex')
+        that.innerobjs = objs[sessionStorage.getItem('secondindex')].itemList;
+        
+        console.log(sessionStorage.getItem('idindex'))
+      }else{
+        var numb = 0;
+        for (var i in n) {
+          if (numb == 0) {
+            that.productTypeCode = n[i].code;
+          }
+          numb++;
         }
-        numb++;
+        that.productId = "";
       }
-      that.productId = "";
-      // that.productTypeCode=0
       getData(
         that.listobjsA,
         0,
@@ -376,6 +386,10 @@ export default {
         that.productTypeCode,
         3
       );
+      sessionStorage.setItem('secondindex','')
+      sessionStorage.setItem('idindex','')
+      sessionStorage.setItem('idkey','')
+      // console.log(sessionStorage.getItem('idkey'))
     });
   }
 };

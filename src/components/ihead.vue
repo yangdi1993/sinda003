@@ -60,10 +60,10 @@
                   </span>
                 </div>
                 <div class="second">
-                  <div class="thrid" v-for="product in product.itemList" :key="product.id">
+                  <div class="thrid" v-for="(product,key,index) in product.itemList" :key="product.id" @click="secondrow(index)">
                     <span class="secondtitle">{{product.name}} ﹥</span>
                     <div class="third-sec">
-                      <span class="row3" v-for="product in product.itemList" :key="product.id">
+                      <span class="row3" v-for="(product,key,index) in product.itemList" :key="product.id" @click="thirdrow(key,index)">
                         <a href="javascript:void(0)">{{product.name}}</a>
                       </span>
                     </div>
@@ -136,7 +136,14 @@ export default {
 
   methods:{
     ...mapActions(['setNum','setName']),
-
+    thirdrow(key,index){   //点击三级天跳转
+      // console.log(key,index)
+      sessionStorage.setItem('idkey',key)
+      sessionStorage.setItem('idindex',index)
+    },
+    secondrow(index){//点击三级跳转的二级传参
+      sessionStorage.setItem('secondindex',index)
+    },
     produceinput(){  //产品搜索框
       this.search=true
       var that=this

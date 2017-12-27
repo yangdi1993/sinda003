@@ -105,6 +105,7 @@ export default {
           }
         });
     },
+
     // 处理获取数据
     businessshow(data) {
       var data = data.data.data;
@@ -145,6 +146,7 @@ export default {
     },
     // 删除订单
     dele(id) {
+
       this.promt = true;
       //console.log("123");
     },
@@ -153,6 +155,7 @@ export default {
       this.promt = false;
     },
     //确认删除
+
     confirms(id) {
       this.promt = false;
       var that = this;
