@@ -79,6 +79,8 @@ export default {
 .storelist  {
   margin-bottom: 0.9rem;
   margin-top: 1rem;
+  min-height:15rem;
+
 }
 .listhead{
   width:3.6rem;
@@ -150,6 +152,7 @@ button {
   border:0.03rem solid #e3e3e3;
   img {
     width: 1.2rem;
+    margin-top: 0.5rem;
   }
 }
 .deta {

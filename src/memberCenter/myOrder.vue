@@ -372,6 +372,9 @@ export default {
 </script>
 
 <style scoped lang="less">
+.mint-msgbox-wrapper .mint-msgbox {
+  width: 25%!important;
+}
 // 删除弹出框
 .duihuakuang{
   width: 350px;

@@ -32,7 +32,7 @@
           </tr>
           <tr class="goods">
             <td class="tdone"><img :src="'http://115.182.107.203:8088/xinda/pic'+ cart.providerImg" alt=""></td>
-            <td class="tdtwo">{{cart.serviceName}}</td> 
+            <td class="tdtwo">{{cart.serviceName}}</td>
             <td class="tdthree">￥{{cart.unitPrice}}.00</td>
             <td class="tdfour">
               <button @click="min(cart.serviceId,cart.buyNum)">-</button><input type="text" v-model="cart.buyNum" readonly="readonly">
@@ -93,7 +93,8 @@ export default {
       carts: [],
       num: "",
       Total: "",
-      id: ""
+      id: "",
+      promt: false
     };
   },
   methods: {
@@ -110,16 +111,6 @@ export default {
         that.Total = Total;
         //console.log(that.carts);
       });
-    },
-    //删除商品
-    dele(id) {
-      var that = this;
-      this.ajax
-        .post("/xinda-api/cart/del", this.qs.stringify({ id: id }))
-        .then(function(data) {
-          //console.log(data.data);
-          that.gettingData();
-        });
     },
     //增加数量
     add(id, buyNum) {
@@ -152,9 +143,9 @@ export default {
       this.ajax.post("/xinda-api/cart/submit").then(function(data) {
         that.$router.push({
           path: "/inner/paypage",
-          query: { id: data.data.data },
+          query: { id: data.data.data }
         });
-        console.log(data.data.data)
+        //console.log(data.data.data);
       });
     },
     //继续购物
@@ -165,9 +156,23 @@ export default {
     viewDetails: function(id) {
       this.$router.push({ path: "/inner/Detail", query: { id: id } });
       //console.log(this.$route.query.id);
-    }
+    },
+    //删除商品
+    dele(id) {
+      this.promt = false;
+      var that = this;
+      this.ajax
+        .post("/xinda-api/cart/del", this.qs.stringify({ id: id }))
+        .then(function(data) {
+          //console.log(data.data.data);
+          //that.gettingData();
+          //location.reload();
+          //that.gettingData();
+          //console.log('23333333');
+          that.gettingData();
+        });
+    },
   },
-
   created() {
     // 热门服务
     var that = this;
@@ -234,6 +239,7 @@ thead {
 }
 tbody {
   width: 1200px;
+  position: relative;
   p {
     color: #686868;
     margin-right: 1000px;
@@ -265,20 +271,20 @@ tbody {
     }
   }
 }
-.tdone{
+.tdone {
   width: 40px;
   float: left;
   margin-left: 65px;
 }
-.tdtwo{
+.tdtwo {
   width: 360px;
   float: left;
 }
-.tdthree{
+.tdthree {
   width: 100px;
   float: left;
 }
-.tdfour{
+.tdfour {
   width: 100px;
   float: left;
   margin-left: 100px;

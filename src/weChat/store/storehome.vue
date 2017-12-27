@@ -75,7 +75,9 @@ export default {
 .storehome{
   margin-bottom: 0.9rem;
   margin-top: 1rem;
+  
   b{
+    color:#000;
     margin-top: 0.2rem;
     font-size:0.35rem;
   }
@@ -83,6 +85,7 @@ export default {
     margin-top: 0.7rem;
     font-size:0.28rem;
     float: left;
+    color:#000;
     margin-left: 0.3rem;
     margin-right: 0.3rem;
  }
@@ -90,13 +93,14 @@ export default {
     float: left;
     width: 100%;
     border-bottom: 0.02rem solid #2693d4;
-    span{
-      margin-left: -7.5rem;
-      border-bottom: 0.05rem solid #2693d4;
-      border-left: 0.05rem solid transparent;
-      border-top: 0.05rem solid transparent;
-      border-right: 0.05rem solid transparent;
-    }
+    // span{
+    //   margin-left: -7.5rem;
+    //   // margin-top:2rem;
+    //   border-bottom: 0.05rem solid #2693d4;
+    //   border-left: 0.05rem solid transparent;
+    //   border-top: 0.05rem solid transparent;
+    //   border-right: 0.05rem solid transparent;
+    // }
   }
 }
 .serviceName{

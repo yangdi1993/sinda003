@@ -23,6 +23,7 @@
     <div class="shop">
       <div class="shopTop">
         <p>服务商家</p>
+        <span class="lineSanjiao"></span>
       </div>
       <div class="shopCon">
         <div class="Img"><img :src="'http://115.182.107.203:8088/xinda/pic' + providers.providerImg" alt=""></div>
@@ -46,6 +47,7 @@
     <div class="service">
       <div class="sertop">
         <p>服务介绍</p>
+        <span class="lineSanjiao"></span>
       </div>
       <div class="sercon" v-html="providerProducts.serviceContent">
       </div>
@@ -53,6 +55,7 @@
     <div class="pingjia">
       <div class="ptop">
         <p>用户评价</p>
+        <span class="lineSanjiao"></span>
       </div>
       <div class="pcon">
         <div class="pfir"><img src="../images/paypage/user.jpg" alt=""></div>
@@ -119,7 +122,7 @@ import { mapActions } from "vuex";
 export default {
   name: "HelloWorld",
   created() {
-    this.setTitle('商品详情');
+    this.setTitle("商品详情");
     var that = this;
     //商品详情,店铺详情
     this.ajax
@@ -154,7 +157,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['setTitle']),
+    ...mapActions(["setTitle"]),
     //联系商家
     Contact() {
       this.phadvice = true;
@@ -216,7 +219,7 @@ export default {
 <style scoped lang="less">
 .detailWhole {
   width: 100%;
-  margin-top: 1.0rem;
+  margin-top: 1rem;
 }
 .head {
   position: relative;
@@ -249,31 +252,33 @@ export default {
       }
     }
   }
-}
-.sfu {
-  position: absolute;
-  width: 100%;
-  height: 1.18rem;
-  background-color: rgba(19, 18, 18, 0.5);
-  bottom: 1.5rem;
-  div {
-    width: 95%;
-    text-align: left;
-    float: left;
-    margin-left: 0.5rem;
-    .sFir {
+  .sfu {
+    position: absolute;
+    width: 100%;
+    height: 1.18rem;
+    background-color: rgba(19, 18, 18, 0.5);
+    bottom: 1.4rem;
+    div {
+      bottom: -0.1rem;
       width: 95%;
-      font-size: 0.28rem;
-      color: white;
-      line-height: 0.55rem;
-    }
-    .sSec {
-      font-size: 0.24rem;
-      width: 95%;
-      color: white;
+      text-align: left;
+      float: left;
+      margin-left: 0.5rem;
+      .sFir {
+        width: 95%;
+        font-size: 0.28rem;
+        color: white;
+        line-height: 0.55rem;
+      }
+      .sSec {
+        font-size: 0.24rem;
+        width: 95%;
+        color: white;
+      }
     }
   }
 }
+
 .shop {
   margin-top: 0.24rem;
   border-bottom: 0.05rem solid #ebebeb;
@@ -282,9 +287,20 @@ export default {
     font-size: 0.28rem;
     color: #000;
     border-bottom: 0.02rem solid #2693d4;
+    position: relative;
     p {
       margin-right: 5.15rem;
       margin-bottom: 0.12rem;
+    }
+    .lineSanjiao {
+      width: 0.14rem;
+      height: 0.14rem;
+      background: #2693d4;
+      display: block;
+      clip-path: polygon(50% 0%, 100% 50%, 0 50%);
+      position: absolute;
+      left: 1.1rem;
+      bottom: -0.08rem;
     }
   }
 
@@ -323,7 +339,7 @@ export default {
         cursor: pointer;
       }
       img {
-        height: 0.1rem;
+        height: 0.2rem;
       }
     }
   }
@@ -357,9 +373,20 @@ export default {
     font-size: 0.28rem;
     color: #000;
     border-bottom: 0.02rem solid #2693d4;
+    position: relative;
     p {
       margin-right: 5.15rem;
       margin-bottom: 0.12rem;
+    }
+    .lineSanjiao {
+      width: 0.14rem;
+      height: 0.14rem;
+      background: #2693d4;
+      display: block;
+      clip-path: polygon(50% 0%, 100% 50%, 0 50%);
+      position: absolute;
+      left: 1.1rem;
+      bottom: -0.08rem;
     }
   }
   .sercon {
@@ -375,9 +402,20 @@ export default {
     font-size: 0.28rem;
     color: #000;
     border-bottom: 0.02rem solid #2693d4;
+    position: relative;
     p {
       margin-right: 5.15rem;
       margin-bottom: 0.12rem;
+    }
+    .lineSanjiao {
+      width: 0.14rem;
+      height: 0.14rem;
+      background: #2693d4;
+      display: block;
+      clip-path: polygon(50% 0%, 100% 50%, 0 50%);
+      position: absolute;
+      left: 1.1rem;
+      bottom: -0.08rem;
     }
   }
   .pcon {
@@ -388,6 +426,7 @@ export default {
       float: left;
       img {
         width: 0.6rem;
+        margin-top: 0.3rem;
         height: 0.6rem;
       }
     }
