@@ -373,7 +373,7 @@ export default {
 
 <style scoped lang="less">
 .mint-msgbox-wrapper .mint-msgbox {
-  width: 1rem!important;
+  width: 25%!important;
 }
 // 删除弹出框
 .duihuakuang{
