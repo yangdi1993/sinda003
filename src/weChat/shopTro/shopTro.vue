@@ -127,7 +127,7 @@ export default {
         that.$router.push({
           path: "/weChatdog/myorder",
         });  
-        console.log(data.data.data);
+        //console.log(data.data.data);
       });
     }
     // 购物车为空
@@ -201,7 +201,7 @@ export default {
     color: #1356ff;
     position: absolute;
     left: 3.5rem;
-    top: 0.1rem;
+    top: 0.55rem;
     cursor: pointer;
   }
   .conPrice {
