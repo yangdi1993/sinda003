@@ -30,9 +30,7 @@ import { MessageBox } from 'mint-ui';
 //延迟加载
   import { Lazyload } from 'mint-ui';
   Vue.use(Lazyload);
-// import { Button, Cell } from 'mint-ui'
-// // Vue.component(Button.name, Button)
-// Vue.use(Button)
+
 import { Swipe, SwipeItem } from 'mint-ui';
 import { Loadmore } from 'mint-ui';
 
@@ -40,24 +38,12 @@ Vue.component(Loadmore.name, Loadmore)
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
 
-//elementui
-// import Elementui from 'element-ui'
-// import 'element-ui/lib/theme-chalk/index.css'
-// Vue.use(Elementui)
 
 Vue.prototype.ajax = axios
 Vue.prototype.qs = qs
 Vue.config.productionTip = false
 Vue.config.dectools = false
 /* eslint-disable no-new */
-
-
-// export default function getrem(){
-//   var screenWidth=window.screen.width
-//   var rem=screenWidth/750
-//   return rem
-// }
-
 
 
 //未登录状态禁止部分界面访问
@@ -83,23 +69,6 @@ router.beforeEach((to, from, next) => {
   if (to.path == "/inner/homepage") {//判断要去手机端还是pc端
     if (browserRedirect()) {
       next("/weChat/index");
-      (function(doc, win) {
-        var docEl = doc.documentElement,
-          resizeEvt =
-            "orientationchange" in window ? "orientationchange" : "resize",
-          recalc = function() {
-            var clientWidth = docEl.clientWidth;
-            if (!clientWidth) return;
-            if (clientWidth >= 750) {
-              docEl.style.fontSize = "100px";
-            } else {
-              docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
-            }
-          };
-        if (!doc.addEventListener) return;
-        win.addEventListener(resizeEvt, recalc, false);
-        doc.addEventListener("DOMContentLoaded", recalc, false);
-      })(document, window);
     } else {
       next();
     }
@@ -143,4 +112,25 @@ function browserRedirect() {
   } else {
     return false;
   }
+}
+//如果是手机端，需要动态设置根元素的font-size属性
+if(browserRedirect()){
+  (function(doc, win) {
+    var docEl = doc.documentElement,
+      resizeEvt =
+        "orientationchange" in window ? "orientationchange" : "resize",
+      recalc = function() {
+        var clientWidth = docEl.clientWidth;
+        if (!clientWidth) return;
+        // if (clientWidth >= 750) {
+        //   docEl.style.fontSize = "100px";
+        // } else {
+          console.log('clientWidth==',clientWidth);
+          docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
+        // }
+      };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener("DOMContentLoaded", recalc, false);
+  })(document, window);
 }

@@ -64,7 +64,7 @@ export default {
     this.setTitle('店铺列表');
     var that = this;
     this.ajax.post( "xinda-api/provider/grid").then(function(data) {
-        that.products = data.data.data;});
+      that.products = data.data.data;});
   }
 };
 </script>
@@ -79,6 +79,8 @@ export default {
 .storelist  {
   margin-bottom: 0.9rem;
   margin-top: 1rem;
+  min-height:15rem;
+
 }
 .listhead{
   width:3.6rem;
@@ -150,6 +152,7 @@ button {
   border:0.03rem solid #e3e3e3;
   img {
     width: 1.2rem;
+    margin-top: 0.5rem;
   }
 }
 .deta {
