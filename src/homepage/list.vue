@@ -131,56 +131,8 @@ export default {
   },
   watch: {
     $route: function() {
-      // var index=sessionStorage.getItem('index')
-      var index = this.$route.query.num;
-      // console.log(index)
-      var that = this;
-      var oneobj = {};
-      var objs = {};
-      var y = 0;
-      var x = 0;
-      this.ajax.post("xinda-api/product/style/list").then(function(data) {
-        var rData = data.data.data;
-        // console.log(rData)
-        for (var i in rData) {
-          //获取所有二级内容，并且合并到一个对象里
-          y = rData[i].showOrder;
-          oneobj[y] = rData[i];
-        }
-        var n = oneobj[index].itemList; // console.log(n)
-        that.objs = n;
-        // console.log(oneobj)   //此时为{1：{}，2：{}，3：{}，4：{}}，已经排序
-        //n为此时应显示的二级内容
-
-        for (var j in n) {
-          objs[x] = n[j];
-          x++;
-        }
-        that.innerobjs=objs[0].itemList
-      
-        that.url='xinda-api/product/package/grid' //定义数据地址
-        var numb=0
-        for(var i in n){
-          if(numb==0){
-            that.productTypeCode=n[i].code
-          }
-          numb++;
-        }
-        that.productId = "";
-        // that.productTypeCode=0
-        getData(
-          that.listobjsA,
-          0,
-          3,
-          2,
-          that.url,
-          that.totle,
-          that.pagecount,
-          that.productId,
-          that.productTypeCode,
-          3
-        );
-      });
+      var that=this
+      this.creatlisten()
     }
   },
   methods: {
@@ -223,7 +175,7 @@ export default {
       //上一页
       // this.changepage-=1
       this.changepage <= 0 ? this.changepage : (this.changepage -= 1);
-      getData(
+      getData(    //此翻页器方法被调用多次，并且其他子路由也多次调用，因此将它包装成一个公共方法
         this.listobjsA,
         this.changepage,
         3,
@@ -319,78 +271,72 @@ export default {
     buyNow(id) {
       var that = this;
       plugins(id, that);
+    },
+    creatlisten(){    //此方法被调用了两次，分别是页面加载和路由监听
+      var that=this
+      this.nowindex = this.$route.query.num;
+      var oneobj = {};
+      var objs = {};
+      var y = 0;
+      var x = 0;
+      that.ajax.post("xinda-api/product/style/list").then(function(data) {
+        var rData = data.data.data;
+        // console.log(rData)
+        for (var i in rData) {
+          //获取所有二级内容，并且合并到一个对象里
+          y = rData[i].showOrder;
+          oneobj[y] = rData[i];
+        }
+        var n = oneobj[that.nowindex].itemList; // console.log(n)
+        that.objs = n;
+        // console.log(oneobj)   //此时为{1：{}，2：{}，3：{}，4：{}}，已经排序
+        //n为此时应显示的二级内容
+        for (var j in n) {
+          objs[x] = n[j];
+          x++;
+        }
+        // console.log(n)
+        // console.log(objs[0])
+        that.innerobjs = objs[0].itemList;
+        that.url = "xinda-api/product/package/grid"; //定义数据地址
+        if(sessionStorage.getItem('idkey')){    //s是从全部产品的弹出框点击后的
+          that.productTypeCode=0
+          that.productId = sessionStorage.getItem('idkey');
+          that.showkind=sessionStorage.getItem('idindex')
+          that.showclass=sessionStorage.getItem('secondindex')
+          that.innerobjs = objs[sessionStorage.getItem('secondindex')].itemList;
+        }else{
+          var numb = 0;
+          for (var i in n) {
+            if (numb == 0) {
+              that.productTypeCode = n[i].code;
+            }
+            numb++;
+          }
+          that.productId = "";
+        }
+        getData(
+          that.listobjsA,
+          0,
+          3,
+          2,
+          that.url,
+          that.totle,
+          that.pagecount,
+          that.productId,
+          that.productTypeCode,
+          3
+        );
+        sessionStorage.setItem('secondindex','')
+        sessionStorage.setItem('idindex','')
+        sessionStorage.setItem('idkey','')
+        // console.log(sessionStorage.getItem('idkey'))
+      });
     }
+    
   },
   created() {
-    this.ajax.post("xinda-api/cart/list").then(function(data) {
-      var alldata = data.data.data;
-      // console.log(3, data.data.data);
-    });
-    this.nowindex = this.$route.query.num;
-    var that = this;
-    var oneobj = {};
-    var objs = {};
-    var y = 0;
-    var x = 0;
-    this.ajax.post("xinda-api/product/style/list").then(function(data) {
-      var rData = data.data.data;
-      // console.log(rData)
-      for (var i in rData) {
-        //获取所有二级内容，并且合并到一个对象里
-        y = rData[i].showOrder;
-        oneobj[y] = rData[i];
-      }
-      var n = oneobj[that.nowindex].itemList; // console.log(n)
-      that.objs = n;
-      // console.log(oneobj)   //此时为{1：{}，2：{}，3：{}，4：{}}，已经排序
-      //n为此时应显示的二级内容
-
-      for (var j in n) {
-        objs[x] = n[j];
-        x++;
-      }
-      // console.log(n)
-      // console.log(objs[0])
-      that.innerobjs = objs[0].itemList;
-      // console.log(n)
-
-      that.url = "xinda-api/product/package/grid"; //定义数据地址
-      if(sessionStorage.getItem('idkey')){    //s是从全部产品的弹出框点击后的
-        that.productTypeCode=0
-        // console.log(sessionStorage.getItem('idkey'))
-        that.productId = sessionStorage.getItem('idkey');
-        that.showkind=sessionStorage.getItem('idindex')
-        that.showclass=sessionStorage.getItem('secondindex')
-        that.innerobjs = objs[sessionStorage.getItem('secondindex')].itemList;
-        
-        console.log(sessionStorage.getItem('idindex'))
-      }else{
-        var numb = 0;
-        for (var i in n) {
-          if (numb == 0) {
-            that.productTypeCode = n[i].code;
-          }
-          numb++;
-        }
-        that.productId = "";
-      }
-      getData(
-        that.listobjsA,
-        0,
-        3,
-        2,
-        that.url,
-        that.totle,
-        that.pagecount,
-        that.productId,
-        that.productTypeCode,
-        3
-      );
-      sessionStorage.setItem('secondindex','')
-      sessionStorage.setItem('idindex','')
-      sessionStorage.setItem('idkey','')
-      // console.log(sessionStorage.getItem('idkey'))
-    });
+    this.creatlisten()
   }
 };
 </script>
