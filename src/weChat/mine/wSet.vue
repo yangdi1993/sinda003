@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 // import ihead from '../components/ihead'
 import dist from "../../images/districts";
 var md5 = require("md5");
