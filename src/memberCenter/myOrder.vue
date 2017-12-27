@@ -796,9 +796,9 @@ export default {
 }
 .orderInTrTdSe{
       width: 118px;
-      height: 68px;
+      height: 39px;
       border-bottom: 1px solid #e8e8e8;
-      line-height: 68px;
+      line-height: 39px;
       input{
         width: 56px;
         height: 23px;

@@ -1,5 +1,5 @@
 <template>
-<mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
+<mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore"  class="style">
   <div>
     <div class="top">
       <span @click="goback" class="goback"><span></span><p>返回</p></span>
@@ -41,6 +41,7 @@ export default {
     };
   },
   methods:{
+
     goback(){
       history.go(-1)
     },
@@ -71,6 +72,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+.style{
+  font-size: .3rem;
+  color: #999;
+}
 .top{
   width: 100%;
   height: .9rem;
