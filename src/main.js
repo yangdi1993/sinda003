@@ -134,7 +134,7 @@ if (browserRedirect()) {
         // if (clientWidth >= 750) {
         //   docEl.style.fontSize = "100px";
         // } else {
-        console.log('clientWidth==', clientWidth);
+        //console.log('clientWidth==', clientWidth);
         docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
         // }
       };
