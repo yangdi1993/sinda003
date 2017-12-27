@@ -152,6 +152,7 @@ button {
   border:0.03rem solid #e3e3e3;
   img {
     width: 1.2rem;
+    margin-top: 0.5rem;
   }
 }
 .deta {
