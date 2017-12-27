@@ -79,6 +79,8 @@ export default {
 .storelist  {
   margin-bottom: 0.9rem;
   margin-top: 1rem;
+  min-height:15rem;
+
 }
 .listhead{
   width:3.6rem;
