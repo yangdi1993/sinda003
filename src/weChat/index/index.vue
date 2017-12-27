@@ -87,6 +87,7 @@
       <p>一站式交易中心</p>
     </div>
   </div>
+  
 </template>
 
 <script>
@@ -96,6 +97,7 @@ export default {
   data () {
     return {
       objone:[],
+      
     }
   },
   computed:{
@@ -104,19 +106,17 @@ export default {
   created(){
     this.setTitle('信达电子商务系统')
     var that = this;
-    this.ajax
-      .post("http://115.182.107.203:8088/xinda/xinda-api/recommend/list")
-      .then(function(data) {
-        var rData = data.data.data;
-        // console.log(rData);
-        var objone = {};
-        var j = 0;
-        for (var i in rData) {
-          //对获取到的数据进行深层获取，进行分别定义
-          j == 0 ? (that.objone = rData[i]) : j;
-          j++;
-        }
-      });
+    this.ajax.post("xinda-api/recommend/list").then(function(data) {
+      var rData = data.data.data;
+      // console.log(rData);
+      var objone = {};
+      var j = 0;
+      for (var i in rData) {
+        //对获取到的数据进行深层获取，进行分别定义
+        j == 0 ? (that.objone = rData[i]) : j;
+        j++;
+      }
+    });
   }, 
 
   methods:{
@@ -133,7 +133,8 @@ export default {
     ToList(){
       this.$router.push({ path: "/weChatdog/Wlist"});
        
-    }
+    },
+
   }
 }
 </script>
