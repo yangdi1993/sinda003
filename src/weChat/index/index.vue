@@ -12,7 +12,7 @@
       <mt-swipe-item><img src="../../images/homepage/3.jpg" alt=""></mt-swipe-item>
     </mt-swipe>
     <div class="cellchoose">
-      <div class="caishui" @click="ToStorelist()">
+      <div class="caishui" @click="ToList()">
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/caishui.png" alt=""></a>
         <p>财税服务</p>
       </div>
@@ -32,7 +32,7 @@
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/gssb.png" alt=""></a>
         <p>公司社保</p>
       </div>
-      <div class="knowledge" @click="ToStorelist()">
+      <div class="knowledge" @click="ToList()">
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/knowledge.png" alt=""></a>
         <p>知识产权</p>
       </div>
@@ -124,10 +124,6 @@ export default {
     //查看商品详情
      ToDetail(id) {
       this.$router.push({ path: "/weChatdog/wDetail", query: { id: id } });
-    },
-    //店铺列表
-    ToStorelist(){
-      this.$router.push({ path: "/weChat/storelist"});
     },
     //服务列表
     ToList(){

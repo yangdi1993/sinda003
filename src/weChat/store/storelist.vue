@@ -64,7 +64,7 @@ export default {
     this.setTitle('店铺列表');
     var that = this;
     this.ajax.post( "xinda-api/provider/grid").then(function(data) {
-        that.products = data.data.data;});
+      that.products = data.data.data;});
   }
 };
 </script>
