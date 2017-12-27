@@ -35,12 +35,13 @@
             <td class="tdtwo">{{cart.serviceName}}</td>
             <td class="tdthree">￥{{cart.unitPrice}}.00</td>
             <td class="tdfour">
-              <button @click="min(cart.serviceId,cart.buyNum)">-</button><input type="text" v-model="cart.buyNum" readonly="readonly">
-              <button @click="add(cart.serviceId,cart.buyNum)">+</button>
+              <button @click="min(cart.serviceId,cart.buyNum)">-</button><input type="text" v-model="cart.buyNum" readonly="readonly"><button @click="add(cart.serviceId,cart.buyNum)">+</button>
             </td>
             <td class="zjia">￥{{cart.totalPrice}}.00</td>
             <td class="dele">
-              <div @click="dele(cart.serviceId)">删除</div>
+              <template>
+                <el-button type="text" @click="Dele(cart.serviceId)" style="width:40px;">删除</el-button>
+              </template>
             </td>
           </tr>
         </tbody>
@@ -83,6 +84,7 @@
 </template>
 
 <script>
+import { MessageBox } from "element-ui";
 export default {
   name: "HelloWorld",
   data() {
@@ -158,20 +160,31 @@ export default {
       //console.log(this.$route.query.id);
     },
     //删除商品
-    dele(id) {
-      this.promt = false;
-      var that = this;
-      this.ajax
-        .post("/xinda-api/cart/del", this.qs.stringify({ id: id }))
-        .then(function(data) {
-          //console.log(data.data.data);
-          //that.gettingData();
-          //location.reload();
-          //that.gettingData();
-          //console.log('23333333');
-          that.gettingData();
+    Dele(id) {
+      this.$confirm("即将删除该商品, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "删除成功!"
+          });
+          var that = this;
+          this.ajax
+            .post("/xinda-api/cart/del", this.qs.stringify({ id: id }))
+            .then(function(data) {
+              location.reload();
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
         });
-    },
+    }
   },
   created() {
     // 热门服务
