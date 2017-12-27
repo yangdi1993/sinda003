@@ -65,7 +65,7 @@ export default {
     //初始数据获取
     gettingData() {
       var that = this;
-      this.ajax.post("xinda-api/cart/list").then(function(data) {
+      this.ajax.post("/xinda-api/cart/list").then(function(data) {
         var dataAll = data.data.data;
         that.menCen = dataAll;
         that.Totle = 0;
@@ -112,7 +112,7 @@ export default {
     dele(id) {
       MessageBox.confirm("确定删除该产品吗?").then(action => {
         var that = this;
-        this.ajax.post('xinda-api/cart/del',this.qs.stringify({id : id})).then(function(data){
+        this.ajax.post('/xinda-api/cart/del',this.qs.stringify({id : id})).then(function(data){
           if(data.data.status === 1){
             that.gettingData();
           } else{
