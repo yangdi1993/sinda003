@@ -418,7 +418,7 @@ export default {
     }
   }
   .registerBut button {
-    margin: 1.13rem 0 4.67rem 0;
+    margin: 1.13rem 0 2.5rem 0;
     width: 5.65rem;
     height: 0.73rem;
     background: #2693d4;

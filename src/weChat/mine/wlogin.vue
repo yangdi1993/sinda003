@@ -12,6 +12,7 @@
       <li class="code-img">
         <input type="text" placeholder="请输入验证码" v-model="codeImage" v-on:blur="ciBlur" v-on:focus="ciFocus">
         <img :src="imgUrl" alt=""  v-on:click="buttonChange">
+        <a href="#/weChatdog/wForget">忘记密码</a>
       </li>
       <li class="loginBut">
         <button @click="loginBut">立即登录</button>
@@ -176,7 +177,7 @@ export default {
 .r-outter {
    margin-top: 2rem;
   width: 7.5rem;
-  height: 13.34rem;
+  height: 10.34rem;
 }
 .msg {
     margin: 0.07rem auto -0.5rem;
@@ -202,12 +203,20 @@ li {
   margin-top: 0.71rem;
 }
 .code-img {
+  position: relative;
   input {
     margin-right: 0.3rem;
     width: 2.72rem;
   }
   img {
     width: 2.43rem;
+  }
+  a{
+    position: absolute;
+    margin: 1rem 0 0 4.5rem;
+    font-size: .28rem;
+    text-decoration: none;
+    color: #2693d4;
   }
 }
   .pw{
@@ -220,7 +229,7 @@ li {
     }
   }
 .loginBut button {
-  margin: 1.13rem 0 5.7rem 0;
+  margin: 1.13rem 0 4.1rem 0;
   width: 5.65rem;
   height: 0.73rem;
   background: #2693d4;
@@ -241,7 +250,7 @@ li {
     font-size: 0.28rem;
   }
   a {
-    margin-top: -0.25rem;
+    // margin-top: -0.25rem;
     button {
       margin: 0.14rem 0 0 2.63rem;
       width: 1.8rem;
