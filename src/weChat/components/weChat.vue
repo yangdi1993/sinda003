@@ -58,11 +58,6 @@ export default {
       // this.$refs.loadmore.onTopLoaded();
       location.reload()
     },
-    loadBottom() {
- // 加载更多数据
-      this.allLoaded = true;// 若数据已全部获取完毕
-      this.$refs.loadmore.onBottomLoaded();
-    }
   },
   computed:{
     ...mapGetters(['getTitle'])

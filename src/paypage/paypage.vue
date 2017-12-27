@@ -243,6 +243,7 @@ export default {
         businessNo:this.busOrder.businessNo
       })).then(function(data){
         sessionStorage.setItem('orderdata',data.data)
+        console.log(data.data)
         window.open('#/inner/orderData')
       })
     },

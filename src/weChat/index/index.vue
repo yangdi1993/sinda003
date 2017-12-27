@@ -106,7 +106,7 @@ export default {
   created(){
     this.setTitle('信达电子商务系统')
     var that = this;
-    this.ajax.post("xinda-api/recommend/list").then(function(data) {
+    this.ajax.post("/xinda-api/recommend/list").then(function(data) {
       var rData = data.data.data;
       // console.log(rData);
       var objone = {};

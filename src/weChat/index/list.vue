@@ -40,14 +40,14 @@ export default {
       paixu:2,  //排序方式
       autopaixu:1,  //点击排序的方式
       daosanjian:true,
-      url:'xinda-api/product/package/grid', //数据获取地址
+      url:'/xinda-api/product/package/grid', //数据获取地址
     }
   },
   created(){
     this.setTitle('列表页')
 
 
-    this.ajax.post("xinda-api/cart/list").then(function(data) {
+    this.ajax.post("/xinda-api/cart/list").then(function(data) {
       var alldata = data.data.data;
       // console.log(3, data.data.data);
     });
@@ -57,7 +57,7 @@ export default {
     var objs = {};
     var y = 0;
     var x = 0;
-    this.ajax.post("xinda-api/product/style/list").then(function(data) {
+    this.ajax.post("/xinda-api/product/style/list").then(function(data) {
       var rData = data.data.data;
       // console.log(rData)
       for (var i in rData) {
@@ -79,7 +79,7 @@ export default {
       that.innerobjs = objs[0].itemList;
       // console.log(n)
 
-      that.url = "xinda-api/product/package/grid"; //定义数据地址
+      that.url = "/xinda-api/product/package/grid"; //定义数据地址
       // var numb = 0;
       // for (var i in n) {
       //   if (numb == 0) {

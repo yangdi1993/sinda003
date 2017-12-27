@@ -112,7 +112,7 @@ export default {
   created(){
     // console.log('created');
     var that=this
-    this.ajax.post('xinda-api/product/style/list').then(function(data){
+    this.ajax.post('/xinda-api/product/style/list').then(function(data){
       var rData=data.data.data
       // console.log(rData);
       var obj = {}  //这里obj默认obj={1:{},2:{},3:{},4:{}}
@@ -123,13 +123,13 @@ export default {
       that.products=obj;
     });
     var nowcity={}
-    this.ajax.post('xinda-api/common/select-region').then(function(data){
+    this.ajax.post('/xinda-api/common/select-region').then(function(data){
       var rData=data.data.data
       // console.log(rData);
       that.nowcity=rData;
     });
     var that=this
-    this.ajax.post('xinda-api/cart/cart-num').then(function(data){
+    this.ajax.post('/xinda-api/cart/cart-num').then(function(data){
       that.setNum(data.data.data.cartNum)  //购物车物品数量
     });
 
@@ -150,7 +150,7 @@ export default {
       this.search=true
       var that=this
       if(this.nowproinput){
-        this.ajax.post('xinda-api/product/package/search-grid',this.qs.stringify({
+        this.ajax.post('/xinda-api/product/package/search-grid',this.qs.stringify({
           start:0,
           // limit:100,
           searchName:this.nowproinput,
@@ -175,7 +175,7 @@ export default {
       // console.log(123)
       if(this.nowserinput){
         var that=this
-        this.ajax.post('xinda-api/provider/search-grid',this.qs.stringify({
+        this.ajax.post('/xinda-api/provider/search-grid',this.qs.stringify({
           start:0,
           // limit:8,
           searchName:this.nowserinput,

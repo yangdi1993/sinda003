@@ -16,8 +16,8 @@ Vue.use(VueAwesomeSwiper)
 
 
 //输入验证插件
-import Validator from 'vue-validator'
-Vue.use(Validator)
+// import Validator from 'vue-validator'
+// Vue.use(Validator)
 // ElementUI组件
 import ElementUI from 'element-ui'
 Vue.use(ElementUI);
@@ -125,7 +125,7 @@ if(browserRedirect()){
         // if (clientWidth >= 750) {
         //   docEl.style.fontSize = "100px";
         // } else {
-          console.log('clientWidth==',clientWidth);
+          // console.log('clientWidth==',clientWidth);
           docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
         // }
       };

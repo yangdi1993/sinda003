@@ -231,7 +231,7 @@ export default {
     // console.log(123);
     var that = this;
     this.ajax
-      .post("http://115.182.107.203:8088/xinda/xinda-api/recommend/list")
+      .post("/xinda-api/recommend/list")
       .then(function(data) {
         var rData = data.data.data;
         // console.log(rData);
