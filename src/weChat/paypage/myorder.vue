@@ -32,18 +32,12 @@
             </div>
           </div>
         </div>
-<<<<<<< HEAD
-        <div class="dele" @click="dele(item.providerId)">删除订单</div>
-        <div class="payment" @click="toPay()">
-          <div>付款</div>
-=======
         <div v-if="list.status=='等待买家付款'" class="waitpay">
           <p>合计：
             <span>￥{{list.totalPrice}}</span>
           </p>
           <p @click="dele(list.id)">删除订单</p>
           <button @click="payfor(list.businessNo)">付款</button>
->>>>>>> ae06c7fb68c39126e49ae3f2e1239a3038cdb677
         </div>
         <div v-if="list.status=='已付款'" class="payalready">
           <p>合计：
@@ -59,11 +53,7 @@
         </div>
         <div class="bcon">确认删除订单吗？</div>
         <div class="bbtm">
-<<<<<<< HEAD
-          <div class="confirm" @click="confirm(item.providerId)">确认</div>
-=======
           <div class="confirm" @click="confirms(list.id)">确认</div>
->>>>>>> ae06c7fb68c39126e49ae3f2e1239a3038cdb677
           <div class="cancel" @click="cancel()">取消</div>
         </div>
       </div>
@@ -111,12 +101,7 @@ export default {
           }
         });
     },
-<<<<<<< HEAD
-    //去付款
-    toPay() {},
-    //删除订单-弹出提示框
-    dele(providerId) {
-=======
+
     // 处理获取数据
     businessshow(data) {
       var data = data.data.data;
@@ -156,7 +141,7 @@ export default {
     // 删除订单
    
     dele(id) {
->>>>>>> ae06c7fb68c39126e49ae3f2e1239a3038cdb677
+
       this.promt = true;
       //console.log("123");
     },
@@ -165,11 +150,8 @@ export default {
       this.promt = false;
     },
     //确认删除
-<<<<<<< HEAD
-    confirm(providerId) {
-=======
+
     confirms(id) {
->>>>>>> ae06c7fb68c39126e49ae3f2e1239a3038cdb677
       this.promt = false;
       var that = this;
       this.ajax

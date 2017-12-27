@@ -59,9 +59,9 @@
             <li>订单操作</li>
           </ul>
           <!-- 订单插入 -->
-          <div v-for="item in rDataSh" :key="item.id">
+          <div v-for="item in rData" :key="item.id">
             <!-- 删除 弹出框 -->
-              <div class="duihuakuang" v-show="isShow">
+              <!-- <div class="duihuakuang" v-show="isShow">
                 <div class="confirmIma">
                   <p>信息</p>
                   <div class="close" @click="closeFun()">×</div>
@@ -69,7 +69,7 @@
                 <p class="confirm">确定删除该订单吗？</p>
                 <button class="confirmYes" @click="conCloseFun(item.id)">确定</button>
                 <button class="confirmNo" @click="canCliseFun()">取消</button>
-              </div>
+              </div> -->
               <!-- 订单插入 -->
               <table class="orderInTa" id="myorderInTa" v-show="searchShow">
                 <tr class="orderInTh">
@@ -81,19 +81,19 @@
                     <span></span>
                     下单时间：{{item.createTime}}</th>
                 </tr>
-                <tr class="orderInTr" v-for="list in subItem" :key="list.id">
+                <tr class="orderInTr" v-for="list in item.servitem" :key="list.servitem">
                   <td class="orderInTrTdO"></td>
                   <td class="orderInTrTdTw">
-                    <p>{{item.providerName}}</p>
-                    <p>{{item.serviceName}}</p>
+                    <p>{{list.providerName}}</p>
+                    <p>{{list.serviceName}}</p>
                   </td>
-                  <td class="orderInTrTdTh">{{item.unitPrice}}</td>
-                  <td class="orderInTrTdFo">{{item.buyNum}}</td>
-                  <td class="orderInTrTdFi">{{item.totalPrice}}</td>
-                  <td class="orderInTrTdSi">{{item.name8}}</td>
+                  <td class="orderInTrTdTh">￥{{list.unitPrice}}.00</td>
+                  <td class="orderInTrTdFo">{{list.buyNum}}</td>
+                  <td class="orderInTrTdFi">￥{{list.totalPrice}}.00</td>
+                  <td class="orderInTrTdSi">{{item.status}}</td>
                   <td class="orderInTrTdSe">
-                    <a href="#/inner/paypage"><input type="button" @click="toPay()"  value="付款"></a>
-                    <p class="delOr" @click="delOrder(item.providerId)">删除订单</p>
+                    <a href="#/inner/paypage"><input type="button" @click="toPay(list.businessNo)"  value="付款"></a>
+                    <p class="delOr" @click="delOrder(item.id)">删除订单</p>
                   </td>
                 </tr>
               </table>  
@@ -203,17 +203,16 @@ export default {
     //   }
     // })
     this.getData();
-    this.businessshow();
   },
   methods:{
     // 点击删除弹出框
-    delOrder:function(){
-      this.isShow = true;
-    },
+    // delOrder:function(){
+    //   this.isShow = true;
+    // },
     // 点击X弹出框消失
-    closeFun:function(){
-      this.isShow = false;
-    },
+    // closeFun:function(){
+    //   this.isShow = false;
+    // },
     // 
     getData(start,limit){
       var that=this;
@@ -221,8 +220,12 @@ export default {
           start:start,
           limit:limit,
       })).then(function(data){
-          // console.log('origin==',data);
-          if(data.data.data&&data.data.data.length){
+        var dataAll = data.data.data
+        console.log(dataAll);
+        for( var key in dataAll){
+          dataAll[key].createTime=moment(dataAll[key].createTime).format('YYYY-MM-DD hh:mm:ss');
+        }
+          if(dataAll&&dataAll.length){
               that.businessshow(data);
           }else{
               that.errorbox=true;
@@ -251,46 +254,43 @@ export default {
               var servdata=servdata.data.data;
               for(var key in servdata){
                   // 关于订单时间
-                  servdata[key].createTime=moment(servdata[key].createTime).format('YYYY-MM-DD hh:mm:ss');
-                  // 将服务订单信息添加到循环包里  
+                 // 将服务订单信息添加到循环包里  
                   data[i].servitem.push(servdata[key]);
               }
           })
       }
       this.rData=data;
-      console.log('rData==',this.rData);
     },
 
     // 删除
     conCloseFun(){
-      this.isShow = false;
-      this.rDataSh.splice(this.index,1)
+      // this.isShow = false;
+      // this.rDataSh.splice(this.index,1)
 
         // var that = this;
-        // console.log(code);
         // this.ajax.post('xinda-api/ business-order/del',this.qs.stringify({
-        //   id:code,
+        //   id:id,
         // })).then(function(data){
         //   console.log(data.data.data)
         // })
 
-      //   MessageBox.confirm('确定删除该产品吗?').then(action => {
-      //   var that = this;
-      //   this.ajax.post('xinda-api/ business-order/del',this.qs.stringify({id : providerId})).then(function(data){
-      //     if(data.data.status === 1){
-      //       that.gettingData();
-      //     } else{
+        MessageBox.confirm('确定删除该产品吗?').then(action => {
+        var that = this;
+        this.ajax.post('xinda-api/ business-order/del',this.qs.stringify({id : id})).then(function(data){
+          if(data.data.status === 1){
+            that.gettingData();
+          } else{
             
-      //     }
-      //   });
-      // },cancel=>{
+          }
+        });
+      },cancel=>{
         
-      // })
+      })
     }, 
     // 点击取消
-    canCliseFun:function(index){
-      this.isShow = false;
-    },
+    // canCliseFun:function(index){
+    //   this.isShow = false;
+    // },
     
     // 订单搜索
     orderSeaBtn:function(){
@@ -793,6 +793,7 @@ export default {
       width: 70px;
       height: 68px;
       background: url(../images/memCen.png) no-repeat -15px -260px;
+      border-bottom: 1px solid #e8e8e8;
     }
     .orderInTrTdTw{
       width: 238px;
@@ -800,12 +801,14 @@ export default {
       font-size: 16px;
       color: #656565;
       text-align: left;
+      border-bottom: 1px solid #e8e8e8;
     }
     .orderInTrTdTh{
       width: 129px;
       height: 68px;
       font-size: 16px;
       color: #656565;
+      border-bottom: 1px solid #e8e8e8;
     }
     .orderInTrTdFo{
       width: 95px;
@@ -813,6 +816,7 @@ export default {
       font-size: 16px;
       color: #656565;
       border-right: 1px solid #e8e8e8;
+      border-bottom: 1px solid #e8e8e8;
     }
     .orderInTrTdFi{
       width: 139px;
@@ -820,14 +824,16 @@ export default {
       border-right: 1px solid #e8e8e8;
       font-size: 12px;
       font-size: 16px;
-      color: #656565;
+      color: #2793d3;
+      border-bottom: 1px solid #e8e8e8;
     }
     .orderInTrTdSi{
       width: 143px;
       height: 68px;
       border-right: 1px solid #e8e8e8;
-      font-size: 12px;
-      color: #2393d5;
+      font-size: 14px;
+      color: #2793d3;
+      border-bottom: 1px solid #e8e8e8;
     }
     .orderInTrTdSe{
       width: 118px;
