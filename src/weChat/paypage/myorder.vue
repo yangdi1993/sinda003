@@ -25,7 +25,7 @@
               <div>
                 <p>
                   <span>￥{{serv.unitPrice}}</span>元</p>
-                <p>&#10005
+                <p>X
                   <span>{{serv.buyNum}}</span>
                 </p>
               </div>

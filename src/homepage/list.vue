@@ -133,6 +133,8 @@ export default {
     $route: function() {
       // var index=sessionStorage.getItem('index')
       var index = this.$route.query.num;
+      this.showkind=-1
+      this.showclass=0
       // console.log(index)
       var that = this;
       var oneobj = {};
@@ -151,13 +153,11 @@ export default {
         that.objs = n;
         // console.log(oneobj)   //此时为{1：{}，2：{}，3：{}，4：{}}，已经排序
         //n为此时应显示的二级内容
-
         for (var j in n) {
           objs[x] = n[j];
           x++;
         }
         that.innerobjs=objs[0].itemList
-      
         that.url='xinda-api/product/package/grid' //定义数据地址
         var numb=0
         for(var i in n){
@@ -344,7 +344,6 @@ export default {
       that.objs = n;
       // console.log(oneobj)   //此时为{1：{}，2：{}，3：{}，4：{}}，已经排序
       //n为此时应显示的二级内容
-
       for (var j in n) {
         objs[x] = n[j];
         x++;
@@ -352,8 +351,6 @@ export default {
       // console.log(n)
       // console.log(objs[0])
       that.innerobjs = objs[0].itemList;
-      // console.log(n)
-
       that.url = "xinda-api/product/package/grid"; //定义数据地址
       if(sessionStorage.getItem('idkey')){    //s是从全部产品的弹出框点击后的
         that.productTypeCode=0
@@ -389,6 +386,8 @@ export default {
       sessionStorage.setItem('secondindex','')
       sessionStorage.setItem('idindex','')
       sessionStorage.setItem('idkey','')
+      // that.showkind=-1
+      // that.showclass=0
       // console.log(sessionStorage.getItem('idkey'))
     });
   }
