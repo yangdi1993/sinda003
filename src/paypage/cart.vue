@@ -35,7 +35,7 @@
             <td class="tdtwo">{{cart.serviceName}}</td>
             <td class="tdthree">￥{{cart.unitPrice}}.00</td>
             <td class="tdfour">
-              <button @click="min(cart.serviceId,cart.buyNum)">-</button><input type="text" v-model="cart.buyNum" readonly="readonly"><button @click="add(cart.serviceId,cart.buyNum)">+</button>
+              <button @click="min(cart.serviceId,cart.buyNum)">-</button><input type="number" v-model="cart.buyNum" readonly="readonly"><button @click="add(cart.serviceId,cart.buyNum)">+</button>
             </td>
             <td class="zjia">￥{{cart.totalPrice}}.00</td>
             <td class="dele">
@@ -117,12 +117,16 @@ export default {
     //增加数量
     add(id, buyNum) {
       var that = this;
-      this.ajax
-        .post("/xinda-api/cart/add", this.qs.stringify({ id: id, num: 1 }))
-        .then(function(data) {
-          //console.log(data.data);
-          that.gettingData();
-        });
+      if (buyNum < 10) {
+        this.ajax
+          .post("/xinda-api/cart/add", this.qs.stringify({ id: id, num: 1 }))
+          .then(function(data) {
+            //console.log(data.data);
+            that.gettingData();
+          });
+      }else{
+        buyNum=10;
+      }
     },
     //减少数量
     min(id, buyNum) {
@@ -135,7 +139,7 @@ export default {
             that.gettingData();
           });
       } else {
-        this.dele(id);
+        this.Dele(id);
         that.gettingData();
       }
     },
@@ -175,7 +179,8 @@ export default {
           this.ajax
             .post("/xinda-api/cart/del", this.qs.stringify({ id: id }))
             .then(function(data) {
-              location.reload();
+              //location.reload();
+              that.gettingData();
             });
         })
         .catch(() => {

@@ -31,7 +31,7 @@
             </p>
           </div>
           <div class="number">购买数量：
-            <button @click="min(num)">-</button><input type="text" v-model="num" readonly="readonly"><button @click="add(num)">+</button>
+            <button @click="min(num)">-</button><input type="number" v-model="num" readonly="readonly"><button @click="add(num)">+</button>
           </div>
           <div class="buy" v-on:click="buy(providerProducts.id,num)">立即购买</div>
           <div class="add" v-on:click="addCart(providerProducts.id,num)">加入购物车</div>
@@ -57,10 +57,6 @@
           </div>
           <div class="phCon">
             <div class="conFir">
-<<<<<<< HEAD
-              
-=======
->>>>>>> 09d95a866bc31a132c4897838e0661d12865597e
             </div>
             <div class="conSec"><input type="text" placeholder="请输入手机号码"></div>
             <div class="conThd"><input type="text" placeholder="请输入图形验证码">
@@ -218,7 +214,11 @@ export default {
     },
     //增加数量
     add(num) {
-      this.num += 1;
+      if (this.num < 10) {
+        this.num += 1;
+      }else{
+        this.num=10;
+      }
     },
     //服务内容
     chService: function() {
@@ -282,9 +282,8 @@ export default {
           num: this.num
         })
       );
-      this.ajax.post("xinda-api/cart/cart-num").then(function(data) {
+      this.ajax.post("/xinda-api/cart/cart-num").then(function(data) {
         that.setNum(data.data.data.cartNum); //购物车物品数量,点击加入购物车后自动更新
-        location.reload();
       });
     },
     // 分页功能上一页
@@ -343,8 +342,8 @@ export default {
   },
   //获取商品详情
   created() {
-    document.body.scrollTop = 0
-    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     var that = this;
     this.ajax
       .post(
@@ -355,11 +354,7 @@ export default {
         that.products = data.data.data.product;
         that.providerProducts = data.data.data.providerProduct;
         that.regionText = data.data.data.regionText;
-        //console.log(data.data.data.providerProduct);
-        //console.log(data.data.data.product);
       });
-    //获取评价详情
-
     //获取评价数量
     this.ajax
       .post(
