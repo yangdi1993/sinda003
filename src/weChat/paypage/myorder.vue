@@ -394,6 +394,7 @@ export default {
   border: 0.01rem solid #e5e5e5;
   background-color: white;
   position: absolute;
+  position: fixed;
   left: 15%;
   top: 20%;
   .btop {
