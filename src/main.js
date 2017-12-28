@@ -31,7 +31,9 @@ import {
   MessageBox
 } from 'mint-ui';
 //延迟加载
-import {Lazyload} from 'mint-ui';
+import {
+  Lazyload
+} from 'mint-ui';
 Vue.use(Lazyload);
 
 
@@ -133,8 +135,8 @@ if (browserRedirect()) {
         // if (clientWidth >= 750) {
         //   docEl.style.fontSize = "100px";
         // } else {
-          // console.log('clientWidth==',clientWidth);
-          docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
+        // console.log('clientWidth==',clientWidth);
+        docEl.style.fontSize = 100 * (clientWidth / 750) + "px";
         // }
       };
     if (!doc.addEventListener) return;
