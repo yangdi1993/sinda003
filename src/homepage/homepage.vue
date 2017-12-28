@@ -3,9 +3,9 @@
     <!-- 轮播 -->
     <a href="javascript:void(0)" class="homepage-banner">
       <swiper :options="swiperOption">
-        <swiper-slide class="slide-1"><img src="../images/homepage/1.jpg" alt=""></swiper-slide>
-        <swiper-slide class="slide-2"><img src="../images/homepage/2.jpg" alt=""></swiper-slide>
-        <swiper-slide class="slide-3"><img src="../images/homepage/3.jpg" alt=""></swiper-slide>
+        <swiper-slide class="slide-1"><img src="../images/homepage/knowledge2.png" alt=""></swiper-slide>
+        <swiper-slide class="slide-2"><img src="../images/homepage/knowledge3.png" alt=""></swiper-slide>
+        <swiper-slide class="slide-3"><img src="../images/homepage/knowledge4.png" alt=""></swiper-slide>
         <div class="swiper-pagination swiper-pagination-white" slot="pagination"></div>
         <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
         <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
@@ -231,7 +231,7 @@ export default {
     // console.log(123);
     var that = this;
     this.ajax
-      .post("http://115.182.107.203:8088/xinda/xinda-api/recommend/list")
+      .post("/xinda-api/recommend/list")
       .then(function(data) {
         var rData = data.data.data;
         // console.log(rData);

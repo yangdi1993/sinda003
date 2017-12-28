@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div id="aaapp">
     <div class="memCenBg">
       <div class="memCenDiv">
@@ -232,7 +232,7 @@ export default {
     conCloseFun(id){
         MessageBox.confirm('确定删除该产品吗?').then(action => {
         var that = this;
-        this.ajax.post('xinda-api/ business-order/del',this.qs.stringify({id : id})).then(function(data){
+        this.ajax.post('/xinda-api/ business-order/del',this.qs.stringify({id : id})).then(function(data){
           if(data.data.status === 1){
             location.reload();
           } else{

@@ -58,11 +58,6 @@ export default {
       // this.$refs.loadmore.onTopLoaded();
       location.reload()
     },
-    loadBottom() {
- // 加载更多数据
-      this.allLoaded = true;// 若数据已全部获取完毕
-      this.$refs.loadmore.onBottomLoaded();
-    }
   },
   computed:{
     ...mapGetters(['getTitle'])
@@ -118,6 +113,9 @@ export default {
       line-height: .9rem;
       color:#2693d4;
       font-family: '宋体';
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
     }
   }
   .wlogo{

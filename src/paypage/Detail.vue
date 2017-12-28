@@ -57,12 +57,10 @@
           </div>
           <div class="phCon">
             <div class="conFir">
-              <el-steps :active="2" align-center>
-                <el-step title="输入手机号码"></el-step>
-                <el-step title="您接听来点"></el-step>
-                <el-step title="被叫方接听"></el-step>
-                <el-step title="咨询结束"></el-step>
-              </el-steps>
+<<<<<<< HEAD
+              
+=======
+>>>>>>> 09d95a866bc31a132c4897838e0661d12865597e
             </div>
             <div class="conSec"><input type="text" placeholder="请输入手机号码"></div>
             <div class="conThd"><input type="text" placeholder="请输入图形验证码">
@@ -759,7 +757,7 @@ export default {
 }
 .phCon {
   .conFir {
-    height: 75px;
+    height: 55px;
     margin-top: 20px;
   }
   .conSec {
