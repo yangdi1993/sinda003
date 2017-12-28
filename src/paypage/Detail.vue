@@ -202,6 +202,23 @@ export default {
       Tab: true
     };
   },
+  watch: {
+    $route: function() {
+      var that = this;
+    this.ajax
+      .post(
+        "/xinda-api/product/package/detail",
+        this.qs.stringify({ sId: this.$route.query.id }) //this.$route.query.id
+      )
+      .then(function(data) {
+        that.products = data.data.data.product;
+        that.providerProducts = data.data.data.providerProduct;
+        that.regionText = data.data.data.regionText;
+        //console.log(data.data.data.providerProduct);
+        //console.log(data.data.data.product);
+      });
+    }
+  },
   methods: {
     ...mapActions(["setNum", "setName"]),
     //减少数量

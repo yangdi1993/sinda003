@@ -21,10 +21,10 @@
           <form action="">
             <input type="text" @input="produceinput" v-show="chance" @blur="dispear" v-model="nowproinput" class="ihead-search" placeholder="搜索您需要的产品">
             <input type="text" @input="serviceinput" v-show="!chance" @blur="dispear" v-model="nowserinput" class="ihead-search" placeholder="搜索您需要的服务或服务商">
-            <button class="iheadbtn"><span></span></button>
+            <a href="javascript:void(0)" class="iheadbtn" @click="toDetail"><span></span></a>
             <div class="allsearch" v-show="search">
               <span v-show="searchtip">没有搜索到此产品</span>
-              <p v-for="search in sosolobj" v-show="chance" @mousedown="choosesearch(search.serviceName)" :key="search.id">{{search.serviceName}}</p>
+              <p v-for="search in sosolobj" v-show="chance" @mousedown="choosesearch(search.serviceName,search.id)" :key="search.id">{{search.serviceName}}</p>
               <p v-for="search in sosolobjs" v-show="!chance"  @mousedown="choosesearch1(search.providerName)" :key="search.id">{{search.providerName}}</p>
             </div>
           </form>
@@ -81,10 +81,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mapActions } from 'vuex';
-var btn=document.querySelector('.iheadbtn')
-// btn.onenter=function(){
-  // console.log(123)
-// }
 export default {
   name: 'HelloWorld',
   data () {
@@ -97,7 +93,7 @@ export default {
       number:1,
       routeId:'',
       // onechoose:1,  //列表页数据一级选择
-
+      serviceid:'',
 
 
       chance:true,  //搜索内容切换
@@ -158,7 +154,7 @@ export default {
         })).then(function(data){  //搜索框获取接口
           var alldata=data.data.data
           that.sosolobj=alldata
-          // console.log(alldata)
+          console.log(alldata)
           if(!alldata.length){
             that.searchtip=true;
           }else{
@@ -208,8 +204,10 @@ export default {
     servicechoose(){    //搜索框上方服务商选项
       this.chance=false
     },
-    choosesearch(serviceName){   //搜索结果点击
+    choosesearch(serviceName,serviceid){   //搜索结果点击
       this.nowproinput=serviceName
+      // console.log(serviceid)
+      this.serviceid=serviceid
       this.search=false
     },
     choosesearch1(providerName){   //搜索结果点击
@@ -245,6 +243,11 @@ export default {
       sessionStorage.setItem('index',index)
       this.$router.push('/inner/list')
     },
+    toDetail(){
+      if(this.nowproinput){
+        this.$router.push({path:'/inner/Detail',query:{id:this.serviceid}})
+      }
+    }
   }
 }
 </script>
@@ -382,12 +385,14 @@ export default {
         width: 100px;
         height: 40px;
         background: #2693d4;
+        display: block;
         span{
           width: 23px;
           height: 26px;
           background: url(../images/homepage/search.png) 100% 100% no-repeat;
           background-position: 2px 0;
-          display: inline-block;
+          display: block;
+          margin: 8px auto;
         }
       }
 
