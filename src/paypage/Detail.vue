@@ -57,10 +57,6 @@
           </div>
           <div class="phCon">
             <div class="conFir">
-<<<<<<< HEAD
-              
-=======
->>>>>>> 09d95a866bc31a132c4897838e0661d12865597e
             </div>
             <div class="conSec"><input type="text" placeholder="请输入手机号码"></div>
             <div class="conThd"><input type="text" placeholder="请输入图形验证码">
@@ -205,6 +201,23 @@ export default {
       pagecount: { allshow: {} },
       Tab: true
     };
+  },
+  watch: {
+    $route: function() {
+      var that = this;
+    this.ajax
+      .post(
+        "/xinda-api/product/package/detail",
+        this.qs.stringify({ sId: this.$route.query.id }) //this.$route.query.id
+      )
+      .then(function(data) {
+        that.products = data.data.data.product;
+        that.providerProducts = data.data.data.providerProduct;
+        that.regionText = data.data.data.regionText;
+        //console.log(data.data.data.providerProduct);
+        //console.log(data.data.data.product);
+      });
+    }
   },
   methods: {
     ...mapActions(["setNum", "setName"]),

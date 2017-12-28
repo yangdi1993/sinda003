@@ -5,81 +5,81 @@ import HelloWorld from '@/components/HelloWorld'
 import server from '@/components/server'
 //未登录时界面
 // import outter from '@/components/outter'
-const outter = () => import('@/components/outter')
+const outter = () => import( '@/components/outter')
 //登录后
 // import inner from '@/components/inner'
 const inner = () => import('@/components/inner')
 //views 登录、注册、修改密码
 // import login from '@/views/login'
-const login = () => import('@/views/login')
+const login = () => import(/* webpackChunkName: "lazy" */ '@/views/login')
 // import register from '@/views/register'
-const register = () => import('@/views/register')
+const register = () => import(/* webpackChunkName: "lazy" */ '@/views/register')
 // import forget from '@/views/forget'
-const forget = () => import('@/views/forget')
+const forget = () => import(/* webpackChunkName: "lazy" */ '@/views/forget')
 //主页
 // import homepage from '@/homepage/homepage'
 const homepage = () => import('@/homepage/homepage')
 //列表页,由财税服务 跳转
 // import list1 from '@/homepage/list'
-const list1 = () => import('@/homepage/list')
+const list1 = () => import(/* webpackChunkName: "lazy" */ '@/homepage/list')
 //列表页,由公司工商跳转 跳转
 // import list2 from '@/homepage/list'
-const list2 = () => import('@/homepage/list')
+const list2 = () => import(/* webpackChunkName: "lazy" */ '@/homepage/list')
 //列表页,由全部产品知识产权 跳转
 // import list3 from '@/homepage/list'
-const list3 = () => import('@/homepage/list')
+const list3 = () => import(/* webpackChunkName: "lazy" */ '@/homepage/list')
 //列表页,由全部产品社保代理 跳转
 // import list4 from '@/homepage/list'
-const list4 = () => import('@/homepage/list')
+const list4 = () => import(/* webpackChunkName: "lazy" */ '@/homepage/list')
 
 //支付页面
 // import paypage from '@/paypage/paypage'
-const paypage = () => import('@/paypage/paypage')
+const paypage = () => import(/* webpackChunkName: "lazy" */ '@/paypage/paypage')
 //支付跳转页面
 // import orderData from '@/paypage/orderData'
-const orderData = () => import('@/paypage/orderData')
+const orderData = () => import(/* webpackChunkName: "lazy" */ '@/paypage/orderData')
 //支付失败
 // import payFalse from '@/paypage/payFalse'
-const payFalse = () => import('@/paypage/payFalse')
+const payFalse = () => import(/* webpackChunkName: "lazy" */ '@/paypage/payFalse')
 //支付成功
 // import payTrue from '@/paypage/payTrue'
-const payTrue = () => import('@/paypage/payTrue')
+const payTrue = () => import(/* webpackChunkName: "lazy" */ '@/paypage/payTrue')
 //支付宝支付页面
 // import Alipay from '@/paypage/Alipay'
-const Alipay = () => import('@/paypage/Alipay')
+const Alipay = () => import(/* webpackChunkName: "lazy" */ '@/paypage/Alipay')
 //购物车页面
 // import cart from '@/paypage/cart'
-const cart = () => import('@/paypage/cart')
+const cart = () => import(/* webpackChunkName: "lazy" */ '@/paypage/cart')
 //商品详情页面
 // import Detail from '@/paypage/Detail'
-const Detail = () => import('@/paypage/Detail')
+const Detail = () => import(/* webpackChunkName: "lazy" */ '@/paypage/Detail')
 // 会员中心-我的订单
 // import myOrder from '@/memberCenter/myOrder'
-const myOrder = () => import('@/memberCenter/myOrder')
+const myOrder = () => import(/* webpackChunkName: "lazy" */ '@/memberCenter/myOrder')
 // 会员中心-用户评价-未评价
 // import userUnEvalu from '@/memberCenter/userUnEvalu'
-const userUnEvalu = () => import('@/memberCenter/userUnEvalu')
+const userUnEvalu = () => import(/* webpackChunkName: "lazy" */ '@/memberCenter/userUnEvalu')
 // 会员中心-用户评价-已评价
 // import userHavaEvalu from '@/memberCenter/userHavaEvalu'
-const userHavaEvalu = () => import('@/memberCenter/userHavaEvalu')
+const userHavaEvalu = () => import(/* webpackChunkName: "lazy" */ '@/memberCenter/userHavaEvalu')
 //会员中心-账户设置
 // import accountSetting from '@/memberCenter/accountSetting'
-const accountSetting = () => import('@/memberCenter/accountSetting')
+const accountSetting = () => import(/* webpackChunkName: "lazy" */ '@/memberCenter/accountSetting')
 //会员中心-修改密码
 // import changePw from '@/memberCenter/changePw'
-const changePw = () => import('@/memberCenter/changePw')
+const changePw = () => import(/* webpackChunkName: "lazy" */ '@/memberCenter/changePw')
 //店铺列表
 // import shoplist from '@/shop/shoplist'
-const shoplist = () => import('@/shop/shoplist')
+const shoplist = () => import(/* webpackChunkName: "lazy" */ '@/shop/shoplist')
 //店铺首页
 // import shophome from '@/shop/shophome'
-const shophome = () => import('@/shop/shophome')
+const shophome = () => import(/* webpackChunkName: "lazy" */ '@/shop/shophome')
 //加盟我们
 // import join from '@/shop/join'
-const join = () => import('@/shop/join')
+const join = () => import(/* webpackChunkName: "lazy" */ '@/shop/join')
 // 会员中心-用户评价-去评价
 // import goEvalu from '@/memberCenter/goEvalu'
-const goEvalu = () => import('@/memberCenter/goEvalu')
+const goEvalu = () => import(/* webpackChunkName: "lazy" */ '@/memberCenter/goEvalu')
 
 
 
