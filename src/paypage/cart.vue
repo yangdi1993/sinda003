@@ -85,6 +85,8 @@
 
 <script>
 import { MessageBox } from "element-ui";
+import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 export default {
   name: "HelloWorld",
   data() {
