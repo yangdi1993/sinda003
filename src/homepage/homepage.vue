@@ -56,7 +56,7 @@
       </div>
       <div class="busInner">
         <div class="innerCell" v-for="product in objone" :key="product.id" @click="ToDetail(product.id)">
-          <div class="cellLogo"><img :src="'http://115.182.107.203:8088/xinda/pic'+product.providerImg" alt=""></div>
+          <div class="cellLogo"><img :src="newUrl+product.providerImg" alt=""></div>
           <p class="pZero">{{product.providerName}}</p>
           <p class="pFirst">{{product.serviceName}}</p>
           <p class="pSecond">{{product.serviceInfo}}</p>
@@ -140,7 +140,7 @@
         <transition name="slideleft">
           <div class="youone" v-show="busInner">
             <div class="innerCell" v-for="product in objtwo" :key="product.id" >
-              <div class="cellLogo"><img :src="'http://115.182.107.203:8088/xinda/pic'+product.providerImg" alt=""></div>
+              <div class="cellLogo"><img :src="newUrl+product.providerImg" alt=""></div>
               <p class="pZero">{{product.providerName}}</p>
               <p class="pFirst">{{product.serviceName}}</p>
               <p class="pSecond">{{product.serviceInfo}}</p>
@@ -153,7 +153,7 @@
         <transition name="slideright">
           <div class="youtwo" v-show="provider">
             <div class="provider" v-for="product in objthree" :key="product.id" @click="ToShop(product.id)">
-              <div class="cellLogo"><img :src="'http://115.182.107.203:8088/xinda/pic'+product.providerImg" alt=""></div>
+              <div class="cellLogo"><img :src="newUrl+product.providerImg" alt=""></div>
               <p class="pzero">{{product.providerName}}</p>
               <p class="pfirst">{{product.products}}</p>
             </div>

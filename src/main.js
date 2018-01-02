@@ -56,6 +56,7 @@ Vue.config.productionTip = false
 Vue.config.dectools = false
 /* eslint-disable no-new */
 
+Vue.prototype.newUrl = 'http://123.58.241.146:8088/xinda/pic'
 
 //未登录状态禁止部分界面访问
 const blackList = ['/inner/cart', '/inner/payFalse', '/inner/payTrue', '/inner/Alipay', '/inner/paypage', '/inner/myOrder', '/inner/userUnEvalu', '/inner/goEvalu', '/inner/userHavaEvalu', '/inner/accountSetting', '/inner/changePw']
