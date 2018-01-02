@@ -43,7 +43,6 @@
             <a href="#/inner/changePw">
               <p>修改密码</p>
             </a>
-            <!--<router-link to='changePw' replace>账户设置</router-link>-->
           </div>
           <ul class="settings">
             <li class="photo">
@@ -101,7 +100,12 @@
 import ihead from '../components/ihead'
 import dist from '../images/districts'
 const head =  require('../images/login/head.png');
+import { Upload, Radio } from 'element-ui'
 export default {
+  components:{
+    [Upload.name]:Upload,
+    [Radio.name]:Radio
+  },
   data() {
     return {
       // 头像

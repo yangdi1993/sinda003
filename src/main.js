@@ -19,18 +19,12 @@ Vue.use(VueAwesomeSwiper)
 //输入验证插件
 // import Validator from 'vue-validator'
 // Vue.use(Validator)
-// ElementUI组件
-import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-Vue.use(ElementUI);
 
 
 //mint ui
 // import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
-import {
-  MessageBox
-} from 'mint-ui';
 //延迟加载
 import {
   Lazyload
