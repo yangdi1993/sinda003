@@ -432,7 +432,7 @@ export default {
       margin-top: -32px;
       width: 185px;
       height: 50px;
-      background: url("../images/paypage/Sprites.png") no-repeat -334px -162px;
+      background: url("../images/paypage/Sprites.png") no-repeat -8px -162px;
     }
   }
 }
@@ -460,7 +460,7 @@ export default {
       margin-top: -32px;
       width: 55px;
       height: 50px;
-      background: url("../images/paypage/Sprites.png") no-repeat -458px -20px;
+      background: url("../images/paypage/Sprites.png") no-repeat -132 px -20px;
     }
     .fir3 {
       color: #676767;
@@ -489,7 +489,7 @@ export default {
       margin-top: -20px;
       width: 70px;
       height: 50px;
-      background: url("../images/paypage/Sprites.png") no-repeat -533px -18px;
+      background: url("../images/paypage/Sprites.png") no-repeat -207px -18px;
     }
     .fir3 {
       color: #676767;
@@ -529,7 +529,7 @@ export default {
       margin-top: -25px;
       width: 140px;
       height: 50px;
-      background: url("../images/paypage/Sprites.png") no-repeat -335px -94px;
+      background: url("../images/paypage/Sprites.png") no-repeat -9px -94px;
     }
     .fir3 {
       text-align: left;

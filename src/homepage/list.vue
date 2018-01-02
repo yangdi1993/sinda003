@@ -50,7 +50,7 @@
           <span>价格</span>
         </div>
         <div class="menuinner" v-for="(listobj) in listobjsA.page" :key="listobj.id">
-          <router-link :to="{path:'/inner/Detail',query:{id:listobj.id}}" class="bgimg"><img :src="'http://115.182.107.203:8088/xinda/pic'+listobj.productImg" @error="errorimg()" alt=""></router-link>
+          <router-link :to="{path:'/inner/Detail',query:{id:listobj.id}}" class="bgimg"><img :src="newUrl+listobj.productImg" @error="errorimg()" alt=""></router-link>
           <div class="innertext">
             <router-link :to="{path:'/inner/Detail',query:{id:listobj.id}}" class="innertitle">{{listobj.providerName}}</router-link>
             <p class="innermore">{{listobj.serviceInfo}}</p>
