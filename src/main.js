@@ -10,6 +10,7 @@ import store from './store'
 import qs from 'qs'
 //三级联动插件
 import dist from './images/districts'
+
 //轮播部分插件引入
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 Vue.use(VueAwesomeSwiper)
@@ -25,7 +26,7 @@ Vue.use(ElementUI);
 
 
 //mint ui
-import MintUI from 'mint-ui'
+// import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import {
   MessageBox

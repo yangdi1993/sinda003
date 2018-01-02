@@ -72,7 +72,7 @@
       </div>
       <div class="busInner">
         <div class="innerCell" v-for="product in objone" :key="product.id" @click="ToDetail(product.id)">
-          <div class="cellLogo"><img :src="'http://115.182.107.203:8088/xinda/pic'+product.providerImg" alt=""></div>
+          <div class="cellLogo"><img :src="newUrl+product.providerImg" alt=""></div>
           <p class="pFirst">{{product.serviceName}}</p>
           <p class="pSecond">{{product.serviceInfo}}</p>
           <p class="pThrid"><span>￥{{product.marketPrice}}</span> {{product.unit}}</p>
