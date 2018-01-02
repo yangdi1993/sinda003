@@ -20,6 +20,10 @@ Vue.use(VueAwesomeSwiper)
 // Vue.use(Validator)
 import 'element-ui/lib/theme-chalk/index.css'
 
+//删除框-element-ui
+import {MessageBox} from 'element-ui'
+Vue.component(MessageBox.name, MessageBox)
+
 
 //mint ui
 // import MintUI from 'mint-ui'
