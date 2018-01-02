@@ -76,12 +76,12 @@ export default {
         )
         .then(function(data) {
           //console.log("origin==", data);
-          if (data.data.data && data.data.data.length) {
+          //if (data.data.data && data.data.data.length) {
             that.businessshow(data);
-          } else {
-            that.errorbox = true;
-            that.error = "无结果";
-          }
+          //} else {
+            //that.errorbox = true;
+            //that.error = "无结果";
+          //}
         });
     },
     //处理每个订单的商品
@@ -146,10 +146,6 @@ export default {
     },
     //付款
     payfor(code) {},
-    //返回上一级
-    back() {
-      history.go(-1);
-    }
   }
 };
 </script>
