@@ -47,7 +47,7 @@
         </div>
         <div class="bigges">
           <div class="box" v-for="store in disStores" :key="store.id">
-            <span class="logoimg"><img :src="'http://115.182.107.203:8088/xinda/pic'+store.providerImg" alt=""></span>
+            <span class="logoimg"><img :src="'http://123.58.241.147:8088/xinda/pic'+store.providerImg" alt=""></span>
             <span class="jinpai"><img src="../images/shop/jinpai.gif">
               <p>金牌服务商</p>
             </span>
