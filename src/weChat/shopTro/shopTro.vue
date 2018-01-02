@@ -8,7 +8,7 @@
     <div class="comDetDiv" v-for="(item,idx) in menCen" :key="item.id">
       <p class="comDetName">{{item.providerName}}</p>
       <ul class="comDetUl">
-        <li class="comDetImg"><img :src="'http://115.182.107.203:8088/xinda/pic'+item.providerImg" alt=""></li>
+        <li class="comDetImg"><img :src="newUrl+item.providerImg" alt=""></li>
         <li class="comDetTe">
           <a class="comDetPro">{{item.serviceName}}</a>
           <p class="comDetDel" @click="dele(item.serviceId)">删除订单</p>
