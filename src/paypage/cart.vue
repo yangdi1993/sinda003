@@ -31,7 +31,7 @@
             </p>
           </tr>
           <tr class="goods">
-            <td class="tdone"><img :src="'http://115.182.107.203:8088/xinda/pic'+ cart.providerImg" alt=""></td>
+            <td class="tdone"><img :src="newUrl+ cart.providerImg" alt=""></td>
             <td class="tdtwo">{{cart.serviceName}}</td>
             <td class="tdthree">￥{{cart.unitPrice}}.00</td>
             <td class="tdfour">

@@ -7,7 +7,7 @@
         </p>
       </div>
       <div class="content">
-        <div class="g-img"><img :src="'http://115.182.107.203:8088/xinda/pic' + products.img" alt=""></div>
+        <div class="g-img"><img :src="newUrl + products.img" alt=""></div>
         <div class="main">
           <div>
             <p class="name">{{providerProducts.serviceName}}</p>
