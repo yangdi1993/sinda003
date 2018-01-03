@@ -117,6 +117,7 @@ export default {
 <style scoped lang="less">
 // 固定最小宽度
 // @media all and (min-width:1200px){
+  *{font-family: '\5B8B\4F53'}
  .memCenBg{
     width: 100%;
     height: 705px;
