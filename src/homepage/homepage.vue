@@ -2,14 +2,11 @@
   <div class="homepage">
     <!-- 轮播 -->
     <a href="javascript:void(0)" class="homepage-banner">
-      <swiper :options="swiperOption">
-        <swiper-slide class="slide-1"><img src="../images/homepage/knowledge2.png" alt=""></swiper-slide>
-        <swiper-slide class="slide-2"><img src="../images/homepage/knowledge3.png" alt=""></swiper-slide>
-        <swiper-slide class="slide-3"><img src="../images/homepage/knowledge4.png" alt=""></swiper-slide>
-        <div class="swiper-pagination swiper-pagination-white" slot="pagination"></div>
-        <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
-        <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
-      </swiper>
+      <el-carousel class="swiper-slide" height='400px'>
+        <el-carousel-item><img src="../images/homepage/knowledge2.png" alt=""></el-carousel-item>
+        <el-carousel-item><img src="../images/homepage/knowledge3.png" alt=""></el-carousel-item>
+        <el-carousel-item><img src="../images/homepage/knowledge4.png" alt=""></el-carousel-item>
+      </el-carousel>
     </a>
     <div class="recommend">
       <!-- 明星产品推荐,没有动态数据，只能写静态了 -->
@@ -173,8 +170,12 @@
 </template>
 
 <script>
-require("swiper/dist/css/swiper.css");
+import { Carousel, CarouselItem } from 'element-ui'
 export default {
+    components:{
+    [Carousel.name]:Carousel,
+    [CarouselItem.name]:CarouselItem
+  },
   methods: {
     servicers: function() {
       this.busInner = true;
@@ -201,22 +202,6 @@ export default {
   },
   data() {
     return {
-      swiperOption: {
-        //轮播
-        spaceBetween: 30,
-        autoplay: true, //自动 播放
-        effect: "fade", //轮播样式
-        loop: true, //无限轮播
-        preventClicks: false,
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: false
-        },
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
-        }
-      },
       objone: [],
       objtwo: [],
       objthree: [],
@@ -228,6 +213,7 @@ export default {
     };
   },
   created() {
+
     // console.log(123);
     var that = this;
     this.ajax
@@ -276,8 +262,8 @@ export default {
   width: 1200px;
   height: 400px;
   img {
-    width: 1200px;
-    height: 400px;
+    width: 100%;
+    height: 100%;
   }
 }
 

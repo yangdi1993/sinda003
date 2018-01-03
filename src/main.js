@@ -11,9 +11,9 @@ import qs from 'qs'
 //三级联动插件
 import dist from './images/districts'
 
-//轮播部分插件引入
-import VueAwesomeSwiper from 'vue-awesome-swiper'
-Vue.use(VueAwesomeSwiper)
+// //轮播部分插件引入
+// import VueAwesomeSwiper from 'vue-awesome-swiper'
+// Vue.use(VueAwesomeSwiper)
 
 
 //输入验证插件
@@ -24,7 +24,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 //mint ui
 // import MintUI from 'mint-ui'
-import 'mint-ui/lib/style.css'
+// import 'mint-ui/lib/style.css'
 //延迟加载
 import {
   Lazyload
@@ -32,17 +32,17 @@ import {
 Vue.use(Lazyload);
 
 
-import {
-  Swipe,
-  SwipeItem
-} from 'mint-ui';
+// import {
+//   Swipe,
+//   SwipeItem
+// } from 'mint-ui';
 import {
   Loadmore
 } from 'mint-ui';
 
 Vue.component(Loadmore.name, Loadmore)
-Vue.component(Swipe.name, Swipe);
-Vue.component(SwipeItem.name, SwipeItem);
+// Vue.component(Swipe.name, Swipe);
+// Vue.component(SwipeItem.name, SwipeItem);
 
 
 Vue.prototype.ajax = axios
@@ -51,6 +51,7 @@ Vue.config.productionTip = false
 Vue.config.dectools = false
 /* eslint-disable no-new */
 
+//设置公共的图片引入地址
 Vue.prototype.newUrl = 'http://123.58.241.146:8088/xinda/pic'
 
 //未登录状态禁止部分界面访问
