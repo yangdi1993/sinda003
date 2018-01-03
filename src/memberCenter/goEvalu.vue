@@ -74,7 +74,7 @@
             </li>
             <li>
                 <span class="feel">感受：</span> 
-                <textarea name="" id="" cols="30" rows="10"></textarea>
+                <textarea name="" id="" cols="30" rows="10" v-model="feelText" @keyup="feelKey()"></textarea>
             </li>
         </ul>
         <a href="#/inner/userUnEvalu"><input class="orderSub" type="button" value="提交"></a>
@@ -92,14 +92,25 @@ export default {
    return{
      index: -1,
     //  image:''
+    feelText:"",
    }
   },
   methods:{
   // 评分五角星
     image:function(index){
       this.index = index;
-    } 
-  }
+    } ,
+    // 敏感词汇判断
+    feelKey(){
+      var arrMg = ['fuck','tmd','他妈的','弱智','sb'];
+      var showContent = this.feelText;
+      for(var i=0;i<arrMg.length;i++){
+        var r = new RegExp(arrMg[i]);
+        showContent = showContent.replace(r,"*");
+      }
+      this.feelText = showContent;
+    }
+  },
 }
 </script>
 
