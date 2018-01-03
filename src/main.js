@@ -10,11 +10,20 @@ import store from './store'
 import qs from 'qs'
 //三级联动插件
 import dist from './images/districts'
-//轮播部分插件引入
-import VueAwesomeSwiper from 'vue-awesome-swiper'
-Vue.use(VueAwesomeSwiper)
+
+// //轮播部分插件引入
+// import VueAwesomeSwiper from 'vue-awesome-swiper'
+// Vue.use(VueAwesomeSwiper)
 
 
+
+// import { Upload, Radio ,MessageBox,Message,Button} from 'element-ui'
+// // import {MessageBox,Message,Button} from 'element-ui'
+// Vue.component(Upload.name, Upload)
+// Vue.component(Radio.name, Radio)
+// Vue.use(Button);
+// Vue.prototype.$confirm = MessageBox.confirm;
+// Vue.prototype.$message = Message;
 //输入验证插件
 // import Validator from 'vue-validator'
 // Vue.use(Validator)
@@ -31,23 +40,18 @@ import 'element-ui/lib/theme-chalk/index.css'
 // import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 //延迟加载
-import {
-  Lazyload
-} from 'mint-ui';
-Vue.use(Lazyload);
+// import {Lazyload} from 'mint-ui';
+// Vue.use(Lazyload);
 
+// import VueAwesomeSwiper from 'vue-awesome-swiper'
+// Vue.use(VueAwesomeSwiper)
 
-import {
-  Swipe,
-  SwipeItem
-} from 'mint-ui';
-import {
-  Loadmore
-} from 'mint-ui';
+// import {Swipe,SwipeItem} from 'mint-ui';
+// import {Loadmore} from 'mint-ui';
 
-Vue.component(Loadmore.name, Loadmore)
-Vue.component(Swipe.name, Swipe);
-Vue.component(SwipeItem.name, SwipeItem);
+// Vue.component(Loadmore.name, Loadmore)
+// Vue.component(Swipe.name, Swipe);
+// Vue.component(SwipeItem.name, SwipeItem);
 
 
 Vue.prototype.ajax = axios
@@ -56,6 +60,7 @@ Vue.config.productionTip = false
 Vue.config.dectools = false
 /* eslint-disable no-new */
 
+//设置公共的图片引入地址
 Vue.prototype.newUrl = 'http://123.58.241.146:8088/xinda/pic'
 
 //未登录状态禁止部分界面访问

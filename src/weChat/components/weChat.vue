@@ -31,7 +31,11 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import {Loadmore} from 'mint-ui';
 export default {
+  components:{
+    [Loadmore.name]:Loadmore
+  },
   created() {
     
   },

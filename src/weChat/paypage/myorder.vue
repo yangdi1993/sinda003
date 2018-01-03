@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <div class="aBody" v-for="list in lists" :key="list.businessNo">
-      <div class="order" v-lazy="list">
+      <div class="order">
         <div>
           <p>订单号：{{list.businessNo}}</p>
           <p>{{list.status}}</p>
@@ -46,8 +46,11 @@
 <script>
 var moment = require("moment");
 import { mapActions } from "vuex";
-import { MessageBox } from "mint-ui";
+// import { MessageBox,Lazyload } from "mint-ui";
 export default {
+  //   components:{
+  //   [Lazyload.name]:Lazyload
+  // },
   created() {
     //顶部
     this.setTitle("我的订单");
@@ -323,9 +326,9 @@ export default {
     }
   }
 }
-div[lazy="loading"] {
-  width: 100%;
-  height: 3rem;
-  margin: auto;
-}
+// div[lazy="loading"] {
+//   width: 100%;
+//   height: 3rem;
+//   margin: auto;
+// }
 </style>

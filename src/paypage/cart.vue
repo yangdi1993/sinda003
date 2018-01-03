@@ -83,20 +83,16 @@
 </template>
 
 <script>
-// import { mapGetters } from "vuex";
-// import { mapActions } from "vuex";
+import { mapGetters,mapActions } from "vuex";
 import {MessageBox,Message,Button} from 'element-ui'
-import Vue from 'vue'
-Vue.use(Button);
-Vue.prototype.$confirm = MessageBox.confirm;
-Vue.prototype.$message = Message;
+
+// Vue.prototype.$confirm = MessageBox.confirm;
+// Vue.prototype.$message = Message;
 export default {
   name: "HelloWorld",
-  // components:{
-  //   [MessageBox.name]:MessageBox,
-  //   [Message.name]:Message,
-  //   [Button.name]:Button
-  // },
+  components:{
+    [Button.name]:Button
+  },
   
   data() {
     return {
@@ -177,13 +173,13 @@ export default {
     //删除商品
     Dele(id) {
       var that=this;
-      this.$confirm("即将删除该商品, 是否继续?", "提示", {
+      MessageBox("即将删除该商品, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          this.$message({
+          Message({
             type: "success",
             message: "删除成功!"
           });
@@ -196,7 +192,7 @@ export default {
             });
         })
         .catch(() => {
-          this.$message({
+          Message({
             type: "info",
             message: "已取消删除"
           });

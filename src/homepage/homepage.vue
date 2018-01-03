@@ -2,6 +2,11 @@
   <div class="homepage">
     <!-- 轮播 -->
     <a href="javascript:void(0)" class="homepage-banner">
+      <!-- <el-carousel class="swiper-slide" height='400px'>
+        <el-carousel-item><img src="../images/homepage/knowledge2.png" alt=""></el-carousel-item>
+        <el-carousel-item><img src="../images/homepage/knowledge3.png" alt=""></el-carousel-item>
+        <el-carousel-item><img src="../images/homepage/knowledge4.png" alt=""></el-carousel-item>
+      </el-carousel> -->
       <swiper :options="swiperOption">
         <swiper-slide class="slide-1"><img src="../images/homepage/knowledge2.png" alt=""></swiper-slide>
         <swiper-slide class="slide-2"><img src="../images/homepage/knowledge3.png" alt=""></swiper-slide>
@@ -173,6 +178,9 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+Vue.use(VueAwesomeSwiper)
 require("swiper/dist/css/swiper.css");
 export default {
   methods: {
@@ -201,7 +209,7 @@ export default {
   },
   data() {
     return {
-      swiperOption: {
+       swiperOption: {
         //轮播
         spaceBetween: 30,
         autoplay: true, //自动 播放
@@ -228,6 +236,7 @@ export default {
     };
   },
   created() {
+
     // console.log(123);
     var that = this;
     this.ajax
@@ -276,8 +285,8 @@ export default {
   width: 1200px;
   height: 400px;
   img {
-    width: 1200px;
-    height: 400px;
+    width: 100%;
+    height: 100%;
   }
 }
 
