@@ -212,8 +212,7 @@ export default {
         var that = this;
         this.ajax.post('/xinda-api/ business-order/del',this.qs.stringify({id : id})).then(function(data){
           if(data.data.status === 1){
-             that.getData();
-             that.businessshow();
+            location.reload();
           } else{
           }
         });
