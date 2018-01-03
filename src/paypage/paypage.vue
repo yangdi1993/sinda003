@@ -204,7 +204,7 @@ export default {
           this.closewx=true
           this.closezfb=false
           //console.log(this.check,'微信')
-          this.ajax.post('xinda-api/pay/ weixin-pay',this.qs.stringify({
+          this.ajax.post('/xinda-api/pay/ weixin-pay',this.qs.stringify({
             businessNo:this.busOrder.businessNo
           })).then(function(data){
             sessionStorage.setItem('orderdata',data.data)
@@ -217,7 +217,7 @@ export default {
           
           if(this.check=='yinlian'|'zizhu'){   //银联
             //console.log(this.check,'银联',123)
-            this.ajax.post('xinda-api/pay/china-pay',this.qs.stringify({
+            this.ajax.post('/xinda-api/pay/china-pay',this.qs.stringify({
               businessNo:this.busOrder.businessNo
             })).then(function(data){
               sessionStorage.setItem('orderdata',data.data)
@@ -225,7 +225,7 @@ export default {
             })
           }else if(this.check=='zhifubao'){    //支付宝
             //console.log(this.check,'支付宝')
-            this.ajax.post('xinda-api/pay/ali-pay',this.qs.stringify({
+            this.ajax.post('/xinda-api/pay/ali-pay',this.qs.stringify({
               businessNo:this.busOrder.businessNo
             })).then(function(data){
               sessionStorage.setItem('orderdata',data.data)
@@ -239,7 +239,7 @@ export default {
       this.closezfb=true
       this.check='yinlian'
       //console.log(this.check,'银联',123)
-      this.ajax.post('xinda-api/pay/china-pay',this.qs.stringify({
+      this.ajax.post('/xinda-api/pay/china-pay',this.qs.stringify({
         businessNo:this.busOrder.businessNo
       })).then(function(data){
         sessionStorage.setItem('orderdata',data.data)
@@ -251,7 +251,7 @@ export default {
       this.closewx=true
       this.check='weixin'
       //console.log(this.check,'微信')
-      this.ajax.post('xinda-api/pay/ weixin-pay',this.qs.stringify({
+      this.ajax.post('/xinda-api/pay/ weixin-pay',this.qs.stringify({
         businessNo:this.busOrder.businessNo
       })).then(function(data){
         sessionStorage.setItem('orderdata',data.data)
@@ -262,7 +262,7 @@ export default {
       this.closezfb=true
       this.check='zhifubao'
       //console.log(this.check,'支付宝')
-      this.ajax.post('xinda-api/pay/ali-pay',this.qs.stringify({
+      this.ajax.post('/xinda-api/pay/ali-pay',this.qs.stringify({
         businessNo:this.busOrder.businessNo
       })).then(function(data){
         sessionStorage.setItem('orderdata',data.data)

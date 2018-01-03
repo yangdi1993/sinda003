@@ -6,16 +6,16 @@
         <p>信达</p>
       </div>
     </div>
-    <!-- <mt-swipe :auto="2000" class="swipe">
+    <mt-swipe :auto="2000" class="swipe">
       <mt-swipe-item><img src="../../images/homepage/knowledge2.png" alt=""></mt-swipe-item>
       <mt-swipe-item><img src="../../images/homepage/knowledge3.png" alt=""></mt-swipe-item>
       <mt-swipe-item><img src="../../images/homepage/knowledge4.png" alt=""></mt-swipe-item>
-    </mt-swipe> -->
-    <el-carousel class="swiper-slide" height='2.54rem'>
+    </mt-swipe>
+    <!-- <el-carousel class="swiper-slide" height='2.54rem'>
         <el-carousel-item><img src="../../images/homepage/knowledge2.png" style="width:100%" alt=""></el-carousel-item>
         <el-carousel-item><img src="../../images/homepage/knowledge3.png" style="width:100%" alt=""></el-carousel-item>
         <el-carousel-item><img src="../../images/homepage/knowledge4.png" style="width:100%;height:100%" alt=""></el-carousel-item>
-    </el-carousel>
+    </el-carousel> -->
     <div class="cellchoose">
       <div class="caishui" @click="ToList()">
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/caishui.png" alt=""></a>
@@ -96,12 +96,12 @@
 </template>
 
 <script>
-import { Carousel, CarouselItem } from 'element-ui'
 import { mapActions } from "vuex";
+import {Swipe,SwipeItem} from 'mint-ui';
 export default {
   components:{
-    [Carousel.name]:Carousel,
-    [CarouselItem.name]:CarouselItem
+    [SwipeItem.name]:SwipeItem,
+    [Swipe.name]:Swipe
   },
   data () {
     return {

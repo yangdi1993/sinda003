@@ -16,31 +16,40 @@ import dist from './images/districts'
 // Vue.use(VueAwesomeSwiper)
 
 
+
+// import { Upload, Radio ,MessageBox,Message,Button} from 'element-ui'
+// // import {MessageBox,Message,Button} from 'element-ui'
+// Vue.component(Upload.name, Upload)
+// Vue.component(Radio.name, Radio)
+// Vue.use(Button);
+// Vue.prototype.$confirm = MessageBox.confirm;
+// Vue.prototype.$message = Message;
 //输入验证插件
 // import Validator from 'vue-validator'
 // Vue.use(Validator)
+// import {
+//   MessageBox,
+//   Message,
+//   Button
+// } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
-
-
+// Vue.use(Button);
+// Vue.prototype.$confirm = MessageBox.confirm;
+// Vue.prototype.$message = Message;
 //mint ui
 // import MintUI from 'mint-ui'
-// import 'mint-ui/lib/style.css'
+import 'mint-ui/lib/style.css'
 //延迟加载
-import {
-  Lazyload
-} from 'mint-ui';
-Vue.use(Lazyload);
+// import {Lazyload} from 'mint-ui';
+// Vue.use(Lazyload);
 
+// import VueAwesomeSwiper from 'vue-awesome-swiper'
+// Vue.use(VueAwesomeSwiper)
 
-// import {
-//   Swipe,
-//   SwipeItem
-// } from 'mint-ui';
-import {
-  Loadmore
-} from 'mint-ui';
+// import {Swipe,SwipeItem} from 'mint-ui';
+// import {Loadmore} from 'mint-ui';
 
-Vue.component(Loadmore.name, Loadmore)
+// Vue.component(Loadmore.name, Loadmore)
 // Vue.component(Swipe.name, Swipe);
 // Vue.component(SwipeItem.name, SwipeItem);
 

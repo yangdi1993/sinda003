@@ -91,62 +91,62 @@ const weChat = () => import('@/weChat/components/weChat')
 const weChatdog = () => import('@/weChat/components/weChatdog')
 // const weChatdog = r => require.ensure([], () => r(require('@/weChat/components/weChatdog')))
 //首页
-import index from '@/weChat/index/index'
+// import index from '@/weChat/index/index'
 // const index = r => require.ensure([], () => r(require('@/weChat/index/index')))
-// const index = () => import('@/weChat/index/index')
+const index = () => import('@/weChat/index/index')
 //列表页
 // import Wlist from '@/weChat/index/list'
 // const Wlist = r => require.ensure([], () => r(require('@/weChat/index/list')))
-const Wlist = () => import('@/weChat/index/list')
+const Wlist = () => import(/* webpackChunkName: "lazy1" */'@/weChat/index/list')
 //分类
 // import allkinds from '@/weChat/index/allkinds'
 // const allkinds = r => require.ensure([], () => r(require('@/weChat/index/allkinds')))
-const allkinds = () => import('@/weChat/index/allkinds')
+const allkinds = () => import(/* webpackChunkName: "lazy1" */'@/weChat/index/allkinds')
 //移动端店铺列表
 // import storelist from  '@/weChat/store/storelist'
 // const storelist = r => require.ensure([], () => r(require('@/weChat/store/storelist')))
-const storelist = () => import('@/weChat/store/storelist')
+const storelist = () => import(/* webpackChunkName: "lazy1" */'@/weChat/store/storelist')
 //移动端店铺首页
 // import storehome from '@/weChat/store/storehome'
 // const storehome = r => require.ensure([], () => r(require('@/weChat/store/storelist')))
-const storehome = () => import('@/weChat/store/storehome')
+const storehome = () => import(/* webpackChunkName: "lazy1" */'@/weChat/store/storehome')
 //移动端商品详情
 // import wDetail from '@/weChat/paypage/wDetail'
 // const wDetail = r => require.ensure([], () => r(require('@/weChat/paypage/wDetail')))
-const wDetail = () => import('@/weChat/paypage/wDetail')
+const wDetail = () => import(/* webpackChunkName: "lazy1" */'@/weChat/paypage/wDetail')
 //我的订单
 // import myorder from '@/weChat/paypage/myorder'
 // const myorder = r => require.ensure([], () => r(require('@/weChat/paypage/myorder')))
-const myorder = () => import('@/weChat/paypage/myorder')
+const myorder = () => import(/* webpackChunkName: "lazy1" */'@/weChat/paypage/myorder')
 
 // import shopTro from '@/weChat/shopTro/shopTro'
 // const shopTro = r => require.ensure([], () => r(require('@/weChat/shopTro/shopTro')))
-const shopTro = () => import('@/weChat/shopTro/shopTro')
+const shopTro = () => import(/* webpackChunkName: "lazy1" */'@/weChat/shopTro/shopTro')
 
 //登录页面
 // import wlogin from '@/weChat/mine/wlogin'
 // const wlogin = r => require.ensure([], () => r(require('@/weChat/mine/wlogin')))
-const wlogin = () => import('@/weChat/mine/wlogin')
+const wlogin = () => import(/* webpackChunkName: "lazy1" */'@/weChat/mine/wlogin')
 //注册页面
 // import wRegister from '@/weChat/mine/wRegister'
 // const wRegister = r => require.ensure([], () => r(require('@/weChat/mine/wRegister')))
-const wRegister = () => import('@/weChat/mine/wRegister')
+const wRegister = () => import(/* webpackChunkName: "lazy1" */'@/weChat/mine/wRegister')
 //忘记密码页面
 // import wForget from '@/weChat/mine/wForget'
 // const wForget = r => require.ensure([], () => r(require('@/weChat/mine/wForget')))
-const wForget = () => import('@/weChat/mine/wForget')
+const wForget = () => import(/* webpackChunkName: "lazy1" */'@/weChat/mine/wForget')
 //未注册页面
 // import wNotReg from '@/weChat/mine/wNotReg'
 // const wNotReg = r => require.ensure([], () => r(require('@/weChat/mine/wNotReg')))
-const wNotReg = () => import('@/weChat/mine/wNotReg')
+const wNotReg = () => import(/* webpackChunkName: "lazy1" */'@/weChat/mine/wNotReg')
 //账户设置页面
 // import wSet from '@/weChat/mine/wSet'
 // const wSet = r => require.ensure([], () => r(require('@/weChat/mine/wSet')))
-const wSet = () => import('@/weChat/mine/wSet')
+const wSet = () => import(/* webpackChunkName: "lazy1" */'@/weChat/mine/wSet')
 //已登录页面
 // import wYetLogin from '@/weChat/mine/wYetLogin'
 // const wYetLogin = r => require.ensure([], () => r(require('@/weChat/mine/wYetLogin')))
-const wYetLogin = () => import('@/weChat/mine/wYetLogin')
+const wYetLogin = () => import(/* webpackChunkName: "lazy1" */'@/weChat/mine/wYetLogin')
 
 
 
