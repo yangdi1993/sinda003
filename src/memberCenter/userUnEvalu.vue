@@ -82,11 +82,6 @@ export default {
   // 翻页
   created(){
     var arr = [];
-    // this.evaOrderList
-    // console.log(this.evaOrderList);
-    // for(){
-
-    // }
   }
 }
 </script>

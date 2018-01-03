@@ -101,11 +101,7 @@ export default {
     } 
   }
 }
-
- 
 </script>
-
-
 
 <style scoped lang="less">
 // 固定最小宽度
