@@ -20,7 +20,7 @@ Vue.use(VueAwesomeSwiper)
 // Vue.use(Validator)
 import 'element-ui/lib/theme-chalk/index.css'
 
-
+  
 //mint ui
 // import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'

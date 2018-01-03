@@ -87,6 +87,8 @@
 import { mapActions } from "vuex";
 // import ihead from '../components/ihead'
 import dist from "../../images/districts";
+import { Upload, Radio } from 'element-ui'
+
 var md5 = require("md5");
 const head = require("../images/login/head3.png");
 const eye = [
@@ -136,6 +138,10 @@ export default {
       loginId: "", //登录id
       success: false //修改成功提示
     };
+  },
+    components:{
+    [Upload.name]:Upload,
+    [Radio.name]:Radio
   },
   created() {
     this.setTitle('账户设置')
