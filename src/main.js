@@ -18,9 +18,15 @@ Vue.use(VueAwesomeSwiper)
 //输入验证插件
 // import Validator from 'vue-validator'
 // Vue.use(Validator)
+// import {
+//   MessageBox,
+//   Message,
+//   Button
+// } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
-
-
+// Vue.use(Button);
+// Vue.prototype.$confirm = MessageBox.confirm;
+// Vue.prototype.$message = Message;
 //mint ui
 // import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
