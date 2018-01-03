@@ -371,6 +371,8 @@ export default {
         that.products = data.data.data.product;
         that.providerProducts = data.data.data.providerProduct;
         that.regionText = data.data.data.regionText;
+        console.log(that.products);
+        
       });
     //获取评价数量
     this.ajax

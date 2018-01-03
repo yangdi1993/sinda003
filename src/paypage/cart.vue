@@ -31,17 +31,16 @@
             </p>
           </tr>
           <tr class="goods">
-            <td class="tdone"><img :src="newUrl+ cart.providerImg" alt=""></td>
+            <td class="tdone"><img :src="newUrl + cart.providerImg" alt=""></td>
             <td class="tdtwo">{{cart.serviceName}}</td>
             <td class="tdthree">￥{{cart.unitPrice}}.00</td>
             <td class="tdfour">
-              <button @click="min(cart.serviceId,cart.buyNum)">-</button><input type="number" v-model="cart.buyNum" readonly="readonly"><button @click="add(cart.serviceId,cart.buyNum)">+</button>
+              <button @click="min(cart.serviceId,cart.buyNum)">-</button><input type="number" v-model="cart.buyNum" readonly="readonly">
+              <button @click="add(cart.serviceId,cart.buyNum)">+</button>
             </td>
             <td class="zjia">￥{{cart.totalPrice}}.00</td>
             <td class="dele">
-              <template>
-                <el-button type="text" @click="Dele(cart.serviceId)" style="width:40px;">删除</el-button>
-              </template>
+              <el-button type="text" @click="Dele(cart.serviceId)" style="width:40px;">删除</el-button>
             </td>
           </tr>
         </tbody>
@@ -84,11 +83,21 @@
 </template>
 
 <script>
-import { MessageBox } from "element-ui";
-import { mapGetters } from "vuex";
-import { mapActions } from "vuex";
+// import { mapGetters } from "vuex";
+// import { mapActions } from "vuex";
+import {MessageBox,Message,Button} from 'element-ui'
+import Vue from 'vue'
+Vue.use(Button);
+Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$message = Message;
 export default {
   name: "HelloWorld",
+  // components:{
+  //   [MessageBox.name]:MessageBox,
+  //   [Message.name]:Message,
+  //   [Button.name]:Button
+  // },
+  
   data() {
     return {
       msg: "Welcome to Your Vue.js App",
@@ -126,8 +135,8 @@ export default {
             //console.log(data.data);
             that.gettingData();
           });
-      }else{
-        buyNum=10;
+      } else {
+        buyNum = 10;
       }
     },
     //减少数量
@@ -167,6 +176,7 @@ export default {
     },
     //删除商品
     Dele(id) {
+      var that=this;
       this.$confirm("即将删除该商品, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
