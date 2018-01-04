@@ -1,5 +1,5 @@
 <template>
-<mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore"  class="style">
+<mt-loadmore :top-method="loadTop" :bottom-all-loaded="allLoaded" ref="loadmore"  class="style">
   <div>
     <div class="top">
       <span @click="goback" class="goback"><span></span><p>返回</p></span>
@@ -31,7 +31,11 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import {Loadmore} from 'mint-ui';
 export default {
+  components:{
+    [Loadmore.name]:Loadmore
+  },
   created() {
     
   },

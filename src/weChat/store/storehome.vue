@@ -14,7 +14,7 @@
         <div class='content'>
           <div class='img'>
             <div class='imgs'>
-              <img :src="('http://115.182.107.203:8088/xinda/pic'+product.productImg)" alt="">
+              <img :src="newUrl+product.productImg" alt="">
             </div>
             <div class='deta'>
               <p>{{product.serviceName}}</p><br>

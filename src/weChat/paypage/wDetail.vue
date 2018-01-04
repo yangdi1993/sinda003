@@ -1,7 +1,7 @@
 <template>
   <div class="detailWhole">
     <div class="head">
-      <img :src="'http://115.182.107.203:8088/xinda/pic' + products.img" alt="">
+      <img :src="newUrl + products.img" alt="">
       <div class="quyu">
         <p>区域：{{regionText}}</p>
       </div>
@@ -26,7 +26,7 @@
         <span class="lineSanjiao"></span>
       </div>
       <div class="shopCon">
-        <div class="Img"><img :src="'http://115.182.107.203:8088/xinda/pic' + providers.providerImg" alt=""></div>
+        <div class="Img"><img :src="newUrl + providers.providerImg" alt=""></div>
         <div class="shopcon">
           <p>{{providers.name}}</p><br>
           <p>信誉：
@@ -138,7 +138,7 @@ export default {
         that.providerRegionText = data.data.data.providerRegionText;
         that.providerBusinesses = data.data.data.providerBusiness;
         //console.log(data.data.data.providerProduct);
-        //console.log(data.data.data);
+        console.log(that.providers.providerImg);
       });
     //店铺详情
   },

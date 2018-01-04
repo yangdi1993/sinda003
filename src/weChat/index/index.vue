@@ -11,6 +11,11 @@
       <mt-swipe-item><img src="../../images/homepage/knowledge3.png" alt=""></mt-swipe-item>
       <mt-swipe-item><img src="../../images/homepage/knowledge4.png" alt=""></mt-swipe-item>
     </mt-swipe>
+    <!-- <el-carousel class="swiper-slide" height='2.54rem'>
+        <el-carousel-item><img src="../../images/homepage/knowledge2.png" style="width:100%" alt=""></el-carousel-item>
+        <el-carousel-item><img src="../../images/homepage/knowledge3.png" style="width:100%" alt=""></el-carousel-item>
+        <el-carousel-item><img src="../../images/homepage/knowledge4.png" style="width:100%;height:100%" alt=""></el-carousel-item>
+    </el-carousel> -->
     <div class="cellchoose">
       <div class="caishui" @click="ToList()">
         <a href="javascript:void(0)" class="celllogo"><img src="../images/index/caishui.png" alt=""></a>
@@ -72,7 +77,7 @@
       </div>
       <div class="busInner">
         <div class="innerCell" v-for="product in objone" :key="product.id" @click="ToDetail(product.id)">
-          <div class="cellLogo"><img :src="'http://115.182.107.203:8088/xinda/pic'+product.providerImg" alt=""></div>
+          <div class="cellLogo"><img :src="newUrl+product.providerImg" alt=""></div>
           <p class="pFirst">{{product.serviceName}}</p>
           <p class="pSecond">{{product.serviceInfo}}</p>
           <p class="pThrid"><span>￥{{product.marketPrice}}</span> {{product.unit}}</p>
@@ -91,9 +96,13 @@
 </template>
 
 <script>
-import { MessageBox } from 'mint-ui';
 import { mapActions } from "vuex";
+import {Swipe,SwipeItem} from 'mint-ui';
 export default {
+  components:{
+    [SwipeItem.name]:SwipeItem,
+    [Swipe.name]:Swipe
+  },
   data () {
     return {
       objone:[],

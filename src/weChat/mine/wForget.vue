@@ -265,7 +265,7 @@ export default {
       }
       this.ajax
         .post(
-          "http://115.182.107.203:8088/xinda/xinda-api/register/findpas",
+          "/xinda-api/register/findpas",
           this.qs.stringify({
             cellphone: this.forgetPhone,
             smsType: 1,

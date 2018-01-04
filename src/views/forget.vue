@@ -272,7 +272,7 @@ export default {
       } else if (this.fPw == '') {
         this.fpwErr = '确认密码不能为空';
       }
-      this.ajax.post('http://115.182.107.203:8088/xinda/xinda-api/register/findpas', this.qs.stringify({ 
+      this.ajax.post('/xinda-api/register/findpas', this.qs.stringify({ 
         cellphone: this.forgetPhone, smsType: 1, validCode: 111111, password: md5(this.fNew) })).then(data => {
         // console.log(data.data.status, data.data.msg);
         if (data.data.status == 1 && newPwReg.test(this.fNew) && this.fNew == this.fPw) {
