@@ -60,16 +60,6 @@
           </ul>
           <!-- 订单插入 -->
           <div v-for="item in rDataSh" :key="item.id">
-            <!-- 删除 弹出框 -->
-              <!-- <div class="duihuakuang" v-show="isShow">
-                <div class="confirmIma">
-                  <p>信息</p>
-                  <div class="close" @click="closeFun()">×</div>
-                </div>
-                <p class="confirm">确定删除该订单吗？</p>
-                <button class="confirmYes" @click="conCloseFun(item.id)">确定</button>
-                <button class="confirmNo" @click="canCliseFun()">取消</button>
-              </div> -->
               <!-- 订单插入 -->
               <table class="orderInTa" id="myorderInTa" v-show="searchShow">
                 <tr class="orderInTh">
@@ -158,15 +148,6 @@ export default {
     this.getData();
   },
   methods:{
-    // 点击删除弹出框
-    // delOrder:function(){
-    //   this.isShow = true;
-    // },
-    // 点击X弹出框消失
-    // closeFun:function(){
-    //   this.isShow = false;
-    // },
-    // 
     getData(start,limit){
       var that=this;
       that.ajax.post('/xinda-api/business-order/grid',that.qs.stringify({
@@ -174,7 +155,6 @@ export default {
           limit:limit,
       })).then(function(data){
         var dataAll = data.data.data
-        // console.log(dataAll);
         for( var key in dataAll){
           dataAll[key].createTime=moment(dataAll[key].createTime).format('YYYY-MM-DD hh:mm:ss');
         }
@@ -213,8 +193,6 @@ export default {
           })
       }
       this.rData=data;
-      // console.log(data.length);
-      // console.log(this.rData);
       var bb = this.rData.length<3?this.rData.length:3;
       for(var i=0;i<bb;i++){
         that.rDataSh.push(this.rData[i]);
@@ -242,11 +220,6 @@ export default {
         
       })
     }, 
-    // 点击取消
-    // canCliseFun:function(index){
-    //   this.isShow = false;
-    // },
-    
     // 订单搜索
     orderSeaBtn:function(){
       // 清空页面要渲染的数据
