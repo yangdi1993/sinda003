@@ -209,8 +209,7 @@ export default {
   },
   data() {
     return {
-       swiperOption: {
-        //轮播
+       swiperOption: {        //轮播
         spaceBetween: 30,
         autoplay: true, //自动 播放
         effect: "fade", //轮播样式

@@ -1,11 +1,11 @@
 <template>
 <mt-loadmore :top-method="loadTop" :bottom-all-loaded="allLoaded" ref="loadmore"  class="style">
-  <div>
-    <div class="top">
+  <div style="marginBottom:1rem;">
+    <!-- <div class="top">
       <span @click="goback" class="goback"><span></span><p>返回</p></span>
       <div class="title"><p>{{getTitle}}</p></div>
       <div class="wlogo"><img src="../../images/homepage/errorimg.png" alt="" @click="$router.push({path:'/weChat/index'})"></div>
-    </div>
+    </div> -->
     <div class="bottom">
       <router-link to="/weChat/index" active-class="indexstyleON" class="indexstyle">
         <div></div>
@@ -46,9 +46,9 @@ export default {
   },
   methods:{
 
-    goback(){
-      history.go(-1)
-    },
+    // goback(){
+    //   history.go(-1)
+    // },
     tologin(){
       var user=sessionStorage.getItem('userPhone')
       if(user){
@@ -59,8 +59,8 @@ export default {
     },
     loadTop() {
     // 加载更多数据
-      // this.$refs.loadmore.onTopLoaded();
-      location.reload()
+      this.$refs.loadmore.onTopLoaded();
+      // location.reload()
     },
   },
   computed:{
