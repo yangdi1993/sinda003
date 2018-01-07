@@ -176,8 +176,7 @@ export default {
             regionId: 110102,
             sort: 1
           })
-        )
-        .then(function(data) {});
+        );
     },
     price() {
       this.sort = 2;

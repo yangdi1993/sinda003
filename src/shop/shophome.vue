@@ -100,9 +100,7 @@ export default {
         start: 0,
         limit: 6,
         productTypeCode: "1",
-      })
-      )
-      .then(function(data) {
+      })).then(function(data) {
         var box = data.data.data;
         that.lists.page = box;
       });

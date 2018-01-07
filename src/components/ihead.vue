@@ -106,7 +106,7 @@ export default {
     }
   },
   created(){
-    // console.log('created');
+
     var that=this
     this.ajax.post('/xinda-api/product/style/list').then(function(data){
       var rData=data.data.data
@@ -128,7 +128,6 @@ export default {
     this.ajax.post('/xinda-api/cart/cart-num').then(function(data){
       that.setNum(data.data.data.cartNum)  //购物车物品数量
     });
-
   },
 
   methods:{
@@ -246,6 +245,8 @@ export default {
     toDetail(){
       if(this.nowproinput){
         this.$router.push({path:'/inner/Detail',query:{id:this.serviceid}})
+      }else{
+        this.$router.push({path:'/inner/shophome'})
       }
     }
   }

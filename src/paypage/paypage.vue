@@ -207,6 +207,7 @@ export default {
           this.ajax.post('/xinda-api/pay/ weixin-pay',this.qs.stringify({
             businessNo:this.busOrder.businessNo
           })).then(function(data){
+            // console.log(123,data)
             sessionStorage.setItem('orderdata',data.data)
             window.open('#/inner/orderData')
           })

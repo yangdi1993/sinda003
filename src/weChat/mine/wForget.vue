@@ -301,7 +301,7 @@ export default {
 }
 .r-outter {
   margin-top: 2rem;
-  width: 7.5rem;
+  width: 7.5rem;  
   height: 10.34rem;
 }
 .msg {
