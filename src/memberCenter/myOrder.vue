@@ -90,8 +90,13 @@
                   
               </table>  
           </div>
+          <!-- 无订单弹框 -->
+          <div class="notFoDiv" v-show="unde" >
+            <img src="../images/11.png" alt="" class="notFouImg">
+            <p class="notFouTe">未找到相应订单！</p>
+          </div>
           <!-- 翻页 -->
-          <div class="pageTurn">
+          <div class="pageTurn" v-show="seaShow">
             <button class="prePage" @click="prePageBtn()" v-bind:disabled="preDis">上一页</button>
             <button :class="{blued:index==pageChange}" class="pageNum" v-for="(pageO,index) in pageOAll" :key="pageO.id" @click="cliPaNo(index)">{{pageO}}</button>
             <button class="nextPage" @click="nextPageBtn()" v-bind:disabled="nextDis">下一页</button>
@@ -142,10 +147,28 @@ export default {
       // // 删除
       // delOrder:''
       servitem:[],
+      // 翻页显示
+      seaShow:true,
+      // 未找到显示
+      unde:false,
     }
   },
   created(){
     this.getData();
+  },
+  // 监听搜索框
+  watch:{
+    orSerInVal(){
+      if(this.orSerInVal==''){
+        var cc = this.rData.length>3?3:this.rData.length;
+        this.rDataSh=[];
+        for(var i=0;i<cc;i++){
+          this.rDataSh.push(this.rData[i]);
+        }
+        this.seaShow = true;
+        this.unde=false;
+      }
+    }
   },
   methods:{
     getData(start,limit){
@@ -184,7 +207,6 @@ export default {
               businessNo:orderN,
           })).then(function(servdata){
             var servdata=servdata.data.data;
-              
               for(var key in servdata){
                 // 关于订单时间
                 // 将服务订单信息添加到循环包里  
@@ -224,20 +246,20 @@ export default {
     orderSeaBtn:function(){
       // 清空页面要渲染的数据
       if(this.orSerInVal==''){
-        // this.orSerInVal
         this.colo=1;
       }else{
-        console.log('111');
         this.rDataSh =[];
+        this.unde=true;
         for(var i=0;i<this.rData.length;i++){
           var ordLiNa = this.rData[i].businessNo;
-          console.log(ordLiNa);
           if(ordLiNa==this.orSerInVal){
             // 把符合条件的数据添加到[]里面
             this.rDataSh.push(this.rData[i]);
+            this.seaShow=false;
+            this.unde=false;
           }
           else{
-
+            this.seaShow=false;
           }
         } 
       }  
@@ -347,6 +369,34 @@ export default {
 <style scoped lang="less">
 .mint-msgbox-wrapper .mint-msgbox {
   width: 25%!important;
+}
+.notFoDiv{
+  margin-top: 80px;
+  .notFouImg{
+    margin-top: 50px;
+    width: 200px;
+    height: 160px;
+    // float: left;
+    margin-left: -100px;
+  }
+  .notFouTe{
+    margin-top:30px;
+    font-size: 40px;
+    font-weight: bold;
+    width: 350px;
+    float: left;
+    margin-top: 100px;
+    margin-left: 200px;
+  }
+}
+.notFouImg{
+  margin-top: 50px;
+  width: 200px;
+  height: 160px;
+}
+.notFouTe{
+  margin-top:30px;
+  font-size: 30px;
 }
 // 删除弹出框
 .duihuakuang{
@@ -544,6 +594,7 @@ export default {
       outline: 0;
       float: left;
       border: 1px solid #b0b0b0;
+      text-indent: 1rem;
     }
     .warnRed::-webkit-input-placeholder{
       color: red;

@@ -40,20 +40,20 @@
           <!-- 待评价订单信息 -->
           <ul class="orderInfo">
               <li>服务单号：
-                  <a>等待插入</a>
+                  <a>S1801090182015242000</a>
               </li>
               <li>购买时间：
-                  <a>等待插入</a>
+                  <a>2017-12-23 15:32:20</a>
               </li>
               <li>购买内容：
-                  <a>等待插入</a>
+                  <a>合伙企业注册</a>
               </li>
           </ul>
         <!-- 评价详情 -->
         <ul class="orderDetail">
             <li class="orderGra">
                 评价： 
-                <input type="radio" name="gra">
+                <input type="radio" :checked='chec' name="gra" >
                 <a href="javascript:void(0)">好评</a>
                 <input type="radio" name="gra">
                 <a href="javascript:void(0)">中评</a>
@@ -74,10 +74,10 @@
             </li>
             <li>
                 <span class="feel">感受：</span> 
-                <textarea name="" id="" cols="30" rows="10" v-model="feelText" @keyup="feelKey()"></textarea>
+                <textarea :class="{redChan:isRed==1}" cols="30" rows="10" v-model="feelText" @keyup="feelKey()" placeholder="请写一点您的感受吧！"></textarea>
             </li>
         </ul>
-        <a href="#/inner/userUnEvalu"><input class="orderSub" type="button" value="提交"></a>
+        <a><input class="orderSub" type="button" value="提交" @click="subBtn"></a>
         </div>
       </div>
     </div>
@@ -93,14 +93,19 @@ export default {
      index: -1,
     //  image:''
     feelText:"",
+    chec:true,
+    isRed:0,
    }
+  },
+  created(){
+    this.index = 4;
   },
   methods:{
   // 评分五角星
     image:function(index){
       this.index = index;
     } ,
-    // 敏感词汇判断
+    // 敏感词汇拦截
     feelKey(){
       var arrMg = ['fuck','tmd','他妈的','弱智','sb'];
       var showContent = this.feelText;
@@ -109,6 +114,14 @@ export default {
         showContent = showContent.replace(r,"*");
       }
       this.feelText = showContent;
+    },
+    // 提交
+    subBtn(){
+      if(this.feelText==''){
+        this.isRed=1;
+      }else{
+        this.$router.push({path:'/inner/userHavaEvalu'});
+      }
     }
   },
 }
@@ -246,7 +259,8 @@ export default {
             margin-left: 75px;
             outline: 0;
             margin-top: 5px;
-            border: 1px solid 
+            border: 1px solid ;
+            font-size: 18px;
         }
         input{
             outline: 0;
@@ -259,6 +273,9 @@ export default {
         }
     }
 }
+ .orderDetail .redChan{
+    border: 1px solid red;
+  }
 .feel{
     position: absolute;
     margin-top: 0px;
