@@ -46,8 +46,8 @@
           <!-- 时间行 -->
           <div class="timeSet">
             <p>创建时间：</p>
-            <input class="timeStart" type="date"> 至 
-            <input class="timeEnd" type="date">
+            <input class="timeStart" type="date" v-model="tiStart"> 至 
+            <input class="timeEnd" type="date" v-model="tiEnd">
           </div>
           <!-- 订单表头 -->
           <ul class="orderHead">
@@ -151,6 +151,16 @@ export default {
       seaShow:true,
       // 未找到显示
       unde:false,
+      // 开始时间
+      tiStart:'',
+      // 结束时间
+      tiEnd:'',
+      // 转化后订单时间
+      aaa:'',
+      // 转化后开始时间
+      bbb:'',
+      // 转化后结束时间
+      ccc:''
     }
   },
   created(){
@@ -158,6 +168,7 @@ export default {
   },
   // 监听搜索框
   watch:{
+    // 订单搜索框
     orSerInVal(){
       if(this.orSerInVal==''){
         var cc = this.rData.length>3?3:this.rData.length;
@@ -168,7 +179,46 @@ export default {
         this.seaShow = true;
         this.unde=false;
       }
-    }
+    },
+    // 时间搜索
+    // 开始
+    tiStart(){
+        var stTiOne = this.tiStart.replace('-','').replace('-','');
+        var numStTiOne = Number(stTiOne);
+        this.bbb = numStTiOne;
+        console.log(typeof(numStTiOne));
+        if(this.tiStart==''&&this.tiEnd==''){
+          var cc = this.rData.length>3?3:this.rData.length;
+          this.rDataSh=[];
+          for(var i=0;i<cc;i++){
+            this.rDataSh.push(this.rData[i]);
+          }
+            this.seaShow = true;
+            this.unde=false;
+        }else{
+          if(this.tiEnd==''){
+            for(var i=0;i<this.rData.length;i++){     
+              if(this.aaa>=numStTiOne[i]){
+                this.rDataSh.push(this.rData[i]);
+              }
+            }
+          }else{
+            for(var i=0;i<this.rData.length;i++){
+              if(this.aaa[i]>=numStTiOne&&this.aaa[i]<=this.ccc){
+                this.rDataSh.push(this.rData[i]);
+              }
+            }
+          }
+        }
+    },
+    // 结束
+    tiEnd(){
+      var enTiOne = this.tiEnd.replace('-','').replace('-','');
+      var numEnTiOne = Number(enTiOne);
+      console.log(typeof(numEnTiOne));
+      this.ccc=numEnTiOne;
+    },
+
   },
   methods:{
     getData(start,limit){
@@ -179,7 +229,12 @@ export default {
       })).then(function(data){
         var dataAll = data.data.data
         for( var key in dataAll){
+          // 转化时间
           dataAll[key].createTime=moment(dataAll[key].createTime).format('YYYY-MM-DD hh:mm:ss');
+          // 时间搜索
+          var creTiSub = dataAll[key].createTime.substring(0,10);
+          var numCreTi = Number(creTiSub.replace('-','').replace('-',''));
+          that.aaa = numCreTi;
         }
           if(dataAll&&dataAll.length){
               that.businessshow(data);
@@ -588,9 +643,9 @@ export default {
     }
     // 搜索框
     .orSerIn{
-      width: 265px;
+      width: 270px;
       height: 25px;
-      margin-left: 15px;
+      margin-left: 12px;
       outline: 0;
       float: left;
       border: 1px solid #b0b0b0;
