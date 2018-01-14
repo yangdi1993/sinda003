@@ -46,8 +46,8 @@
           <!-- 时间行 -->
           <div class="timeSet">
             <p>创建时间：</p>
-            <input class="timeStart" type="date"> 至 
-            <input class="timeEnd" type="date">
+            <input class="timeStart" type="date" v-model="tiStart"> 至 
+            <input class="timeEnd" type="date" v-model="tiEnd">
           </div>
           <!-- 订单表头 -->
           <ul class="orderHead">
@@ -90,8 +90,13 @@
                   
               </table>  
           </div>
+          <!-- 无订单弹框 -->
+          <div class="notFoDiv" v-show="unde" >
+            <img src="../images/11.png" alt="" class="notFouImg">
+            <p class="notFouTe">未找到相应订单！</p>
+          </div>
           <!-- 翻页 -->
-          <div class="pageTurn">
+          <div class="pageTurn" v-show="seaShow">
             <button class="prePage" @click="prePageBtn()" v-bind:disabled="preDis">上一页</button>
             <button :class="{blued:index==pageChange}" class="pageNum" v-for="(pageO,index) in pageOAll" :key="pageO.id" @click="cliPaNo(index)">{{pageO}}</button>
             <button class="nextPage" @click="nextPageBtn()" v-bind:disabled="nextDis">下一页</button>
@@ -142,10 +147,78 @@ export default {
       // // 删除
       // delOrder:''
       servitem:[],
+      // 翻页显示
+      seaShow:true,
+      // 未找到显示
+      unde:false,
+      // 开始时间
+      tiStart:'',
+      // 结束时间
+      tiEnd:'',
+      // 转化后订单时间
+      aaa:'',
+      // 转化后开始时间
+      bbb:'',
+      // 转化后结束时间
+      ccc:''
     }
   },
   created(){
     this.getData();
+  },
+  // 监听搜索框
+  watch:{
+    // 订单搜索框
+    orSerInVal(){
+      if(this.orSerInVal==''){
+        var cc = this.rData.length>3?3:this.rData.length;
+        this.rDataSh=[];
+        for(var i=0;i<cc;i++){
+          this.rDataSh.push(this.rData[i]);
+        }
+        this.seaShow = true;
+        this.unde=false;
+      }
+    },
+    // 时间搜索
+    // 开始
+    tiStart(){
+        var stTiOne = this.tiStart.replace('-','').replace('-','');
+        var numStTiOne = Number(stTiOne);
+        this.bbb = numStTiOne;
+        console.log(typeof(numStTiOne));
+        if(this.tiStart==''&&this.tiEnd==''){
+          var cc = this.rData.length>3?3:this.rData.length;
+          this.rDataSh=[];
+          for(var i=0;i<cc;i++){
+            this.rDataSh.push(this.rData[i]);
+          }
+            this.seaShow = true;
+            this.unde=false;
+        }else{
+          if(this.tiEnd==''){
+            for(var i=0;i<this.rData.length;i++){     
+              if(this.aaa>=numStTiOne[i]){
+                this.rDataSh.push(this.rData[i]);
+              }
+            }
+          }else{
+            for(var i=0;i<this.rData.length;i++){
+              if(this.aaa[i]>=numStTiOne&&this.aaa[i]<=this.ccc){
+                this.rDataSh.push(this.rData[i]);
+              }
+            }
+          }
+        }
+    },
+    // 结束
+    tiEnd(){
+      var enTiOne = this.tiEnd.replace('-','').replace('-','');
+      var numEnTiOne = Number(enTiOne);
+      console.log(typeof(numEnTiOne));
+      this.ccc=numEnTiOne;
+    },
+
   },
   methods:{
     getData(start,limit){
@@ -156,7 +229,12 @@ export default {
       })).then(function(data){
         var dataAll = data.data.data
         for( var key in dataAll){
+          // 转化时间
           dataAll[key].createTime=moment(dataAll[key].createTime).format('YYYY-MM-DD hh:mm:ss');
+          // 时间搜索
+          var creTiSub = dataAll[key].createTime.substring(0,10);
+          var numCreTi = Number(creTiSub.replace('-','').replace('-',''));
+          that.aaa = numCreTi;
         }
           if(dataAll&&dataAll.length){
               that.businessshow(data);
@@ -184,7 +262,6 @@ export default {
               businessNo:orderN,
           })).then(function(servdata){
             var servdata=servdata.data.data;
-              
               for(var key in servdata){
                 // 关于订单时间
                 // 将服务订单信息添加到循环包里  
@@ -224,20 +301,20 @@ export default {
     orderSeaBtn:function(){
       // 清空页面要渲染的数据
       if(this.orSerInVal==''){
-        // this.orSerInVal
         this.colo=1;
       }else{
-        console.log('111');
         this.rDataSh =[];
+        this.unde=true;
         for(var i=0;i<this.rData.length;i++){
           var ordLiNa = this.rData[i].businessNo;
-          console.log(ordLiNa);
           if(ordLiNa==this.orSerInVal){
             // 把符合条件的数据添加到[]里面
             this.rDataSh.push(this.rData[i]);
+            this.seaShow=false;
+            this.unde=false;
           }
           else{
-
+            this.seaShow=false;
           }
         } 
       }  
@@ -347,6 +424,34 @@ export default {
 <style scoped lang="less">
 .mint-msgbox-wrapper .mint-msgbox {
   width: 25%!important;
+}
+.notFoDiv{
+  margin-top: 80px;
+  .notFouImg{
+    margin-top: 50px;
+    width: 200px;
+    height: 160px;
+    // float: left;
+    margin-left: -100px;
+  }
+  .notFouTe{
+    margin-top:30px;
+    font-size: 40px;
+    font-weight: bold;
+    width: 350px;
+    float: left;
+    margin-top: 100px;
+    margin-left: 200px;
+  }
+}
+.notFouImg{
+  margin-top: 50px;
+  width: 200px;
+  height: 160px;
+}
+.notFouTe{
+  margin-top:30px;
+  font-size: 30px;
 }
 // 删除弹出框
 .duihuakuang{
@@ -538,12 +643,13 @@ export default {
     }
     // 搜索框
     .orSerIn{
-      width: 265px;
+      width: 270px;
       height: 25px;
-      margin-left: 15px;
+      margin-left: 12px;
       outline: 0;
       float: left;
       border: 1px solid #b0b0b0;
+      text-indent: 1rem;
     }
     .warnRed::-webkit-input-placeholder{
       color: red;

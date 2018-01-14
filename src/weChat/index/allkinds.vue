@@ -127,7 +127,7 @@ export default {
   background: #fff;
   position: fixed;
   left: 0;
-  top: 1rem;
+  // top: 1rem;
   .firbg{
     background: #f3f4f5;
   }
@@ -143,7 +143,7 @@ export default {
 .typeclass{
   color: rgb(224, 41, 41);
   margin-left: .21rem;
-  margin-top: 1rem;
+  // margin-top: 1rem;
   .secondstl{
     margin-bottom: .12rem;
     width: 100%;

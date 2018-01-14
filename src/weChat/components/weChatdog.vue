@@ -1,11 +1,11 @@
 <template>
 <mt-loadmore :top-method="loadTop" :bottom-all-loaded="allLoaded" ref="loadmore" class="style">
   <div class="hello">
-    <div class="top">
+    <!-- <div class="top">
       <span @click="goback" class="goback"><span></span><p>返回</p></span>
       <div class="title"><p>{{getTitle}}</p></div>
       <div class="wlogo"><img src="../../images/homepage/errorimg.png" alt="" @click="$router.push({path:'/weChat/index'})"></div>
-    </div>
+    </div> -->
     <!-- 微信页面，无公共底部 -->
     <router-view/>
   </div>
@@ -28,13 +28,13 @@ export default {
     }
   },
   methods:{
-    goback(){
-      history.go(-1)
-    },
+    // goback(){
+    //   history.go(-1)
+    // },
     loadTop() {
     // 加载更多数据
-      // this.$refs.loadmore.onTopLoaded();
-      location.reload()
+      this.$refs.loadmore.onTopLoaded();
+      // location.reload()
     },
   },
   computed:{

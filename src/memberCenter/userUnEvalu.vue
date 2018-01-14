@@ -48,7 +48,7 @@
               <li class="orderInsO"><div></div></li>
               <li class="orderInsTw">
                 <p class="orderInsTwPO">信达北京服务中心</p>
-                <p class="orderInsTwPTw">服务单号：{{112121212}}</p>
+                <p class="orderInsTwPTw">服务单号：S1801090</p>
                 <p class="orderInsTwPTh">购买内容：{{'代理记账'}}</p>
               </li>
               <li class="orderInsTh">
@@ -299,13 +299,13 @@ export default {
        font-size: 13px;
        color: #3f3f3f;
        margin-top: 5px;
-       margin-left: -30px;
+       margin-left: -8px;
      }
      .orderInsTwPTh{
        font-size: 13px;
        color: #3f3f3f;
        margin-top: 5px;
-       margin-left: -30px;
+       margin-left: -8px;
      }
    }
    .orderInsTh{

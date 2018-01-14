@@ -47,7 +47,7 @@ export default {
       this.autopaixu = 1;
       this.sort=1;
       var that = this;
-      this.ajax.post( "xinda-api/provider/grid").then(function(data) {
+      this.ajax.post( "/xinda-api/provider/grid").then(function(data) {
         that.products = data.data.data;});
     },
     upprice() {
@@ -56,14 +56,14 @@ export default {
       this.autopaixu = 2;
       this.sort=2;
       var that = this;
-      this.ajax.post( "xinda-api/provider/grid").then(function(data) {
+      this.ajax.post( "/xinda-api/provider/grid").then(function(data) {
         that.products = data.data.data;});
     },
   },
   created() {
     this.setTitle('店铺列表');
     var that = this;
-    this.ajax.post( "xinda-api/provider/grid").then(function(data) {
+    this.ajax.post( "/xinda-api/provider/grid").then(function(data) {
       that.products = data.data.data;});
   }
 };

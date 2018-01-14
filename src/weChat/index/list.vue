@@ -155,7 +155,7 @@ export default {
   color: #fff;
 }
 .list{
-  margin-top: 1rem;
+  // margin-top: 1rem;
   width: 100%;
   // height: 20rem;
   font-size: .2rem;
