@@ -112,7 +112,7 @@
 <script>
 // 引进头部和尾部
 // this.ajax.post("").then(data=>{
-  var moment = require('moment');
+var moment = require('moment');
 import ihead from '../components/ihead';
 import { MessageBox } from 'mint-ui';
 export default {
@@ -761,9 +761,7 @@ export default {
   //  翻页点击改变颜色
    .blued{
      color: blue;
-     border: 1px solid blue;
-     box-shadow: 0 0 0.5px 0.5px blue;
-     
+     border: 1px solid blue;     
    }
    .nextPage{
      width: 68px;
