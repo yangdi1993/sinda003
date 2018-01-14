@@ -140,7 +140,7 @@ export default {
       this.status = data.data.status
     })
     this.ajax.post('/xinda-api/member/update-info').then(data => {
-      console.log('修改接口==',data.data)
+      // console.log('修改接口==',data.data)
     })
     
   },

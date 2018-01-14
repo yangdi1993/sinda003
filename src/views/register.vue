@@ -19,7 +19,7 @@
           <span>{{phoneErr}}</span>
         </li>
         <li class="code-img"><input type="text" placeholder="请输入验证码" v-on:blur="codeImgBlur" v-on:focus="codeImgFocus" v-model="codeImgVal">
-          <!--<img src="http://115.182.107.203:8088/xinda/xinda-api/ajaxAuthcode" alt="">-->
+          <!--<img src="/xinda-api/ajaxAuthcode" alt="">-->
           <img :src="imgUrl" alt="">
           <button v-on:click="buttonChange">看不清？换一张</button>
           <span>{{imgErr}}</span>

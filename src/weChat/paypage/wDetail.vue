@@ -1,7 +1,7 @@
 <template>
   <div class="detailWhole">
     <div class="head">
-      <img :src="'http://115.182.107.203:8088/xinda/pic' + products.img" alt="">
+      <img :src="newUrl + products.img" alt="">
       <div class="quyu">
         <p>区域：{{regionText}}</p>
       </div>

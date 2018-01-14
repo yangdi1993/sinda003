@@ -211,6 +211,7 @@ export default {
             this.password = '';
             this.newPw = '';
             this.conPw = '';
+            location.href = '#/outter/login';
           }
         })
         // 重置错误提示信息
