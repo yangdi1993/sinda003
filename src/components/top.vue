@@ -36,8 +36,11 @@ export default {
   },
   methods:{
     quit(){
-      sessionStorage.clear()
+      sessionStorage.clear();
+      this.ajax.post('/xinda-api/sso/ logout').then(data=>{
+        // console.log(data.data)
       location.reload()
+      })
     }
   },
   created(){

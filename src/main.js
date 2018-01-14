@@ -66,6 +66,7 @@ Vue.config.dectools = false
 Vue.prototype.newUrl = 'http://123.58.241.146:8088/xinda/pic'
 
 //未登录状态禁止部分界面访问
+// '/inner/cart'
 const blackList = ['/inner/cart', '/inner/payFalse', '/inner/payTrue', '/inner/Alipay', '/inner/paypage', '/inner/myOrder', '/inner/userUnEvalu', '/inner/goEvalu', '/inner/userHavaEvalu', '/inner/accountSetting', '/inner/changePw']
 router.beforeEach((to, from, next) => {
   for (var i = 0; i < blackList.length; i++) {
@@ -91,6 +92,7 @@ router.beforeEach((to, from, next) => {
       next();
     }
   }
+  // if()
 
 });
 
